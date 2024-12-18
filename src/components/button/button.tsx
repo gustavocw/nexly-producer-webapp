@@ -1,0 +1,84 @@
+import { Button, Box, Spinner } from "@chakra-ui/react";
+import Text from "components/text/text";
+
+interface BtnProps {
+  label: string;
+  weight?: string;
+  color?: string;
+  padding?: string;
+  bgHover?: string;
+  borderColor?: string;
+  isLoading?: boolean;
+  w?: any;
+  h?: string;
+  pb?: string;
+  pt?: string;
+  pr?: string;
+  pl?: string;
+  bg?: string;
+  borderRadius?: string;
+  onClick?: () => void;
+  iconLeft?: JSX.Element;
+  iconRight?: JSX.Element;
+}
+
+const Btn = ({
+  label,
+  weight,
+  color,
+  padding,
+  bgHover,
+  w = "100%",
+  h = "51px",
+  pb,
+  pt,
+  pr,
+  pl,
+  bg,
+  borderRadius = "8px",
+  borderColor,
+  onClick,
+  isLoading,
+  iconLeft,
+  iconRight,
+}: BtnProps) => {
+  const isTransparent = bg === "transparent";
+
+  return (
+    <Button
+      onClick={onClick}
+      w={w}
+      h={h}
+      padding={padding}
+      pb={pb}
+      pt={pt}
+      pr={pr}
+      pl={pl}
+      bg={bg ?? "purple.500"}
+      borderRadius={borderRadius}
+      color={isTransparent ? "#111111" : color ?? "#fff"}
+      fontWeight={weight}
+      textTransform="capitalize"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      gap="8px"
+      border={isTransparent ? "1px solid" : borderColor}
+      borderColor={borderColor ? borderColor : "gray.600"}
+      _hover={{
+        bg: isTransparent ? "gray.100" : bgHover ?? "primary.50",
+      }}
+    >
+      {iconLeft && <Box>{iconLeft}</Box>}
+      <Text.Large
+        color={color || (bg === "transparent" ? "#111111" : "#ffffff")}
+        fontWeight={weight}
+      >
+        {isLoading ? <Spinner /> : <Text.Large fontSize="16px">{label}</Text.Large>}
+      </Text.Large>
+      {iconRight && <Box>{iconRight}</Box>}
+    </Button>
+  );
+};
+
+export default Btn;
