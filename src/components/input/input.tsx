@@ -66,7 +66,7 @@ const InputBase: React.FC<InputProps> = ({
             disabled={isDisabled}
             maxLength={maxLength}
             height="40px"
-            borderColor="#FFFFFF60"
+            borderColor="neutral.30"
             _placeholder={{ color: "#FFFFFF40" }}
             bg="transparent"
             px={2}
@@ -91,6 +91,7 @@ const InputText: React.FC<InputProps> = ({
   height,
   isReadOnly,
   isDisabled,
+  helperText,
   maxLength,
   mask,
 }) => (
@@ -99,6 +100,7 @@ const InputText: React.FC<InputProps> = ({
     label={label}
     errorText={errorText}
     required={isRequired}
+    helperText={helperText}
   >
     <Box width={width || "100%"} height={height || "200px"}>
       <Controller

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 interface CreateProductsFormValues {
   title: string;
@@ -9,6 +10,7 @@ interface CreateProductsFormValues {
 }
 
 const useCreateProductController = () => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -26,6 +28,7 @@ const useCreateProductController = () => {
 
   const onSubmit = (data: CreateProductsFormValues) => {
     console.log("Submitted Data:", data);
+    navigate("/infoproducts")
   };
 
   return {
@@ -33,6 +36,7 @@ const useCreateProductController = () => {
     handleSubmit,
     onSubmit,
     reset,
+    navigate,
     errors,
   };
 };

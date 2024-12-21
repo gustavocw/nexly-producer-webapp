@@ -25,7 +25,7 @@ const GlobalStyles = () => (
       /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
   scrollbar-width: thin;
-  scrollbar-color: #390A75 #A80BEB;
+  scrollbar-color: #911DD4 #2E2A34;
 }*/
 
 /* Chrome, Edge and Safari */
@@ -35,7 +35,7 @@ const GlobalStyles = () => (
 }
 *::-webkit-scrollbar-track {
   border-radius: 5px;
-  background-color: #A80BEB;
+  background-color: #2E2A34;
 }
 
 *::-webkit-scrollbar-track:hover {
@@ -48,7 +48,7 @@ const GlobalStyles = () => (
 
 *::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #390A75;
+  background-color: #911DD4;
 }
 
 *::-webkit-scrollbar-thumb:hover {

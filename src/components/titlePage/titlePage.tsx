@@ -16,7 +16,7 @@ const TitlePage = ({ title, description }: TitlePageProps) => {
       <HStack w="100%" align="flex-start">
         <VStack mx={0} gap="10px">
           <HStack w="100%" onClick={() => navigate(-1)} cursor="pointer">
-            <Icon mt="1px" fontSize="32px" color="white">
+            <Icon mt="1px" fontSize="32px" color="neutral">
               <KeyboardArrowLeftOutlinedIcon />
             </Icon>
             <Text.Medium fontSize="24px" fontWeight="medium" color="neutral">

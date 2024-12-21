@@ -10,6 +10,8 @@ import Areas from "pages/producer/areas";
 import Members from "pages/producer/members";
 import Integrations from "pages/producer/integrations";
 import CareateProduct from "pages/producer/Infoproducts/create/create.product";
+import Platform from "pages/producer/Infoproducts/create/platforms/platform.product";
+import YoutubeChannels from "pages/producer/Infoproducts/create/youtube/youtube.channels";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -25,6 +27,11 @@ const ProducerRoutes = () => (
         <Route path="/" element={<Dashboard />} />
         <Route path="/infoproducts" element={<Infoproducts />} />
         <Route path="/infoproducts/create" element={<CareateProduct />} />
+        <Route path="/infoproducts/create/platfoms" element={<Platform />} />
+        <Route
+          path="/infoproducts/create/youtube"
+          element={<YoutubeChannels />}
+        />
         <Route path="/tickets" element={<Tickets />} />
         <Route path="/areas" element={<Areas />} />
         <Route path="/members" element={<Members />} />

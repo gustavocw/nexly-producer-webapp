@@ -60,14 +60,28 @@ const Select: React.FC<SelectProps> = ({
               onChange(selectedValue.value);
             }}
             invalid={!!error}
-            borderColor="red"
           >
-            <SelectTrigger borderColor="neutral.40">
+            <SelectTrigger
+              _icon={{ mr: "2", color: "neutral" }}
+            >
               <SelectValueText px={2} placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent
+              gap={2}
+              border="1px solid"
+              borderColor="neutral.40"
+              bg="neutral.50"
+              color="neutral"
+            >
               {options.map((option) => (
-                <SelectItem item={option} key={option.value}>
+                <SelectItem
+                  cursor="pointer"
+                  fontSize="16px"
+                  p={2}
+                  _hover={{ bg: "neutral.20" }}
+                  item={option}
+                  key={option.value}
+                >
                   {option.label}
                 </SelectItem>
               ))}
