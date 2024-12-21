@@ -1,5 +1,4 @@
 import { Navigate, Outlet } from "react-router-dom";
-import React from "react";
 import useAuthStore from '../../stores/all/auth.store';
 
 interface AuthGuardProps {

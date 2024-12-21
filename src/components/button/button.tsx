@@ -66,7 +66,7 @@ const Btn = ({
       border={isTransparent ? "1px solid" : borderColor}
       borderColor={borderColor ? borderColor : "gray.600"}
       _hover={{
-        bg: isTransparent ? "gray.100" : bgHover ?? "primary.50",
+        bg: isTransparent ? "neutral.40" : bgHover ?? "primary.50",
       }}
     >
       {iconLeft && <Box>{iconLeft}</Box>}

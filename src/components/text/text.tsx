@@ -3,7 +3,7 @@ import React from "react";
 
 interface TextNexlyProps extends TextProps {
   children: React.ReactNode;
-  color?: string;
+  color?: any;
 }
 
 const TextBase: React.FC<TextNexlyProps> = (props) => (

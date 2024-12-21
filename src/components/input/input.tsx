@@ -24,6 +24,7 @@ interface InputProps {
   autoComplete?: string;
   maxLength?: number;
   mask?: string;
+  helperText?: string;
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -33,6 +34,7 @@ const InputBase: React.FC<InputProps> = ({
   placeholder,
   type,
   isRequired,
+  helperText,
   errorText,
   width,
   height,
@@ -42,7 +44,13 @@ const InputBase: React.FC<InputProps> = ({
   maxLength,
   mask,
 }) => (
-  <Field color="white" label={label} errorText={errorText} required={isRequired}>
+  <Field
+    helperText={helperText}
+    color="white"
+    label={label}
+    errorText={errorText}
+    required={isRequired}
+  >
     <Box width={width || "100%"} height={height || "auto"}>
       <Controller
         name={name}
@@ -86,7 +94,12 @@ const InputText: React.FC<InputProps> = ({
   maxLength,
   mask,
 }) => (
-  <Field color="white" label={label} errorText={errorText} required={isRequired}>
+  <Field
+    color="white"
+    label={label}
+    errorText={errorText}
+    required={isRequired}
+  >
     <Box width={width || "100%"} height={height || "200px"}>
       <Controller
         name={name}
@@ -98,14 +111,17 @@ const InputText: React.FC<InputProps> = ({
             onChange={(e) => field.onChange(e.target.value)}
             ref={mask ? withMask(mask) : undefined}
             readOnly={isReadOnly}
+            maxH="200px"
+            minH="200px"
+            p={2}
             disabled={isDisabled}
             maxLength={maxLength}
-            borderColor="#FFFFFF60"
+            borderColor="neutral.30"
             _active={{
-              borderColor: "primary.50"
+              borderColor: "primary.50",
             }}
             _focus={{
-              borderColor: "primary.50"
+              borderColor: "primary.50",
             }}
             _placeholder={{ color: "#FFFFFF40" }}
             bg="transparent"

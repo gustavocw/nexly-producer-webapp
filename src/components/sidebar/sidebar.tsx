@@ -3,7 +3,6 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import {
   Heading,
   Flex,
-  Separator,
   Link,
   Stack,
   Box,
@@ -18,6 +17,7 @@ import IconNNexly from "assets/icons/NNexly";
 import SidebarIconLeft from "assets/icons/ArrowBack";
 import SidebarIconRight from "assets/icons/RightIcon";
 import { menuItems } from "./items";
+import Divider from "components/divider/divider";
 
 const Sidebar: React.FC = () => {
   const { isOpen, toggleIsOpen } = useSidebarController();
@@ -37,11 +37,11 @@ const Sidebar: React.FC = () => {
       <Box>
         <Flex
           direction="row"
-          height="60px"
+          height="73px"
           justifyContent={isOpen ? "space-between" : "center"}
-          w="90%"
+          w="95%"
         >
-          <Link w={isOpen ? "60%" : "60%"} _hover={{}} _active={{}}>
+          <Link w={isOpen ? "100px" : "50%"} _hover={{}} _active={{}}>
             {isOpen ? <NexlyLogo /> : <IconNNexly />}
           </Link>
           <Link
@@ -59,18 +59,14 @@ const Sidebar: React.FC = () => {
             )}
           </Link>
         </Flex>
-        <Separator
-          alignSelf="center"
-          w="90%"
-          borderBottom="1px solid"
-          borderColor="neutral.40"
-        />
+        <Divider />
         <Flex
           flexDirection="column"
           width="100%"
           alignItems={isOpen === false ? "center" : "flex-start"}
           py={5}
           px={2}
+          gap="20px"
         >
           {menuItems.map((item) => renderMenuItem(item, isOpen))}
         </Flex>
@@ -99,9 +95,9 @@ const Sidebar: React.FC = () => {
               p="2"
               borderRadius={10}
               cursor="pointer"
-              color="neutral.40"
+              color="neutral.20"
               border="1px solid"
-              borderColor="gray.40"
+              borderColor="neutral.40"
             >
               <NotificationsNoneRoundedIcon />
             </Icon>
@@ -124,9 +120,9 @@ const Sidebar: React.FC = () => {
               borderRadius={10}
               boxSize="35px"
               p="2"
-              color="neutral.40"
+              color="neutral.20"
               border="1px solid"
-              borderColor="gray.40"
+              borderColor="neutral.40"
               cursor="pointer"
               mx="2"
               mb="2"
@@ -143,7 +139,7 @@ const Sidebar: React.FC = () => {
           justifyContent={isOpen ? "flex-start" : "center"}
           border="1px solid"
           borderColor="neutral.40"
-          bg="neutral"
+          bg="neutral.50"
           borderRadius="18px"
           w="100%"
         >

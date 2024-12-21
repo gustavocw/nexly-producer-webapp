@@ -1,0 +1,56 @@
+import { HStack, Image, Link, VStack } from "@chakra-ui/react";
+import Divider from "components/divider/divider";
+import Text from "components/text/text";
+import type React from "react";
+
+interface Post {
+  id: number;
+  title: string;
+  value: string;
+  image: string;
+}
+
+interface LastPostProps {
+  posts: Post[];
+}
+
+const LastPost: React.FC<LastPostProps> = ({ posts }) => {
+  return (
+    <VStack
+      borderRadius="8px"
+      boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
+      justify="flex-start"
+      width="80%"
+      mx={4}
+      bg="neutral.60"
+      p="20px"
+      alignItems="flex-start"
+      gap="20px"
+    >
+      {posts.map((post) => (
+        <HStack key={post.id} gap="16px" w="100%">
+          <Image w="100px" h="50px" borderRadius="8px" src={post.image} />
+          <VStack>
+            <Text.Medium fontSize="14px">{post.title}</Text.Medium>
+            <Text.Medium fontSize="14px">{post.value}</Text.Medium>
+          </VStack>
+        </HStack>
+      ))}
+      <Divider width="100%" />
+      <VStack justify="center" w="100%">
+        <Link
+          color="primary.50"
+          fontWeight="600"
+          cursor="pointer"
+          textDecoration="none"
+          fontSize="13px"
+        >
+          Analisar estatísticas
+        </Link>
+      </VStack>
+    </VStack>
+  );
+};
+
+
+export default LastPost;

@@ -12,13 +12,13 @@ export const renderMenuItem = (item: any, isOpen: boolean) => (
       <Flex
         justify={isOpen ? "flex-start" : "center"}
         align="center"
-        mb="2"
         cursor="pointer"
         bg={isActive && item.path !== "/comunidade" ? "primary.80" : "transparent"}
         borderRadius="8px"
         p="8px"
         _hover={{ textDecoration: "none" }}
         w="100%"
+        gap="10px"
       >
         <Icon
           color={
@@ -36,7 +36,6 @@ export const renderMenuItem = (item: any, isOpen: boolean) => (
                 ? "primary.20"
                 : "neutral.20"
             }
-            ml="2"
           >
             {item.label}
           </Text>

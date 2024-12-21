@@ -47,7 +47,7 @@ const theme = defineConfig({
           90: { value: "#F9EFDC" },
         },
         neutral: {
-          5: { value: "#E8E6EA" },
+          DEFAULT: { value: "#E8E6EA" },
           10: { value: "#A9A2B4" },
           20: { value: "#7F758F" },
           30: { value: "#575063" },
