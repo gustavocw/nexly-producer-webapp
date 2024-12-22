@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 
-const InfoproductsController = () => {
+const useInfoproductsController = () => {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const { onOpen, onClose } = useDisclosure();
@@ -35,4 +35,4 @@ const InfoproductsController = () => {
   };
 };
 
-export default InfoproductsController;
+export default useInfoproductsController;

@@ -11,6 +11,7 @@ export default defineConfig({
       contexts: "/src/contexts",
       services: "/src/services",
       assets: "/src/assets",
+      types: "/src/types",
       hooks: "/src/hooks",
       stores: "/src/stores",
       pages: "/src/pages",

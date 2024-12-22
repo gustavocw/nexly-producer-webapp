@@ -76,7 +76,7 @@ const Btn = ({
         color={color || (bg === "transparent" ? "#111111" : "#ffffff")}
         fontWeight={weight}
       >
-        {isLoading ? <Spinner /> : <Text.Large fontWeight={fontWeight ?? "500px"} fontSize="16px">{label}</Text.Large>}
+        {isLoading ? <Spinner /> : <Text.Medium textTransform="initial" fontWeight={fontWeight ?? "500px"} fontSize="16px">{label}</Text.Medium>}
       </Text.Large>
       {iconRight && <Box>{iconRight}</Box>}
     </Button>

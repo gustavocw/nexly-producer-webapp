@@ -11,6 +11,9 @@
       "stores/*": [
         "stores/*"
       ],
+      "types/*": [
+        "types/*"
+      ],
       "hooks/*": [
         "hooks/*"
       ],

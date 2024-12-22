@@ -8,7 +8,7 @@ export interface Product {
   duration: string;
   delDate: string | null;
   producerId: string;
-  state: StateModule;
+  state: string;
   createdAt: string;
   updatedAt: string;
   models: Module[];
@@ -26,9 +26,4 @@ export interface Module {
   createdAt: string;
   updatedAt: string;
   lessons: Lessons[];
-}
-
-export enum StateModule {
-  PRIVADO = 'PRIVADO',
-  PUBLICO = 'PUBLICO'
 }
