@@ -35,10 +35,7 @@ export const StepsItem = React.forwardRef<HTMLDivElement, StepsItemProps>(
             w="25px"
             h="25px"
           >
-            <ChakraSteps.Status
-            // complete={completedIcon || <LuCheck />}
-            // incomplete={icon || <ChakraSteps.Number />}
-            />
+            <></>
           </ChakraSteps.Indicator>
           <StepInfo title={title} description={description} />
         </ChakraSteps.Trigger>

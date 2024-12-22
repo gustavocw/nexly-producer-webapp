@@ -1,4 +1,3 @@
-import { Provider } from "components/ui/provider";
 import AppRoutes from "routes/routes";
 
 function App() {

@@ -113,10 +113,6 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
   const [data, setData] =
     useState<{ name: string; value: number }[]>(weeklyData);
   const [maxValue, setMaxValue] = useState(5);
-  const getChartData = (a: any, sd: any) => {
-    console.log("");
-  };
-
   useEffect(() => {
     const getData = async () => {
       const today = new Date();
@@ -125,16 +121,37 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
       const daysRemove = mode === "Semanal" ? 7 : 30;
       startDate.setDate(today.getDate() - daysRemove);
       const formattedStartDate = startDate.toISOString();
-      const fetchedData = await getChartData(endDate, formattedStartDate);
-      const countedData =
-        mode === "Semanal"
-          ? countDaysOfWeek(fetchedData)
-          : countDaysOfMonth(fetchedData);
-      setData(countedData);
 
-      const values = countedData.map((item) => item.value);
-      const maxDataValue = Math.max(...values);
-      setMaxValue(maxDataValue);
+      const getChartData = async (endDate: string, startDate: string) => {
+        console.log(endDate, startDate);
+
+        return [
+          { createdAt: "2024-12-18T14:00:00Z" },
+          { createdAt: "2024-12-17T14:00:00Z" },
+          { createdAt: "2024-12-16T14:00:00Z" },
+        ];
+      };
+
+      try {
+        const fetchedData = await getChartData(endDate, formattedStartDate);
+        if (
+          Array.isArray(fetchedData) &&
+          fetchedData.every((item) => "createdAt" in item)
+        ) {
+          const countedData =
+            mode === "Semanal"
+              ? countDaysOfWeek(fetchedData)
+              : countDaysOfMonth(fetchedData);
+          setData(countedData);
+          const values = countedData.map((item) => item.value);
+          const maxDataValue = Math.max(...values);
+          setMaxValue(maxDataValue);
+        } else {
+          console.error("Fetched data is not in the expected format.");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     getData();
   }, [mode]);
@@ -145,7 +162,7 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
       : Array.from({ length: Math.ceil(maxValue / 5) + 1 }, (_, i) => i * 5);
 
   return (
-    <Flex 
+    <Flex
       boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
       borderRadius="8px"
       align="center"
