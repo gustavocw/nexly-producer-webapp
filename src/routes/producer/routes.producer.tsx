@@ -12,6 +12,7 @@ import Integrations from "pages/producer/integrations";
 import CareateProduct from "pages/producer/Infoproducts/create/create.product";
 import Platform from "pages/producer/Infoproducts/create/platforms/platform.product";
 import YoutubeChannels from "pages/producer/Infoproducts/create/youtube/youtube.channels";
+import GenrenceInfoproduct from "pages/producer/Infoproducts/gerence";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -31,6 +32,10 @@ const ProducerRoutes = () => (
         <Route
           path="/infoproducts/create/youtube"
           element={<YoutubeChannels />}
+        />
+        <Route
+          path="/infoproducts/informations"
+          element={<GenrenceInfoproduct />}
         />
         <Route path="/tickets" element={<Tickets />} />
         <Route path="/areas" element={<Areas />} />

@@ -21,6 +21,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import CancelIcon from "@mui/icons-material/Cancel";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
+import { to } from "hooks/to";
 
 interface TableProducts {
   data: Product[];
@@ -95,7 +96,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           p={2}
           color="neutral"
           value="edit"
-          onClick={() => console.log("Editar produto")}
+          onClick={() => to("/infoproducts/informations")}
         >
           Gerenciar
         </MenuItem>
