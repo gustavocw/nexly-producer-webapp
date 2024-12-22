@@ -16,7 +16,7 @@ const Infoproducts = () => {
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>
         <Text.Medium fontSize="24px">
-          Meus Cursos ({products.length})
+          Meus Infoprodutos ({products.length})
         </Text.Medium>
       </VStack>
       {products?.length === 0 ? (

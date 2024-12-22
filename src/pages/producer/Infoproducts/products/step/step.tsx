@@ -10,10 +10,9 @@ import {
 
 const StepProduct = () => {
   const steps = [
-    "Crie o produto",
     "Adicione os módulos",
     "Adicione os vídeos",
-    "Publique o curso",
+    "Publique o infoproduto",
   ];
 
   const handleStepClick = (step: string) => {
@@ -23,7 +22,6 @@ const StepProduct = () => {
   return (
     <StepsRoot defaultValue={0} count={steps.length}>
       <Flex w="100%" p="4" gap="4">
-        {/* Stepper - Apenas círculos */}
         <Box
           flex="0 0 30%"
           pr="8"

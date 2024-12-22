@@ -97,7 +97,22 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           value="edit"
           onClick={() => console.log("Editar produto")}
         >
-          Editar Produto
+          Gerenciar
+        </MenuItem>
+        <MenuItem
+          border="none"
+          borderRadius={0}
+          _hover={{
+            bg: "neutral.40",
+          }}
+          bg="neutral.50"
+          cursor="pointer"
+          p={2}
+          color="neutral"
+          value="edit"
+          onClick={() => console.log("Editar produto")}
+        >
+          Editar Infoprodutos
         </MenuItem>
         {state === "PUBLICO" && (
           <MenuItem
@@ -113,7 +128,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             value="del"
             onClick={() => console.log("Deletar curso")}
           >
-            Deletar Curso
+            Deletar Infoprodutos
           </MenuItem>
         )}
       </>
