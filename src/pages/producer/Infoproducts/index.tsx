@@ -5,8 +5,8 @@ import BooksIcon from "assets/icons/BooksIcon";
 import Text from "components/text/text";
 import { ModalCategoryProduct } from "./modals/modal.category";
 import TableProducts from "./products/products.table";
-import { type Product } from "types/product";
 import useInfoproductsController from "./index.controller";
+import { products } from "utils/productdummy";
 
 const Infoproducts = () => {
   const { categoryOptions, statusOptions, setCategory, setStatus } =
@@ -68,40 +68,5 @@ const Infoproducts = () => {
     </Stack>
   );
 };
-
-const products: Product[] = [
-  {
-    id: "1",
-    isCertificate: true,
-    name: "Curso de Programação Web",
-    urlThumbCourse: "https://example.com/web-course-thumbnail.jpg",
-    description:
-      "Aprenda a criar aplicações web completas com HTML, CSS, e JavaScript.",
-    category: ["Programação", "Desenvolvimento Web"],
-    duration: "10h",
-    delDate: null,
-    producerId: "producer1",
-    state: "PUBLICO",
-    createdAt: "2024-12-01T10:00:00Z",
-    updatedAt: "2024-12-10T15:00:00Z",
-    models: [],
-  },
-  {
-    id: "2",
-    isCertificate: false,
-    name: "Curso de Design Gráfico",
-    urlThumbCourse: "https://example.com/graphic-design-course-thumbnail.jpg",
-    description:
-      "Explore técnicas de design gráfico e crie peças visuais incríveis.",
-    category: ["Design", "Criatividade"],
-    duration: "8h",
-    delDate: null,
-    producerId: "producer2",
-    state: "PRIVADO",
-    createdAt: "2024-11-15T14:00:00Z",
-    updatedAt: "2024-12-01T14:30:00Z",
-    models: [],
-  },
-];
 
 export default Infoproducts;

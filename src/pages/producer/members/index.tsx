@@ -125,12 +125,12 @@ const Members = () => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers data={members} />
+      <TableMembers data={membersDummy} />
     </Stack>
   );
 };
 
-export const members: Member[] = [
+export const membersDummy: Member[] = [
   {
     courseId: "course_001",
     createdAt: "2024-10-10T08:30:00Z",

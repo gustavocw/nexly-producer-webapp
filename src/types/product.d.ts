@@ -11,7 +11,7 @@ export interface Product {
   state: string;
   createdAt: string;
   updatedAt: string;
-  models: Module[];
+  modules: Module[];
 }
 
 export interface Module {
@@ -26,4 +26,16 @@ export interface Module {
   createdAt: string;
   updatedAt: string;
   lessons: Lessons[];
+}
+
+export interface Lessons {
+  createdAt: string;
+  description: string;
+  id: string;
+  idLessonYt: string;
+  nameLesson: string;
+  thumbnails: string;
+  updatedAt: string;
+  urlVideoYt: string;
+  youtubeCourseId: string;
 }

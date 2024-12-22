@@ -194,8 +194,8 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                               <OndemandVideoOutlinedIcon />
                             </Icon>
                             <Text.Medium fontSize="12px">
-                              {item.models
-                                ? `${item.models.length} módulos`
+                              {item.modules
+                                ? `${item.modules.length} módulos`
                                 : "0 módulos"}
                             </Text.Medium>
                           </Flex>
@@ -205,7 +205,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                             </Icon>
                             <Text.Medium fontSize="12px">
                               {item.duration
-                                ? `${item.models.length} módulos`
+                                ? `${item.modules.length} módulos`
                                 : "0 módulos"}
                             </Text.Medium>
                           </Flex>

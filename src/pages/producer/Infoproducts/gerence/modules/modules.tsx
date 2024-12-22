@@ -1,8 +1,43 @@
+import { Flex, HStack, VStack } from "@chakra-ui/react";
+import ModulesIcon from "assets/icons/BooksIcon";
+import Text from "components/text/text";
+import type { Module } from "types/product";
+import { ModalCreateModule } from "./modal/modal.create.module";
+import Accordeon from "./accordeon/accordeon";
+import { products } from "utils/productdummy";
 
-const Modules = () => {
-  return (
-    <div>Modules</div>
-  )
+interface ModulesProps {
+  data: Module[];
 }
 
-export default Modules
+const Modules: React.FC<ModulesProps> = ({ data }) => {
+  return (
+    <Flex w="100%">
+      {data?.length === 0 ? (
+        <HStack gap="32px" w="100%">
+          <VStack
+            w="100%"
+            py="32px"
+            px="10px"
+            gap="20px"
+            boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
+          >
+            <ModulesIcon width="42px" />
+            <VStack gap="10px" lineHeight={1.5} w="100%">
+              <Text.Medium fontSize="24px" color="neutral">
+                O curso não possui módulos
+              </Text.Medium>
+              <ModalCreateModule />
+            </VStack>
+          </VStack>
+        </HStack>
+      ) : (
+        <VStack w="100%">
+          <Accordeon modules={products[0].modules} />
+        </VStack>
+      )}
+    </Flex>
+  );
+};
+
+export default Modules;

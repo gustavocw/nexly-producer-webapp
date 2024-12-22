@@ -21,7 +21,7 @@ export const RadioCardItem = React.forwardRef<
     description,
     addon,
     icon,
-    indicator = <RadioCard.ItemIndicator />,
+    indicator = <RadioCard.ItemIndicator bg="neutral.40" _checked={{ bg: "primary.50" }} />,
     indicatorPlacement = "end",
     ...rest
   } = props
