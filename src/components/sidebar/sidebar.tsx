@@ -18,8 +18,10 @@ import SidebarIconLeft from "assets/icons/ArrowBack";
 import SidebarIconRight from "assets/icons/RightIcon";
 import { menuItems } from "./items";
 import Divider from "components/divider/divider";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
+  const navigate = useNavigate();
   const { isOpen, toggleIsOpen } = useSidebarController();
 
   return (
@@ -116,7 +118,7 @@ const Sidebar: React.FC = () => {
           <Center mx="auto" position="relative">
             <Icon
               w="90%"
-              // onClick={logout}
+              onClick={() => navigate("/login")}
               borderRadius={10}
               boxSize="35px"
               p="2"
