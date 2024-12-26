@@ -44,7 +44,6 @@ export const useCertificateController = () => {
     reset,
   } = useForm<CertificateFormData>({
     resolver: zodResolver(certificateSchema),
-    mode: "onBlur",
     defaultValues: {
       name: "",
       capa: undefined,
@@ -55,8 +54,6 @@ export const useCertificateController = () => {
   });
 
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
-    console.log(data);
-    
     const processedData = {
       ...data,
       capa:
@@ -69,10 +66,15 @@ export const useCertificateController = () => {
     reset();
   };
 
+  const handleteste = () => {
+    console.log("afff")
+  }
+
   return {
     control,
     handleSubmit,
     errors,
+    handleteste,
     watch,
     onSubmit,
     reset,

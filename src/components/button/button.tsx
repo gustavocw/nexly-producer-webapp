@@ -21,6 +21,7 @@ interface BtnProps {
   iconLeft?: JSX.Element;
   iconRight?: JSX.Element;
   fontWeight?: string;
+  type?: any;
 }
 
 const Btn = ({
@@ -29,6 +30,7 @@ const Btn = ({
   color,
   padding,
   bgHover,
+  type,
   w,
   h,
   pb,
@@ -48,6 +50,7 @@ const Btn = ({
 
   return (
     <Button
+      type={type}
       onClick={onClick}
       w={w ?? "100%"}
       h={h ?? "44px"}
@@ -76,7 +79,17 @@ const Btn = ({
         color={color || (bg === "transparent" ? "#111111" : "#ffffff")}
         fontWeight={weight}
       >
-        {isLoading ? <Spinner /> : <Text.Medium textTransform="initial" fontWeight={fontWeight ?? "500px"} fontSize="16px">{label}</Text.Medium>}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Text.Medium
+            textTransform="initial"
+            fontWeight={fontWeight ?? "500px"}
+            fontSize="16px"
+          >
+            {label}
+          </Text.Medium>
+        )}
       </Text.Large>
       {iconRight && <Box>{iconRight}</Box>}
     </Button>
