@@ -186,7 +186,7 @@ const Certificates = () => {
           </HStack>
         </VStack>
         <HStack w="100%" justify="flex-end">
-        <Btn w="30%" label="Salvar" onClick={handleSubmit(onSubmit)} />
+        <Btn w="30%" label="Salvar" onClick={() => handleSubmit(onSubmit)} />
         </HStack>
       </VStack>
     </VStack>

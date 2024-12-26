@@ -106,7 +106,7 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
         fontWeight="400"
         color="white"
       >
-        00/00/00
+        00/00/0000
       </Text>
     </Box>
   );

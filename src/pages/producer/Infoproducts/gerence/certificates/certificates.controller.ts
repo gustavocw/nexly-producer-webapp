@@ -55,6 +55,8 @@ export const useCertificateController = () => {
   });
 
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
+    console.log(data);
+    
     const processedData = {
       ...data,
       capa:
