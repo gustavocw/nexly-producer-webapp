@@ -11,9 +11,10 @@ import {
   FileUploadRoot,
 } from "components/ui/file-upload";
 import CertificateImage from "./certificate/certificate.image";
+import Btn from "components/button/button";
 
 const Certificates = () => {
-  const { control, watch } = useCertificateController();
+  const { control, watch, handleSubmit, onSubmit } = useCertificateController();
 
   const name = watch("name");
   const description = watch("description");
@@ -184,6 +185,9 @@ const Certificates = () => {
             />
           </HStack>
         </VStack>
+        <HStack w="100%" justify="flex-end">
+        <Btn w="30%" label="Salvar" onClick={handleSubmit(onSubmit)} />
+        </HStack>
       </VStack>
     </VStack>
   );

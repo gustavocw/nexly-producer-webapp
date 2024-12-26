@@ -21,7 +21,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import CancelIcon from "@mui/icons-material/Cancel";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
-import { to } from "hooks/to";
+import { useNavigate } from "react-router-dom";
 
 interface TableProducts {
   data: Product[];
@@ -62,6 +62,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
         return null;
     }
   };
+  const navigate = useNavigate();
 
   const renderMenuItems = (state: string, deldate?: any) => {
     if (deldate) return null;
@@ -96,7 +97,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           p={2}
           color="neutral"
           value="edit"
-          onClick={() => to("/infoproducts/informations")}
+          onClick={() => navigate("/infoproducts/informations")}
         >
           Gerenciar
         </MenuItem>
