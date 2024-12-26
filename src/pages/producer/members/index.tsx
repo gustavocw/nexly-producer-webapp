@@ -7,6 +7,7 @@ import {
   MenuRoot,
   MenuTrigger,
   Stack,
+  Tabs,
 } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
 import type { Member } from "types/members";
@@ -62,7 +63,13 @@ const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
 };
 
 const Members = () => {
-  const {setAccessType, setLastAccess, accessOptions, handleMenuAction, typeAccessOptions} = useMembersController();
+  const {
+    setAccessType,
+    setLastAccess,
+    accessOptions,
+    handleMenuAction,
+    typeAccessOptions,
+  } = useMembersController();
   const optionsNav = [
     { label: `Ativos ${2}`, value: "actives" },
     { label: `Bloqueados ${5}`, value: "blocked" },
@@ -76,12 +83,14 @@ const Members = () => {
   };
   return (
     <Stack gap="32px" px={8}>
-      <NavOptions
-        pt="10"
-        defaultValue={optionsNav[0].value}
-        options={optionsNav}
-        onChange={handleSelectionChange}
-      />
+      <Tabs.Root>
+        <NavOptions
+          pt="10"
+          defaultValue={optionsNav[0].value}
+          options={optionsNav}
+          onChange={handleSelectionChange}
+        />
+      </Tabs.Root>
       <HStack w="100%" justify="space-between" align="center">
         <HStack justify="space-between" w="100%">
           <Flex w="100%" gap="32px">

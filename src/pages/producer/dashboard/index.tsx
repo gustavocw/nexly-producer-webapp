@@ -1,4 +1,4 @@
-import { Box, HStack, Stack, VStack } from "@chakra-ui/react";
+import { Box, HStack, Stack, Tabs, VStack } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
 import Card from "./cards/activeMembers";
 import GraphicNexly from "components/graphic/graphic";
@@ -31,12 +31,14 @@ const Dashboard = () => {
 
   return (
     <Stack gap="32px" px={8}>
-      <NavOptions
-        pt="10"
-        defaultValue={optionsNav[0].value}
-        options={optionsNav}
-        onChange={handleSelectionChange}
-      />
+      <Tabs.Root>
+        <NavOptions
+          pt="10"
+          defaultValue={optionsNav[0].value}
+          options={optionsNav}
+          onChange={handleSelectionChange}
+        />
+      </Tabs.Root>
       <Box w="100%">
         <HStack gap="20px" align="flex-start" w="100%">
           <VStack gap="20px" width="70%" flex={1}>

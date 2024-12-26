@@ -7,6 +7,7 @@ import {
   Image,
   Tabs,
   VStack,
+  HStack,
 } from "@chakra-ui/react";
 import Btn from "components/button/button";
 import Input from "components/input/input";
@@ -40,11 +41,20 @@ export const ModalCreateModule = () => {
     useCreateModuleController();
 
   return (
-    <DialogRoot placement="center" motionPreset="slide-in-bottom">
+    <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger asChild>
         <Btn w="200px" h="40px" label="Novo módulo" iconLeft={<LuPlus />} />
       </DialogTrigger>
-      <DialogContent p="32px" bg="neutral.60" borderRadius="8px" gap="32px">
+      <DialogContent
+        maxW="90%"
+        maxH="98%"
+        p="32px"
+        bg="neutral.60"
+        borderRadius="8px"
+        gap="28px"
+        overflowY="auto"
+        overflowX="hidden"
+      >
         <DialogHeader>
           <DialogTitle fontSize="24px" color="neutral" fontWeight="400">
             Adicionar novo módulo
@@ -54,10 +64,20 @@ export const ModalCreateModule = () => {
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Tabs.Root defaultValue="image">
-            <Tabs.Content value="image">
-              <DialogBody display="flex" flexDirection="column" gap="20px">
-                {/* Nome do módulo */}
+          <Tabs.Root defaultValue="form">
+            <HStack
+              align="start"
+              spaceX="32px"
+              flexWrap="wrap"
+              justifyContent="space-between"
+            >
+              <DialogBody
+                display="flex"
+                flexDirection="column"
+                gap="20px"
+                flex="1"
+                minW="300px"
+              >
                 <Input.Base
                   name="name"
                   label="Nome do módulo"
@@ -66,7 +86,6 @@ export const ModalCreateModule = () => {
                   errorText={errors.name?.message}
                 />
 
-                {/* Status (Privado ou Público) */}
                 <Controller
                   name="state"
                   control={control}
@@ -75,12 +94,7 @@ export const ModalCreateModule = () => {
                       <RadioCardLabel fontSize="14px" color="neutral">
                         Status
                       </RadioCardLabel>
-                      <Group
-                        w="100%"
-                        color="neutral"
-                        attached
-                        orientation="vertical"
-                      >
+                      <Group w="100%" color="neutral" orientation="vertical">
                         {status.map((item) => (
                           <RadioCardItem
                             {...field}
@@ -101,7 +115,8 @@ export const ModalCreateModule = () => {
                             borderColor="neutral.40"
                             cursor="pointer"
                             _checked={{
-                              bg: "neutral.60",
+                              bg: "neutral.40",
+                              borderColor: "neutral.30",
                             }}
                           />
                         ))}
@@ -116,7 +131,6 @@ export const ModalCreateModule = () => {
                   render={({ field }) => (
                     <FileUploadRoot
                       gap={0}
-                      maxW="100%"
                       alignItems="stretch"
                       maxFiles={1}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,7 +143,6 @@ export const ModalCreateModule = () => {
                       <FileUploadDropzone
                         cursor="pointer"
                         bg="#1C06284D"
-                        height="100px"
                         color="neutral"
                         border="1px dashed"
                         borderColor="primary.50"
@@ -160,17 +173,8 @@ export const ModalCreateModule = () => {
                   )}
                 />
               </DialogBody>
-              <DialogFooter w="100%">
-                <DialogActionTrigger asChild>
-                  <Btn w="50%" label="Cancel" bg="transparent" />
-                </DialogActionTrigger>
-                <Tabs.Trigger w="100%" value="format">
-                  <Btn w="100%" label="Continuar" />
-                </Tabs.Trigger>
-              </DialogFooter>
-            </Tabs.Content>
-            <Tabs.Content value="format">
-              <DialogBody>
+
+              <DialogBody flex="1" minW="300px">
                 <VStack w="100%">
                   <Controller
                     name="format"
@@ -222,23 +226,20 @@ export const ModalCreateModule = () => {
                   />
                 </VStack>
               </DialogBody>
-              <DialogFooter w="100%" py={10}>
+            </HStack>
+
+            <DialogFooter w="100%">
               <DialogActionTrigger asChild>
-                  <Btn
-                    w="50%"
-                    label="Cancelar"
-                    bg="transparent"
-                  />
-                </DialogActionTrigger>
-                <DialogActionTrigger asChild>
-                  <Btn
-                    w="50%"
-                    label="Criar Módulo"
-                    onClick={handleSubmit(onSubmit)}
-                  />
-                </DialogActionTrigger>
-              </DialogFooter>
-            </Tabs.Content>
+                <Btn w="15%" label="Cancelar" bg="transparent" />
+              </DialogActionTrigger>
+              <DialogActionTrigger asChild>
+                <Btn
+                  w="15%"
+                  label="Criar Módulo"
+                  onClick={handleSubmit(onSubmit)}
+                />
+              </DialogActionTrigger>
+            </DialogFooter>
           </Tabs.Root>
         </form>
         <DialogCloseTrigger />

@@ -1,23 +1,24 @@
 import { Navigate, Outlet } from "react-router-dom";
-import useAuthStore from '../../stores/all/auth.store';
+import useAuthStore from "../../stores/all/auth.store";
 
 interface AuthGuardProps {
   isPrivate: boolean;
+  allowedRole?: "producer" | "user";
 }
 
-export function AuthGuard({ isPrivate }: AuthGuardProps) {
+export function AuthGuard({ isPrivate, allowedRole }: AuthGuardProps) {
   const { isLogged, producer, user } = useAuthStore();
 
-  if (isLogged === false && isPrivate) {
+  if (isPrivate && !isLogged) {
     return <Navigate to="/login" replace />;
   }
 
-  if (isLogged && !isPrivate && producer) {
-    return <Navigate to="/" replace />;
+  if (isLogged && allowedRole === "producer" && !producer) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (isLogged && !isPrivate && user) {
-    return <Navigate to="/user/home" replace />;
+  if (isLogged && allowedRole === "user" && !user) {
+    return <Navigate to="/user/login" replace />;
   }
 
   return <Outlet />;

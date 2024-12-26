@@ -26,11 +26,11 @@ const GenrenceInfoproduct = () => {
       <TitlePage title="Nome do curso" />
       <Tabs.Root w="100%" color="neutral" defaultValue="informations">
         <VStack w="auto" gap="32px">
-          <HStack w="100%" >
+          <HStack w="100%">
             <NavOptions options={optionsNav} onChange={handleSelectionChange} />
-            <Tabs.Content  w="200px" value="modules">
+            <Tabs.Content w="200px" value="modules">
               <Flex alignSelf="flex-end">
-              <ModalCreateModule />
+                <ModalCreateModule />
               </Flex>
             </Tabs.Content>
           </HStack>
