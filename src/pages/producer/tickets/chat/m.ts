@@ -1,0 +1,16 @@
+export const dummyMessages = [
+  { id: 1, author: "Eu", content: "Olá, tudo bem?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  {
+    id: 3,
+    author: "Eu",
+    content: "Estou bem, obrigado!",
+    timestamp: new Date(new Date().setDate(new Date().getDate() - 1)),
+  },
+  {
+    id: 4,
+    author: "Outro",
+    content: "Que bom ouvir isso.",
+    timestamp: new Date(new Date().setDate(new Date().getDate() - 2)),
+  },
+];

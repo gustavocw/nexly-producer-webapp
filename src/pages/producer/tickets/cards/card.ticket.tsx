@@ -2,6 +2,7 @@ import {
   createListCollection,
   Flex,
   HStack,
+  Link,
   SelectContent,
   SelectItem,
   SelectRoot,
@@ -24,6 +25,7 @@ const CardTickets = () => {
       boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
       w="100%"
       gap="10px"
+      cursor="pointer"
     >
       <HStack w="100%">
         <Flex gap="20px">
@@ -54,6 +56,9 @@ const CardTickets = () => {
           <Text.Medium fontSize="14px">Nome do author</Text.Medium>
         </Flex>
         <Flex gap="10px" w="300px" justify="flex-end">
+          <Link color="primary.50">
+          Responder
+          </Link>
           <Flex
             alignItems="center"
             justify="center"
