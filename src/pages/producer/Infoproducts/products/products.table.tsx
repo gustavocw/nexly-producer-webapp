@@ -114,7 +114,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           value="edit"
           onClick={() => console.log("Editar produto")}
         >
-          Editar Infoprodutos
+          Editar infoproduto
         </MenuItem>
         {state === "PUBLICO" && (
           <MenuItem
@@ -130,7 +130,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             value="del"
             onClick={() => console.log("Deletar curso")}
           >
-            Deletar Infoprodutos
+            Deletar infoproduto
           </MenuItem>
         )}
       </>

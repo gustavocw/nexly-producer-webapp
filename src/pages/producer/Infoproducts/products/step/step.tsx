@@ -7,8 +7,10 @@ import {
   StepsNextTrigger,
   StepsContent,
 } from "components/ui/steps";
+// import { useNavigate } from "react-router-dom";
 
 const StepProduct = () => {
+  // const navigate = useNavigate;
   const steps = [
     "Adicione os módulos",
     "Adicione os vídeos",
@@ -22,10 +24,7 @@ const StepProduct = () => {
   return (
     <StepsRoot defaultValue={0} count={steps.length}>
       <Flex w="100%" p="4" gap="4">
-        <Box
-          flex="0 0 30%"
-          pr="8"
-        >
+        <Box flex="0 0 30%" pr="8">
           <StepsList>
             {steps.map((_, index) => (
               <StepsItem key={index} index={index} />

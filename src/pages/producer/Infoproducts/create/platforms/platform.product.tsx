@@ -7,7 +7,7 @@ import CardPlatform from "./cardPlatform/page.radio.platform";
 
 const Platform = () => {
   return (
-    <VStack w="100%" align="flex-start">
+    <VStack px={8} w="100%" align="flex-start">
       <Tabs.Root w="100%" defaultValue="initial">
         <TitlePage title="Informações básicas" />
         <Tabs.Content value="initial">

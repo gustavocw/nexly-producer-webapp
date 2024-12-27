@@ -5,9 +5,10 @@ const useChannelController = () => {
   const [channel, setChannel] = useState("");
   const navigate = useNavigate();
 
-  const onIntegrate = () => {
+  const onIntegrate = (data: any) => {
+    console.log(data);
     if (channel === "youtube") {
-      navigate("/infoproducts/create/youtube")
+      navigate("/infoproducts/create/youtube/playlists");
     } else if (channel === "vimeo") {
       console.log("vimeo");
     }

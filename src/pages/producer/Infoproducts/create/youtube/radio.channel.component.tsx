@@ -4,9 +4,11 @@ import Text from "components/text/text";
 import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
 import KeyboardArrowRightOutlined from "@mui/icons-material/KeyboardArrowRightOutlined";
 import usePlatformController from "./radio.controller.channel";
+import { useNavigate } from "react-router-dom";
 
 const RadioPlatform = () => {
-  const { onIntegrate, setChannel } = usePlatformController();
+  const navigate = useNavigate();
+  const { setChannel } = usePlatformController();
 
   return (
     <RadioCardRoot orientation="vertical" align="center" defaultValue="youtube">
@@ -44,7 +46,9 @@ const RadioPlatform = () => {
         <Btn
           w="300px"
           label="Continuar"
-          onClick={onIntegrate}
+          onClick={() => {
+            navigate("/infoproducts/create/youtube/playlists");
+          }}
           iconRight={<KeyboardArrowRightOutlined />}
         />
       </VStack>

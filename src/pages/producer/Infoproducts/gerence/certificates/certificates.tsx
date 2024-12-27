@@ -23,16 +23,17 @@ const Certificates = () => {
   const capa = watch("capa");
 
   return (
-    <VStack align="flex-start" gap="32px">
+    <VStack flexDir="column" w="100%" align="flex-start" gap="32px">
       <Text.Medium fontSize="16px">Informações do certificado</Text.Medium>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
         <VStack
           boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
           bg="neutral.60"
           borderRadius="8px"
           p="20px"
           gap="16px"
-          w="260px"
+          maxW="260px"
+          w="100%"
           h="100px"
           mb="32px"
         >
@@ -105,7 +106,7 @@ const Certificates = () => {
                 control={control}
                 errorText={errors.description?.message}
               />
-              <HStack w="100%">
+              <HStack alignItems="center" w="100%">
                 <Controller
                   name="logo"
                   control={control}
@@ -148,13 +149,13 @@ const Certificates = () => {
                         }
                       />
                       <Flex my="4px" fontSize="12px">
-                        {errors.description?.message ? (
+                        {errors.logo?.message ? (
                           <Text.Medium>
-                            {errors.description?.message}
+                            {errors.logo?.message}
                           </Text.Medium>
                         ) : (
-                          <Text.Medium>
-                            {errors.description?.message}A imagem de logo deve
+                          <Text.Medium fontSize="12px">
+                            {errors.logo?.message}A imagem de logo deve
                             estar no formato JPG ou PNG e tamanho máximo de 5
                             MB. Dimensões ideais: 1.500 x 1.000 pixels.
                           </Text.Medium>
@@ -202,20 +203,28 @@ const Certificates = () => {
                           </VStack>
                         }
                       />
-                      <Text.Medium my="4px" fontSize="12px">
-                        A imagem de fundo deve estar no formato JPG ou PNG e
-                        tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000
-                        pixels.
-                      </Text.Medium>
+                      <Flex my="4px" fontSize="12px">
+                        {errors.capa?.message ? (
+                          <Text.Medium>
+                            {errors.capa?.message}
+                          </Text.Medium>
+                        ) : (
+                          <Text.Medium fontSize="12px">
+                            {errors.capa?.message}A imagem de logo deve
+                            estar no formato JPG ou PNG e tamanho máximo de 5
+                            MB. Dimensões ideais: 1.500 x 1.000 pixels.
+                          </Text.Medium>
+                        )}
+                      </Flex>
                     </FileUploadRoot>
                   )}
                 />
               </HStack>
             </VStack>
-            <HStack p={2} w="100%" justify="flex-end">
+            <HStack px={4} py={10} w="100%" justify="flex-end">
               <Btn
                 type="submit"
-                w="20%"
+                w="200px"
                 label="Salvar"
                 onClick={handleSubmit(onSubmit)}
               />

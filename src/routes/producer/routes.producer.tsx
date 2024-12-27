@@ -13,6 +13,8 @@ import CareateProduct from "pages/producer/Infoproducts/create/create.product";
 import Platform from "pages/producer/Infoproducts/create/platforms/platform.product";
 import YoutubeChannels from "pages/producer/Infoproducts/create/youtube/youtube.channels";
 import GenrenceInfoproduct from "pages/producer/Infoproducts/gerence";
+import YoutubePlaylists from "pages/producer/Infoproducts/create/youtube/playlists/playlists.youtube";
+import YoutubeVideos from "pages/producer/Infoproducts/create/youtube/videos/videos.youtube";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -32,6 +34,14 @@ const ProducerRoutes = () => (
         <Route
           path="/infoproducts/create/youtube"
           element={<YoutubeChannels />}
+        />
+        <Route
+          path="/infoproducts/create/youtube/playlists"
+          element={<YoutubePlaylists />}
+        />
+        <Route
+          path="/infoproducts/create/youtube/videos"
+          element={<YoutubeVideos />}
         />
         <Route
           path="/infoproducts/informations"
