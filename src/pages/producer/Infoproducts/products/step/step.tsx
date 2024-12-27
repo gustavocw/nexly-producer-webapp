@@ -25,8 +25,6 @@ const StepProduct = () => {
         <Box
           flex="0 0 30%"
           pr="8"
-          borderRight="1px solid"
-          borderColor="neutral.300"
         >
           <StepsList>
             {steps.map((_, index) => (

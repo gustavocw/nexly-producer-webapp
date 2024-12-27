@@ -52,7 +52,7 @@ const theme = defineConfig({
           20: { value: "#7F758F" },
           30: { value: "#575063" },
           40: { value: "#2E2A34" },
-          50: { value: "#1D1B20" },
+          50: { value: "#1F1D22" },
           60: { value: "#1D1B20" },
           70: { value: "#0D0C0E" },
           80: { value: "#050506" },
