@@ -1,15 +1,12 @@
-import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import {
-  Heading,
   Flex,
   Link,
   Stack,
   Box,
   Icon,
-  Center,
+  Center
 } from "@chakra-ui/react";
-import { Avatar } from "components/ui/avatar";
 import { renderMenuItem } from "./sidebar.item";
 import { useSidebarController } from "./sidebar.controler";
 import NexlyLogo from "assets/icons/NexlyLogo";
@@ -19,6 +16,8 @@ import SidebarIconRight from "assets/icons/RightIcon";
 import { menuItems } from "./items";
 import Divider from "components/divider/divider";
 import { useNavigate } from "react-router-dom";
+import NotificationsDrawer from "components/notifications/drawer.notifications";
+import ProfileDialog from "components/dialog/dialog.profile";
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
@@ -89,20 +88,7 @@ const Sidebar: React.FC = () => {
           flexDir={isOpen ? "row" : "column"}
         >
           <Box mx="auto" position="relative">
-            <Icon
-              w="90%"
-              as={NotificationsNoneRoundedIcon}
-              // onClick={() => setShowNotifications(!showNotifications)}
-              boxSize="35px"
-              p="2"
-              borderRadius={10}
-              cursor="pointer"
-              color="neutral.20"
-              border="1px solid"
-              borderColor="neutral.40"
-            >
-              <NotificationsNoneRoundedIcon />
-            </Icon>
+            <NotificationsDrawer />
             {/* {hasNewNotifications && ( */}
             <Box
               position="absolute"
@@ -133,27 +119,7 @@ const Sidebar: React.FC = () => {
             </Icon>
           </Center>
         </Flex>
-        <Flex
-          mt="auto"
-          p={4}
-          direction="row"
-          alignItems="center"
-          justifyContent={isOpen ? "flex-start" : "center"}
-          border="1px solid"
-          borderColor="neutral.40"
-          bg="neutral.50"
-          borderRadius="18px"
-          w="100%"
-        >
-          <Avatar size="sm" src="avatar-1.jpg" />
-          {isOpen && (
-            <Flex flexDir="column" ml={4}>
-              <Heading color="primary" as="h3" size="sm">
-                Sylwia Weller
-              </Heading>
-            </Flex>
-          )}
-        </Flex>
+        <ProfileDialog isOpen={isOpen} />
       </Stack>
     </Flex>
   );

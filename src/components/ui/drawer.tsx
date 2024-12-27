@@ -34,6 +34,8 @@ export const DrawerCloseTrigger = React.forwardRef<
       top="2"
       insetEnd="2"
       {...props}
+      bg="transparent"
+      color="neutral"
       asChild
     >
       <CloseButton size="sm" ref={ref} />
