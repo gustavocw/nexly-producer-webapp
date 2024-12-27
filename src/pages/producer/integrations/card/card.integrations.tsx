@@ -51,6 +51,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({ data, onToggleIntegration }
           alignItems="center"
           borderRadius="12px"
           bg="neutral.40"
+          gap={1}
         >
           <Icon color={isIntegrated ? "success.90" : "neutral.20"}>
             <CheckCircleOutlineIcon />
