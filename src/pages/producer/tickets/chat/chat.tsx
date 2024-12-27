@@ -2,16 +2,14 @@ import {
   createListCollection,
   Flex,
   HStack,
-  Icon,
-  Link,
-  SelectContent,
+  Icon, SelectContent,
   SelectItem,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
   Tabs,
   Textarea,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -70,7 +68,6 @@ const Chat = () => {
           </Flex>
         </Tabs.Trigger>
         <Flex gap="10px" w="300px" justify="flex-end">
-          <Link color="primary.50">Responder</Link>
           <Flex
             alignItems="center"
             justify="center"
@@ -205,6 +202,8 @@ const Chat = () => {
           borderRadius="0"
           my={0}
           h="100%"
+          minH="100px"
+          maxH="100px"
           color="neutral"
           p="2"
           border="none"
