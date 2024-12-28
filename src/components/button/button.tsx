@@ -74,7 +74,7 @@ const Btn = ({
         bg: isTransparent ? "neutral.40" : bgHover ?? "primary.50",
       }}
     >
-      {iconLeft && <Box>{iconLeft}</Box>}
+      {iconLeft && <Box color="neutral">{iconLeft}</Box>}
       <Text.Large
         color={color || (bg === "transparent" ? "#111111" : "#ffffff")}
         fontWeight={weight}

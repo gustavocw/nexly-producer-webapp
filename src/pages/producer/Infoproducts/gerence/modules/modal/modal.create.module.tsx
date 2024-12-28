@@ -7,6 +7,7 @@ import {
   Image,
   Tabs,
   VStack,
+  Icon,
   HStack,
 } from "@chakra-ui/react";
 import Btn from "components/button/button";
@@ -21,6 +22,7 @@ import {
   DialogRoot,
   DialogTrigger,
 } from "components/ui/dialog";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { LuPlus } from "react-icons/lu";
 import { Controller } from "react-hook-form";
 import { useCreateModuleController } from "./create.module.controller";
@@ -35,15 +37,26 @@ import {
   FileUploadList,
   FileUploadRoot,
 } from "components/ui/file-upload";
+import type React from "react";
 
-export const ModalCreateModule = () => {
+interface ModalPops {
+  isEdit?: boolean;
+}
+
+export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
   const { control, errors, onSubmit, handleSubmit } =
     useCreateModuleController();
 
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger asChild>
-        <Btn w="200px" h="40px" label="Novo módulo" iconLeft={<LuPlus />} />
+        {isEdit ? (
+          <Icon cursor="pointer">
+            <ModeEditOutlineOutlinedIcon />
+          </Icon>
+        ) : (
+          <Btn w="200px" h="40px" label="Novo módulo" iconLeft={<LuPlus />} />
+        )}
       </DialogTrigger>
       <DialogContent
         maxW="90%"
@@ -57,10 +70,10 @@ export const ModalCreateModule = () => {
       >
         <DialogHeader>
           <DialogTitle fontSize="24px" color="neutral" fontWeight="400">
-            Adicionar novo módulo
+            {isEdit ? "Editar módulo" : "Adicionar novo módulo"}
           </DialogTitle>
           <DialogDescription fontSize="14px" color="neutral" fontWeight="400">
-            Insira as informações do novo módulo
+            {isEdit ? "Edite as informações do módulo" : "Insira as informações do novo módulo"}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>

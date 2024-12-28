@@ -1,13 +1,36 @@
-import { Flex, Icon, Image, Tabs, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Icon,
+  Image,
+  Tabs,
+  VStack,
+  parseColor,
+} from "@chakra-ui/react";
 import Input from "components/input/input";
 import { useCreateAreaController } from "./form.controller";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Text from "components/text/text";
 import {
+  ColorPickerArea,
+  ColorPickerContent,
+  ColorPickerControl,
+  ColorPickerEyeDropper,
+  ColorPickerInput,
+  ColorPickerLabel,
+  ColorPickerRoot,
+  ColorPickerSliders,
+  ColorPickerSwatchGroup,
+  ColorPickerSwatchTrigger,
+  ColorPickerTrigger,
+} from "components/ui/color-picker";
+
+import {
   FileUploadList,
   FileUploadDropzone,
   FileUploadRoot,
 } from "components/ui/file-upload";
+import { swatches } from "./swatches";
 
 const FormArea = () => {
   const { control, errors } = useCreateAreaController();
@@ -23,15 +46,40 @@ const FormArea = () => {
           </Text.Medium>
         </Tabs.Trigger>
       </Flex>
-      <Input.Base
-        control={control}
-        label="Nome da área"
-        name="name"
-        placeholder="Nome da área de membros"
-        errorText={errors.name?.message}
-        isRequired
-        width="60%"
-      />
+      <Flex w="60%" gap={2} justify="space-between" alignItems="center">
+        <Input.Base
+          control={control}
+          label="Nome da área"
+          name="name"
+          placeholder="Nome da área de membros"
+          errorText={errors.name?.message}
+          isRequired
+          width="100%"
+        />
+        <ColorPickerRoot defaultValue={parseColor("#eb5e41")} maxW="200px">
+          <ColorPickerLabel color="neutral">Cor primária</ColorPickerLabel>
+          <ColorPickerControl>
+            <ColorPickerInput borderColor="neutral.30" color="neutral" p={2} />
+            <ColorPickerTrigger borderColor="neutral.30" />
+          </ColorPickerControl>
+          <ColorPickerContent>
+            <ColorPickerArea />
+            <HStack>
+              <ColorPickerEyeDropper />
+              <ColorPickerSliders />
+            </HStack>
+            <ColorPickerSwatchGroup>
+              {swatches.map((item) => (
+                <ColorPickerSwatchTrigger
+                  swatchSize="4.5"
+                  key={item}
+                  value={item}
+                />
+              ))}
+            </ColorPickerSwatchGroup>
+          </ColorPickerContent>
+        </ColorPickerRoot>
+      </Flex>
       <Input.Base
         control={control}
         label="Domínio"

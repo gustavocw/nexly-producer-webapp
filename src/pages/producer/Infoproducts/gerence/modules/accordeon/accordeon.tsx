@@ -7,15 +7,16 @@ import {
   Icon,
   Image,
   MenuContent,
+  MenuItem,
   MenuRoot,
   MenuTrigger,
   SelectContent,
   SelectItem,
   SelectRoot,
   SelectTrigger,
-  SelectValueText, VStack
+  SelectValueText,
+  VStack,
 } from "@chakra-ui/react";
-import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import DehazeOutlinedIcon from "@mui/icons-material/DehazeOutlined";
 import Divider from "components/divider/divider";
@@ -29,8 +30,8 @@ import {
 } from "components/ui/accordion";
 import type React from "react";
 import type { Module } from "types/product";
-import MenuItems from "pages/producer/members/menu/menu.members";
 import { useNavigate } from "react-router-dom";
+import { ModalCreateModule } from "../modal/modal.create.module";
 
 interface AccordeonProps {
   modules: Module[];
@@ -41,14 +42,6 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
   const collection = createListCollection({
     items: statusModule,
   });
-
-  const handleMenuAction = (action: string) => {
-    switch (action) {
-      case "export":
-        console.log("Editar aula");
-        break;
-    }
-  };
 
   return (
     <AccordionRoot
@@ -85,9 +78,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
               <Icon cursor="pointer">
                 <PublicOutlinedIcon />
               </Icon>
-              <Icon cursor="pointer">
-                <ModeEditOutlineOutlinedIcon />
-              </Icon>
+              <ModalCreateModule isEdit/>
             </AbsoluteCenter>
           </Box>
           <AccordionItemContent>
@@ -99,29 +90,68 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
             >
               <HStack justify="space-between" w="100%">
                 <Text.Medium fontSize="16px">Aulas</Text.Medium>
-                <Flex align="center" gap="32px">
-                  <Text.Medium
-                    _hover={{ color: "primary.50" }}
-                    transition="0.2s"
-                    fontSize="16px"
-                    cursor="pointer"
-                    onClick={() => {
-                      navigate("/infoproducts/create/platfoms");
-                    }}
-                  >
-                    Adicionar
-                  </Text.Medium>
-                  <Text.Medium
-                    _hover={{ color: "primary.50" }}
-                    transition="0.2s"
-                    fontSize="16px"
-                    cursor="pointer"
-                    onClick={() => {
-                      navigate("/infoproducts/edit/lessons");
-                    }}
-                  >
-                    Editar
-                  </Text.Medium>
+                <Flex position="relative" align="center" gap="32px">
+                  <MenuRoot>
+                    <MenuTrigger asChild>
+                      <Icon
+                        borderWidth="1px"
+                        borderRadius="8px"
+                        borderColor="neutral.40"
+                        fontSize="30px"
+                        cursor="pointer"
+                        color="neutral"
+                        p="4px"
+                      >
+                        <MoreVertIcon />
+                      </Icon>
+                    </MenuTrigger>
+                    <MenuContent
+                      w="200px"
+                      borderWidth="1px"
+                      borderColor="neutral.40"
+                      bg="neutral.60"
+                      position="absolute"
+                      top={2}
+                      right={6}
+                    >
+                      <MenuItem
+                        cursor="pointer"
+                        p={3}
+                        color="neutral"
+                        value="rename"
+                        _hover={{ bg: "neutral.30" }}
+                        onClick={() => {
+                          navigate("/infoproducts/create/platfoms");
+                        }}
+                      >
+                        Adicionar várias aulas +2
+                      </MenuItem>
+                      <MenuItem
+                        cursor="pointer"
+                        p={3}
+                        color="neutral"
+                        value="rename"
+                        _hover={{ bg: "neutral.30" }}
+                        onClick={() => {
+                          navigate("/infoproducts/create/video");
+                        }}
+                      >
+                        Adicionar uma aula +1
+                      </MenuItem>
+                      <MenuItem
+                        cursor="pointer"
+                        p={3}
+                        color="neutral"
+                        value="rename"
+                        _hover={{ bg: "neutral.30" }}
+                        onClick={() => {
+                          navigate("/infoproducts/create/platfoms");
+                        }}
+                      >
+                        Editar aulas
+                      </MenuItem>
+                    </MenuContent>
+                  </MenuRoot>
                 </Flex>
               </HStack>
             </VStack>
@@ -189,7 +219,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                         </SelectContent>
                       </SelectRoot>
                     </Flex>
-                    <MenuRoot positioning={{ placement: "left-start" }}>
+                    <MenuRoot>
                       <MenuTrigger asChild>
                         <Icon
                           borderWidth="1px"
@@ -204,12 +234,29 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                         </Icon>
                       </MenuTrigger>
                       <MenuContent
-                        borderRadius="8px"
                         borderWidth="1px"
                         borderColor="neutral.40"
+                        bg="neutral.60"
                         position="absolute"
                       >
-                        <MenuItems onAction={handleMenuAction} />
+                        <MenuItem
+                          cursor="pointer"
+                          p={3}
+                          color="neutral"
+                          value="rename"
+                          _hover={{ bg: "neutral.30" }}
+                        >
+                          Editar
+                        </MenuItem>
+                        <MenuItem
+                          p={3}
+                          value="delete"
+                          cursor="pointer"
+                          color="error.30"
+                          _hover={{ bg: "neutral.30" }}
+                        >
+                          Excluir...
+                        </MenuItem>
                       </MenuContent>
                     </MenuRoot>
                   </Flex>

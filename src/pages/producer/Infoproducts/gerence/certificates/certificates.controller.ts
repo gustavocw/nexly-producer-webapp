@@ -25,7 +25,7 @@ export const certificateSchema = z.object({
     })
     .nonempty({ message: "O campo descrição é obrigatório" }),
 
-  assinatura: z
+    signature: z
     .string({
       required_error: "O campo assinatura é obrigatório",
       invalid_type_error: "O campo assinatura deve ser uma string",
@@ -49,7 +49,7 @@ export const useCertificateController = () => {
       capa: undefined,
       logo: undefined,
       description: "",
-      assinatura: "",
+      signature: "",
     },
   });
 

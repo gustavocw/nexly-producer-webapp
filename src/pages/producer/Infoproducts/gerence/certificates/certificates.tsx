@@ -85,11 +85,11 @@ const Certificates = () => {
             <Divider width="100%" />
             <VStack p="20px" w="100%" align="flex-start">
               <Input.Base
-                name="name"
+                name="signature"
                 label="Assinatura"
                 placeholder=""
                 control={control}
-                errorText={errors.assinatura?.message}
+                errorText={errors.signature?.message}
               />
               <Input.Base
                 name="name"
