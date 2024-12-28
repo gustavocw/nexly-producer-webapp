@@ -16,20 +16,18 @@ import {
 import usePreviewVideoController from "../preview.controller";
 import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
-import useVideosStore from "stores/producer/videos.store";
 
-const MultipleVideos = () => {
-  const {
-    control,
-    errors,
-    onSubmit,
-    handleSubmit,
-    pageRef,
-    setPageRef,
-    playNextVideo,
-    playPreviousVideo,
-  } = usePreviewVideoController();
-  const { videos } = useVideosStore();
+interface UniqueVideoProps {
+  video: any;
+}
+
+const UniqueVideo: React.FC<UniqueVideoProps> = ({ video }) => {
+  const { control, errors, onSubmit, handleSubmit, pageRef, setPageRef } =
+    usePreviewVideoController();
+
+  console.log(video);
+
+  const pages = 5;
 
   return (
     <VStack
@@ -40,30 +38,15 @@ const MultipleVideos = () => {
       w="100%"
     >
       <HStack w="100%">
-        <PaginationRoot
-          count={videos?.length}
-          pageSize={1}
-          defaultPage={1}
-          w="100%"
-        >
+        <PaginationRoot count={pages} pageSize={1} defaultPage={1} w="100%">
           <HStack w="100%" justify="space-between" gap="4">
             <PaginationPageText format="long" flex="1" />
-            {pageRef > 0 && (
-              <PaginationPrevTrigger
-                onClick={() => {
-                  playPreviousVideo();
-                  setPageRef(pageRef - 1);
-                }}
-              />
-            )}
 
-            {pageRef < videos?.length ? (
-              <PaginationNextTrigger
-                onClick={() => {
-                  setPageRef(pageRef + 1);
-                  playNextVideo();
-                }}
-              />
+            {pageRef > 1 && (
+              <PaginationPrevTrigger onClick={() => setPageRef(pageRef - 1)} />
+            )}
+            {pageRef < pages ? (
+              <PaginationNextTrigger onClick={() => setPageRef(pageRef + 1)} />
             ) : (
               <Btn w="200px" label="Salvar" onClick={handleSubmit(onSubmit)} />
             )}
@@ -152,4 +135,4 @@ const MultipleVideos = () => {
   );
 };
 
-export default MultipleVideos;
+export default UniqueVideo;

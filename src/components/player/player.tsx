@@ -4,7 +4,11 @@ import ReactPlayer from "react-player";
 import { Alert } from "components/ui/alert";
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
-const Player = () => {
+interface PlayerProps {
+  videoUrl: string;
+}
+
+const Player: React.FC<PlayerProps> = ({ videoUrl }) => {
   return (
     <VStack align="flex-start" w="100%">
       <TitlePage title="Video" />
@@ -19,7 +23,7 @@ const Player = () => {
         <ReactPlayer
           width="100%"
           height="550px"
-          url="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+          url={videoUrl}
         />
       </VStack>
     </VStack>
