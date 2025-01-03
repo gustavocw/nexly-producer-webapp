@@ -6,7 +6,7 @@ interface ProducerData {
   identity: string;
   createAt: string;
   email: string;
-  id: string;
+  id?: string;
   lastname: string;
   name: string;
   password?: string;

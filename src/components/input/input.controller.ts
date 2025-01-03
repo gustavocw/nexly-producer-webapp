@@ -10,7 +10,6 @@ interface UseInputControllerProps {
 
 export const useInputController = ({
   maskType,
-  onChange,
   onEnterPress,
   initialValue = "",
 }: UseInputControllerProps) => {
@@ -24,24 +23,6 @@ export const useInputController = ({
     setDisplayValue(maskedValue);
   }, [initialValue, maskType]);
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const rawValue = event.target.value;
-
-    const maskedValue =
-      maskType && masks[maskType] ? masks[maskType](rawValue) : rawValue;
-
-    setDisplayValue(maskedValue);
-
-    const unmaskedValue = maskType ? rawValue.replace(/\D/g, "") : rawValue;
-
-    event.target.value = maskType ? unmaskedValue : rawValue;
-
-    if (onChange) {
-      onChange(event.target.value);
-    }
-  };
 
   const handleKeyPress = (
     event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -55,7 +36,6 @@ export const useInputController = ({
   return {
     displayValue,
     setDisplayValue,
-    handleInputChange,
     handleKeyPress,
   };
 };

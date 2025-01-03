@@ -2,6 +2,9 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register } from "services/auth.services";
+import { useUnmask } from "hooks/unmask";
+import useAuthStore from "stores/auth.store";
+import { toaster } from "components/ui/toaster";
 
 export const registerSchema = z
   .object({
@@ -50,19 +53,13 @@ export const registerSchema = z
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
-type ServerErrorResponse = {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-};
-
 export const useRegisterController = () => {
+  const umask = useUnmask();
+  const { setProducerStore } = useAuthStore();
+  
   const {
     control,
     handleSubmit,
-    setError,
     formState: { errors },
     reset,
   } = useForm<RegisterFormData>({
@@ -80,32 +77,25 @@ export const useRegisterController = () => {
   });
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
-    console.log(data);
-
     try {
       const res = await register({
         name: data.name,
         lastname: data.lastname,
         email: data.email,
-        phone: data.phone,
+        phone: umask(data.phone),
         password: data.password,
-        identity: data.identity,
+        identity: umask(data.identity),
         confirmPassword: data.confirmPassword,
+      }).then((res) => {
+        setProducerStore(res);
+        toaster.create({
+          title: "Confira seus dados",
+          type: "error"
+        })
       });
 
       console.log(res);
-      
     } catch (error: unknown) {
-      const serverError = error as ServerErrorResponse;
-
-      if (serverError.response?.data?.message) {
-        setError("email", {
-          type: "manual",
-          message: "O email já está em uso.",
-        });
-      } else {
-        console.error("Erro no registro:", error);
-      }
     }
   };
 

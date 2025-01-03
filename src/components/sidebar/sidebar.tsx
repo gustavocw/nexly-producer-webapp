@@ -1,12 +1,5 @@
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
-import {
-  Flex,
-  Link,
-  Stack,
-  Box,
-  Icon,
-  Center
-} from "@chakra-ui/react";
+import { Flex, Link, Stack, Box, Icon, Center } from "@chakra-ui/react";
 import { renderMenuItem } from "./sidebar.item";
 import { useSidebarController } from "./sidebar.controler";
 import NexlyLogo from "assets/icons/NexlyLogo";
@@ -15,13 +8,13 @@ import SidebarIconLeft from "assets/icons/ArrowBack";
 import SidebarIconRight from "assets/icons/RightIcon";
 import { menuItems } from "./items";
 import Divider from "components/divider/divider";
-import { useNavigate } from "react-router-dom";
 import NotificationsDrawer from "components/notifications/drawer.notifications";
 import ProfileDialog from "components/dialog/dialog.profile";
+import { useAuth } from "hooks/useAuth";
 
 const Sidebar: React.FC = () => {
-  const navigate = useNavigate();
   const { isOpen, toggleIsOpen } = useSidebarController();
+  const { signout } = useAuth();
 
   return (
     <Flex
@@ -104,7 +97,7 @@ const Sidebar: React.FC = () => {
           <Center mx="auto" position="relative">
             <Icon
               w="90%"
-              onClick={() => navigate("/login")}
+              onClick={() => signout()}
               borderRadius={10}
               boxSize="35px"
               p="2"

@@ -13,12 +13,15 @@ import {
 import type React from "react";
 import ProfileForm from "./form/form.profile";
 import Plans from "./plans/plans";
+import useProducerStore from "stores/producer.store";
 
 interface ProfileDialog {
   isOpen: boolean;
 }
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
+  const { producer } = useProducerStore();
+
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger cursor="pointer" asChild>
@@ -38,7 +41,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
           {isOpen && (
             <Flex flexDir="column" ml={4}>
               <Heading color="primary" as="h3" size="sm">
-                Sylwia Weller
+                {producer?.name} {producer?.lastname}
               </Heading>
             </Flex>
           )}

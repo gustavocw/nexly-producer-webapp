@@ -24,42 +24,46 @@ const LayoutWithRoot: React.FC = () => (
   </Root>
 );
 
-
 const AppRoutes: React.FC = () => {
-
   return (
     <BrowserRouter>
       <Routes>
-      <Route element={<AuthGuard isPrivate={false} />}>
-      <Route path="/login" element={<AuthProducer />} />
-      <Route element={<LayoutWithRoot />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/infoproducts" element={<Infoproducts />} />
-        <Route path="/infoproducts/create" element={<CareateProduct />} />
-        <Route path="/infoproducts/create/platfoms" element={<Platform />} />
-        <Route
-          path="/infoproducts/create/youtube"
-          element={<YoutubeChannels />}
-        />
-        <Route
-          path="/infoproducts/create/youtube/playlists"
-          element={<YoutubePlaylists />}
-        />
-        <Route
-          path="/infoproducts/create/youtube/videos"
-          element={<YoutubeVideos />}
-        />
-        <Route path="/infoproducts/create/video" element={<PreviewVideos />} />
-        <Route
-          path="/infoproducts/informations"
-          element={<GenrenceInfoproduct />}
-        />
-        <Route path="/tickets" element={<Tickets />} />
-        <Route path="/areas" element={<Areas />} />
-        <Route path="/members" element={<Members />} />
-        <Route path="/integrations" element={<Integrations />} />
-      </Route>
-    </Route>
+        <Route path="/login" element={<AuthProducer />} />
+        <Route element={<AuthGuard isPrivate={true} />}>
+          <Route element={<LayoutWithRoot />}>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/infoproducts" element={<Infoproducts />} />
+            <Route path="/infoproducts/create" element={<CareateProduct />} />
+            <Route
+              path="/infoproducts/create/platfoms"
+              element={<Platform />}
+            />
+            <Route
+              path="/infoproducts/create/youtube"
+              element={<YoutubeChannels />}
+            />
+            <Route
+              path="/infoproducts/create/youtube/playlists"
+              element={<YoutubePlaylists />}
+            />
+            <Route
+              path="/infoproducts/create/youtube/videos"
+              element={<YoutubeVideos />}
+            />
+            <Route
+              path="/infoproducts/create/video"
+              element={<PreviewVideos />}
+            />
+            <Route
+              path="/infoproducts/informations"
+              element={<GenrenceInfoproduct />}
+            />
+            <Route path="/tickets" element={<Tickets />} />
+            <Route path="/areas" element={<Areas />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/integrations" element={<Integrations />} />
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );

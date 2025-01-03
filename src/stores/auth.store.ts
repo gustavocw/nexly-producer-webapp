@@ -1,39 +1,37 @@
 import { persist, createJSONStorage } from "zustand/middleware";
 import { create } from "zustand";
 
+interface ProducerProps {
+  id: string;
+  success: boolean;
+  token: string;
+  plan: string;
+}
+
 interface AuthState {
-  isLogged: boolean;
+  producerStore: ProducerProps | null;
   stepLogin: boolean;
-  producer: {
-    id?: string;
-    name?: string;
-    createdAt?: string;
-  } | null;
 }
 
 interface AuthActions {
-  setIsLogged: (isLogged: boolean) => void;
-  setStepLogin: (stepLogin: boolean) => void;
-  setProducer: (producer: AuthState["producer"]) => void;
+  setProducerStore: (producer: AuthState["producerStore"]) => void;
+  setStepLogin: (stepLogin: AuthState["stepLogin"]) => void;
 }
 
 const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set) => ({
-      user: null,
-      isLogged: false,
-      producer: null,
+      producerStore: null,
       stepLogin: false,
-      setIsLogged: (isLogged) => set({ isLogged }),
+      setProducerStore: (producerStore) => set({ producerStore }),
       setStepLogin: (stepLogin) => set({ stepLogin }),
-      setProducer: (producer) => set({ producer }),
     }),
     {
-      name: "auth-storage",
+      name: "producer-me",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        isLogged: state.isLogged,
-        producer: state.producer,
+        producerStore: state.producerStore,
+        stepLogin: state.stepLogin,
       }),
     }
   )

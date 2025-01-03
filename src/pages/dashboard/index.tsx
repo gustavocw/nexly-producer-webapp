@@ -2,32 +2,14 @@ import { Box, HStack, Stack, Tabs, VStack } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
 import Card from "./cards/activeMembers";
 import GraphicNexly from "components/graphic/graphic";
-import { useState } from "react";
 import Statistis from "./cards/statistics";
 import LastPost from "./cards/lastPost";
 import Comments from "./comments/comments";
+import { useDashboardController } from "./index.controller";
 
 const Dashboard = () => {
-  const optionsNav = [
-    { label: "Semanal", value: "Semanal" },
-    { label: "Mensal", value: "Mensal" },
-  ];
-
-  const posts = [
-    { id: 1, title: "Título 1", value: "10", image: "/images/thumb.png" },
-    { id: 2, title: "Título 2", value: "20", image: "/images/thumb.png" },
-    { id: 3, title: "Título 3", value: "30", image: "/images/thumb.png" },
-  ];
-
-  const [optionStatus, setOptionStatus] = useState<any>(optionsNav[0]);
-
-  const handleSelectionChange = (selectedOption: {
-    label: string;
-    value: string;
-  }) => {
-    console.log("Opção selecionada:", selectedOption);
-    setOptionStatus(selectedOption);
-  };
+  const { optionsNav, posts, optionStatus, handleSelectionChange } =
+    useDashboardController();
 
   return (
     <Stack gap="32px" px={8}>
@@ -42,7 +24,7 @@ const Dashboard = () => {
       <Box w="100%">
         <HStack gap="20px" align="flex-start" w="100%">
           <VStack gap="20px" width="70%" flex={1}>
-            <GraphicNexly mode={optionStatus.values} />
+            <GraphicNexly mode={optionStatus.value} />
             <Comments />
           </VStack>
           <VStack align="flex-start" gap="20px" width="30%">
