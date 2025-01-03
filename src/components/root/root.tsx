@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, useBreakpointValue } from "@chakra-ui/react";
-import useSidebar from "stores/producer/sidebar.store";
+import useSidebar from "stores/sidebar.store";
 import Sidebar from "components/sidebar/sidebar";
 
 export const Root = ({ children }: { children: React.ReactNode }) => {

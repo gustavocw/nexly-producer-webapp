@@ -29,3 +29,13 @@ type Address = {
   complement: string;
   state: string;
 };
+
+type CreateProducer = {
+  name: string;
+  lastname: string;
+  email: string;
+  identity: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+}

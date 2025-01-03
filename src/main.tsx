@@ -66,8 +66,8 @@ const GlobalStyles = () => (
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ChakraProvider value={theme}>
-      <GlobalStyles />
-      <App />
+        <GlobalStyles />
+        <App />
     </ChakraProvider>
   </StrictMode>
 );
