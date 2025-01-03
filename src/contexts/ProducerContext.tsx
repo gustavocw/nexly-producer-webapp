@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "hooks/useAuth";
 import { createContext, useContext } from "react";
 import { getMe } from "services/user.services";
 import useProducerStore from "stores/producer.store";
@@ -9,6 +10,7 @@ interface ProducerContextValue {
 
 export const ProducerContext = createContext({} as ProducerContextValue);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const { isLogged } = useAuth();
   const { setProducer } = useProducerStore();
   const { isLoading: isLoadingProfile } = useQuery({
     queryKey: ["me"],
@@ -17,6 +19,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setProducer(res);
         return res;
       }),
+    enabled: !!isLogged,
   });
 
   return (
