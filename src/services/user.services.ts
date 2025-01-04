@@ -5,3 +5,16 @@ export async function getMe() {
   return data[0];
 }
 
+export async function updateProfile(params: ProducerDetails) {
+  const { data } = await http.put<any>("/producer/details", params);
+  return data;
+}
+
+export async function updateAddress(params: Address) {
+  const { data } = await http.put<any>("/producer/address", params);
+  return data;
+}
+
+
+
+

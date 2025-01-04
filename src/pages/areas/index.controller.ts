@@ -1,36 +1,14 @@
-export interface AreaData {
-  id: number;
-  name: string;
-  url: string;
-  imageSrc: string;
-}
-
-export interface AreaCardProps {
-  data: AreaData;
-}
-
+import { useQuery } from "@tanstack/react-query";
+import { getAreas } from "services/areas.services";
 
 export const useAreasController = () => {
-  const areas: AreaData[] = [
-    {
-      id: 1,
-      name: "Nexly area",
-      url: "nexly.com.br",
-      imageSrc: "/images/bg.png",
-    },
-    {
-      id: 2,
-      name: "Optimum",
-      url: "youtube.com",
-      imageSrc: "/images/bg.png",
-    },
-    {
-      id: 3,
-      name: "Google",
-      url: "youtube.com",
-      imageSrc: "/images/bg.png",
-    },
-  ];
+  const { data: areas } = useQuery({
+    queryKey: ["areas"],
+    queryFn: () =>
+      getAreas().then((res) => {
+        return res
+      }),
+  });
 
   return { areas };
 };

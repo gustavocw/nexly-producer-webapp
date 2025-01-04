@@ -8,7 +8,7 @@ import Comments from "./comments/comments";
 import { useDashboardController } from "./index.controller";
 
 const Dashboard = () => {
-  const { optionsNav, posts, optionStatus, handleSelectionChange } =
+  const { optionsNav, posts, membersCount, optionStatus, handleSelectionChange } =
     useDashboardController();
 
   return (
@@ -28,7 +28,7 @@ const Dashboard = () => {
             <Comments />
           </VStack>
           <VStack align="flex-start" gap="20px" width="30%">
-            <Card value={10} />
+            <Card value={membersCount?.length} />
             <Statistis time={100} viewers={30} />
             <LastPost posts={posts} />
           </VStack>

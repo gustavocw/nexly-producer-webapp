@@ -36,9 +36,14 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Select an option",
   isRequired,
 }) => {
-  const collection = createListCollection({
-    items: options,
-  });
+  const collection = React.useMemo(() => {
+    if (!Array.isArray(options) || options.length === 0) {
+      console.error("Options must be a non-empty array.");
+      return createListCollection({ items: [] });
+    }
+    return createListCollection({ items: options });
+  }, [options]);
+
 
   return (
     <Field
@@ -73,16 +78,16 @@ const Select: React.FC<SelectProps> = ({
               bg="neutral.50"
               color="neutral"
             >
-              {options.map((option) => (
+              {options?.map((option) => (
                 <SelectItem
                   cursor="pointer"
                   fontSize="16px"
                   p={2}
                   _hover={{ bg: "neutral.20" }}
                   item={option}
-                  key={option.value}
+                  key={option?.value}
                 >
-                  {option.label}
+                  {option?.label}
                 </SelectItem>
               ))}
             </SelectContent>

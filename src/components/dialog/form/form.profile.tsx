@@ -5,12 +5,27 @@ import Input from "components/input/input";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { useFormProfileController } from "./form.controller";
+import React from "react";
 
-const ProfileForm = () => {
-  const { control, errors } = useFormProfileController();
+const ProfileForm: React.FC<{
+  setSubmitHandler: (submitHandler: () => void) => void;
+}> = ({ setSubmitHandler }) => {
+  const { control, errors, handleSubmit, onSubmit } =
+    useFormProfileController();
+
+  React.useEffect(() => {
+    setSubmitHandler(() => handleSubmit(onSubmit)());
+  }, [handleSubmit, onSubmit, setSubmitHandler]);
 
   return (
-    <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
+    <VStack
+      onSubmit={handleSubmit(onSubmit)}
+      gap="32px"
+      w="100%"
+      h="100%"
+      p="24px"
+      align="flex-start"
+    >
       <Text.Medium fontSize="16px">Informações do Perfil</Text.Medium>
       <VStack align="flex-start" w="100%">
         <Text.Medium color="neutral" fontSize="12px">
@@ -40,9 +55,9 @@ const ProfileForm = () => {
           <Input.Base
             label="Nome"
             control={control}
-            name="firstName"
+            name="name"
             placeholder="Digite seu nome"
-            errorText={errors.firstName?.message}
+            errorText={errors.name?.message}
             isRequired
           />
           <Input.Base
@@ -50,7 +65,7 @@ const ProfileForm = () => {
             control={control}
             name="lastName"
             placeholder="Digite seu sobrenome"
-            errorText={errors.lastName?.message}
+            errorText={errors.lastname?.message}
             isRequired
           />
         </HStack>
@@ -66,9 +81,10 @@ const ProfileForm = () => {
           <Input.Base
             label="Telefone"
             control={control}
-            name="phone"
+            name="phone_number"
             placeholder="Digite seu telefone"
-            errorText={errors.phone?.message}
+            errorText={errors.phone_number?.message}
+            mask="(99) 99999-9999"
             isRequired
           />
         </HStack>
@@ -80,17 +96,17 @@ const ProfileForm = () => {
           <Input.Base
             label="CEP"
             control={control}
-            name="address.zipCode"
+            name="address.codeStreet"
             placeholder="Digite seu CEP"
-            errorText={errors.address?.zipCode?.message}
+            errorText={errors.address?.codeStreet?.message}
             isRequired
           />
           <Input.Base
             label="Estado"
             control={control}
-            name="address.state"
+            name="address.uf"
             placeholder="Digite o estado"
-            errorText={errors.address?.state?.message}
+            errorText={errors.address?.uf?.message}
             isRequired
           />
         </HStack>

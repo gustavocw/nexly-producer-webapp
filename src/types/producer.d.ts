@@ -13,21 +13,25 @@ interface ProducerData {
   phone: string;
   isAccountActive: boolean;
   photo: string;
-  sex: string;
   student: string;
   updatedAt: string;
   ProvidersForMembers: ProvidersForMembers[];
 }
 
+interface ProducerDetails {
+  name: string;
+  lastname: string;
+  phone_number: string;
+  email: string;
+}
+
 type Address = {
-  id?: string;
   city: string;
   codeStreet: string;
-  neighborhood: string;
   street: string;
   number: string;
-  complement: string;
-  state: string;
+  complement?: string;
+  uf: string;
 };
 
 type CreateProducer = {

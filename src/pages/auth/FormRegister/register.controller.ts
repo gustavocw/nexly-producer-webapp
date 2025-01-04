@@ -5,6 +5,7 @@ import { register } from "services/auth.services";
 import { useUnmask } from "hooks/unmask";
 import useAuthStore from "stores/auth.store";
 import { toaster } from "components/ui/toaster";
+import { useNavigate } from "react-router-dom";
 
 export const registerSchema = z
   .object({
@@ -54,6 +55,7 @@ export const registerSchema = z
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export const useRegisterController = () => {
+  const navigate = useNavigate();
   const umask = useUnmask();
   const { setProducerStore } = useAuthStore();
   
@@ -89,13 +91,18 @@ export const useRegisterController = () => {
       }).then((res) => {
         setProducerStore(res);
         toaster.create({
-          title: "Confira seus dados",
-          type: "error"
+          title: "Conta criada com sucesso",
+          type: "success"
         })
+        navigate("/")
       });
 
       console.log(res);
     } catch (error: unknown) {
+      toaster.create({
+        title: "Confira seus dados",
+        type: "error"
+      })
     }
   };
 

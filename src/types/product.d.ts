@@ -1,4 +1,12 @@
-export interface Product {
+interface NewProduct {
+  file: File | null;
+  name: string;
+  description: string;
+  category: string;
+  duration?: string;
+}
+
+interface Product {
   id: string;
   isCertificate: boolean;
   name: string;
@@ -14,7 +22,7 @@ export interface Product {
   modules: Module[];
 }
 
-export interface Module {
+interface Module {
   id: string;
   stateModule: string;
   name: string | null;
@@ -28,7 +36,7 @@ export interface Module {
   lessons: Lessons[];
 }
 
-export interface Lessons {
+interface Lessons {
   createdAt: string;
   description: string;
   id: string;
@@ -38,4 +46,13 @@ export interface Lessons {
   updatedAt: string;
   urlVideoYt: string;
   youtubeCourseId: string;
+}
+
+interface Area {
+  domain: string;
+  color: string;
+  title: string;
+  background: File | null;
+  icon: File | null;
+  logo: File | null;
 }

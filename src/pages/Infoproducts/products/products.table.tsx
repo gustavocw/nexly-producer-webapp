@@ -12,7 +12,6 @@ import {
   MenuTrigger,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
-import type { Product } from "types/product";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
 import StepProduct from "./step/step";
@@ -63,6 +62,8 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
     }
   };
   const navigate = useNavigate();
+
+  console.log(data);
 
   const renderMenuItems = (state: string, deldate?: any) => {
     if (deldate) return null;
@@ -172,113 +173,121 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
         </Table.Header>
 
         <Table.Body>
-          {data?.map((item) => (
-            <React.Fragment key={item.id}>
-              <Table.Row borderTopWidth="1px" borderColor="neutral.40">
-                <Table.Cell
-                  p="20px"
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <VStack align="flex-start" w="100%">
-                    <Flex gap="12px">
-                      <Image w="100px" h="57px" src="/images/bg.png" />
-                      <VStack align="flex-start" w="100%">
-                        <Text.Medium fontSize="14px" color="neutral">
-                          {item.name}
-                        </Text.Medium>
-                        <Flex gap="12px" minW="100%">
-                          <Flex alignItems="center" gap="6px">
-                            <Icon color="neutral.10">
-                              <OndemandVideoOutlinedIcon />
-                            </Icon>
-                            <Text.Medium fontSize="12px">
-                              {item.modules
-                                ? `${item.modules.length} módulos`
-                                : "0 módulos"}
-                            </Text.Medium>
+          {data?.length ? (
+            data.map((item) => (
+              <React.Fragment key={item.id}>
+                <Table.Row borderTopWidth="1px" borderColor="neutral.40">
+                  <Table.Cell
+                    p="20px"
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    <VStack align="flex-start" w="100%">
+                      <Flex gap="12px">
+                        <Image w="100px" h="57px" src={item?.urlThumbCourse ?? "/images/bg.png"} />
+                        <VStack align="flex-start" w="100%">
+                          <Text.Medium fontSize="14px" color="neutral">
+                            {item.name}
+                          </Text.Medium>
+                          <Flex gap="12px" w="100%">
+                            <Flex alignItems="center" gap="6px">
+                              <Icon color="neutral.10">
+                                <OndemandVideoOutlinedIcon />
+                              </Icon>
+                              <Text.Medium fontSize="12px">
+                                {item.modules?.length
+                                  ? `${item.modules.length} módulos`
+                                  : "0 módulos"}
+                              </Text.Medium>
+                            </Flex>
+                            <Flex alignItems="center" gap="6px">
+                              <Icon color="neutral.10">
+                                <AccessTimeOutlinedIcon />
+                              </Icon>
+                              <Text.Medium fontSize="12px">
+                                {item.duration
+                                  ? `${item.duration} horas`
+                                  : "0 horas"}
+                              </Text.Medium>
+                            </Flex>
                           </Flex>
-                          <Flex alignItems="center" gap="6px">
-                            <Icon color="neutral.10">
-                              <AccessTimeOutlinedIcon />
-                            </Icon>
-                            <Text.Medium fontSize="12px">
-                              {item.duration
-                                ? `${item.modules.length} módulos`
-                                : "0 módulos"}
-                            </Text.Medium>
-                          </Flex>
-                        </Flex>
-                      </VStack>
+                        </VStack>
+                      </Flex>
+                    </VStack>
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    {item?.category}
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    <Flex align="center" justify="center">
+                      {renderStatusIcon(item?.state, item?.delDate)}
                     </Flex>
-                  </VStack>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  {item.category}
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <Flex align="center" justify="center">
-                    {renderStatusIcon(item.state, item.delDate)}
-                  </Flex>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                  textAlign="end"
-                  px={6}
-                >
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <Icon
-                        borderWidth="1px"
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                    textAlign="end"
+                    px={6}
+                  >
+                    <MenuRoot>
+                      <MenuTrigger asChild>
+                        <Icon
+                          borderWidth="1px"
+                          borderRadius="8px"
+                          borderColor="neutral.40"
+                          fontSize="30px"
+                          cursor="pointer"
+                          p="4px"
+                        >
+                          <MoreVertIcon />
+                        </Icon>
+                      </MenuTrigger>
+                      <MenuContent
                         borderRadius="8px"
+                        borderWidth="1px"
                         borderColor="neutral.40"
-                        fontSize="30px"
-                        cursor="pointer"
-                        p="4px"
+                        position="absolute"
                       >
-                        <MoreVertIcon />
-                      </Icon>
-                    </MenuTrigger>
-                    <MenuContent
-                      borderRadius="8px"
-                      borderWidth="1px"
-                      borderColor="neutral.40"
-                      position="absolute"
-                    >
-                      {renderMenuItems(item.state, item.delDate)}
-                    </MenuContent>
-                  </MenuRoot>
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row bg="neutral.50">
-                <Table.Cell colSpan={6} py="20px" border="none">
-                  <Separator w="97%" mx="auto" borderColor="neutral.40" />
-                </Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell bg="neutral.50" colSpan={4} p={0} border="none">
-                  <Box w="100%" bg="neutral.100">
-                    <StepProduct />
-                  </Box>
-                </Table.Cell>
-              </Table.Row>
-            </React.Fragment>
-          ))}
+                        {renderMenuItems(item.state, item.delDate)}
+                      </MenuContent>
+                    </MenuRoot>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row bg="neutral.50">
+                  <Table.Cell colSpan={6} py="20px" border="none">
+                    <Separator w="97%" mx="auto" borderColor="neutral.40" />
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell bg="neutral.50" colSpan={4} p={0} border="none">
+                    <Box w="100%" bg="neutral.100">
+                      <StepProduct />
+                    </Box>
+                  </Table.Cell>
+                </Table.Row>
+              </React.Fragment>
+            ))
+          ) : (
+            <Flex w="100%" p={2}>
+              <Text.Medium>
+                Você ainda não possui nenhum infoproduto.
+              </Text.Medium>
+            </Flex>
+          )}
         </Table.Body>
       </Table.Root>
     </Table.ScrollArea>

@@ -1,15 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { getAreas } from "services/areas.services";
+import { createProduct } from "services/product.services";
 
 interface CreateProductsFormValues {
-  title: string;
+  name: string;
   description: string;
   category: string;
-  area: string;
-  image: File | null;
+  areaId: string;
 }
 
 const useCreateProductController = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [areas, setAreas] = useState<any[]>([]);
   const navigate = useNavigate();
   const {
     control,
@@ -18,26 +23,58 @@ const useCreateProductController = () => {
     formState: { errors },
   } = useForm<CreateProductsFormValues>({
     defaultValues: {
-      title: "",
+      name: "",
       description: "",
       category: "",
-      area: "",
-      image: null,
+      areaId: "",
     },
   });
 
+  const updateFile = (file: File | null) => {
+    setFile(file);
+  };
+
+  useQuery({
+    queryKey: ["areas"],
+    queryFn: async () => {
+      const res = await getAreas();
+      setAreas(res);
+      return res;
+    },
+  });
+
+  const areaList = areas?.map((area: any) => ({
+    value: area._id,
+    label: area.domain,
+  }));
+
   const onSubmit = (data: CreateProductsFormValues) => {
     console.log("Submitted Data:", data);
-    navigate("/infoproducts")
+    const { areaId, ...bodyPayload } = data;
+    const payload = {
+      ...bodyPayload,
+      file,
+    };
+    try {
+      createProduct(payload, areaId).then((res) => {
+        console.log("Product created:", res);
+        navigate("/infoproducts");
+      });
+    } catch (error) {
+      console.error("Error creating product:", error);
+    }
   };
 
   return {
     control,
+    updateFile,
     handleSubmit,
     onSubmit,
     reset,
+    areaList,
     navigate,
     errors,
+    areas,
   };
 };
 

@@ -1,61 +1,84 @@
+import { useState } from "react";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { createArea } from "services/areas.services";
+import { toaster } from "components/ui/toaster";
 
 export const createAreaSchema = z.object({
-  name: z
+  domain: z
     .string()
-    .nonempty({ message: "O campo nome é obrigatório" })
-    .min(3, { message: "O nome deve ter pelo menos 3 caracteres" }),
-    domain: z
-    .string()
-    .nonempty({ message: "O campo nome é obrigatório" })
-    .min(3, { message: "O nome deve ter pelo menos 3 caracteres" }),
-  description: z
-    .string()
-    .nonempty({ message: "O campo descrição é obrigatório" })
-    .min(10, { message: "A descrição deve ter pelo menos 10 caracteres" }),
-  backgroundImage: z
-    .string()
-    .url({ message: "Insira uma URL válida para a imagem de fundo" })
-    .nonempty({ message: "O campo de imagem de fundo é obrigatório" }),
-  logo: z
-    .string()
-    .url({ message: "Insira uma URL válida para a logo" })
-    .nonempty({ message: "O campo de logo é obrigatório" }),
+    .nonempty({ message: "O campo 'domain' é obrigatório" })
+    .min(3, { message: "O 'domain' deve ter pelo menos 3 caracteres" }),
+  color: z.string().nonempty({ message: "O campo 'color' é obrigatório" }),
+  title: z.string().nonempty({ message: "O campo 'title' é obrigatório" }),
 });
 
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
 
 export const useCreateAreaController = () => {
+  const [files, setFiles] = useState<{
+    background: File | null;
+    icon: File | null;
+    logo: File | null;
+  }>({
+    background: null,
+    icon: null,
+    logo: null,
+  });
+
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<CreateAreaFormData>({
     resolver: zodResolver(createAreaSchema),
     mode: "onBlur",
     defaultValues: {
-      name: "",
-      description: "",
-      backgroundImage: "",
       domain: "",
-      logo: "",
+      color: "",
+      title: "",
     },
   });
 
-  const onSubmit: SubmitHandler<CreateAreaFormData> = (data) => {
-    console.log("Dados da área:", data);
+  const updateFile = (name: keyof typeof files, file: File | null) => {
+    setFiles((prev) => ({ ...prev, [name]: file }));
+  };
 
-    reset();
+  const onSubmit: SubmitHandler<CreateAreaFormData> = async (data) => {
+    try {
+      const payload = {
+        ...data,
+        background: files.background,
+        icon: files.icon,
+        logo: files.logo,
+      };
+      await createArea(payload).then((res) => {
+        console.log(res);
+        toaster.create({
+          title: "Área criada com sucesso",
+          type: "success",
+        });
+      });
+      reset();
+      setFiles({ background: null, icon: null, logo: null });
+    } catch (error) {
+      toaster.create({
+        title: `Erro ao criar área: ${error}`,
+        type: "error",
+      });
+    }
   };
 
   return {
     control,
     handleSubmit,
+    setValue,
     errors,
     onSubmit,
     reset,
+    updateFile,
   };
 };

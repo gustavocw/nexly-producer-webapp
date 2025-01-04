@@ -50,30 +50,33 @@ const InputBase: React.FC<InputProps> = ({
     label={label}
     errorText={errorText}
     required={isRequired}
+    invalid={!!errorText}
   >
     <Box width={width || "100%"} height={height || "auto"}>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <ChakraInput
-            {...field}
-            type={type}
-            placeholder={placeholder}
-            onChange={(e) => field.onChange(e.target.value)}
-            ref={mask ? withMask(mask) : undefined}
-            readOnly={isReadOnly}
-            disabled={isDisabled}
-            maxLength={maxLength}
-            height="40px"
-            borderColor="neutral.30"
-            _placeholder={{ color: "#FFFFFF40" }}
-            bg="transparent"
-            px={2}
-            color="#FFFFFF"
-            borderRadius="4px"
-            autoComplete={autoComplete}
-          />
+          <>
+            <ChakraInput
+              {...field}
+              type={type}
+              placeholder={placeholder}
+              onChange={(e) => field.onChange(e.target.value)}
+              ref={mask ? withMask(mask) : undefined}
+              readOnly={isReadOnly}
+              disabled={isDisabled}
+              maxLength={maxLength}
+              height="40px"
+              borderColor="neutral.30"
+              _placeholder={{ color: "#FFFFFF40" }}
+              bg="transparent"
+              px={2}
+              color="#FFFFFF"
+              borderRadius="4px"
+              autoComplete={autoComplete}
+            />
+          </>
         )}
       />
     </Box>

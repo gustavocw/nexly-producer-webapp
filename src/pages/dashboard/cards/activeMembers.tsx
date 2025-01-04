@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({ value }) => {
       bg="neutral.60"
       p="20px"
     >
-      <Text.Medium fontSize="34px">{value}</Text.Medium>
+      <Text.Medium fontSize="34px">{value ?? 0}</Text.Medium>
       <Text.Medium fontSize="18px">Membros ativos</Text.Medium>
       <Flex align="center" gap={1}>
         <Text.Medium fontSize="13px" color="error.30">

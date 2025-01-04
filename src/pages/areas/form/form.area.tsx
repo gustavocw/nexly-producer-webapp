@@ -1,12 +1,4 @@
-import {
-  Flex,
-  HStack,
-  Icon,
-  Image,
-  Tabs,
-  VStack,
-  parseColor,
-} from "@chakra-ui/react";
+import { Flex, HStack, Icon, Tabs, VStack, parseColor } from "@chakra-ui/react";
 import Input from "components/input/input";
 import { useCreateAreaController } from "./form.controller";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -24,39 +16,58 @@ import {
   ColorPickerSwatchTrigger,
   ColorPickerTrigger,
 } from "components/ui/color-picker";
-
-import {
-  FileUploadList,
-  FileUploadDropzone,
-  FileUploadRoot,
-} from "components/ui/file-upload";
 import { swatches } from "./swatches";
+import { DragFile } from "components/fileInput/drag.file";
+import React from "react";
 
-const FormArea = () => {
-  const { control, errors } = useCreateAreaController();
+const FormArea: React.FC<{
+  setSubmitHandler: (submitHandler: () => void) => void;
+}> = ({ setSubmitHandler }) => {
+  const { control, errors, handleSubmit, setValue, onSubmit, updateFile } =
+    useCreateAreaController();
+
+  React.useEffect(() => {
+    setSubmitHandler(() => handleSubmit(onSubmit)());
+  }, [handleSubmit, onSubmit, setSubmitHandler]);
+
+
+
   return (
-    <VStack spaceY={5} align="flex-start" w="100%">
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      spaceY={5}
+      align="flex-start"
+      justify="space-between"
+      w="100%"
+    >
       <Flex alignItems="center" gap="6px">
         <Tabs.Trigger value="areas">
           <Icon color="neutral">
             <KeyboardArrowLeftIcon />
           </Icon>
           <Text.Medium fontSize="16px" color="neutral">
-            Cirar área de membros
+            Criar área de membros
           </Text.Medium>
         </Tabs.Trigger>
       </Flex>
-      <Flex w="60%" gap={2} justify="space-between" alignItems="center">
+
+      <Flex w="80%" gap={2} justify="space-between" alignItems="center">
         <Input.Base
           control={control}
           label="Nome da área"
-          name="name"
+          name="title"
           placeholder="Nome da área de membros"
-          errorText={errors.name?.message}
+          errorText={errors.title?.message}
           isRequired
           width="100%"
         />
-        <ColorPickerRoot defaultValue={parseColor("#eb5e41")} maxW="200px">
+        <ColorPickerRoot
+          format="rgba"
+          onValueChange={(color) => setValue("color", color.valueAsString)}
+          defaultValue={parseColor("#eb5e41")}
+          maxW="200px"
+        >
           <ColorPickerLabel color="neutral">Cor primária</ColorPickerLabel>
           <ColorPickerControl>
             <ColorPickerInput borderColor="neutral.30" color="neutral" p={2} />
@@ -80,90 +91,30 @@ const FormArea = () => {
           </ColorPickerContent>
         </ColorPickerRoot>
       </Flex>
+
       <Input.Base
         control={control}
         label="Domínio"
         name="domain"
-        placeholder="Domnínio personalizado"
+        placeholder="Domínio personalizado"
         errorText={errors.domain?.message}
         isRequired
-        width="60%"
+        width="80%"
       />
-      <Flex gap="2" w="60%" justify="space-between">
-        <FileUploadRoot
-          w="50%"
-          gap={0}
-          maxW="100%"
-          alignItems="stretch"
-          maxFiles={1}
-        >
-          <Text.Medium my="4px" fontSize="14px">
-            Background da área
-          </Text.Medium>
-          <FileUploadDropzone
-            cursor="pointer"
-            bg="transparent"
-            color="neutral"
-            border="1px dashed"
-            borderColor="neutral.30"
-            _icon={{
-              display: "none",
-            }}
-            label={
-              <VStack>
-                <Image src="/images/FileImage.svg" />
-                <Text.Medium fontSize="13px" display="flex" gap={1}>
-                  Arraste uma imagem ou{" "}
-                  <a style={{ color: "#5E84F1", cursor: "pointer" }}>
-                    selecione manualmente
-                  </a>
-                </Text.Medium>
-                <FileUploadList w="100px" />
-              </VStack>
-            }
-          />
-          <Text.Medium my="4px" fontSize="12px">
-            A imagem deve estar no formato JPG ou PNG e tamanho máximo de 5 MB.
-            Dimensões ideais: 1.500 x 1.000 pixels.
-          </Text.Medium>
-        </FileUploadRoot>
-        <FileUploadRoot
-          w="50%"
-          gap={0}
-          maxW="100%"
-          alignItems="stretch"
-          maxFiles={1}
-        >
-          <Text.Medium my="4px" fontSize="14px">
-            Logo da área
-          </Text.Medium>
-          <FileUploadDropzone
-            cursor="pointer"
-            bg="transparent"
-            color="neutral"
-            border="1px dashed"
-            borderColor="neutral.30"
-            _icon={{
-              display: "none",
-            }}
-            label={
-              <VStack>
-                <Image src="/images/FileImage.svg" />
-                <Text.Medium fontSize="13px" display="flex" gap={1}>
-                  Arraste uma imagem ou{" "}
-                  <a style={{ color: "#5E84F1", cursor: "pointer" }}>
-                    selecione manualmente
-                  </a>
-                </Text.Medium>
-                <FileUploadList w="100px" />
-              </VStack>
-            }
-          />
-          <Text.Medium my="4px" fontSize="12px">
-            A imagem deve estar no formato JPG ou PNG e tamanho máximo de 5 MB.
-            Dimensões ideais: 1.500 x 1.000 pixels.
-          </Text.Medium>
-        </FileUploadRoot>
+
+      <Flex gap="2" w="80%" justify="space-between">
+        <DragFile
+          label="Background da área"
+          onFileSelect={(file) => updateFile("background", file)}
+        />
+        <DragFile
+          label="Ícone da página"
+          onFileSelect={(file) => updateFile("icon", file)}
+        />
+        <DragFile
+          label="Logo da área"
+          onFileSelect={(file) => updateFile("logo", file)}
+        />
       </Flex>
     </VStack>
   );

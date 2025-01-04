@@ -6,17 +6,16 @@ import Text from "components/text/text";
 import { ModalCategoryProduct } from "./modals/modal.category";
 import TableProducts from "./products/products.table";
 import useInfoproductsController from "./index.controller";
-import { products } from "utils/productdummy";
 
 const Infoproducts = () => {
-  const { categoryOptions, statusOptions, setCategory, setStatus } =
+  const { categoryOptions, statusOptions, setCategory, setStatus, products } =
     useInfoproductsController();
 
   return (
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>
         <Text.Medium fontSize="24px">
-          Meus Infoprodutos ({products.length})
+          Meus Infoprodutos ({products?.length})
         </Text.Medium>
       </VStack>
       {products?.length === 0 ? (

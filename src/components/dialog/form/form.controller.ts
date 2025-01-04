@@ -1,48 +1,31 @@
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useProducerStore from "stores/producer.store";
+import { updateAddress, updateProfile } from "services/user.services";
 
 export const profileSchema = z.object({
-  firstName: z
+  name: z.string(),
+  lastname: z.string(),
+  email: z.string(),
+  phone_number: z
     .string()
-    .nonempty({ message: "First name is required" })
-    .min(2, { message: "First name must have at least 2 characters" }),
-  lastName: z
-    .string()
-    .nonempty({ message: "Last name is required" })
-    .min(2, { message: "Last name must have at least 2 characters" }),
-  email: z
-    .string()
-    .email({ message: "Enter a valid email address" })
-    .nonempty({ message: "Email is required" }),
-  phone: z
-    .string()
-    .regex(/^\d{10,15}$/, { message: "Enter a valid phone number" })
-    .nonempty({ message: "Phone number is required" }),
+    .min(9, { message: "Phone number must have at least 9 digits" }) 
+    ,
   address: z.object({
-    zipCode: z
-      .string()
-      .regex(/^\d{5}-?\d{3}$/, { message: "Enter a valid zip code" })
-      .nonempty({ message: "Zip code is required" }),
-    state: z
-      .string()
-      .nonempty({ message: "State is required" }),
-    city: z
-      .string()
-      .nonempty({ message: "City is required" }),
-    street: z
-      .string()
-      .nonempty({ message: "Street is required" }),
-    number: z
-      .string()
-      .nonempty({ message: "Number is required" }),
-    complement: z.string().optional(),
+    codeStreet: z.string(),
+    uf: z.string(),
+    city: z.string(),
+    street: z.string(),
+    number: z.string(),
+    complement: z.string(),
   }),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 export const useFormProfileController = () => {
+  const { producer } = useProducerStore();
   const {
     control,
     handleSubmit,
@@ -52,24 +35,43 @@ export const useFormProfileController = () => {
     resolver: zodResolver(profileSchema),
     mode: "onBlur",
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
+      name: producer?.name ?? "",
+      lastname: producer?.lastname ?? "",
+      email: producer?.email ?? "",
+      phone_number: producer?.phone ?? "",
       address: {
-        zipCode: "",
-        state: "",
-        city: "",
-        street: "",
-        number: "",
-        complement: "",
+        codeStreet: producer?.address?.codeStreet ?? "",
+        uf: producer?.address?.uf ?? "",
+        city: producer?.address?.city ?? "",
+        street: producer?.address?.street ?? "",
+        number: producer?.address?.number ?? "",
+        complement: producer?.address?.complement ?? "",
       },
     },
   });
 
-  const onSubmit: SubmitHandler<ProfileFormData> = (data) => {
-    console.log("Profile Data:", data);
-    reset();
+  const onSubmit: SubmitHandler<ProfileFormData> = async (data) => {
+    console.log(data);
+    
+    try {
+      const profileData = {
+        name: data.name,
+        lastname: data.lastname,
+        email: data.email,
+        phone_number: data.phone_number,
+      };
+      await updateProfile(profileData).then((res) => {
+        console.log("Profile updated successfully:", res);
+      });
+      const addressData = data.address;
+      await updateAddress(addressData).then((res) => {
+        console.log("Address updated successfully:", res);
+      });
+
+      reset();
+    } catch (error) {
+      console.error("Error updating profile or address:", error);
+    }
   };
 
   return {

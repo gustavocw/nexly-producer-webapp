@@ -1,4 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import {
+  getChartComments,
+  getChartData,
+  getChartMembers,
+  getChartPosts,
+} from "services/chart.services";
 
 interface Option {
   label: string;
@@ -31,9 +38,46 @@ export const useDashboardController = () => {
     setOptionStatus(selectedOption);
   };
 
+  const { isLoading: isLoadingChart } = useQuery({
+    queryKey: ["chart-data"],
+    queryFn: () =>
+      getChartData("10", "20").then((res) => {
+        // console.log(res);
+        return res;
+      }),
+  });
+
+  const { isLoading: isLoadingChartPosts } = useQuery({
+    queryKey: ["chart-posts"],
+    queryFn: () =>
+      getChartPosts(10, 10).then((res) => {
+        // console.log(res);
+        return res;
+      }),
+  });
+
+  const { isLoading: isLoadingChartComments } = useQuery({
+    queryKey: ["chart-comments"],
+    queryFn: () =>
+      getChartComments(10, 10).then((res) => {
+        // console.log(res);
+        return res;
+      }),
+  });
+
+  const { data: membersCount, isLoading: isLoadingChartMembers } = useQuery({
+    queryKey: ["chart-members"],
+    queryFn: () =>
+      getChartMembers().then((res) => {
+        console.log("aaa", res);
+        return res;
+      }),
+  });
+
   return {
     optionsNav,
     posts,
+    membersCount,
     optionStatus,
     handleSelectionChange,
   };

@@ -1,5 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { getProducts } from "services/product.services";
 
 const useInfoproductsController = () => {
   const [category, setCategory] = useState("");
@@ -23,8 +25,20 @@ const useInfoproductsController = () => {
     { value: "PRIVADO", label: "Inativos" },
   ];
 
+  const { data: products } = useQuery({
+    queryKey: ["products"],
+    queryFn: () =>
+      getProducts().then((res) => {
+        return res
+      }),
+  });
+
+  console.log(products);
+  
+
   return {
     category,
+    products,
     setCategory,
     status,
     setStatus,

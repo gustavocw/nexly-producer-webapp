@@ -1,4 +1,4 @@
-import { Flex, Heading, Tabs, VStack } from "@chakra-ui/react";
+import { Box, Flex, Heading, Tabs, VStack } from "@chakra-ui/react";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import {
@@ -14,6 +14,7 @@ import type React from "react";
 import ProfileForm from "./form/form.profile";
 import Plans from "./plans/plans";
 import useProducerStore from "stores/producer.store";
+import Btn from "components/button/button";
 
 interface ProfileDialog {
   isOpen: boolean;
@@ -21,6 +22,17 @@ interface ProfileDialog {
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
   const { producer } = useProducerStore();
+  let formSubmitHandler: (() => void) | null = null;
+
+  const setFormSubmitHandler = (submitHandler: () => void) => {
+    formSubmitHandler = submitHandler;
+  };
+
+  const handleSave = () => {
+    if (formSubmitHandler) {
+      formSubmitHandler();
+    }
+  };
 
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
@@ -62,41 +74,49 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                 h="100%"
                 w="25%"
                 align="flex-start"
+                justify="space-between"
                 py={4}
                 spaceY={4}
               >
-                <Tabs.Trigger
-                  _selected={{
-                    bg: "#3A0C554D",
-                    borderRightWidth: "2px",
-                    borderRightColor: "primary.60",
-                  }}
-                  value="profile"
-                  h="50px"
-                  w="100%"
-                >
-                  <Flex w="100%" px={4} align="center">
-                    <Text.Medium fontSize="14px" color="neutral">
-                      Perfil
-                    </Text.Medium>
+                <Box w="100%">
+                  <Tabs.Trigger
+                    _selected={{
+                      bg: "#3A0C554D",
+                      borderRightWidth: "2px",
+                      borderRightColor: "primary.60",
+                    }}
+                    value="profile"
+                    h="50px"
+                    w="100%"
+                  >
+                    <Flex w="100%" px={4} align="center">
+                      <Text.Medium fontSize="14px" color="neutral">
+                        Perfil
+                      </Text.Medium>
+                    </Flex>
+                  </Tabs.Trigger>
+                  <Tabs.Trigger
+                    _selected={{
+                      bg: "#3A0C554D",
+                      borderRightWidth: "2px",
+                      borderRightColor: "primary.60",
+                    }}
+                    value="plans"
+                    h="50px"
+                    w="100%"
+                  >
+                    <Flex w="100%" px={4} align="center">
+                      <Text.Medium fontSize="14px" color="neutral">
+                        Plano e cobranças
+                      </Text.Medium>
+                    </Flex>
+                  </Tabs.Trigger>
+                </Box>
+                <Tabs.Content  value="profile">
+                  <Flex justify="center" w="100%">
+                    <Btn onClick={handleSave} label="Salvar" w="90%" />
                   </Flex>
-                </Tabs.Trigger>
-                <Tabs.Trigger
-                  _selected={{
-                    bg: "#3A0C554D",
-                    borderRightWidth: "2px",
-                    borderRightColor: "primary.60",
-                  }}
-                  value="plans"
-                  h="50px"
-                  w="100%"
-                >
-                  <Flex w="100%" px={4} align="center">
-                    <Text.Medium fontSize="14px" color="neutral">
-                      Plano e cobranças
-                    </Text.Medium>
-                  </Flex>
-                </Tabs.Trigger>
+                </Tabs.Content>
               </VStack>
               <VStack
                 w="75%"
@@ -107,7 +127,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                 h="100%"
               >
                 <Tabs.Content value="profile" w="100%" h="100%">
-                  <ProfileForm />
+                <ProfileForm setSubmitHandler={setFormSubmitHandler} />
                 </Tabs.Content>
                 <Tabs.Content value="plans" w="100%" h="100%">
                   <Plans />

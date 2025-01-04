@@ -12,8 +12,9 @@ export const ProducerContext = createContext({} as ProducerContextValue);
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const { isLogged } = useAuth();
   const { setProducer } = useProducerStore();
+
   const { isLoading: isLoadingProfile } = useQuery({
-    queryKey: ["me"],
+    queryKey: ["producer"],
     queryFn: () =>
       getMe().then((res) => {
         setProducer(res);
