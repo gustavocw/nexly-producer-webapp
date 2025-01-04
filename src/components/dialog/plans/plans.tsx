@@ -2,8 +2,16 @@ import { Flex, HStack, VStack } from "@chakra-ui/react";
 import Btn from "components/button/button";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
+import useProducerStore from "stores/producer.store";
+import { useNavigate } from "react-router-dom";
+import { getPlanStyles } from "./getPlans";
 
 const Plans = () => {
+  const { producer } = useProducerStore();
+  const navigate = useNavigate();
+
+  const planStyles = getPlanStyles(producer?.plan);
+
   return (
     <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
       <Text.Medium fontSize="16px" color="neutral">
@@ -28,20 +36,22 @@ const Plans = () => {
                 Planos
               </Text.Medium>
               <Flex
-                color="#111111"
+                color={planStyles.textColor}
                 alignItems="center"
                 justify="center"
-                bg="neutral"
+                bg={planStyles.bg}
                 borderRadius="lg"
                 py="6px"
                 px="10px"
+                border={planStyles.border}
+                borderColor={planStyles.borderColor}
               >
-                PRO
+                {planStyles.text}
               </Flex>
             </Flex>
             <Btn
               label="Atualizar plano"
-              onClick={() => console.log("atualizar")}
+              onClick={() => navigate("/plans", { state: { plan: producer?.plan } })}
               w="200px"
             />
           </HStack>
@@ -73,7 +83,7 @@ const Plans = () => {
             </Flex>
             <Btn
               label="Alterar para anual (-25%)"
-              onClick={() => console.log("atualizar")}
+              onClick={() => console.log("Alterar plano")}
               bg="transparent"
               w="200px"
             />

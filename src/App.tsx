@@ -3,6 +3,7 @@ import { AuthProvider } from "contexts/AuthContext";
 import AppRoutes from "routes/routes";
 import { Toaster } from "components/ui/toaster";
 import { UserProvider } from "contexts/ProducerContext";
+import { ProductProvider } from "contexts/ProductsContext";
 
 function App() {
   const queryClient = new QueryClient();
@@ -12,8 +13,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <UserProvider>
-            <AppRoutes />
-            <Toaster />
+            <ProductProvider>
+              <AppRoutes />
+              <Toaster />
+            </ProductProvider>
           </UserProvider>
         </AuthProvider>
       </QueryClientProvider>

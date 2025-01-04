@@ -8,7 +8,7 @@ import TableProducts from "./products/products.table";
 import useInfoproductsController from "./index.controller";
 
 const Infoproducts = () => {
-  const { categoryOptions, statusOptions, setCategory, setStatus, products } =
+  const { categoryOptions, statusOptions, setCategory, setStatus, setAreaId, products, areasList } =
     useInfoproductsController();
 
   return (
@@ -30,7 +30,7 @@ const Infoproducts = () => {
             <BooksIcon width="42px" />
             <VStack gap="10px" lineHeight={1.5} w="100%">
               <Text.Medium fontSize="24px" color="neutral">
-                Você ainda não possui um curso
+                Você ainda não possui um infoproduto
               </Text.Medium>
               <Text.Medium fontSize="20px" color="neutral.10">
                 Crie seu curso personalizado e compartilhe seu conhecimento
@@ -44,6 +44,11 @@ const Infoproducts = () => {
           <HStack w="100%" justify="space-between" align="center">
             <HStack justify="space-between" w="100%">
               <Flex w="100%" gap="32px">
+              <SelectOption
+                  onSelectChange={(v) => setAreaId(v)}
+                  placeholder="Área"
+                  options={areasList}
+                />
                 <SelectOption
                   onSelectChange={(v) => setCategory(v)}
                   placeholder="Categoria"

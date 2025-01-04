@@ -1,21 +1,14 @@
 interface ProducerData {
+  _id?: string;
   address: Address;
-  bio: string;
-  code: string;
-  codeDate: string;
   identity: string;
-  createAt: string;
   email: string;
-  id?: string;
   lastname: string;
   name: string;
-  password?: string;
   phone: string;
   isAccountActive: boolean;
   photo: string;
-  student: string;
-  updatedAt: string;
-  ProvidersForMembers: ProvidersForMembers[];
+  plan: string;
 }
 
 interface ProducerDetails {

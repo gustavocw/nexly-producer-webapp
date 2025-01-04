@@ -1,11 +1,14 @@
 import { FC } from "react";
-import { Box, Text, Flex, Tabs } from "@chakra-ui/react";
+import { Box, Text, Flex, Tabs, Image } from "@chakra-ui/react";
 
 export interface AreaData {
   _id: number;
-  name: string;
+  title: string;
   domain: string;
-  imageSrc: string;
+  background: string;
+  color: string;
+  icon: string;
+  logo: string;
 }
 
 export interface AreaCardProps {
@@ -13,7 +16,7 @@ export interface AreaCardProps {
 }
 
 const AreaCard: FC<AreaCardProps> = ({ data }) => {
-  const { name, domain, imageSrc } = data;
+  const { title, domain, background, color, logo, icon } = data;
 
   return (
     <Tabs.Trigger
@@ -32,7 +35,7 @@ const AreaCard: FC<AreaCardProps> = ({ data }) => {
         borderRadius="lg"
         overflow="hidden"
         position="relative"
-        bgImage={`url(${imageSrc})`}
+        bgImage={`url(${background})`}
         bgSize="cover"
         bgPos="center"
         bgRepeat="no-repeat"
@@ -46,19 +49,31 @@ const AreaCard: FC<AreaCardProps> = ({ data }) => {
       >
         <Flex
           position="absolute"
+          top="0"
+          w="100%"
+          p="12px"
+          gap={2}
+        >
+          <Image w="60px" h="60px" src={icon} />
+          <Image w="60px" h="60px" src={logo} />
+        </Flex>
+        <Flex
+          position="absolute"
           bottom="0"
           w="100%"
           bg="rgba(0, 0, 0, 0.7)"
           p="12px"
-          flexDir="column"
-          justifyContent="center"
+          justifyContent="space-between"
         >
-          <Text fontSize="16px" fontWeight="bold" color="white">
-            {name}
-          </Text>
-          <Text fontSize="12px" color="white" opacity="0.8">
-            {domain}
-          </Text>
+          <Box>
+            <Text fontSize="16px" fontWeight="600" color="white">
+              {title}
+            </Text>
+            <Text fontSize="12px" color="white" opacity="0.8">
+              {domain}
+            </Text>
+          </Box>
+          <Box borderRadius="8px" w="40px" h="40px" bg={color} />
         </Flex>
       </Box>
     </Tabs.Trigger>

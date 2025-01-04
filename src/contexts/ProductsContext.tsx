@@ -1,0 +1,37 @@
+import { useQuery } from "@tanstack/react-query";
+import { createContext, useContext } from "react";
+import { getAreas } from "services/areas.services";
+
+interface ProductContextValue {
+  areasList: [{ value: string, label: string }];
+  areas: Area[];
+}
+
+export const ProductContext = createContext({} as ProductContextValue);
+export const ProductProvider = ({ children }: { children: React.ReactNode }) => {
+
+  const { data: areas } = useQuery({
+    queryKey: ["areas"],
+    queryFn: () =>
+      getAreas().then((res) => {
+        console.log(res);
+        return res;
+      }),
+  });
+
+  
+  const areasList = areas?.map((area: any) => ({
+    value: area._id,
+    label: area.domain,
+  }));
+
+  return (
+    <ProductContext.Provider value={{ areasList, areas }}>
+      {children}
+    </ProductContext.Provider>
+  );
+};
+
+export function useArea() {
+  return useContext(ProductContext);
+}

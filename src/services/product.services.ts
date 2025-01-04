@@ -18,7 +18,7 @@ export async function createProduct(
   return data;
 }
 
-export async function getProducts() {
-  const { data } = await http.get("course", {});
-  return data.data;
+export async function getProducts(memberAreaId: string) {
+  const { data } = await http.get(`/course/producer/${memberAreaId}`, {});
+  return data;
 }

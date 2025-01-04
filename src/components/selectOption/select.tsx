@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select, { components, SingleValue } from 'react-select';
 import { Box, Flex } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
@@ -28,7 +28,9 @@ const DropdownIndicator = (props: any) => {
 };
 
 const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSelectChange }) => {
-  const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(options[0]);
+  const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(() =>
+    options && options.length > 0 ? options[0] : { value: '', label: '' }
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (selected: SingleValue<Option>) => {
@@ -38,6 +40,13 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
       setSelectedOption(null);
     }
   };
+
+  useEffect(() => {
+    if (options?.length > 0) {
+      setSelectedOption(options[0]);
+      onSelectChange(options[0].value);
+    }
+  }, [options, onSelectChange]);
 
   return (
     <Box>
