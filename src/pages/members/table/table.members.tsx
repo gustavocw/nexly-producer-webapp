@@ -14,7 +14,7 @@ import { Avatar } from "components/ui/avatar";
 import type { Member } from "types/members";
 
 interface TableMembersProps {
-  data: Member[];
+  data?: Member[] | null;
 }
 
 const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
@@ -40,7 +40,11 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
         p={2}
         color="neutral"
         value="block"
-        onClick={() => console.log(status === "Ativo" ? "Bloquear membro" : "Desbloquear membro")}
+        onClick={() =>
+          console.log(
+            status === "Ativo" ? "Bloquear membro" : "Desbloquear membro"
+          )
+        }
       >
         {status === "Ativo" ? "Bloquear Membro" : "Desbloquear Membro"}
       </MenuItem>
@@ -81,87 +85,93 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
         </Table.Header>
 
         <Table.Body>
-          {data?.map((member) => (
-            <React.Fragment key={member.id}>
-              <Table.Row borderTopWidth="1px" borderColor="neutral.40">
-                <Table.Cell
-                  p="20px"
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <Flex align="center" gap="12px">
-                    <Avatar name={member.studentMember.name} />
+          {data && data.length > 0 ? (
+            data.map((member) => (
+              <React.Fragment key={member.id}>
+                <Table.Row borderTopWidth="1px" borderColor="neutral.40">
+                  <Table.Cell
+                    p="20px"
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    <Flex align="center" gap="12px">
+                      <Avatar name={member.studentMember.name} />
+                      <Text.Medium fontSize="14px" color="neutral">
+                        {member.studentMember.name}
+                      </Text.Medium>
+                    </Flex>
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
                     <Text.Medium fontSize="14px" color="neutral">
-                      {member.studentMember.name}
+                      {member.email}
                     </Text.Medium>
-                  </Flex>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <Text.Medium fontSize="14px" color="neutral">
-                    {member.email}
-                  </Text.Medium>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <Text.Medium fontSize="14px" color="neutral">
-                    {member.updatedAt}
-                  </Text.Medium>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                >
-                  <Text.Medium fontSize="14px" color="neutral">
-                    {member.stateUser}
-                  </Text.Medium>
-                </Table.Cell>
-                <Table.Cell
-                  h="60px"
-                  color="neutral"
-                  bg="neutral.50"
-                  border="none"
-                  textAlign="end"
-                  px={6}
-                >
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <Icon
-                        borderWidth="1px"
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    <Text.Medium fontSize="14px" color="neutral">
+                      {member.updatedAt}
+                    </Text.Medium>
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                  >
+                    <Text.Medium fontSize="14px" color="neutral">
+                      {member.stateUser}
+                    </Text.Medium>
+                  </Table.Cell>
+                  <Table.Cell
+                    h="60px"
+                    color="neutral"
+                    bg="neutral.50"
+                    border="none"
+                    textAlign="end"
+                    px={6}
+                  >
+                    <MenuRoot>
+                      <MenuTrigger asChild>
+                        <Icon
+                          borderWidth="1px"
+                          borderRadius="8px"
+                          borderColor="neutral.40"
+                          fontSize="30px"
+                          cursor="pointer"
+                          p="4px"
+                        >
+                          <MoreVertIcon />
+                        </Icon>
+                      </MenuTrigger>
+                      <MenuContent
                         borderRadius="8px"
+                        borderWidth="1px"
                         borderColor="neutral.40"
-                        fontSize="30px"
-                        cursor="pointer"
-                        p="4px"
+                        position="absolute"
                       >
-                        <MoreVertIcon />
-                      </Icon>
-                    </MenuTrigger>
-                    <MenuContent
-                      borderRadius="8px"
-                      borderWidth="1px"
-                      borderColor="neutral.40"
-                      position="absolute"
-                    >
-                      {renderMenuItems(member.stateUser)}
-                    </MenuContent>
-                  </MenuRoot>
-                </Table.Cell>
-              </Table.Row>
-            </React.Fragment>
-          ))}
+                        {renderMenuItems(member.stateUser)}
+                      </MenuContent>
+                    </MenuRoot>
+                  </Table.Cell>
+                </Table.Row>
+              </React.Fragment>
+            ))
+          ) : (
+            <Text.Medium px={2} py={5} fontSize="14px" color="neutral">
+              Nenhum membro cadastrado.
+            </Text.Medium>
+          )}
         </Table.Body>
       </Table.Root>
     </Table.ScrollArea>

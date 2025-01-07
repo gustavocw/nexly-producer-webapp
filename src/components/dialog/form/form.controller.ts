@@ -51,8 +51,6 @@ export const useFormProfileController = () => {
   });
 
   const onSubmit: SubmitHandler<ProfileFormData> = async (data) => {
-    console.log(data);
-    
     try {
       const profileData = {
         name: data.name,

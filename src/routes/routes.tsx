@@ -55,7 +55,7 @@ const AppRoutes: React.FC = () => {
               element={<PreviewVideos />}
             />
             <Route
-              path="/infoproducts/informations"
+              path="/infoproducts/informations/:id"
               element={<GenrenceInfoproduct />}
             />
             <Route path="/tickets" element={<Tickets />} />

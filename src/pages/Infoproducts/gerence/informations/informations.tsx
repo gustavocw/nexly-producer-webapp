@@ -18,10 +18,9 @@ import TableMembers from "pages/members/table/table.members";
 import { LuPlus } from "react-icons/lu";
 import useInformationsController from "./informations.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { membersDummy } from "pages/members";
 
-const Informations = () => {
-  const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions } = useInformationsController();
+const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
+  const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
   return (
     <VStack gap="32px" w="100%">
       <HStack w="100%">
@@ -37,16 +36,12 @@ const Informations = () => {
         >
           <HStack gap="10px">
             <Image borderRadius="8px" w="100px" h="57px" src="/images/bg.png" />
-            <Text.Medium fontSize="16px">Nome do curso</Text.Medium>
+            <Text.Medium fontSize="16px">{data?.name}</Text.Medium>
           </HStack>
           <Divider width="100" />
           <Flex>
             <Text.Medium fontSize="14px">
-              O curso "Introdução à Programação em Python" é voltado para
-              iniciantes que desejam aprender os conceitos básicos de
-              programação utilizando a linguagem Python. Ao longo de quatro
-              semanas, os alunos explorarão desde os fundamentos da lógica de
-              programação até a criação de pequenos projetos práticos.
+              {data?.description}
             </Text.Medium>
           </Flex>
         </VStack>
@@ -63,7 +58,7 @@ const Informations = () => {
               Data de criação
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              20/12/2023
+              {data?.createdAt}
             </Text.Medium>
           </HStack>
           <Divider />
@@ -72,7 +67,7 @@ const Informations = () => {
               Categoria
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              Desenvolvimento web
+              {data?.category}
             </Text.Medium>
           </HStack>
           <Divider />
@@ -129,7 +124,7 @@ const Informations = () => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers data={membersDummy} />
+      <TableMembers data={members} />
     </VStack>
   );
 };

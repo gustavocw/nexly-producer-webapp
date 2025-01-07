@@ -64,6 +64,7 @@ const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
 
 const Members = () => {
   const {
+    members,
     setAccessType,
     setLastAccess,
     accessOptions,

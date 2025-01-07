@@ -1,31 +1,22 @@
-import { persist, createJSONStorage } from "zustand/middleware";
 import { create } from "zustand";
-import type { Product } from "types/product";
 
 interface ProductState {
-  product: Product | null;
   typeCourse: string;
+  areaId: string;
 }
 
 interface CourseActions {
-  setProduct: (product: Product) => void;
-  setTypeProduct: (type: any) => void;
+  setAreaId: (id: string) => void;
+  setTypeProduct: (type: string) => void;
 }
 
-const useProductStore = create<ProductState & CourseActions>()(
-  persist(
-    (set) => ({
-      product: null,
-      typeCourse: "",
+const useProductStore = create<ProductState & CourseActions>((set) => ({
+  product: null,
+  areaId: "",
+  typeCourse: "",
 
-      setProduct: (product) => set({ product }),
-      setTypeProduct: (type) => set({ typeCourse: type }),
-    }),
-    {
-      name: "product-draft",
-      storage: createJSONStorage(() => localStorage),
-    }
-  )
-);
+  setAreaId: (id) => set({ areaId: id }),
+  setTypeProduct: (type) => set({ typeCourse: type }),
+}));
 
 export default useProductStore;

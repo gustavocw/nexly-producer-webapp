@@ -4,26 +4,17 @@ import TitlePage from "components/titlePage/titlePage";
 import Informations from "./informations/informations";
 import Modules from "./modules/modules";
 import Certificates from "./certificates/certificates";
-import { products } from "utils/productdummy";
 import { ModalCreateModule } from "./modules/modal/modal.create.module";
+import { useGenrenceInfoproduct } from "./index.controller";
 
 const GenrenceInfoproduct = () => {
-  const optionsNav = [
-    { label: "Informações", value: "informations" },
-    { label: "Módulos", value: "modules" },
-    { label: "Certificado", value: "certificates" },
-  ];
-
-  const handleSelectionChange = (selectedOption: {
-    label: string;
-    value: string;
-  }) => {
-    console.log("Opção selecionada:", selectedOption);
-  };
+  const { product, optionsNav, handleSelectionChange } = useGenrenceInfoproduct();
+  console.log(product);
+  
 
   return (
     <VStack w="100%" align="flex-start" px={8}>
-      <TitlePage title="Nome do curso" />
+      <TitlePage title={product?.name || "Carregando..."} />
       <Tabs.Root w="100%" color="neutral" defaultValue="informations">
         <VStack w="auto" gap="32px">
           <HStack w="100%">
@@ -35,10 +26,10 @@ const GenrenceInfoproduct = () => {
             </Tabs.Content>
           </HStack>
           <Tabs.Content value="informations">
-            <Informations />
+            <Informations data={product} />
           </Tabs.Content>
           <Tabs.Content value="modules">
-            <Modules data={products[0]?.modules} />
+            <Modules data={product} />
           </Tabs.Content>
           <Tabs.Content value="certificates">
             <Certificates />

@@ -22,10 +22,7 @@ interface ProfileDialog {
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
   const { producer } = useProducerStore();
-  console.log(producer);
-  
   let formSubmitHandler: (() => void) | null = null;
-
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
   };

@@ -29,12 +29,11 @@ import {
   AccordionRoot,
 } from "components/ui/accordion";
 import type React from "react";
-import type { Module } from "types/product";
 import { useNavigate } from "react-router-dom";
 import { ModalCreateModule } from "../modal/modal.create.module";
 
 interface AccordeonProps {
-  modules: Module[];
+  modules?: Module[] | null;
 }
 
 const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
@@ -50,7 +49,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
       spaceY="4"
       collapsible
     >
-      {modules.map((module, index) => (
+      {modules?.map((module, index) => (
         <AccordionItem bg="neutral.60" key={index} value={module.id}>
           <Box position="relative">
             <AccordionItemTrigger
@@ -78,7 +77,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
               <Icon cursor="pointer">
                 <PublicOutlinedIcon />
               </Icon>
-              <ModalCreateModule isEdit/>
+              <ModalCreateModule isEdit />
             </AbsoluteCenter>
           </Box>
           <AccordionItemContent>

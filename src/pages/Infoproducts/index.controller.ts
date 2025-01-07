@@ -3,11 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
 import { getProducts } from "services/product.services";
+import useProductStore from "stores/product.store";
 
 const useInfoproductsController = () => {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
   const [areaId, setAreaId] = useState("");
+  const { setAreaId: setAreaIdProduct } = useProductStore();
   const { onOpen, onClose } = useDisclosure();
   const { areasList } = useProducts();
 
@@ -32,6 +34,7 @@ const useInfoproductsController = () => {
     queryKey: ["infoproducts", areaId],
     queryFn: async () => {
       const res = await getProducts(areaId);
+      setAreaIdProduct(areaId)
       return res;
     },
     enabled: !!areaId,

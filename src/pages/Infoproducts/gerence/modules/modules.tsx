@@ -1,19 +1,18 @@
 import { Flex, HStack, VStack } from "@chakra-ui/react";
 import ModulesIcon from "assets/icons/BooksIcon";
 import Text from "components/text/text";
-import type { Module } from "types/product";
 import { ModalCreateModule } from "./modal/modal.create.module";
 import Accordeon from "./accordeon/accordeon";
-import { products } from "utils/productdummy";
 
 interface ModulesProps {
-  data: Module[];
+  data?: Product | null;
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
+
   return (
     <Flex w="100%">
-      {data?.length === 0 ? (
+      {data?.count_modules === 0 ? (
         <HStack gap="32px" w="100%">
           <VStack
             w="100%"
@@ -33,7 +32,7 @@ const Modules: React.FC<ModulesProps> = ({ data }) => {
         </HStack>
       ) : (
         <VStack w="100%">
-          <Accordeon modules={products[0].modules} />
+          <Accordeon modules={data?.modules} />
         </VStack>
       )}
     </Flex>

@@ -55,8 +55,7 @@ export const useCreateAreaController = () => {
         icon: files.icon,
         logo: files.logo,
       };
-      await createArea(payload).then((res) => {
-        console.log(res);
+      await createArea(payload).then(() => {
         toaster.create({
           title: "Área criada com sucesso",
           type: "success",

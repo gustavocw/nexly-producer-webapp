@@ -22,3 +22,34 @@ export async function getProducts(memberAreaId: string) {
   const { data } = await http.get(`/course/producer/${memberAreaId}`, {});
   return data;
 }
+
+export async function getProductUnique(productId?: string | null) {
+  const { data } = await http.get(`/course/${productId}`, {});
+  return data.data;
+}
+
+export async function createModule(
+  productId?: string | null,
+  module?: NewModule
+) {
+  const formData = new FormData();
+  if (module?.name) {
+    formData.append("name", module?.name);
+  }
+  if (module?.description) {
+    formData.append("description", module?.description);
+  }
+  if (module?.stateModule) {
+    formData.append("stateModule", module?.stateModule);
+  }
+  if (module?.format) {
+    formData.append("format", module?.format);
+  }
+
+  if (module?.thumbnail) {
+    formData.append("file", module?.thumbnail);
+  }
+
+  const { data } = await http.post(`/course/module/${productId}`, formData);
+  return data;
+}

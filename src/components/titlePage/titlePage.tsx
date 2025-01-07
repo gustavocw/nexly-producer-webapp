@@ -4,7 +4,7 @@ import Text from "components/text/text";
 import { useNavigate } from "react-router-dom";
 
 interface TitlePageProps {
-  title: string;
+  title?: string;
   description?: string;
 }
 

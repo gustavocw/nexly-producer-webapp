@@ -7,13 +7,11 @@ interface SignInParams {
 
 export async function signin(params: SignInParams) {
   const { data } = await http.post<any>("/producer/login", params);
-  console.log(data);
   return data;
 }
 
 export async function register(params: CreateProducer) {
   const { data } = await http.post<any>("/producer", params);
-  console.log(data);
   return data;
 }
 

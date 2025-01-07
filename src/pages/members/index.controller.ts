@@ -1,10 +1,22 @@
 import { useDisclosure } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { getMembers } from "services/members.services";
 
 const useMembersController = () => {
   const [accessType, setAccessType] = useState("");
   const [lastAccess, setLastAccess] = useState("");
   const { onOpen, onClose } = useDisclosure();
+
+  const { data: members } = useQuery({
+    queryKey: ["members"],
+    queryFn: () =>
+      getMembers().then((res) => {
+        console.log(res);
+        return res;
+      }),
+  });
+
 
   const handleMenuAction = (action: string) => {
     switch (action) {
@@ -40,6 +52,7 @@ const useMembersController = () => {
   ];
 
   return {
+    members,
     accessType,
     setAccessType,
     setLastAccess,

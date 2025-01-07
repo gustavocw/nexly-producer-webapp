@@ -1,6 +1,11 @@
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { createModule } from "services/product.services";
+import { useProducts } from "hooks/useProducts";
+import { useState } from "react";
+import { toaster } from "components/ui/toaster";
 
 export const moduleSchema = z.object({
   name: z
@@ -9,8 +14,14 @@ export const moduleSchema = z.object({
       invalid_type_error: "O campo nome deve ser uma string",
     })
     .nonempty({ message: "O campo nome é obrigatório" }),
+  description: z
+    .string({
+      required_error: "O campo nome é obrigatório",
+      invalid_type_error: "O campo nome deve ser uma string",
+    })
+    .nonempty({ message: "O campo nome é obrigatório" }),
 
-  state: z
+  stateModule: z
     .string({
       required_error: "O campo estado é obrigatório",
       invalid_type_error: "O campo estado deve ser uma string",
@@ -22,18 +33,14 @@ export const moduleSchema = z.object({
       invalid_type_error: "O campo estado deve ser uma string",
     })
     .nonempty({ message: "O campo estado é obrigatório" }),
-
-  capa: z
-    .string({
-      required_error: "O campo capa é obrigatório",
-      invalid_type_error: "O campo capa deve ser uma URL",
-    })
-    .url({ message: "Insira uma URL válida para a capa" }),
 });
 
 type ModuleFormData = z.infer<typeof moduleSchema>;
 
 export const useCreateModuleController = () => {
+  const [file, setFile] = useState<File | null>(null);
+
+  const { product } = useProducts();
   const {
     control,
     handleSubmit,
@@ -44,20 +51,38 @@ export const useCreateModuleController = () => {
     mode: "onBlur",
     defaultValues: {
       name: "",
-      state: "",
-      capa: "",
+      description: "",
+      stateModule: "",
       format: "",
     },
   });
 
+  const updateFile = (file: File | null) => {
+    setFile(file);
+  };
+
+  const { mutate: mutateModule } = useMutation({
+    mutationFn: (params: NewModule) => createModule(product?._id, params),
+    onSuccess: () => {
+      toaster.create({
+        title: "Módulo criado com sucesso!",
+        type: "success",
+      });
+    },
+  });
   const onSubmit: SubmitHandler<ModuleFormData> = (data) => {
-    console.log("Dados do módulo:", data);
+    const params = {
+      ...data,
+      thumbnail: file,
+    };
+    mutateModule(params);
     reset();
   };
 
   return {
     control,
     handleSubmit,
+    updateFile,
     errors,
     onSubmit,
     reset,

@@ -21,12 +21,14 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "hooks/useProducts";
 
 interface TableProducts {
   data: Product[];
 }
 
 const TableProducts: React.FC<TableProducts> = ({ data }) => {
+  const { setProduct } = useProducts();
   const renderStatusIcon = (state: string, deldate?: any) => {
     if (deldate) {
       return (
@@ -63,13 +65,28 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
   };
   const navigate = useNavigate();
 
-  console.log(data);
-
-  const renderMenuItems = (state: string, deldate?: any) => {
+  const renderMenuItems = (item: Product, state: string, deldate?: any) => {
     if (deldate) return null;
 
     return (
       <>
+        <MenuItem
+          border="none"
+          borderRadius={0}
+          _hover={{
+            bg: "neutral.40",
+          }}
+          bg="neutral.50"
+          cursor="pointer"
+          p={2}
+          color="neutral"
+          value="edit"
+          onClick={() => {
+            navigate(`/infoproducts/informations/${item._id}`), setProduct(item);
+          }}
+        >
+          Gerenciar
+        </MenuItem>
         {state !== "PUBLICO" && (
           <MenuItem
             border="none"
@@ -87,21 +104,6 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             Publicar Curso
           </MenuItem>
         )}
-        <MenuItem
-          border="none"
-          borderRadius={0}
-          _hover={{
-            bg: "neutral.40",
-          }}
-          bg="neutral.50"
-          cursor="pointer"
-          p={2}
-          color="neutral"
-          value="edit"
-          onClick={() => navigate("/infoproducts/informations")}
-        >
-          Gerenciar
-        </MenuItem>
         <MenuItem
           border="none"
           borderRadius={0}
@@ -174,8 +176,8 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
 
         <Table.Body>
           {data?.length ? (
-            data.map((item) => (
-              <React.Fragment key={item.id}>
+            data.map((item: Product) => (
+              <React.Fragment key={item._id}>
                 <Table.Row borderTopWidth="1px" borderColor="neutral.40">
                   <Table.Cell
                     p="20px"
@@ -186,7 +188,11 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                   >
                     <VStack align="flex-start" w="100%">
                       <Flex gap="12px">
-                        <Image w="100px" h="57px" src={item?.urlThumbCourse ?? "/images/bg.png"} />
+                        <Image
+                          w="100px"
+                          h="57px"
+                          src={item?.urlThumbCourse ?? "/images/bg.png"}
+                        />
                         <VStack align="flex-start" w="100%">
                           <Text.Medium fontSize="14px" color="neutral">
                             {item.name}
@@ -197,9 +203,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                                 <OndemandVideoOutlinedIcon />
                               </Icon>
                               <Text.Medium fontSize="12px">
-                                {item.modules?.length
-                                  ? `${item.modules.length} módulos`
-                                  : "0 módulos"}
+                                {item?.count_modules} módulos
                               </Text.Medium>
                             </Flex>
                             <Flex alignItems="center" gap="6px">
@@ -262,7 +266,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                         borderColor="neutral.40"
                         position="absolute"
                       >
-                        {renderMenuItems(item.state, item.delDate)}
+                        {renderMenuItems(item, item.state, item.delDate)}
                       </MenuContent>
                     </MenuRoot>
                   </Table.Cell>

@@ -44,7 +44,7 @@ interface ModalPops {
 }
 
 export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
-  const { control, errors, onSubmit, handleSubmit } =
+  const { control, errors, onSubmit, handleSubmit, updateFile } =
     useCreateModuleController();
 
   return (
@@ -73,7 +73,9 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
             {isEdit ? "Editar módulo" : "Adicionar novo módulo"}
           </DialogTitle>
           <DialogDescription fontSize="14px" color="neutral" fontWeight="400">
-            {isEdit ? "Edite as informações do módulo" : "Insira as informações do novo módulo"}
+            {isEdit
+              ? "Edite as informações do módulo"
+              : "Insira as informações do novo módulo"}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -100,7 +102,7 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
                 />
 
                 <Controller
-                  name="state"
+                  name="stateModule"
                   control={control}
                   render={({ field }) => (
                     <RadioCardRoot w="100%" defaultValue={field.value}>
@@ -137,57 +139,58 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
                     </RadioCardRoot>
                   )}
                 />
-
-                <Controller
-                  name="capa"
-                  control={control}
-                  render={({ field }) => (
-                    <FileUploadRoot
-                      gap={0}
-                      alignItems="stretch"
-                      maxFiles={1}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        field.onChange(e.target.value);
-                      }}
-                    >
-                      <Text.Medium my="4px" fontSize="14px">
-                        Capa do módulo
-                      </Text.Medium>
-                      <FileUploadDropzone
-                        cursor="pointer"
-                        bg="#1C06284D"
-                        color="neutral"
-                        border="1px dashed"
-                        borderColor="primary.50"
-                        _icon={{
-                          display: "none",
-                        }}
-                        label={
-                          <VStack>
-                            <Image src="/images/FileImage.svg" />
-                            <Text.Medium fontSize="13px" display="flex" gap={1}>
-                              Arraste uma imagem ou{" "}
-                              <a
-                                style={{ color: "#5E84F1", cursor: "pointer" }}
-                              >
-                                selecione manualmente
-                              </a>
-                            </Text.Medium>
-                            <FileUploadList w="100px" />
-                          </VStack>
-                        }
-                      />
-                      <Text.Medium my="4px" fontSize="12px">
-                        A imagem de capa deve estar no formato JPG ou PNG e
-                        tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000
-                        pixels.
-                      </Text.Medium>
-                    </FileUploadRoot>
-                  )}
-                />
+                <FileUploadRoot
+                  gap={0}
+                  alignItems="stretch"
+                  maxFiles={1}
+                  onFileAccept={(file) => {
+                    if (file.files.length > 0) {
+                      updateFile(file.files[0]);
+                    }
+                  }}
+                >
+                  <Text.Medium my="4px" fontSize="14px">
+                    Capa do módulo
+                  </Text.Medium>
+                  <FileUploadDropzone
+                    cursor="pointer"
+                    bg="#1C06284D"
+                    color="neutral"
+                    border="1px dashed"
+                    borderColor="primary.50"
+                    _icon={{
+                      display: "none",
+                    }}
+                    label={
+                      <VStack>
+                        <Image src="/images/FileImage.svg" />
+                        <Text.Medium fontSize="13px" display="flex" gap={1}>
+                          Arraste uma imagem ou{" "}
+                          <a style={{ color: "#5E84F1", cursor: "pointer" }}>
+                            selecione manualmente
+                          </a>
+                        </Text.Medium>
+                        <FileUploadList w="100px" />
+                      </VStack>
+                    }
+                  />
+                  <Text.Medium my="4px" fontSize="12px">
+                    A imagem de capa deve estar no formato JPG ou PNG e tamanho
+                    máximo de 5 MB. Dimensões ideais: 1.500 x 1.000 pixels.
+                  </Text.Medium>
+                </FileUploadRoot>
               </DialogBody>
 
               <DialogBody flex="1" minW="300px">
+                <HStack w="100%">
+                  <Input.Text
+                    label="Descrição"
+                    height="220px"
+                    maxLength={200}
+                    control={control}
+                    name="description"
+                  />
+                </HStack>
                 <VStack w="100%">
                   <Controller
                     name="format"
@@ -263,13 +266,13 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
 
 const status = [
   {
-    value: "Privado",
+    value: "PRIVADO",
     title: "Privado",
     description:
       "Somente você pode ver esse vídeo, ele não aparecerá no seu curso ou resultados de pesquisas.",
   },
   {
-    value: "Publico",
+    value: "PUBLICO",
     title: "Público",
     description: "Todos podem ver esse vídeo.",
   },
@@ -277,7 +280,7 @@ const status = [
 
 const items = [
   {
-    value: "vertical-rectangle",
+    value: "VERTICAL_RECT",
     title: "Retângulo Vertical",
     format: (
       <Box
@@ -290,7 +293,7 @@ const items = [
     ),
   },
   {
-    value: "horizontal-rectangle",
+    value: "HORIZONTAL_RECT",
     title: "Retângulo Horizontal",
     format: (
       <Box
@@ -304,7 +307,7 @@ const items = [
     ),
   },
   {
-    value: "square",
+    value: "SQUARE",
     title: "Quadrado",
     format: (
       <Box
@@ -317,7 +320,7 @@ const items = [
     ),
   },
   {
-    value: "large-vertical-rectangle",
+    value: "VERTICAL_RECT_MAX",
     title: "Retângulo Vertical Grande",
     format: (
       <Box
