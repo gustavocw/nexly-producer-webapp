@@ -10,7 +10,6 @@ import {
   Tabs,
 } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
-import type { Member } from "types/members";
 import TableMembers from "./table/table.members";
 import Btn from "components/button/button";
 import SearchBar from "components/search/search";
@@ -135,123 +134,9 @@ const Members = () => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers data={membersDummy} />
+      <TableMembers data={members} />
     </Stack>
   );
 };
-
-export const membersDummy: Member[] = [
-  {
-    courseId: "course_001",
-    createdAt: "2024-10-10T08:30:00Z",
-    id: "member_001",
-    username: "john_doe",
-    email: "john.doe@example.com",
-    idUser: "user_001",
-    provider: "email",
-    stateUser: "Ativo",
-    updatedAt: "2024-10-15T10:00:00Z",
-    studentMember: {
-      id: undefined,
-      address: {
-        street: "123 Main St",
-        city: "New York",
-        state: "NY",
-        number: "10001",
-        codeStreet: "",
-        neighborhood: "",
-        complement: "",
-      },
-      bio: "A passionate learner.",
-      code: "JD123",
-      codeDate: "2024-01-01",
-      cpf: "123.456.789-10",
-      createAt: "2024-01-01T08:00:00Z",
-      email: "john.doe@example.com",
-      lastname: "Doe",
-      name: "John",
-      password: "hashed_password",
-      phone: "+1-555-1234",
-      photo: "https://example.com/photo/john_doe.jpg",
-      sex: "Male",
-      student: "true",
-      updatedAt: "2024-10-10T08:30:00Z",
-    },
-  },
-  {
-    courseId: "course_002",
-    createdAt: "2024-09-05T14:00:00Z",
-    id: "member_002",
-    username: "jane_smith",
-    email: "jane.smith@example.com",
-    idUser: "user_002",
-    provider: "google",
-    stateUser: "Inativo",
-    updatedAt: "2024-09-10T16:00:00Z",
-    studentMember: {
-      id: undefined,
-      address: {
-        street: "123 Main St",
-        city: "New York",
-        state: "NY",
-        number: "10001",
-        codeStreet: "",
-        neighborhood: "",
-        complement: "",
-      },
-      bio: "Enjoys creative courses.",
-      code: "JS789",
-      codeDate: "2024-02-01",
-      cpf: "234.567.890-20",
-      createAt: "2024-02-01T10:00:00Z",
-      email: "jane.smith@example.com",
-      lastname: "Smith",
-      name: "Jane",
-      password: "hashed_password",
-      phone: "+1-555-5678",
-      photo: "https://example.com/photo/jane_smith.jpg",
-      sex: "Female",
-      student: "true",
-      updatedAt: "2024-09-05T14:00:00Z",
-    },
-  },
-  {
-    courseId: "course_003",
-    createdAt: "2024-08-01T12:00:00Z",
-    id: "member_003",
-    username: "alice_wonder",
-    email: "alice.wonder@example.com",
-    idUser: "user_003",
-    provider: "facebook",
-    stateUser: "Ativo",
-    updatedAt: "2024-08-10T14:00:00Z",
-    studentMember: {
-      id: undefined,
-      address: {
-        street: "123 Main St",
-        city: "New York",
-        state: "NY",
-        number: "10001",
-        codeStreet: "",
-        neighborhood: "",
-        complement: "",
-      },
-      bio: "Loves online learning.",
-      code: "AW456",
-      codeDate: "2024-03-01",
-      cpf: "345.678.901-30",
-      createAt: "2024-03-01T09:00:00Z",
-      email: "alice.wonder@example.com",
-      lastname: "Wonder",
-      name: "Alice",
-      password: "hashed_password",
-      phone: "+1-555-8910",
-      photo: "https://example.com/photo/alice_wonder.jpg",
-      sex: "Female",
-      student: "true",
-      updatedAt: "2024-08-01T12:00:00Z",
-    },
-  },
-];
 
 export default Members;
