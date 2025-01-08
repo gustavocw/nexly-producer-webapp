@@ -74,6 +74,13 @@ export const useDashboardController = () => {
       }),
   });
 
+  console.log(
+    isLoadingChart,
+    isLoadingChartComments,
+    isLoadingChartMembers,
+    isLoadingChartPosts
+  );
+
   return {
     optionsNav,
     posts,
