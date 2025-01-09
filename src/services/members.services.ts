@@ -6,11 +6,10 @@ export async function getMembers() {
 }
 
 export async function getMembersById(
-  idArea?: string | null,
   idProduct?: string | null
 ) {
-  const { data } = await http.get<any>(`/member/${idArea}/${idProduct}`);
-  return data[0];
+  const { data } = await http.get<any>(`/member/course/${idProduct}`);
+  return data.data;
 }
 
 export async function createMember(params: any) {

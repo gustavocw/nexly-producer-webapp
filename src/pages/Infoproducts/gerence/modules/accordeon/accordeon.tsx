@@ -31,6 +31,8 @@ import {
 import type React from "react";
 import { useNavigate } from "react-router-dom";
 import { ModalCreateModule } from "../modal/modal.create.module";
+import Btn from "components/button/button";
+import { HiPlus } from "react-icons/hi2";
 
 interface AccordeonProps {
   modules?: Module[] | null;
@@ -42,6 +44,8 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
     items: statusModule,
   });
 
+  console.log(modules);
+
   return (
     <AccordionRoot
       variant="subtle"
@@ -50,7 +54,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
       collapsible
     >
       {modules?.map((module, index) => (
-        <AccordionItem bg="neutral.60" key={index} value={module.id}>
+        <AccordionItem bg="neutral.60" key={index} value={module?.id}>
           <Box position="relative">
             <AccordionItemTrigger
               cursor="pointer"
@@ -67,10 +71,10 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                   borderRadius="50%"
                 >
                   <Text.Medium fontSize="16px">
-                    {module.lessons?.length}
+                    {module?.lessons?.length}
                   </Text.Medium>
                 </Flex>
-                <Text.Medium fontSize="16px">{module.name}</Text.Medium>
+                <Text.Medium fontSize="16px">{module?.name}</Text.Medium>
               </Flex>
             </AccordionItemTrigger>
             <AbsoluteCenter mr="20px" gap="32px" axis="vertical" insetEnd="0">
@@ -87,72 +91,94 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
               p="20px"
               w="100%"
             >
-              <HStack justify="space-between" w="100%">
-                <Text.Medium fontSize="16px">Aulas</Text.Medium>
-                <Flex position="relative" align="center" gap="32px">
-                  <MenuRoot>
-                    <MenuTrigger asChild>
-                      <Icon
+              {module.lessons?.length > 0 ? (
+                <HStack justify="space-between" w="100%">
+                  <Text.Medium fontSize="16px">Aulas</Text.Medium>
+                  <Flex position="relative" align="center" gap="32px">
+                    <MenuRoot>
+                      <MenuTrigger asChild>
+                        <Icon
+                          borderWidth="1px"
+                          borderRadius="8px"
+                          borderColor="neutral.40"
+                          fontSize="30px"
+                          cursor="pointer"
+                          color="neutral"
+                          p="4px"
+                        >
+                          <MoreVertIcon />
+                        </Icon>
+                      </MenuTrigger>
+                      <MenuContent
+                        w="200px"
                         borderWidth="1px"
-                        borderRadius="8px"
                         borderColor="neutral.40"
-                        fontSize="30px"
-                        cursor="pointer"
-                        color="neutral"
-                        p="4px"
+                        bg="neutral.60"
+                        position="absolute"
+                        top={2}
+                        right={6}
                       >
-                        <MoreVertIcon />
-                      </Icon>
-                    </MenuTrigger>
-                    <MenuContent
-                      w="200px"
-                      borderWidth="1px"
-                      borderColor="neutral.40"
-                      bg="neutral.60"
-                      position="absolute"
-                      top={2}
-                      right={6}
-                    >
-                      <MenuItem
-                        cursor="pointer"
-                        p={3}
-                        color="neutral"
-                        value="rename"
-                        _hover={{ bg: "neutral.30" }}
-                        onClick={() => {
-                          navigate("/infoproducts/create/platfoms");
-                        }}
-                      >
-                        Adicionar várias aulas +2
-                      </MenuItem>
-                      <MenuItem
-                        cursor="pointer"
-                        p={3}
-                        color="neutral"
-                        value="rename"
-                        _hover={{ bg: "neutral.30" }}
-                        onClick={() => {
-                          navigate("/infoproducts/create/video");
-                        }}
-                      >
-                        Adicionar uma aula +1
-                      </MenuItem>
-                      <MenuItem
-                        cursor="pointer"
-                        p={3}
-                        color="neutral"
-                        value="rename"
-                        _hover={{ bg: "neutral.30" }}
-                        onClick={() => {
-                          navigate("/infoproducts/create/platfoms");
-                        }}
-                      >
-                        Editar aulas
-                      </MenuItem>
-                    </MenuContent>
-                  </MenuRoot>
-                </Flex>
-              </HStack>
+                        <MenuItem
+                          cursor="pointer"
+                          p={3}
+                          color="neutral"
+                          value="rename"
+                          _hover={{ bg: "neutral.30" }}
+                          onClick={() => {
+                            navigate("/infoproducts/create/platfoms");
+                          }}
+                        >
+                          Adicionar várias aulas +2
+                        </MenuItem>
+                        <MenuItem
+                          cursor="pointer"
+                          p={3}
+                          color="neutral"
+                          value="rename"
+                          _hover={{ bg: "neutral.30" }}
+                          onClick={() => {
+                            navigate("/infoproducts/create/video");
+                          }}
+                        >
+                          Adicionar uma aula +1
+                        </MenuItem>
+                        <MenuItem
+                          cursor="pointer"
+                          p={3}
+                          color="neutral"
+                          value="rename"
+                          _hover={{ bg: "neutral.30" }}
+                          onClick={() => {
+                            navigate("/infoproducts/create/platfoms");
+                          }}
+                        >
+                          Editar aulas
+                        </MenuItem>
+                      </MenuContent>
+                    </MenuRoot>
+                  </Flex>
+                </HStack>
+              ) : (
+                <VStack justify="center" w="100%" spaceY={2}>
+                  <Text.Medium fontSize="16px">
+                    Este módulo não possui aulas, deseja adicionar ?
+                  </Text.Medium>
+                  <HStack gap={2} justify="center" mx="auto" w="100%">
+                    <Btn
+                      onClick={() => navigate("/infoproducts/create/platfoms")}
+                      w="20%"
+                      iconLeft={<HiPlus />}
+                      label="Adicionar aulas via integração"
+                    />
+                    <Btn
+                      onClick={() => navigate("/infoproducts/create/video")}
+                      w="20%"
+                      iconLeft={<HiPlus />}
+                      label="Adicionar uma aula única"
+                    />
+                  </HStack>
+                </VStack>
+              )}
             </VStack>
             <Divider width="100%" />
             {module?.lessons?.map((lesson, index) => (
@@ -260,7 +286,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                     </MenuRoot>
                   </Flex>
                 </HStack>
-                {index < module.lessons.length - 1 && <Divider width="100%" />}
+                {index < module?.lessons.length - 1 && <Divider width="100%" />}
               </VStack>
             ))}
           </AccordionItemContent>

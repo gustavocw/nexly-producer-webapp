@@ -3,7 +3,6 @@ import SearchBar from "components/search/search";
 import Text from "components/text/text";
 import CardIntegration from "./card/card.integrations";
 import { useIntegrationsController } from "./index.controller";
-import { products } from "utils/productdummy";
 
 const Integrations = () => {
   const { integrations, handleToggleIntegration } = useIntegrationsController();
@@ -12,7 +11,7 @@ const Integrations = () => {
     <VStack gap="32px" px={8} align="stretch">
       <VStack align="flex-start" justify="center" spaceY={5} py={5}>
         <Text.Medium fontSize="24px">
-          Integrações ({products.length})
+          Integrações ({1})
         </Text.Medium>
         <SearchBar placeholder="Pesquisar integrações" />
       </VStack>

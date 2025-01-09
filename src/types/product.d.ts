@@ -10,13 +10,14 @@ interface Product {
   _id?: string;
   areaId?: string;
   count_modules: number;
+  count_members: number,
   isCertificate: boolean;
   name: string;
   urlThumbCourse: string;
   description: string;
-  category: string[];
+  category: string;
   duration: string;
-  delDate: string | null;
+  delDate: string;
   producerId: string;
   state: string;
   createdAt: string;

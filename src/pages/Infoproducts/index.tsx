@@ -10,6 +10,7 @@ import useInfoproductsController from "./index.controller";
 const Infoproducts = () => {
   const { categoryOptions, statusOptions, setCategory, setStatus, setAreaId, products, areasList } =
     useInfoproductsController();
+    
 
   return (
     <Stack gap="32px" px={8}>

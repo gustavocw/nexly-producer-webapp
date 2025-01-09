@@ -2,6 +2,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { getMembersById } from "services/members.services";
 
 const useInformationsController = () => {
@@ -9,16 +10,20 @@ const useInformationsController = () => {
   const [lastAccess, setLastAccess] = useState("");
   const { onOpen, onClose } = useDisclosure();
   const { product } = useProducts();
+  const { id } = useParams<{ id: string }>();
+  const idParam = product?._id ?? id;
 
   const { data: members } = useQuery({
-    queryKey: ["members-by-id", product?._id],
+    queryKey: ["members-by-id", idParam],
     queryFn: () =>
-      getMembersById(product?._id, product?.areaId).then((res) => {
-        console.log(res);
+      getMembersById(idParam).then((res) => {
         return res;
       }),
-    enabled: !!product?._id,
+    enabled: !!idParam,
   });
+
+  console.log(members);
+  
 
   const handleMenuAction = (action: string) => {
     switch (action) {

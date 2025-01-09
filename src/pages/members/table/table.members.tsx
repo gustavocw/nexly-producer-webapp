@@ -12,6 +12,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
 import { Avatar } from "components/ui/avatar";
 import type { Member } from "types/members";
+import { formatDateToString } from "utils/formatDateToString";
+import { capitalizeFirstLetter } from "utils/captalizeData";
 
 interface TableMembersProps {
   data?: Member[] | null;
@@ -50,7 +52,6 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
       </MenuItem>
     </>
   );
-
   return (
     <Table.ScrollArea
       w="100%"
@@ -85,9 +86,9 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
         </Table.Header>
 
         <Table.Body>
-          {data && data.length > 0 ? (
-            data.map((member) => (
-              <React.Fragment key={member.id}>
+          {data && data?.length > 0 ? (
+            data?.map((member: Member) => (
+              <React.Fragment key={member?._id}>
                 <Table.Row borderTopWidth="1px" borderColor="neutral.40">
                   <Table.Cell
                     p="20px"
@@ -97,9 +98,9 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     border="none"
                   >
                     <Flex align="center" gap="12px">
-                      <Avatar name={member.studentMember.name} />
+                      <Avatar name={member?.name} />
                       <Text.Medium fontSize="14px" color="neutral">
-                        {member.studentMember.name}
+                        {member?.name}
                       </Text.Medium>
                     </Flex>
                   </Table.Cell>
@@ -110,7 +111,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     border="none"
                   >
                     <Text.Medium fontSize="14px" color="neutral">
-                      {member.email}
+                      {member?.email}
                     </Text.Medium>
                   </Table.Cell>
                   <Table.Cell
@@ -120,7 +121,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     border="none"
                   >
                     <Text.Medium fontSize="14px" color="neutral">
-                      {member.updatedAt}
+                      {formatDateToString(member?.lastAccess)}
                     </Text.Medium>
                   </Table.Cell>
                   <Table.Cell
@@ -129,8 +130,8 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     bg="neutral.50"
                     border="none"
                   >
-                    <Text.Medium fontSize="14px" color="neutral">
-                      {member.stateUser}
+                    <Text.Medium textTransform="capitalize" fontSize="14px" color="neutral">
+                      {capitalizeFirstLetter(member?.stateUser)}
                     </Text.Medium>
                   </Table.Cell>
                   <Table.Cell
@@ -160,7 +161,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                         borderColor="neutral.40"
                         position="absolute"
                       >
-                        {renderMenuItems(member.stateUser)}
+                        {renderMenuItems(member?.stateUser)}
                       </MenuContent>
                     </MenuRoot>
                   </Table.Cell>

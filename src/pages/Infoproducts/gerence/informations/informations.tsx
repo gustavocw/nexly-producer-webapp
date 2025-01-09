@@ -18,6 +18,7 @@ import TableMembers from "pages/members/table/table.members";
 import { LuPlus } from "react-icons/lu";
 import useInformationsController from "./informations.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { formatDateToString } from "utils/formatDateToString";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
@@ -35,7 +36,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           h="200px"
         >
           <HStack gap="10px">
-            <Image borderRadius="8px" w="100px" h="57px" src="/images/bg.png" />
+            <Image borderRadius="8px" w="100px" h="57px" src={data?.urlThumbCourse ?? "/images/bg.png"} />
             <Text.Medium fontSize="16px">{data?.name}</Text.Medium>
           </HStack>
           <Divider width="100" />
@@ -58,7 +59,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
               Data de criação
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              {data?.createdAt}
+              {formatDateToString(data?.createdAt)}
             </Text.Medium>
           </HStack>
           <Divider />
@@ -76,7 +77,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
               Compradores totais
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              320
+              {data?.count_members}
             </Text.Medium>
           </HStack>
         </VStack>
