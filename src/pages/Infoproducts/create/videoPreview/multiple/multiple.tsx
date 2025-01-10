@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Image, VStack } from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Input from "components/input/input";
 import {
@@ -7,16 +7,10 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "components/paginationVideo/pagination";
-import Text from "components/text/text";
-import {
-  FileUploadDropzone,
-  FileUploadList,
-  FileUploadRoot,
-} from "components/ui/file-upload";
 import usePreviewVideoController from "../preview.controller";
-import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
 import useVideosStore from "stores/videos.store";
+import { DragFile } from "components/fileInput/drag.file";
 
 const MultipleVideos = () => {
   const {
@@ -78,9 +72,9 @@ const MultipleVideos = () => {
           <Input.Base
             label="Título"
             control={control}
-            name="title"
+            name="name"
             placeholder="Título da aula"
-            errorText={errors.title?.message}
+            errorText={errors.name?.message}
             isRequired
           />
           <Input.Text
@@ -93,59 +87,11 @@ const MultipleVideos = () => {
           />
         </VStack>
         <Box>
-          <Controller
-            name="thumbnail"
-            control={control}
-            render={({ field }) => (
-              <FileUploadRoot
-                gap={0}
-                alignItems="stretch"
-                maxFiles={1}
-                onFileChange={(value) => {
-                  const selectedFile = value.acceptedFiles[0];
-                  field.onChange(selectedFile);
-                  console.log(selectedFile);
-                }}
-              >
-                <Text.Medium my="4px" fontSize="14px">
-                  Thumbnail
-                </Text.Medium>
-                <FileUploadDropzone
-                  cursor="pointer"
-                  bg="#1C06284D"
-                  color="neutral"
-                  border="1px dashed"
-                  borderColor="primary.50"
-                  _icon={{
-                    display: "none",
-                  }}
-                  label={
-                    <VStack>
-                      <Image src="/images/FileImage.svg" />
-                      <Text.Medium fontSize="13px" display="flex" gap={1}>
-                        Arraste uma imagem ou{" "}
-                        <a style={{ color: "#5E84F1", cursor: "pointer" }}>
-                          selecione manualmente
-                        </a>
-                      </Text.Medium>
-                      <FileUploadList w="100px" />
-                    </VStack>
-                  }
-                />
-                <Flex my="4px" fontSize="12px">
-                  {errors.thumbnail?.message ? (
-                    <Text.Medium>{errors.thumbnail?.message}</Text.Medium>
-                  ) : (
-                    <Text.Medium fontSize="12px">
-                      A imagem de logo deve estar no formato JPG ou PNG e
-                      tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000
-                      pixels.
-                    </Text.Medium>
-                  )}
-                </Flex>
-              </FileUploadRoot>
-            )}
-          />
+        <DragFile
+          width="100%"
+          label="Thumbnail"
+          onFileSelect={(file) => console.log(file)}
+        />
         </Box>
       </HStack>
     </VStack>
