@@ -137,7 +137,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                           value="rename"
                           _hover={{ bg: "neutral.30" }}
                           onClick={() => {
-                            navigate("/infoproducts/create/video");
+                            navigate(`/infoproducts/create/video/${module?._id}`);
                           }}
                         >
                           Adicionar uma aula +1
