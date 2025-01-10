@@ -1,17 +1,12 @@
 import { useDisclosure } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
-import { getProducts } from "services/product.services";
-import useProductStore from "stores/product.store";
 
 const useInfoproductsController = () => {
   const [category, setCategory] = useState("");
   const [status, setStatus] = useState("");
-  const [areaId, setAreaId] = useState("");
-  const { setAreaId: setAreaIdProduct } = useProductStore();
   const { onOpen, onClose } = useDisclosure();
-  const { areasList } = useProducts();
+  const { areasList, products, handleSetAreaId, isLoadingProducts } = useProducts();
 
   const categoryOptions = [
     { value: "todos", label: "Todos" },
@@ -29,16 +24,6 @@ const useInfoproductsController = () => {
     { value: "PUBLICO", label: "Ativos" },
     { value: "PRIVADO", label: "Inativos" },
   ];
-
-  const { data: products } = useQuery({
-    queryKey: ["infoproducts", areaId],
-    queryFn: async () => {
-      const res = await getProducts(areaId);
-      setAreaIdProduct(areaId)
-      return res;
-    },
-    enabled: !!areaId,
-  });
   
 
   return {
@@ -46,8 +31,9 @@ const useInfoproductsController = () => {
     products,
     setCategory,
     areasList,
+    isLoadingProducts,
     status,
-    setAreaId,
+    handleSetAreaId,
     setStatus,
     categoryOptions,
     statusOptions,

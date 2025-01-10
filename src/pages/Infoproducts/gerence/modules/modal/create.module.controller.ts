@@ -63,13 +63,15 @@ export const useCreateModuleController = () => {
 
   const { mutate: mutateModule } = useMutation({
     mutationFn: (params: NewModule) => createModule(product?._id, params),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toaster.create({
         title: "Módulo criado com sucesso!",
         type: "success",
       });
+      console.log(data);
     },
   });
+
   const onSubmit: SubmitHandler<ModuleFormData> = (data) => {
     const params = {
       ...data,

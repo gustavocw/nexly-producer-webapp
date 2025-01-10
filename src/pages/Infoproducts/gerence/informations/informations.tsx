@@ -19,6 +19,7 @@ import { LuPlus } from "react-icons/lu";
 import useInformationsController from "./informations.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDateToString } from "utils/formatDateToString";
+import { capitalizeFirstLetter } from "utils/captalizeData";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
@@ -68,7 +69,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
               Categoria
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              {data?.category}
+              {capitalizeFirstLetter(data?.category)}
             </Text.Medium>
           </HStack>
           <Divider />

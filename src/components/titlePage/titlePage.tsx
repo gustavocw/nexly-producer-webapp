@@ -6,16 +6,24 @@ import { useNavigate } from "react-router-dom";
 interface TitlePageProps {
   title?: string;
   description?: string;
+  onClick?: () => void;
 }
 
-const TitlePage = ({ title, description }: TitlePageProps) => {
+const TitlePage = ({ title, description, onClick }: TitlePageProps) => {
   const navigate = useNavigate();
 
   return (
     <Box py={4}>
       <HStack w="100%" align="flex-start">
         <VStack mx={0} gap="10px">
-          <HStack w="100%" onClick={() => navigate(-1)} cursor="pointer">
+          <HStack
+            w="100%"
+            onClick={() => {
+              if (onClick) onClick();
+              navigate(-1);
+            }}
+            cursor="pointer"
+          >
             <Icon mt="1px" fontSize="32px" color="neutral">
               <KeyboardArrowLeftOutlinedIcon />
             </Icon>

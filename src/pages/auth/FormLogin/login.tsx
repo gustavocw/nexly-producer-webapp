@@ -7,7 +7,7 @@ import Btn from "components/button/button";
 import useAuthStore from "stores/auth.store";
 
 const FormLogin = () => {
-  const { control, errors, handleSubmit, onSubmit } = useLoginController();
+  const { control, errors, handleSubmit, onSubmit, rememberMe, setRememberMe } = useLoginController();
   const { setStepLogin } = useAuthStore();
 
   return (
@@ -54,12 +54,19 @@ const FormLogin = () => {
               Esqueceu a senha?
             </Link>
             <RadioGroup
-              defaultValue="react"
+              defaultValue={rememberMe || "false"}
               color="#fff"
               borderColor="white"
               size="sm"
             >
-              <Radio value="outline">Lembrar de mim</Radio>
+              <Radio
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  setRememberMe(e.target.value);
+                }}
+                value="true"
+              >
+                Lembrar de mim
+              </Radio>
             </RadioGroup>
           </HStack>
           <Btn label="Entrar" onClick={handleSubmit(onSubmit)} />
@@ -67,7 +74,11 @@ const FormLogin = () => {
       </VStack>
       <Flex py={10} gap={2}>
         <Text.Base>Não possui um conta?</Text.Base>
-        <Link onClick={() => setStepLogin(true)} textDecoration="none" color="primary.50">
+        <Link
+          onClick={() => setStepLogin(true)}
+          textDecoration="none"
+          color="primary.50"
+        >
           Cadastre-se
         </Link>
       </Flex>

@@ -10,8 +10,17 @@ interface AuthContextValue {
 }
 
 export const AuthContext = createContext({} as AuthContextValue);
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { producerStore } = useAuthStore();
+  const {
+    producerStore,
+    setEmail,
+    setPassword,
+    email,
+    password,
+    rememberMe,
+  } = useAuthStore();
+
   const [isLogged, setIsLogged] = useState<boolean>(() => {
     const storedAccessToken = localStorage.getItem(
       localStorageKeys.ACCESS_TOKEN
@@ -27,20 +36,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signout = useCallback(async () => {
     localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
     setIsLogged(false);
-  }, []);
+  }, [setEmail, setPassword]);
 
   useEffect(() => {
+    if (rememberMe && email && password) {
+      console.log("Lembrar de Mim ativo:", email);
+    }
+
     const pathname = location.pathname;
     const pathSegments = pathname.split("/");
     const idFromPath = pathSegments[1];
     if (producerStore === null && idFromPath !== "login") {
       toaster.create({
         title: "Sua sessão expirou!",
-        type: "error"
+        type: "error",
       });
       signout();
     }
-  }, [signout]);
+  }, [email, password, rememberMe, producerStore, signout]);
 
   return (
     <AuthContext.Provider

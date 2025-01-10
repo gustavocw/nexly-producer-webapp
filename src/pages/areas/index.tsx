@@ -26,7 +26,7 @@ const Areas = () => {
         <HStack align="flex-start" justify="space-between" spaceY={5} py={5}>
           <Tabs.Content w="100%" display="flex" justifyContent="space-between" value="areas">
           <Text.Medium fontSize="24px">
-            Suas áreas ({areas?.length})
+            Suas áreas {areas?.length && `${(areas?.length)}`}
           </Text.Medium>
             <Tabs.Trigger value="area">
               <Btn w="200px" iconLeft={<HiPlus />} label="Nova área" />

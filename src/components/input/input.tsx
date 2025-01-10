@@ -25,6 +25,8 @@ interface InputProps {
   maxLength?: number;
   mask?: string;
   helperText?: string;
+  maxH?: string;
+  minH?: string;
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -96,6 +98,8 @@ const InputText: React.FC<InputProps> = ({
   isDisabled,
   helperText,
   maxLength,
+  maxH,
+  minH,
   mask,
 }) => (
   <Field
@@ -116,8 +120,8 @@ const InputText: React.FC<InputProps> = ({
             onChange={(e) => field.onChange(e.target.value)}
             ref={mask ? withMask(mask) : undefined}
             readOnly={isReadOnly}
-            maxH="200px"
-            minH="200px"
+            maxH={maxH ?? "200px"}
+            minH={minH ?? "200px"}
             p={2}
             disabled={isDisabled}
             maxLength={maxLength}

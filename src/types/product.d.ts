@@ -10,6 +10,7 @@ interface Product {
   _id?: string;
   areaId?: string;
   count_modules: number;
+  count_lesson: number;
   count_members: number,
   isCertificate: boolean;
   name: string;
@@ -26,7 +27,7 @@ interface Product {
 }
 
 interface Module {
-  id: string;
+  _id: string;
   stateModule: string;
   name: string | null;
   description: string | null;

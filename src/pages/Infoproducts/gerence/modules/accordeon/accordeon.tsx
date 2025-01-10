@@ -54,7 +54,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
       collapsible
     >
       {modules?.map((module, index) => (
-        <AccordionItem bg="neutral.60" key={index} value={module?.id}>
+        <AccordionItem bg="neutral.60" key={index} value={module?._id}>
           <Box position="relative">
             <AccordionItemTrigger
               cursor="pointer"
@@ -166,13 +166,13 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                   <HStack gap={2} justify="center" mx="auto" w="100%">
                     <Btn
                       onClick={() => navigate("/infoproducts/create/platfoms")}
-                      w="20%"
+                      w="260px"
                       iconLeft={<HiPlus />}
                       label="Adicionar aulas via integração"
                     />
                     <Btn
-                      onClick={() => navigate("/infoproducts/create/video")}
-                      w="20%"
+                      onClick={() => navigate(`/infoproducts/create/video/${module?._id}`)}
+                      w="260px"
                       iconLeft={<HiPlus />}
                       label="Adicionar uma aula única"
                     />
@@ -197,7 +197,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                       w="100px"
                       h="56px"
                       borderRadius="8px"
-                      src="/images/bg.png"
+                      src={lesson.thumbnails}
                     />
                     <Text.Medium fontSize="16px">
                       {lesson.nameLesson}

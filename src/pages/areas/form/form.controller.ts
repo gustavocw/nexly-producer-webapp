@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createArea } from "services/areas.services";
 import { toaster } from "components/ui/toaster";
+import { useProducts } from "hooks/useProducts";
 
 export const createAreaSchema = z.object({
   domain: z
@@ -17,6 +18,7 @@ export const createAreaSchema = z.object({
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
 
 export const useCreateAreaController = () => {
+  const { refetchAreas } = useProducts();
   const [files, setFiles] = useState<{
     background: File | null;
     icon: File | null;
@@ -56,6 +58,7 @@ export const useCreateAreaController = () => {
         logo: files.logo,
       };
       await createArea(payload).then(() => {
+        refetchAreas();
         toaster.create({
           title: "Área criada com sucesso",
           type: "success",

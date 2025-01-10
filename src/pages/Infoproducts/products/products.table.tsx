@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "hooks/useProducts";
 
 interface TableProducts {
-  data: Product[];
+  data?: Product[] | null;
 }
 
 const TableProducts: React.FC<TableProducts> = ({ data }) => {

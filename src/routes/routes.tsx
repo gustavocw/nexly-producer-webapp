@@ -51,7 +51,7 @@ const AppRoutes: React.FC = () => {
               element={<YoutubeVideos />}
             />
             <Route
-              path="/infoproducts/create/video"
+              path="/infoproducts/create/video/:id"
               element={<PreviewVideos />}
             />
             <Route

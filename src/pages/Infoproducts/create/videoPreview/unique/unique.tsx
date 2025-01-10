@@ -1,33 +1,13 @@
-import { Box, Flex, HStack, Image, VStack } from "@chakra-ui/react";
-import Divider from "components/divider/divider";
+import { HStack, VStack } from "@chakra-ui/react";
 import Input from "components/input/input";
-import {
-  PaginationNextTrigger,
-  PaginationPageText,
-  PaginationPrevTrigger,
-  PaginationRoot,
-} from "components/paginationVideo/pagination";
-import Text from "components/text/text";
-import {
-  FileUploadDropzone,
-  FileUploadList,
-  FileUploadRoot,
-} from "components/ui/file-upload";
 import usePreviewVideoController from "../preview.controller";
-import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
+import Select from "components/select/select";
+import { DragFile } from "components/fileInput/drag.file";
 
-interface UniqueVideoProps {
-  video: any;
-}
-
-const UniqueVideo: React.FC<UniqueVideoProps> = ({ video }) => {
-  const { control, errors, onSubmit, handleSubmit, pageRef, setPageRef } =
+const UniqueVideo = () => {
+  const { control, errors, onSubmit, handleSubmit, updateFile } =
     usePreviewVideoController();
-
-  console.log(video);
-
-  const pages = 5;
 
   return (
     <VStack
@@ -37,99 +17,65 @@ const UniqueVideo: React.FC<UniqueVideoProps> = ({ video }) => {
       gap="20px"
       w="100%"
     >
-      <HStack w="100%">
-        <PaginationRoot count={pages} pageSize={1} defaultPage={1} w="100%">
-          <HStack w="100%" justify="space-between" gap="4">
-            <PaginationPageText format="long" flex="1" />
-
-            {pageRef > 1 && (
-              <PaginationPrevTrigger onClick={() => setPageRef(pageRef - 1)} />
-            )}
-            {pageRef < pages ? (
-              <PaginationNextTrigger onClick={() => setPageRef(pageRef + 1)} />
-            ) : (
-              <Btn w="200px" label="Salvar" onClick={handleSubmit(onSubmit)} />
-            )}
-          </HStack>
-        </PaginationRoot>
-      </HStack>
-
-      <Divider width="100%" />
-
       <HStack align="flex-start" w="100%">
-        <VStack pt={1} alignItems="flex-start" w="70%">
-          <Input.Base
-            label="Título"
-            control={control}
-            name="title"
-            placeholder="Título da aula"
-            errorText={errors.title?.message}
-            isRequired
-          />
-          <Input.Text
-            label="Descrição"
-            control={control}
-            name="description"
-            placeholder="Descrição da aula"
-            errorText={errors.description?.message}
-            isRequired
-          />
+        <VStack pt={1} alignItems="flex-start" w="100%">
+          <HStack alignItems="flex-start" w="100%">
+            <Input.Base
+              label="Título"
+              control={control}
+              name="name"
+              placeholder="Título da aula"
+              errorText={errors.name?.message}
+              isRequired
+            />
+            <Input.Base
+              label="URL"
+              control={control}
+              name="urlMovie"
+              placeholder="URL da aula"
+              errorText={errors.urlMovie?.message}
+              isRequired
+            />
+          </HStack>
+          <HStack alignItems="flex-start" w="100%">
+            <Select
+              name="stateLesson"
+              control={control}
+              label="Privacidade"
+              options={[
+                { value: "PRIVADO", label: "Privado" },
+                { value: "PUBLICO", label: "Público" },
+              ]}
+              placeholder="Insira o estado"
+            />
+            <Select
+              name="provider"
+              control={control}
+              label="Plataforma"
+              options={[{ value: "youtube", label: "Youtube" }]}
+              placeholder="Insira a plataforma."
+            />
+          </HStack>
         </VStack>
-        <Box>
-          <Controller
-            name="thumbnail"
-            control={control}
-            render={({ field }) => (
-              <FileUploadRoot
-                gap={0}
-                alignItems="stretch"
-                maxFiles={1}
-                onFileChange={(value) => {
-                  const selectedFile = value.acceptedFiles[0];
-                  field.onChange(selectedFile);
-                  console.log(selectedFile);
-                }}
-              >
-                <Text.Medium my="4px" fontSize="14px">
-                  Thumbnail
-                </Text.Medium>
-                <FileUploadDropzone
-                  cursor="pointer"
-                  bg="#1C06284D"
-                  color="neutral"
-                  border="1px dashed"
-                  borderColor="primary.50"
-                  _icon={{
-                    display: "none",
-                  }}
-                  label={
-                    <VStack>
-                      <Image src="/images/FileImage.svg" />
-                      <Text.Medium fontSize="13px" display="flex" gap={1}>
-                        Arraste uma imagem ou{" "}
-                        <a style={{ color: "#5E84F1", cursor: "pointer" }}>
-                          selecione manualmente
-                        </a>
-                      </Text.Medium>
-                      <FileUploadList w="100px" />
-                    </VStack>
-                  }
-                />
-                <Flex my="4px" fontSize="12px">
-                  {errors.thumbnail?.message ? (
-                    <Text.Medium>{errors.thumbnail?.message}</Text.Medium>
-                  ) : (
-                    <Text.Medium fontSize="12px">
-                      A imagem de logo deve estar no formato JPG ou PNG e
-                      tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000
-                      pixels.
-                    </Text.Medium>
-                  )}
-                </Flex>
-              </FileUploadRoot>
-            )}
-          />
-        </Box>
+      </HStack>
+      <HStack alignItems="flex-start" w="100%">
+        <Input.Text
+          label="Descrição"
+          control={control}
+          name="description"
+          minH="300px"
+          placeholder="Descrição da aula"
+          errorText={errors.description?.message}
+          isRequired
+        />
+        <DragFile
+          width="100%"
+          label="Thumbnail"
+          onFileSelect={(file) => updateFile(file)}
+        />
+      </HStack>
+      <HStack w="100%" justify="flex-end">
+        <Btn label="Publicar" onClick={handleSubmit(onSubmit)} w="200px" />
       </HStack>
     </VStack>
   );

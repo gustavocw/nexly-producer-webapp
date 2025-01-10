@@ -5,7 +5,6 @@ import { signin } from "services/auth.services";
 import { useAuth } from "hooks/useAuth";
 import useAuthStore from "stores/auth.store";
 import { useNavigate } from "react-router-dom";
-// import { signin } from "services/AuthServices";
 
 export const loginSchema = z.object({
   email: z
@@ -34,7 +33,15 @@ type ServerErrorResponse = {
 
 export const useLoginController = () => {
   const navigate = useNavigate();
-  const { setProducerStore } = useAuthStore();
+  const {
+    setProducerStore,
+    email,
+    password,
+    setEmail,
+    setPassword,
+    rememberMe,
+    setRememberMe
+  } = useAuthStore();
   const { auth } = useAuth();
 
   const {
@@ -47,13 +54,15 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: "",
-      password: "",
+      email: email ?? "",
+      password: password ?? "",
     },
   });
 
+  console.log(email);
+  
+
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    console.log(data);
     try {
       await signin({
         email: data.email,
@@ -62,6 +71,14 @@ export const useLoginController = () => {
         if (res?.token) {
           auth(res?.token);
           setProducerStore(res);
+          if (rememberMe === "true") {
+            setEmail(data.email);
+            setPassword(data.password);
+          } else {
+            setEmail(null);
+            setPassword(null);
+          }
+
           navigate("/");
         }
       });
@@ -80,10 +97,13 @@ export const useLoginController = () => {
   };
 
   return {
-    control,
+    setRememberMe,
+    rememberMe,
     handleSubmit,
+    control,
     errors,
     onSubmit,
     reset,
   };
 };
+

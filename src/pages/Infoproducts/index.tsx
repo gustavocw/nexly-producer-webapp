@@ -8,7 +8,7 @@ import TableProducts from "./products/products.table";
 import useInfoproductsController from "./index.controller";
 
 const Infoproducts = () => {
-  const { categoryOptions, statusOptions, setCategory, setStatus, setAreaId, products, areasList } =
+  const { categoryOptions, statusOptions, setCategory, setStatus, handleSetAreaId, products, areasList, isLoadingProducts } =
     useInfoproductsController();
     
 
@@ -16,10 +16,10 @@ const Infoproducts = () => {
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>
         <Text.Medium fontSize="24px">
-          Meus Infoprodutos ({products?.length})
+          Meus Infoprodutos {products?.length && `${(products?.length)}`}
         </Text.Medium>
       </VStack>
-      {products?.length === 0 ? (
+      {products?.length === 0 && !isLoadingProducts ? (
         <VStack gap="32px" w="100%">
           <VStack
             w="100%"
@@ -46,7 +46,7 @@ const Infoproducts = () => {
             <HStack justify="space-between" w="100%">
               <Flex w="100%" gap="32px">
               <SelectOption
-                  onSelectChange={(v) => setAreaId(v)}
+                  onSelectChange={(v) => handleSetAreaId(v)}
                   placeholder="Área"
                   options={areasList}
                 />

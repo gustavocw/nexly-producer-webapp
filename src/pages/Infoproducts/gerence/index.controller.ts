@@ -15,19 +15,17 @@ interface UseGenrenceInfoproduct {
 
 export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
   const { id } = useParams<{ id: string }>();
-  const { product: productData, setProduct } = useProducts();
+  const { setProduct } = useProducts();
 
-  const { data: productUnique, refetch } = useQuery({
-    queryKey: ["product-byId", productData?._id],
+  const { data: product, refetch } = useQuery({
+    queryKey: ["product-byId", id],
     queryFn: () =>
       getProductUnique(id).then((res) => {
         setProduct(res[0]);
         return res[0];
       }),
-    enabled: !productData?._id && !!id,
+    enabled: !!id,
   });
-
-  const product = productData ?? productUnique;
 
   useEffect(() => {
     if (!product) {
