@@ -10,6 +10,7 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
+  Skeleton,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
@@ -19,7 +20,7 @@ import HttpsIcon from "@mui/icons-material/Https";
 import PublicIcon from "@mui/icons-material/Public";
 import CancelIcon from "@mui/icons-material/Cancel";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "hooks/useProducts";
 
@@ -28,6 +29,7 @@ interface TableProducts {
 }
 
 const TableProducts: React.FC<TableProducts> = ({ data }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const { setProduct } = useProducts();
   const renderStatusIcon = (state: string, deldate?: any) => {
     if (deldate) {
@@ -82,7 +84,8 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           color="neutral"
           value="edit"
           onClick={() => {
-            navigate(`/infoproducts/informations/${item._id}`), setProduct(item);
+            navigate(`/infoproducts/informations/${item._id}`),
+              setProduct(item);
           }}
         >
           Gerenciar
@@ -188,11 +191,14 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                   >
                     <VStack align="flex-start" w="100%">
                       <Flex gap="12px">
-                        <Image
-                          w="100px"
-                          h="57px"
-                          src={item?.urlThumbCourse ?? "/images/bg.png"}
-                        />
+                        <Skeleton loading={!isLoaded} transition="0.2s" w="100px" h="57px">
+                          <Image
+                            w="100px"
+                            h="57px"
+                            onLoad={() => setIsLoaded(true)}
+                            src={item?.urlThumbCourse ?? "/images/bg.png"}
+                          />
+                        </Skeleton>
                         <VStack align="flex-start" w="100%">
                           <Text.Medium fontSize="14px" color="neutral">
                             {item.name}

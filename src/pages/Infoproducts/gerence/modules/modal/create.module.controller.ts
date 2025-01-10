@@ -6,6 +6,8 @@ import { createModule } from "services/product.services";
 import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
 import { toaster } from "components/ui/toaster";
+import { useGenrenceInfoproduct } from "../../index.controller";
+import { useParams } from "react-router-dom";
 
 export const moduleSchema = z.object({
   name: z
@@ -38,9 +40,12 @@ export const moduleSchema = z.object({
 type ModuleFormData = z.infer<typeof moduleSchema>;
 
 export const useCreateModuleController = () => {
-  const [file, setFile] = useState<File | null>(null);
-
+  const [file, setFile] = useState<File | null>(null)
+  const {refetchCourse} = useGenrenceInfoproduct();
+  const { id: productId } = useParams<{ id: string }>();
   const { product } = useProducts();
+  const idProduct = product?._id ?? productId
+
   const {
     control,
     handleSubmit,
@@ -62,13 +67,13 @@ export const useCreateModuleController = () => {
   };
 
   const { mutate: mutateModule } = useMutation({
-    mutationFn: (params: NewModule) => createModule(product?._id, params),
-    onSuccess: (data) => {
+    mutationFn: (params: NewModule) => createModule(idProduct, params),
+    onSuccess: () => {
       toaster.create({
         title: "Módulo criado com sucesso!",
         type: "success",
       });
-      console.log(data);
+      refetchCourse();
     },
   });
 

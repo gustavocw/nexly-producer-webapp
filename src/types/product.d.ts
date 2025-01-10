@@ -40,16 +40,14 @@ interface Module {
   lessons: Lessons[];
 }
 
-interface Lessons {
+interface Lesson {
+  _id: string;
   createdAt: string;
-  description: string;
-  id: string;
-  idLessonYt: string;
+  duration: string;
+  moduleId: string;
   nameLesson: string;
-  thumbnails: string;
-  updatedAt: string;
-  urlVideoYt: string;
-  youtubeCourseId: string;
+  stateLesson: string;
+  urlVideo: string;
 }
 
 interface Area {

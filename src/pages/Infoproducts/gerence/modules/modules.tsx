@@ -9,7 +9,6 @@ interface ModulesProps {
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
-
   return (
     <Flex w="100%">
       {data?.count_modules === 0 ? (

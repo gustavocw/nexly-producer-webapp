@@ -11,13 +11,14 @@ interface UseGenrenceInfoproduct {
     label: string;
     value: string;
   }) => void;
+  refetchCourse: () => void;
 }
 
 export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
   const { id } = useParams<{ id: string }>();
   const { setProduct } = useProducts();
 
-  const { data: product, refetch } = useQuery({
+  const { data: product, refetch: refetchCourse } = useQuery({
     queryKey: ["product-byId", id],
     queryFn: () =>
       getProductUnique(id).then((res) => {
@@ -29,9 +30,9 @@ export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
 
   useEffect(() => {
     if (!product) {
-      refetch();
+      refetchCourse();
     }
-  }, [product, refetch]);
+  }, [product, refetchCourse]);
 
   const optionsNav = [
     { label: "Informações", value: "informations" },
@@ -49,6 +50,7 @@ export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
   return {
     product,
     optionsNav,
+    refetchCourse,
     handleSelectionChange,
   };
 };

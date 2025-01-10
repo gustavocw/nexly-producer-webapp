@@ -1,26 +1,21 @@
-import { Flex, HStack, Image, VStack } from "@chakra-ui/react";
+import { Flex, HStack, VStack } from "@chakra-ui/react";
 import CertificateIcon from "assets/icons/CertificateIcon";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import { useCertificateController } from "./certificates.controller";
 import Input from "components/input/input";
-import { Controller } from "react-hook-form";
-import {
-  FileUploadDropzone,
-  FileUploadList,
-  FileUploadRoot,
-} from "components/ui/file-upload";
 import CertificateImage from "./certificate/certificate.image";
 import Btn from "components/button/button";
+import { DragFile } from "components/fileInput/drag.file";
 
 const Certificates = () => {
-  const { control, watch, errors, handleSubmit, onSubmit } =
+  const { control, watch, errors, updateFiles, handleSubmit, onSubmit } =
     useCertificateController();
 
-  const name = watch("name");
+  const signatureUrl = watch("signatureUrl");
   const description = watch("description");
-  const logo = watch("logo");
-  const capa = watch("capa");
+  // const percent = watch("percent");
+  // const progress = watch("progress");
 
   return (
     <VStack flexDir="column" w="100%" align="flex-start" gap="32px">
@@ -45,7 +40,7 @@ const Certificates = () => {
             </VStack>
           </Flex>
         </VStack>
-        <VStack w="100%" spaceY="32px">
+        <VStack w="100%" gap="32px">
           <VStack
             align="flex-start"
             w="100%"
@@ -61,11 +56,11 @@ const Certificates = () => {
             <Divider width="100%" />
             <HStack justify="center" w="100%">
               <CertificateImage
-                logo={logo}
-                fundo={capa}
+                logo={signatureUrl}
+                fundo="imagem-capa.png"
                 descricao={description}
                 assinatura="Nexly Members"
-                nome={name}
+                nome="Aluno Teste"
                 curso="Introdução à programação em Python"
               />
             </HStack>
@@ -85,139 +80,44 @@ const Certificates = () => {
             <Divider width="100%" />
             <VStack p="20px" w="100%" align="flex-start">
               <Input.Base
-                name="signature"
-                label="Assinatura"
-                placeholder=""
+                name="signatureUrl"
+                label="URL da Assinatura"
+                placeholder="Ex: https://example.com/assinatura.png"
                 control={control}
-                errorText={errors.signature?.message}
-              />
-              <Input.Base
-                name="name"
-                label="Nome do aluno"
-                placeholder="Ex: João Silva"
-                control={control}
-                errorText={errors.name?.message}
+                errorText={errors.signatureUrl?.message}
               />
               <Input.Text
                 maxLength={200}
                 name="description"
-                label="Descrição curta de conclusão"
+                label="Descrição"
                 placeholder="Ex: Certificado por concluir o curso com excelência."
                 control={control}
                 errorText={errors.description?.message}
               />
+              <Input.Base
+                name="percent"
+                label="Porcentagem"
+                placeholder="Ex: 100"
+                control={control}
+                type="number"
+                errorText={errors.percent?.message}
+              />
+              <Input.Base
+                name="progress"
+                label="Progresso"
+                placeholder="Ex: true"
+                control={control}
+                type="checkbox"
+                errorText={errors.progress?.message}
+              />
               <HStack alignItems="center" w="100%">
-                <Controller
-                  name="logo"
-                  control={control}
-                  render={({ field }) => (
-                    <FileUploadRoot
-                      gap={0}
-                      alignItems="stretch"
-                      maxFiles={1}
-                      onFileChange={(value) => {
-                        const selectedFile = value.acceptedFiles[0];
-                        field.onChange(selectedFile);
-                        console.log(selectedFile);
-                      }}
-                    >
-                      <Text.Medium my="4px" fontSize="14px">
-                        Logotipo
-                      </Text.Medium>
-                      <FileUploadDropzone
-                        cursor="pointer"
-                        bg="#1C06284D"
-                        color="neutral"
-                        border="1px dashed"
-                        borderColor="primary.50"
-                        _icon={{
-                          display: "none",
-                        }}
-                        label={
-                          <VStack>
-                            <Image src="/images/FileImage.svg" />
-                            <Text.Medium fontSize="13px" display="flex" gap={1}>
-                              Arraste uma imagem ou{" "}
-                              <a
-                                style={{ color: "#5E84F1", cursor: "pointer" }}
-                              >
-                                selecione manualmente
-                              </a>
-                            </Text.Medium>
-                            <FileUploadList w="100px" />
-                          </VStack>
-                        }
-                      />
-                      <Flex my="4px" fontSize="12px">
-                        {errors.logo?.message ? (
-                          <Text.Medium>
-                            {errors.logo?.message}
-                          </Text.Medium>
-                        ) : (
-                          <Text.Medium fontSize="12px">
-                            {errors.logo?.message}A imagem de logo deve
-                            estar no formato JPG ou PNG e tamanho máximo de 5
-                            MB. Dimensões ideais: 1.500 x 1.000 pixels.
-                          </Text.Medium>
-                        )}
-                      </Flex>
-                    </FileUploadRoot>
-                  )}
+                <DragFile
+                  label="Logo"
+                  onFileSelect={(file) => updateFiles("logo", file)}
                 />
-                <Controller
-                  name="capa"
-                  control={control}
-                  render={({ field }) => (
-                    <FileUploadRoot
-                      gap={0}
-                      alignItems="stretch"
-                      maxFiles={1}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        field.onChange(e.target.value);
-                      }}
-                    >
-                      <Text.Medium my="4px" fontSize="14px">
-                        Fundo do certificado
-                      </Text.Medium>
-                      <FileUploadDropzone
-                        cursor="pointer"
-                        bg="#1C06284D"
-                        color="neutral"
-                        border="1px dashed"
-                        borderColor="primary.50"
-                        _icon={{
-                          display: "none",
-                        }}
-                        label={
-                          <VStack>
-                            <Image src="/images/FileImage.svg" />
-                            <Text.Medium fontSize="13px" display="flex" gap={1}>
-                              Arraste uma imagem ou{" "}
-                              <a
-                                style={{ color: "#5E84F1", cursor: "pointer" }}
-                              >
-                                selecione manualmente
-                              </a>
-                            </Text.Medium>
-                            <FileUploadList w="100px" />
-                          </VStack>
-                        }
-                      />
-                      <Flex my="4px" fontSize="12px">
-                        {errors.capa?.message ? (
-                          <Text.Medium>
-                            {errors.capa?.message}
-                          </Text.Medium>
-                        ) : (
-                          <Text.Medium fontSize="12px">
-                            {errors.capa?.message}A imagem de logo deve
-                            estar no formato JPG ou PNG e tamanho máximo de 5
-                            MB. Dimensões ideais: 1.500 x 1.000 pixels.
-                          </Text.Medium>
-                        )}
-                      </Flex>
-                    </FileUploadRoot>
-                  )}
+                <DragFile
+                  label="Capa"
+                  onFileSelect={(file) => updateFiles("background", file)}
                 />
               </HStack>
             </VStack>
