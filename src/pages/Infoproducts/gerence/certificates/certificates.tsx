@@ -7,15 +7,23 @@ import Input from "components/input/input";
 import CertificateImage from "./certificate/certificate.image";
 import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
+import { Controller } from "react-hook-form";
+import { Switch } from "components/ui/switch";
 
 const Certificates = () => {
-  const { control, watch, errors, updateFiles, handleSubmit, onSubmit } =
-    useCertificateController();
+  const {
+    control,
+    watch,
+    errors,
+    updateFiles,
+    setValue,
+    handleSubmit,
+    onSubmit,
+    files,
+  } = useCertificateController();
 
   const signatureUrl = watch("signatureUrl");
   const description = watch("description");
-  // const percent = watch("percent");
-  // const progress = watch("progress");
 
   return (
     <VStack flexDir="column" w="100%" align="flex-start" gap="32px">
@@ -56,11 +64,11 @@ const Certificates = () => {
             <Divider width="100%" />
             <HStack justify="center" w="100%">
               <CertificateImage
-                logo={signatureUrl}
-                fundo="imagem-capa.png"
+                logo={files.logoUrl}
+                fundo={files.background}
                 descricao={description}
-                assinatura="Nexly Members"
-                nome="Aluno Teste"
+                assinatura={signatureUrl}
+                nome="NOME DO ALUNO FICA AQUI"
                 curso="Introdução à programação em Python"
               />
             </HStack>
@@ -81,7 +89,7 @@ const Certificates = () => {
             <VStack p="20px" w="100%" align="flex-start">
               <Input.Base
                 name="signatureUrl"
-                label="URL da Assinatura"
+                label="Assinatura"
                 placeholder="Ex: https://example.com/assinatura.png"
                 control={control}
                 errorText={errors.signatureUrl?.message}
@@ -94,26 +102,34 @@ const Certificates = () => {
                 control={control}
                 errorText={errors.description?.message}
               />
-              <Input.Base
-                name="percent"
-                label="Porcentagem"
-                placeholder="Ex: 100"
-                control={control}
-                type="number"
-                errorText={errors.percent?.message}
-              />
-              <Input.Base
-                name="progress"
-                label="Progresso"
-                placeholder="Ex: true"
-                control={control}
-                type="checkbox"
-                errorText={errors.progress?.message}
-              />
+              <Flex alignItems="center" w="100%" gap={2}>
+                <Input.Base
+                  name="percent"
+                  label="Porcentagem"
+                  placeholder="Ex: 100"
+                  type="number"
+                  control={control}
+                  errorText={errors.percent?.message}
+                />
+
+                <Controller
+                  name="progress"
+                  control={control}
+                  render={() => (
+                    <Flex w="30%">
+                      <Switch
+                        onCheckedChange={(v) => setValue("progress", v.checked)}
+                      >
+                        Mostrar progresso ?
+                      </Switch>
+                    </Flex>
+                  )}
+                />
+              </Flex>
               <HStack alignItems="center" w="100%">
                 <DragFile
-                  label="Logo"
-                  onFileSelect={(file) => updateFiles("logo", file)}
+                  label="Logotipo"
+                  onFileSelect={(file) => updateFiles("logoUrl", file)}
                 />
                 <DragFile
                   label="Capa"

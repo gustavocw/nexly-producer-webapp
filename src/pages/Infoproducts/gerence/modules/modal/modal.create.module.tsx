@@ -41,11 +41,19 @@ import type React from "react";
 
 interface ModalPops {
   isEdit?: boolean;
+  module: Module;
 }
 
-export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
-  const { control, errors, onSubmit, handleSubmit, updateFile } =
-    useCreateModuleController();
+export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
+  const {
+    control,
+    errors,
+    onSubmit,
+    handleSubmit,
+    updateFile,
+    file,
+  } = useCreateModuleController({ module, isEdit });
+
 
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
@@ -163,7 +171,14 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit }) => {
                     }}
                     label={
                       <VStack>
-                        <Image src="/images/FileImage.svg" />
+                        <Image
+                          maxW="200px"
+                          src={
+                            file instanceof File
+                              ? URL.createObjectURL(file)
+                              : file || "/images/FileImage.svg"
+                          }
+                        />
                         <Text.Medium fontSize="13px" display="flex" gap={1}>
                           Arraste uma imagem ou{" "}
                           <a style={{ color: "#5E84F1", cursor: "pointer" }}>

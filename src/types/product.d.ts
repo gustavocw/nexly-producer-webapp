@@ -11,7 +11,7 @@ interface Product {
   areaId?: string;
   count_modules: number;
   count_lesson: number;
-  count_members: number,
+  count_members: number;
   isCertificate: boolean;
   name: string;
   urlThumbCourse: string;
@@ -27,21 +27,16 @@ interface Product {
 }
 
 interface Module {
-  _id: string;
+  _id: any;
+  name: string;
   stateModule: string;
-  name: string | null;
-  description: string | null;
-  delDate: string | null;
-  channelIdChanged: string;
-  playlistIdChanged: string | null;
-  courseYtId: string;
-  createdAt: string;
-  updatedAt: string;
-  lessons: Lessons[];
+  description: string;
+  format: string;
+  thumbnail?: File | null;
 }
 
 interface Lesson {
-  _id: string;
+  _id?: string;
   createdAt: string;
   duration: string;
   moduleId: string;
@@ -68,13 +63,13 @@ interface NewModule {
 }
 
 enum Format {
-  HORIZONTAL_RECT = 'HORIZONTAL_RECT',
-  SQUARE = 'SQUARE',
-  VERTICAL_RECT = 'VERTICAL_RECT',
-  VERTICAL_RECT_MAX = 'VERTICAL_RECT_MAX'
+  HORIZONTAL_RECT = "HORIZONTAL_RECT",
+  SQUARE = "SQUARE",
+  VERTICAL_RECT = "VERTICAL_RECT",
+  VERTICAL_RECT_MAX = "VERTICAL_RECT_MAX",
 }
 
 enum StateModule {
-  PRIVADO = 'PRIVADO',
-  PUBLICO = 'PUBLICO'
+  PRIVADO = "PRIVADO",
+  PUBLICO = "PUBLICO",
 }

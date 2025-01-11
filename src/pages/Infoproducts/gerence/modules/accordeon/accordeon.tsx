@@ -1,13 +1,15 @@
 import {
   AbsoluteCenter,
-  Box, Flex,
+  Box,
+  Flex,
   HStack,
   Icon,
   Image,
   MenuContent,
   MenuItem,
   MenuRoot,
-  MenuTrigger, VStack
+  MenuTrigger,
+  VStack,
 } from "@chakra-ui/react";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import DehazeOutlinedIcon from "@mui/icons-material/DehazeOutlined";
@@ -54,7 +56,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
         <AccordionItem
           bg="neutral.60"
           key={module._id}
-          value={module._id}
+          value={module?._id}
           onClick={() => {
             fetchLessons(module._id);
           }}
@@ -82,10 +84,28 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
               </Flex>
             </AccordionItemTrigger>
             <AbsoluteCenter mr="20px" gap="32px" axis="vertical" insetEnd="0">
+              {moduleLessons[module._id]?.length > 0 && (
+                <Flex gap={2}>
+                  <Btn
+                    bg="transparent"
+                    w="10px"
+                    label="+1"
+                    onClick={() =>
+                      navigate(`/infoproducts/create/video/${module._id}`)
+                    }
+                  />
+                  <Btn
+                    bg="transparent"
+                    w="10px"
+                    label="+2"
+                    onClick={() => navigate(`/infoproducts/create/platfoms/${module._id}`)}
+                  />
+                </Flex>
+              )}
               <Icon cursor="pointer">
                 <PublicOutlinedIcon />
               </Icon>
-              <ModalCreateModule isEdit />
+              <ModalCreateModule module={module} isEdit />
             </AbsoluteCenter>
           </Box>
           <AccordionItemContent>
@@ -112,7 +132,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                           w="100px"
                           h="56px"
                           borderRadius="8px"
-                          src={lesson.thumbnail}
+                          // src={lesson.thumbnail}
                         />
                         <Text.Medium fontSize="16px">
                           {lesson.nameLesson}
@@ -167,8 +187,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                         </MenuRoot>
                       </Flex>
                     </HStack>
-                    {index <
-                      moduleLessons[module._id]?.length - 1 && (
+                    {index < moduleLessons[module._id]?.length - 1 && (
                       <Divider width="100%" />
                     )}
                   </VStack>
@@ -180,9 +199,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                   </Text.Medium>
                   <HStack gap={2} justify="center" mx="auto" w="100%">
                     <Btn
-                      onClick={() =>
-                        navigate("/infoproducts/create/platfoms")
-                      }
+                      onClick={() => navigate(`/infoproducts/create/platfoms/${module._id}`)}
                       w="260px"
                       iconLeft={<HiPlus />}
                       label="Adicionar aulas via integração"

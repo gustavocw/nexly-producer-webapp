@@ -31,10 +31,9 @@ export async function getProductUnique(productId?: string | null) {
 export async function getLessons(productId?: string | null) {
   const { data } = await http.get(`/course/lesson/${productId}`, {});
   console.log(data.data);
-  
+
   return data.data;
 }
-
 
 export async function createModule(
   productId?: string | null,
@@ -59,5 +58,23 @@ export async function createModule(
   }
 
   const { data } = await http.post(`/course/module/${productId}`, formData);
+  return data;
+}
+
+export async function editModule(moduleId: string, module: Module) {
+  const formData = new FormData();
+  formData.append("name", module?.name);
+  formData.append("description", module?.description);
+  formData.append("stateModule", module?.stateModule);
+  formData.append("format", module?.format);
+
+  if (module?.thumbnail) {
+    formData.append("file", module?.thumbnail);
+  }
+
+  const { data } = await http.post(
+    `/course/change-details-module/${moduleId}`,
+    formData
+  );
   return data;
 }

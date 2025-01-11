@@ -35,7 +35,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/infoproducts" element={<Infoproducts />} />
             <Route path="/infoproducts/create" element={<CareateProduct />} />
             <Route
-              path="/infoproducts/create/platfoms"
+              path="/infoproducts/create/platfoms/:id"
               element={<Platform />}
             />
             <Route

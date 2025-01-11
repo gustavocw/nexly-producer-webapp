@@ -22,9 +22,6 @@ const useInformationsController = () => {
     enabled: !!idParam,
   });
 
-  console.log(members);
-  
-
   const handleMenuAction = (action: string) => {
     switch (action) {
       case "export":

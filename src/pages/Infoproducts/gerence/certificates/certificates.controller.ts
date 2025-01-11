@@ -25,15 +25,16 @@ export const useCertificateController = () => {
   const { id: productId } = useParams<{ id: string }>();
   const [files, setFiles] = useState<{
     background: File | null;
-    logo: File | null;
+    logoUrl: File | null;
   }>({
     background: null,
-    logo: null,
+    logoUrl: null,
   });
   const {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
     reset,
   } = useForm<CertificateFormData>({
@@ -50,12 +51,13 @@ export const useCertificateController = () => {
     setFiles((prev) => ({ ...prev, [name]: file }));
   };
 
+  // TODO
   const { data: certificate } = useQuery({
     queryKey: ["certificates", productId],
     queryFn: () =>
-      getCertificate(productId).then((res) => {
-        console.log(res);
-      }),
+      // getCertificate(productId).then((res) => {
+        console.log("res")
+      // }),
   });
 
   const { mutate: mutateCertificate } = useMutation({
@@ -72,9 +74,10 @@ export const useCertificateController = () => {
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
     const processedData = {
       ...data,
+      percent: Number(data.percent),
       files: {
         background: files?.background || null,
-        logo: files?.logo || null,
+        logoUrl: files?.logoUrl || null,
       },
     };
     console.log("Dados processados:", processedData);
@@ -93,6 +96,8 @@ export const useCertificateController = () => {
     errors,
     handleteste,
     watch,
+    setValue,
+    files,
     updateFiles,
     onSubmit,
     reset,
