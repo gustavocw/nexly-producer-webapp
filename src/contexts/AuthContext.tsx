@@ -39,10 +39,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [setEmail, setPassword]);
 
   useEffect(() => {
-    if (rememberMe && email && password) {
-      console.log("Lembrar de Mim ativo:", email);
-    }
-
     const pathname = location.pathname;
     const pathSegments = pathname.split("/");
     const idFromPath = pathSegments[1];

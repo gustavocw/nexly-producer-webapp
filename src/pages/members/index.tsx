@@ -69,6 +69,8 @@ const Members = () => {
     accessOptions,
     handleMenuAction,
     typeAccessOptions,
+    areasList,
+    handleSetAreaId,
   } = useMembersController();
   const optionsNav = [
     { label: `Ativos ${2}`, value: "actives" },
@@ -94,6 +96,11 @@ const Members = () => {
       <HStack w="100%" justify="space-between" align="center">
         <HStack justify="space-between" w="100%">
           <Flex w="100%" gap="32px">
+            <SelectOption
+              onSelectChange={(v) => handleSetAreaId(v)}
+              placeholder="Área"
+              options={areasList}
+            />
             <SelectOption
               onSelectChange={(v) => setAccessType(v)}
               placeholder="Tipo de acesso"

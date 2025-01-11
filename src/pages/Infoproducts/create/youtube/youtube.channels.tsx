@@ -1,8 +1,19 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import Text from "components/text/text";
 import RadioPlatform from "./radio.channel.component";
+import { useQuery } from "@tanstack/react-query";
+import { getChannelsYt } from "services/google.services";
+import useProductStore from "stores/product.store";
 
 const YoutubeChannels = () => {
+  const { productId } = useProductStore();
+  const { data: channels } = useQuery({
+    queryKey: ["channels"],
+    queryFn: () => getChannelsYt(productId),
+  });
+
+  console.log(channels);
+  
   return (
     <VStack h="100%" justify="center" align="center" w="100%">
       <VStack w="90%">

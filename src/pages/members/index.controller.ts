@@ -1,22 +1,25 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
-import { getMembers } from "services/members.services";
+import { getMembersByArea } from "services/members.services";
+import useProductStore from "stores/product.store";
 
 const useMembersController = () => {
   const [accessType, setAccessType] = useState("");
   const [lastAccess, setLastAccess] = useState("");
   const { onOpen, onClose } = useDisclosure();
+  const { areasList, handleSetAreaId } = useProducts();
+  const { areaId } = useProductStore();
 
   const { data: members } = useQuery({
     queryKey: ["members"],
     queryFn: () =>
-      getMembers().then((res) => {
+      getMembersByArea(areaId).then((res) => {
         console.log(res);
         return res;
       }),
   });
-
 
   const handleMenuAction = (action: string) => {
     switch (action) {
@@ -56,12 +59,14 @@ const useMembersController = () => {
     accessType,
     setAccessType,
     setLastAccess,
+    handleSetAreaId,
     lastAccess,
+    areasList,
     typeAccessOptions,
     handleMenuAction,
     accessOptions,
     onOpen,
-    onClose
+    onClose,
   };
 };
 

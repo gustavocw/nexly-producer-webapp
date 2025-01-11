@@ -5,6 +5,12 @@ export async function getMembers() {
   return data;
 }
 
+
+export async function getMembersByArea(areaId?: string | null) {
+  const { data } = await http.get<any>(`/member/member-area/${areaId}`);
+  return data;
+}
+
 export async function getMembersById(
   idProduct?: string | null
 ) {

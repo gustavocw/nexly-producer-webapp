@@ -17,6 +17,7 @@ import GenrenceInfoproduct from "pages/Infoproducts/gerence";
 import YoutubePlaylists from "pages/Infoproducts/create/youtube/playlists/playlists.youtube";
 import YoutubeVideos from "pages/Infoproducts/create/youtube/videos/videos.youtube";
 import PreviewVideos from "pages/Infoproducts/create/videoPreview/preview";
+import AuthYoutube from "pages/Infoproducts/create/platforms/authplatform/auth.youtube";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -58,6 +59,7 @@ const AppRoutes: React.FC = () => {
               path="/infoproducts/informations/:id"
               element={<GenrenceInfoproduct />}
             />
+            <Route path="nexlyauth" element={<AuthYoutube />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/areas" element={<Areas />} />
             <Route path="/members" element={<Members />} />
