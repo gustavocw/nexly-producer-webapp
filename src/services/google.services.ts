@@ -1,5 +1,10 @@
 import { http } from "./http/http";
 
+export async function getIntegrationByCourse(courseId?: string | null) {
+  const { data } = await http.get<any>(`/course/integrations/${courseId}`);
+  return data;
+}
+
 export async function getUrlGoogle() {
   const { data } = await http.get<any>(`/producer/login/google`);
   console.log(data);

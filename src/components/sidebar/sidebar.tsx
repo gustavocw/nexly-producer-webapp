@@ -11,10 +11,12 @@ import Divider from "components/divider/divider";
 import NotificationsDrawer from "components/notifications/drawer.notifications";
 import ProfileDialog from "components/dialog/dialog.profile";
 import { useAuth } from "hooks/useAuth";
+import { useProducer } from "hooks/useProducer";
 
 const Sidebar: React.FC = () => {
   const { isOpen, toggleIsOpen } = useSidebarController();
   const { signout } = useAuth();
+  const { notifications } = useProducer();
 
   return (
     <Flex
@@ -82,17 +84,20 @@ const Sidebar: React.FC = () => {
         >
           <Box mx="auto" position="relative">
             <NotificationsDrawer />
-            {/* {hasNewNotifications && ( */}
-            <Box
-              position="absolute"
-              top="0"
-              left="0"
-              w="10px"
-              h="10px"
-              bg={"purple.600"}
-              borderRadius="50%"
-            />
-            {/* // )} */}
+            {notifications &&
+              notifications.length > 0 &&
+              notifications.map((notification: any) => (
+                <Box
+                  key={notification.id}
+                  position="absolute"
+                  top="0"
+                  left="0"
+                  w="10px"
+                  h="10px"
+                  bg="purple.600"
+                  borderRadius="50%"
+                />
+              ))}
           </Box>
           <Center mx="auto" position="relative">
             <Icon

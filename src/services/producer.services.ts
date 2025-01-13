@@ -15,6 +15,13 @@ export async function updateAddress(params: Address) {
   return data;
 }
 
+export async function getIntegrations() {
+  const { data } = await http.get<any>("/producer/integrations");
+  return data;
+}
 
-
-
+export async function getNotifications() {
+  const { data } = await http.get<any>("/producer/notifications", {});
+  console.log(data);
+  return data;
+}

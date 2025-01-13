@@ -3,19 +3,15 @@ import {
   Icon,
   Image,
   Table,
-  VStack,
-  Box,
-  Separator,
-  MenuContent,
+  VStack, MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-  Skeleton,
+  Skeleton
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
-import StepProduct from "./step/step";
 import HttpsIcon from "@mui/icons-material/Https";
 import PublicIcon from "@mui/icons-material/Public";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -23,6 +19,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "hooks/useProducts";
+import useProductStore from "stores/product.store";
 
 interface TableProducts {
   data?: Product[] | null;
@@ -31,6 +28,7 @@ interface TableProducts {
 const TableProducts: React.FC<TableProducts> = ({ data }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { setProduct } = useProducts();
+  const { setProductId } = useProductStore();
   const renderStatusIcon = (state: string, deldate?: any) => {
     if (deldate) {
       return (
@@ -86,6 +84,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           onClick={() => {
             navigate(`/infoproducts/informations/${item._id}`),
               setProduct(item);
+              setProductId(item._id)
           }}
         >
           Gerenciar
@@ -191,9 +190,15 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                   >
                     <VStack align="flex-start" w="100%">
                       <Flex gap="12px">
-                        <Skeleton loading={!isLoaded} transition="0.2s" w="100px" h="57px">
+                        <Skeleton
+                          loading={!isLoaded}
+                          transition="0.2s"
+                          w="100px"
+                          h="57px"
+                        >
                           <Image
                             w="100px"
+                            minW="100px"
                             h="57px"
                             onLoad={() => setIsLoaded(true)}
                             src={item?.urlThumbCourse ?? "/images/bg.png"}
@@ -277,7 +282,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                     </MenuRoot>
                   </Table.Cell>
                 </Table.Row>
-                <Table.Row bg="neutral.50">
+                {/* <Table.Row bg="neutral.50">
                   <Table.Cell colSpan={6} py="20px" border="none">
                     <Separator w="97%" mx="auto" borderColor="neutral.40" />
                   </Table.Cell>
@@ -288,7 +293,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                       <StepProduct />
                     </Box>
                   </Table.Cell>
-                </Table.Row>
+                </Table.Row> */}
               </React.Fragment>
             ))
           ) : (

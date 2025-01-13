@@ -4,21 +4,15 @@ import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Switch } from "components/ui/switch";
-
-export interface IntegrationData {
-  id: number;
-  title: string;
-  platformType: string;
-  imageSrc: string;
-  isIntegrated: boolean;
-}
-
 export interface CardIntegrationProps {
   data: IntegrationData;
   onToggleIntegration: (id: number, isIntegrated: boolean) => void;
 }
 
-const CardIntegration: FC<CardIntegrationProps> = ({ data, onToggleIntegration }) => {
+const CardIntegration: FC<CardIntegrationProps> = ({
+  data,
+  onToggleIntegration,
+}) => {
   const { id, title, platformType, imageSrc, isIntegrated } = data;
 
   return (
@@ -56,7 +50,10 @@ const CardIntegration: FC<CardIntegrationProps> = ({ data, onToggleIntegration }
           <Icon color={isIntegrated ? "success.90" : "neutral.20"}>
             <CheckCircleOutlineIcon />
           </Icon>
-          <Text.Medium color={isIntegrated ? "success.90" : "neutral.20"} fontSize="12px">
+          <Text.Medium
+            color={isIntegrated ? "success.90" : "neutral.20"}
+            fontSize="12px"
+          >
             Instalada
           </Text.Medium>
         </Flex>

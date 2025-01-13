@@ -1,6 +1,6 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import Text from "components/text/text";
-import RadioPlatform from "./radio.channel.component";
+import RadioChannels from "./radio.channel.component";
 import { useQuery } from "@tanstack/react-query";
 import { getChannelsYt } from "services/google.services";
 import useProductStore from "stores/product.store";
@@ -26,7 +26,7 @@ const YoutubeChannels = () => {
         </Text.Medium>
       </VStack>
       <HStack w="100%" align="center" justify="center">
-        <RadioPlatform />
+        <RadioChannels channels={channels} />
       </HStack>
     </VStack>
   );

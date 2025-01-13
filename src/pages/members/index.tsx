@@ -11,12 +11,11 @@ import {
 } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
 import TableMembers from "./table/table.members";
-import Btn from "components/button/button";
 import SearchBar from "components/search/search";
 import SelectOption from "components/selectOption/select";
-import { LuPlus } from "react-icons/lu";
 import useMembersController from "./index.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ModalCreateMember from "./creare/modal.create.members";
 
 const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
   return (
@@ -114,7 +113,7 @@ const Members = () => {
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
             <SearchBar placeholder="Pesquisar membros" />
-            <Btn w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
+            <ModalCreateMember />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
                 <Icon

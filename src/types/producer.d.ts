@@ -36,3 +36,11 @@ type CreateProducer = {
   password: string;
   confirmPassword: string;
 }
+
+interface IntegrationData {
+  id: number;
+  title: string;
+  platformType: string;
+  imageSrc: string;
+  isIntegrated: boolean;
+}

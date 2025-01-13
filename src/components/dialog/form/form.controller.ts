@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useProducerStore from "stores/producer.store";
-import { updateAddress, updateProfile } from "services/user.services";
+import { updateAddress, updateProfile } from "services/producer.services";
 
 export const profileSchema = z.object({
   name: z.string(),

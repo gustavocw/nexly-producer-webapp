@@ -5,20 +5,25 @@ import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
 import KeyboardArrowRightOutlined from "@mui/icons-material/KeyboardArrowRightOutlined";
 import usePlatformController from "./radio.controller.channel";
 import { useNavigate } from "react-router-dom";
+import type React from "react";
 
-const RadioPlatform = () => {
+interface ChannelsProps{
+  channels?: Channel[];
+}
+
+const RadioChannels: React.FC<ChannelsProps> = ({ channels }) => {
   const navigate = useNavigate();
   const { setChannel } = usePlatformController();
 
   return (
     <RadioCardRoot orientation="vertical" align="center" defaultValue="youtube">
-      <HStack gap="64px" w="100%" align="center">
-        {items.map((item) => (
+      <HStack gap="64px" w="100%" justify="center" align="center">
+        {channels?.map((channel) => (
           <Box>
             <RadioCardItem
               cursor="pointer"
               borderRadius="50%"
-              bgImage={`url(${item.image})`}
+              bgImage={`url(${channel?.snippet?.thumbnails?.high?.url})`}
               bgRepeat="no-repeat"
               objectPosition="center"
               w="200px"
@@ -32,12 +37,12 @@ const RadioPlatform = () => {
                 borderColor: "primary.50",
               }}
               indicator={false}
-              key={item.value}
-              value={item.value}
+              key={channel.id}
+              value={channel.id}
               color="neutral"
             />
             <Flex py={2} w="100%" justify="center">
-              <Text.Medium fontSize="16px">{item.title}</Text.Medium>
+              <Text.Medium fontSize="16px">{channel.snippet.title}</Text.Medium>
             </Flex>
           </Box>
         ))}
@@ -56,19 +61,4 @@ const RadioPlatform = () => {
   );
 };
 
-const items = [
-  {
-    value: "channel1",
-    description: "Plataforma de vídeos",
-    title: "Kevin Levrone",
-    image: "/images/logo_sigla.png",
-  },
-  {
-    value: "channel2",
-    description: "Plataforma de vídeos",
-    title: "Jorlan Vieira",
-    image: "/images/logo_sigla.png",
-  },
-];
-
-export default RadioPlatform;
+export default RadioChannels;

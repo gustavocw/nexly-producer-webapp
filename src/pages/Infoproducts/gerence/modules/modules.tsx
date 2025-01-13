@@ -9,9 +9,11 @@ interface ModulesProps {
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
+console.log(data);
+
   return (
     <Flex w="100%">
-      {data?.count_modules === 0 ? (
+      {data?.modules?.length === 0 ? (
         <HStack gap="32px" w="100%">
           <VStack
             w="100%"

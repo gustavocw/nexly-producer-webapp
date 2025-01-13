@@ -41,7 +41,7 @@ import type React from "react";
 
 interface ModalPops {
   isEdit?: boolean;
-  module: Module;
+  module?: Module;
 }
 
 export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
