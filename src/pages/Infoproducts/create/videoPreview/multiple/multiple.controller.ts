@@ -8,8 +8,10 @@ import useVideosStore from "stores/videos.store";
 
 const useMultipleVideoController = () => {
   const [pageRef, setPageRef] = useState(1);
-  const { videos, setVideoUrl } = useVideosStore();
+  const { videos, setVideoUrl, setVideos } = useVideosStore();
   const [file, setFile] = useState<File | null>(null);
+  console.log(file);
+  
   const navigate = useNavigate();
   const {
     control,
@@ -30,9 +32,6 @@ const useMultipleVideoController = () => {
   const updateFile = (file: File | null) => {
     setFile(file);
   };
-
-  console.log(videos);
-  
 
   useEffect(() => {
     if (videos && videos.length > 0) {
@@ -56,6 +55,8 @@ const useMultipleVideoController = () => {
         title: "Aulas sendo enviadas!",
         type: "success",
       });
+      setVideos([])
+      setVideoUrl("")
       reset();
     },
   });

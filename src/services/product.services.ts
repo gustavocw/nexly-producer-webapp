@@ -30,8 +30,6 @@ export async function getProductUnique(productId?: string | null) {
 
 export async function getLessons(productId?: string | null) {
   const { data } = await http.get(`/course/lesson/${productId}`, {});
-  console.log(data.data);
-
   return data.data;
 }
 

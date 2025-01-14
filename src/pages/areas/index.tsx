@@ -9,6 +9,8 @@ import { HiPlus } from "react-icons/hi2";
 const Areas = () => {
   const { areas } = useAreasController();
   let formSubmitHandler: (() => void) | null = null;
+  console.log(areas);
+  
 
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
