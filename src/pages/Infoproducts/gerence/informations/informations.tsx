@@ -8,18 +8,17 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "@chakra-ui/react";
-import Btn from "components/button/button";
 import Divider from "components/divider/divider";
 import SearchBar from "components/search/search";
 import SelectOption from "components/selectOption/select";
 import Text from "components/text/text";
 import MenuItems from "pages/members/menu/menu.members";
 import TableMembers from "pages/members/table/table.members";
-import { LuPlus } from "react-icons/lu";
 import useInformationsController from "./informations.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDateToString } from "utils/formatDateToString";
 import { capitalizeFirstLetter } from "utils/captalizeData";
+import ModalCreateMember from "pages/members/creare/modal.create.members";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
@@ -99,7 +98,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
             <SearchBar placeholder="Pesquisar membros" />
-            <Btn w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
+            <ModalCreateMember />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
                 <Icon

@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "hooks/useProducts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getMembersByArea } from "services/members.services";
 import useProductStore from "stores/product.store";
 
@@ -12,12 +12,19 @@ const useMembersController = () => {
   const { areasList, handleSetAreaId } = useProducts();
   const { areaId } = useProductStore();
 
+  useEffect(() => {
+    if (!areaId) {
+      handleSetAreaId(areasList[0].value)
+    }
+  }, [areaId])
+  
+
   const { data: members } = useQuery({
     queryKey: ["members"],
     queryFn: () =>
       getMembersByArea(areaId).then((res) => {
         console.log(res);
-        return res;
+        return res.data;
       }),
   });
 

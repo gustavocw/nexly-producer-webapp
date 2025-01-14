@@ -20,6 +20,8 @@ interface TableMembersProps {
 }
 
 const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
+  console.log(data);
+  
   const renderMenuItems = (status: string) => (
     <>
       <MenuItem
@@ -121,7 +123,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     border="none"
                   >
                     <Text.Medium fontSize="14px" color="neutral">
-                      {formatDateToString(member?.lastAccess)}
+                      {member?.lastAccess ? formatDateToString(member?.lastAccess) : "Nenhum login"}
                     </Text.Medium>
                   </Table.Cell>
                   <Table.Cell

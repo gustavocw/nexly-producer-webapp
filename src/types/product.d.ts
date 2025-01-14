@@ -32,6 +32,7 @@ interface Module {
   stateModule: string;
   description: string;
   format: string;
+  lessons_count: number;
   thumbnail?: File | null;
 }
 

@@ -16,6 +16,7 @@ import SelectOption from "components/selectOption/select";
 import useMembersController from "./index.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ModalCreateMember from "./creare/modal.create.members";
+import type { Member } from "types/members";
 
 const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
   return (
@@ -71,9 +72,12 @@ const Members = () => {
     areasList,
     handleSetAreaId,
   } = useMembersController();
+  const bloquedMembers = members?.filter(
+    (member: Member) => member.stateUser === "BLOQUEADO"
+  ).length;
   const optionsNav = [
-    { label: `Ativos ${2}`, value: "actives" },
-    { label: `Bloqueados ${5}`, value: "blocked" },
+    { label: `Ativos ${members?.length}`, value: "actives" },
+    { label: `Bloqueados ${bloquedMembers}`, value: "blocked" },
   ];
 
   const handleSelectionChange = (selectedOption: {

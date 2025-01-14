@@ -9,7 +9,6 @@ interface ModulesProps {
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
-console.log(data);
 
   return (
     <Flex w="100%">

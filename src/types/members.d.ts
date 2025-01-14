@@ -7,3 +7,9 @@ interface Member {
   email: string;
   stateUser: string;
 }
+
+interface NewMember {
+  name: string;
+  email: string;
+  state: string;
+}

@@ -35,7 +35,7 @@ type CreateProducer = {
   phone: string;
   password: string;
   confirmPassword: string;
-}
+};
 
 interface IntegrationData {
   id: number;
@@ -43,4 +43,16 @@ interface IntegrationData {
   platformType: string;
   imageSrc: string;
   isIntegrated: boolean;
+}
+
+interface Notification {
+  content: string;
+  createdAt: string;
+  isRead: boolean;
+  producerId: string;
+  timeLife: string;
+  title: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
 }

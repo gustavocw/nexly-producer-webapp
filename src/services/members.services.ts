@@ -1,4 +1,5 @@
 import { http } from "services/http/http";
+import type { NewMember } from "types/members";
 
 export async function getMembers() {
   const { data } = await http.get<any>("/member");
@@ -18,7 +19,7 @@ export async function getMembersById(
   return data.data;
 }
 
-export async function createMember(params: any) {
-  const { data } = await http.put<any>("/member/member-area", params);
+export async function createMember(areaId?: string | null, productId?: string | null, params?: NewMember) {
+  const { data } = await http.post<any>(`/member/${areaId}/${productId}`, params);
   return data;
 }

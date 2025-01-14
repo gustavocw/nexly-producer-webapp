@@ -30,6 +30,7 @@ export const useCertificateController = () => {
     background: null,
     logoUrl: null,
   });
+
   const {
     control,
     handleSubmit,
@@ -51,23 +52,34 @@ export const useCertificateController = () => {
     setFiles((prev) => ({ ...prev, [name]: file }));
   };
 
-  // TODO
-  const { data: certificate } = useQuery({
+  const { data: certificate, refetch } = useQuery({
     queryKey: ["certificates", productId],
     queryFn: () =>
-      // getCertificate(productId).then((res) => {
-        console.log("res")
-      // }),
+      getCertificate(productId)
+        .then((res) => res)
+        .catch((error) => {
+          if (error.response?.status === 400 && error.response?.data?.message === "certificate not found") {
+            return null;
+          }
+          throw error;
+        }),
   });
 
   const { mutate: mutateCertificate } = useMutation({
     mutationFn: (params: Certificate) => createCertificate(params, productId),
     onSuccess: () => {
       toaster.create({
-        title: "Módulo criado com sucesso!",
+        title: "Certificado criado com sucesso!",
         type: "success",
       });
       refetchCourse();
+      refetch();
+    },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao criar o certificado!",
+        type: "error",
+      });
     },
   });
 
@@ -85,16 +97,11 @@ export const useCertificateController = () => {
     reset();
   };
 
-  const handleteste = () => {
-    console.log("afff");
-  };
-
   return {
     control,
     handleSubmit,
     certificate,
     errors,
-    handleteste,
     watch,
     setValue,
     files,

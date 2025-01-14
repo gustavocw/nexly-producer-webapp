@@ -79,7 +79,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                   borderRadius="50%"
                 >
                   <Text.Medium fontSize="16px">
-                    {moduleLessons[module._id]?.length || 0}
+                    {module.lessons_count}
                   </Text.Medium>
                 </Flex>
                 <Text.Medium fontSize="16px">{module.name}</Text.Medium>

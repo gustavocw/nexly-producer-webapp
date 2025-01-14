@@ -21,20 +21,18 @@ export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
   const { setProductId } = useProductStore();
 
   const { data: product, refetch: refetchCourse } = useQuery({
-    queryKey: ["product-byId", id],
+    queryKey: ["product-unique", id],
     queryFn: () =>
       getProductUnique(id).then((res) => {
         setProduct(res[0]);
         setProductId(id);
-        console.log(res[0]);
-        
         return res[0];
       }),
-    enabled: !!id,
+    enabled: id !== undefined,
   });
 
   useEffect(() => {
-    if (!product) {
+    if (!product && id) {
       refetchCourse();
     }
   }, [product, refetchCourse]);

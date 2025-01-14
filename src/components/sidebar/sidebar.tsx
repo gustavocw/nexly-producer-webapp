@@ -83,7 +83,7 @@ const Sidebar: React.FC = () => {
           flexDir={isOpen ? "row" : "column"}
         >
           <Box mx="auto" position="relative">
-            <NotificationsDrawer />
+            <NotificationsDrawer data={notifications} />
             {notifications &&
               notifications.length > 0 &&
               notifications.map((notification: any) => (

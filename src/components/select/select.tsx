@@ -44,7 +44,6 @@ const Select: React.FC<SelectProps> = ({
     return createListCollection({ items: options });
   }, [options]);
 
-
   return (
     <Field
       helperText={helperText}
@@ -52,6 +51,7 @@ const Select: React.FC<SelectProps> = ({
       label={label}
       required={isRequired}
       color="neutral"
+      zIndex={999}
     >
       <Controller
         name={name}
@@ -65,13 +65,13 @@ const Select: React.FC<SelectProps> = ({
               onChange(selectedValue.value);
             }}
             invalid={!!error}
+            zIndex={1000000}
           >
-            <SelectTrigger
-              _icon={{ mr: "2", color: "neutral" }}
-            >
+            <SelectTrigger zIndex={1000000} _icon={{ mr: "2", color: "neutral" }}>
               <SelectValueText px={2} placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent
+              zIndex={1000000}
               gap={2}
               border="1px solid"
               borderColor="neutral.40"
@@ -82,6 +82,7 @@ const Select: React.FC<SelectProps> = ({
                 <SelectItem
                   cursor="pointer"
                   fontSize="16px"
+                  zIndex={1000000}
                   p={2}
                   _hover={{ bg: "neutral.20" }}
                   item={option}

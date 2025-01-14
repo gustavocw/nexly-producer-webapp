@@ -11,8 +11,14 @@ import { Box, Flex, HStack, Icon, VStack } from "@chakra-ui/react";
 import SearchBar from "components/search/search";
 import { Avatar } from "components/ui/avatar";
 import Text from "components/text/text";
+import { formatDateToString } from "utils/formatDateToString";
+import { truncateText } from "utils/truncateText";
 
-const NotificationsDrawer = () => {
+interface NotificationsProps {
+  data: Notification[];
+}
+
+const NotificationsDrawer: React.FC<NotificationsProps> = ({ data }) => {
   return (
     <DrawerRoot>
       <DrawerBackdrop />
@@ -37,34 +43,36 @@ const NotificationsDrawer = () => {
           </Flex>
         </DrawerHeader>
         <DrawerBody>
-          <HStack
-            borderTopWidth="1px"
-            borderBottomWidth="1px"
-            borderColor="neutral.40"
-            cursor="pointer"
-            _hover={{ bg: "neutral.40" }}
-            align="flex-start"
-            p="20px"
-            w="100%"
-            // onClick={openChat}
-          >
-            <Avatar src="/images/bg.png" />
-            <VStack align="flex-start" w="100%">
-              <Flex w="100%" alignItems="center" justify="space-between">
-                <Flex gap="5px" alignItems="center">
-                  <Text.Medium>Titulo da notificação</Text.Medium>
+          {data.map((notification) => (
+            <HStack
+              key={notification._id}
+              borderTopWidth="1px"
+              borderBottomWidth="1px"
+              borderColor="neutral.40"
+              cursor="pointer"
+              _hover={{ bg: "neutral.40" }}
+              align="flex-start"
+              p="20px"
+              w="100%"
+            >
+              <Avatar src="/images/bg.png" />
+              <VStack align="flex-start" w="100%">
+                <Flex w="100%" alignItems="center" justify="space-between">
+                  <Flex gap="5px" alignItems="center">
+                    <Text.Medium>{notification.title}</Text.Medium>
+                  </Flex>
+                  <Box>
+                    <Text.Medium fontSize="11px" color="primary.50">
+                      {formatDateToString(notification.createdAt)}
+                    </Text.Medium>
+                  </Box>
                 </Flex>
-                <Box>
-                  <Text.Medium fontSize="11px" color="primary.50">
-                    há 12 min
-                  </Text.Medium>
-                </Box>
-              </Flex>
-              <Flex justify="space-between" w="100%">
-                <Text.Medium color="neutral.10">Descrição notificação</Text.Medium>
-              </Flex>
-            </VStack>
-          </HStack>
+                <Flex justify="space-between" w="100%">
+                  <Text.Medium color="neutral.10">{truncateText(notification.content, 60)}</Text.Medium>
+                </Flex>
+              </VStack>
+            </HStack>
+          ))}
         </DrawerBody>
         <DrawerCloseTrigger />
       </DrawerContent>
