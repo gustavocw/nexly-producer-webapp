@@ -59,9 +59,6 @@ export const useLoginController = () => {
     },
   });
 
-  console.log(email);
-  
-
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       await signin({

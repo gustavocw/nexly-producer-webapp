@@ -21,7 +21,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     queryFn: () =>
       getNotifications().then((res) => {
         setNotifications(res);
-        console.log(res);
         return res;
       }),
     enabled: !!isLogged,

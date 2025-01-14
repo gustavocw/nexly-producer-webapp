@@ -80,7 +80,7 @@ export const useRegisterController = () => {
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
-      const res = await register({
+      await register({
         name: data.name,
         lastname: data.lastname,
         email: data.email,
@@ -96,8 +96,6 @@ export const useRegisterController = () => {
         })
         navigate("/")
       });
-
-      console.log(res);
     } catch (error: unknown) {
       toaster.create({
         title: "Confira seus dados",

@@ -25,6 +25,8 @@ export async function getProducts(memberAreaId: string) {
 
 export async function getProductUnique(productId?: string | null) {
   const { data } = await http.get(`/course/${productId}`, {});
+  console.log(data);
+  
   return data.data;
 }
 

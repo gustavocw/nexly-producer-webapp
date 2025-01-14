@@ -30,6 +30,7 @@ import { HiPlus } from "react-icons/hi2";
 import { getLessons } from "services/product.services";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import useProductStore from "stores/product.store";
+import useVideosStore from "stores/videos.store";
 
 interface AccordeonProps {
   modules?: Module[] | null;
@@ -38,12 +39,15 @@ interface AccordeonProps {
 const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
   const navigate = useNavigate();
   const { setModuleId } = useProductStore();
+  const {} = useVideosStore();
   const [moduleLessons, setModuleLessons] = useState<Record<string, Lesson[]>>(
     {}
   );
   const fetchLessons = async (moduleId: string) => {
     if (moduleLessons[moduleId]) return;
+    
     const lessons = await getLessons(moduleId);
+    console.log(lessons);
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
   };
 
@@ -137,7 +141,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                           w="100px"
                           h="56px"
                           borderRadius="8px"
-                          // src={lesson.thumbnail}
+                          src={lesson.thumbnail ?? "/images/bg.png"}
                         />
                         <Text.Medium fontSize="16px">
                           {lesson.nameLesson}
@@ -176,6 +180,9 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                               color="neutral"
                               value="rename"
                               _hover={{ bg: "neutral.30" }}
+                              onClick={() => {
+                                navigate(`/infoproducts/create/video/${module._id}`, { state: { lesson } });
+                              }}
                             >
                               Editar
                             </MenuItem>

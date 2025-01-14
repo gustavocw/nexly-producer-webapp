@@ -132,7 +132,6 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
         ];
       };
 
-      try {
         const fetchedData = await getChartData(endDate, formattedStartDate);
         if (
           Array.isArray(fetchedData) &&
@@ -146,12 +145,8 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
           const values = countedData.map((item) => item.value);
           const maxDataValue = Math.max(...values);
           setMaxValue(maxDataValue);
-        } else {
-          console.error("Fetched data is not in the expected format.");
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      
     };
     getData();
   }, [mode]);

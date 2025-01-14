@@ -34,7 +34,6 @@ export const useDashboardController = () => {
   const [optionStatus, setOptionStatus] = useState<Option>(optionsNav[0]);
 
   const handleSelectionChange = (selectedOption: Option) => {
-    console.log("Opção selecionada:", selectedOption);
     setOptionStatus(selectedOption);
   };
 

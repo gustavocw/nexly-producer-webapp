@@ -44,6 +44,7 @@ interface Lesson {
   nameLesson: string;
   stateLesson: string;
   urlVideo: string;
+  thumbnail: string;
 }
 
 interface Area {

@@ -38,7 +38,6 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const collection = React.useMemo(() => {
     if (!Array.isArray(options) || options.length === 0) {
-      console.error("Options must be a non-empty array.");
       return createListCollection({ items: [] });
     }
     return createListCollection({ items: options });

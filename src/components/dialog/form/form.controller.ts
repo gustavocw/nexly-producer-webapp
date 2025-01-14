@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useProducerStore from "stores/producer.store";
 import { updateAddress, updateProfile } from "services/producer.services";
+import { toaster } from "components/ui/toaster";
 
 export const profileSchema = z.object({
   name: z.string(),
@@ -58,17 +59,26 @@ export const useFormProfileController = () => {
         email: data.email,
         phone_number: data.phone_number,
       };
-      await updateProfile(profileData).then((res) => {
-        console.log("Profile updated successfully:", res);
+      await updateProfile(profileData).then(() => {
+        toaster.create({
+          title: "Perfil editado com sucesso.",
+          type: "success"
+        })
       });
       const addressData = data.address;
-      await updateAddress(addressData).then((res) => {
-        console.log("Address updated successfully:", res);
+      await updateAddress(addressData).then(() => {
+        toaster.create({
+          title: "Endereço editado com sucesso.",
+          type: "success"
+        })
       });
 
       reset();
     } catch (error) {
-      console.error("Error updating profile or address:", error);
+      toaster.create({
+        title: "Erro ao atualizar o perfil.",
+        type: "error"
+      })
     }
   };
 

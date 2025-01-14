@@ -16,6 +16,20 @@ export async function createLesson(moduleId: string | undefined, video: Video) {
   return data;
 }
 
+export async function updateLesson(lessonId: string | undefined, video: Video) {
+  const formData = new FormData();
+  formData.append("name", video.name);
+  formData.append("description", video.description);
+  formData.append("duration", video.stateLesson);
+  formData.append("urlMovie", video.urlMovie);
+  if (video.thumbnail) {
+    formData.append("file", video.thumbnail);
+  }
+
+  const { data } = await http.put(`/course/lesson/${lessonId}`, formData);
+  return data;
+}
+
 export async function sendVideos(
   moduleId: string | null | undefined,
   videos: LessonYoutube[]

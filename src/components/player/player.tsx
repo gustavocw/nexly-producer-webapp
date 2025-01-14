@@ -12,7 +12,6 @@ const Player: React.FC<PlayerProps> = ({ videoUrl }) => {
   const { setDuration } = useVideosStore();
 
   const handleDuration = async (time: string) => {
-    console.log(time);
     setDuration(time)
   }
 

@@ -6,7 +6,7 @@ import { DragFile } from "components/fileInput/drag.file";
 import useUniqueVideoController from "./unique.controller";
 
 const UniqueVideo = () => {
-  const { control, errors, onSubmit, handleSubmit, updateFile } =
+  const { control, errors, onSubmit, handleSubmit, updateFile, lesson } =
     useUniqueVideoController();
 
   return (
@@ -48,13 +48,26 @@ const UniqueVideo = () => {
               ]}
               placeholder="Insira o estado"
             />
-            <Select
-              name="provider"
+            {!lesson ? (
+              <Select
+                name="provider"
+                control={control}
+                label="Plataforma"
+                options={[{ value: "youtube", label: "Youtube" }]}
+                placeholder="Insira a plataforma."
+              />
+            ) : (
+              <Select
+              name="stateLesson"
               control={control}
-              label="Plataforma"
-              options={[{ value: "youtube", label: "Youtube" }]}
-              placeholder="Insira a plataforma."
+              options={[
+                { label: "Público", value: "PUBLICO" },
+                { label: "Privado", value: "PRIVADO" },
+              ]}
+              label="Status"
+              placeholder="Escolha o status "
             />
+            )}
           </HStack>
         </VStack>
       </HStack>
