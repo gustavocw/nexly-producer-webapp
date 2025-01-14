@@ -3,11 +3,13 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getVideosYoutube } from "services/videos.services";
 import useProductStore from "stores/product.store";
+import useVideosStore from "stores/videos.store";
 
 const useVideoController = () => {
   const [selection, setSelection] = useState<string[]>([]);
   const { id: idPlaylist } = useParams();
   const { productId, moduleId } = useProductStore();
+  const { setVideos } = useVideosStore();
   const navigate = useNavigate();
 
   const { data: videos } = useQuery({
@@ -18,7 +20,7 @@ const useVideoController = () => {
   const generateLessons = () => {
     if (!videos?.items || selection.length === 0) return;
 
-    const lessons = videos.items
+    const lessons: any = videos.items
       .filter((item) => selection.includes(item.id))
       .map((item) => ({
         lessonLengh: item.contentDetails.videoPublishedAt,
@@ -28,8 +30,9 @@ const useVideoController = () => {
         idLessonYt: item.id,
         urlVideo: `https://www.youtube.com/watch?v=${item.contentDetails.videoId}`,
       }));
-    console.log("Generated Lessons:", lessons);
-    navigate(`/infoproducts/create/video/${moduleId}`)
+
+    setVideos(lessons);
+    navigate(`/infoproducts/create/video/${moduleId}`);
   };
 
   return {

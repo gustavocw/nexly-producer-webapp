@@ -7,10 +7,10 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "components/paginationVideo/pagination";
-import usePreviewVideoController from "../preview.controller";
 import Btn from "components/button/button";
 import useVideosStore from "stores/videos.store";
 import { DragFile } from "components/fileInput/drag.file";
+import useMultipleVideoController from "./multiple.controller";
 
 const MultipleVideos = () => {
   const {
@@ -22,7 +22,7 @@ const MultipleVideos = () => {
     setPageRef,
     playNextVideo,
     playPreviousVideo,
-  } = usePreviewVideoController();
+  } = useMultipleVideoController();
   const { videos } = useVideosStore();
 
   return (
@@ -72,9 +72,9 @@ const MultipleVideos = () => {
           <Input.Base
             label="Título"
             control={control}
-            name="name"
+            name="nameLesson"
             placeholder="Título da aula"
-            errorText={errors.name?.message}
+            errorText={errors.nameLesson?.message}
             isRequired
           />
           <Input.Text

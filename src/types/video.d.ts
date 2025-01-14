@@ -109,6 +109,15 @@ interface PlaylistItem {
   contentDetails: VideoContentDetails;
 }
 
+interface LessonYoutube {
+  lessonLengh: string;
+  description: string;
+  nameLesson: string;
+  duration: string;
+  idLessonYt: string;
+  urlVideo: string;
+}
+
 interface PlaylistItemListResponse {
   kind: string;
   etag: string;

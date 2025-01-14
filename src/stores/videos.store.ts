@@ -9,14 +9,14 @@ interface Video {
 
 interface VideosState {
   currentVideo: Video | null;
-  videos: Video[];
+  videos: LessonYoutube[];
   videoUrl: string;
   duration: string;
 }
 
 interface VideosActions {
   setCurrentVideo: (video: Video) => void;
-  setVideos: (videos: Video[]) => void;
+  setVideos: (videos: LessonYoutube[]) => void;
   setVideoUrl: (videoUrl: string) => void;
   setDuration: (duration: string) => void;
 }

@@ -1,13 +1,13 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import Input from "components/input/input";
-import usePreviewVideoController from "../preview.controller";
 import Btn from "components/button/button";
 import Select from "components/select/select";
 import { DragFile } from "components/fileInput/drag.file";
+import useUniqueVideoController from "./unique.controller";
 
 const UniqueVideo = () => {
   const { control, errors, onSubmit, handleSubmit, updateFile } =
-    usePreviewVideoController();
+    useUniqueVideoController();
 
   return (
     <VStack

@@ -17,7 +17,7 @@ const PreviewVideos = () => {
   return (
     <VStack align="flex-start" px={8} w="100%">
       <TitlePage onClick={clearVideos} title="Video" />
-      <Player videoUrl={videoUrl || videos[0]?.url} />
+      <Player videoUrl={videoUrl ?? videos[0]?.urlVideo ?? "https://www.youtube.com/watch?v=KrieZlvNlas"} />
       {videos?.length > 1 ? <MultipleVideos /> : <UniqueVideo />}
     </VStack>
   );

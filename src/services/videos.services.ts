@@ -16,6 +16,16 @@ export async function createLesson(moduleId: string | undefined, video: Video) {
   return data;
 }
 
+export async function sendVideos(
+  moduleId: string | null | undefined,
+  videos: LessonYoutube[]
+) {
+  const { data } = await http.post(`/course/create-lesson-queue/${moduleId}`, {
+    body$object: videos,
+  });
+  return data;
+}
+
 export async function getPlaylists(
   productId?: string | null,
   channelId?: string | null
@@ -23,7 +33,7 @@ export async function getPlaylists(
   const { data } = await http.get<PlaylistsResponse>(
     `/course/youtube/list-playlists/${productId}/${channelId}`
   );
-  return data.playlists
+  return data.playlists;
 }
 
 export async function getVideosYoutube(
@@ -34,6 +44,5 @@ export async function getVideosYoutube(
   const { data } = await http.get<PlaylistItemListResponse>(
     `/course/youtube/items/${productId}/${moduleId}/${playlistId}`
   );
-  return data
+  return data;
 }
-
