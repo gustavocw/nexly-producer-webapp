@@ -1,33 +1,24 @@
-import {
-  Table,
-  Box,
-  VStack,
-  HStack,
-  Text,
-  Image,
-  Flex
-} from "@chakra-ui/react";
+import { Table, Box, VStack, HStack, Text, Image } from "@chakra-ui/react";
 import { Checkbox } from "components/ui/checkbox";
-import { useState } from "react";
-
-interface VideoItem {
-  id: string;
-  name: string;
-  description: string;
-  imageUrl: string;
-}
+import { truncateText } from "utils/truncateText";
 
 interface VideosTableProps {
-  items: VideoItem[];
+  items?: PlaylistItem[] | null;
+  selection: string[];
+  setSelection: (selection: string[]) => void;
+  onGenerateLessons: () => void;
 }
 
-const VideosTable: React.FC<VideosTableProps> = ({ items }) => {
-  const [selection, setSelection] = useState<string[]>([]);
-
+const VideosTable: React.FC<VideosTableProps> = ({
+  items,
+  selection,
+  setSelection,
+  onGenerateLessons,
+}) => {
   const hasSelection = selection.length > 0;
-  const indeterminate = hasSelection && selection.length < items.length;
+  const indeterminate = hasSelection && selection.length < (items?.length || 0);
 
-  const rows = items.map((item) => (
+  const rows = items?.map((item) => (
     <Table.Row
       bg="neutral.50"
       key={item.id}
@@ -39,9 +30,9 @@ const VideosTable: React.FC<VideosTableProps> = ({ items }) => {
           aria-label="Select row"
           checked={selection.includes(item.id)}
           onCheckedChange={(changes) => {
-            setSelection((prev) =>
+            setSelection(
               changes.checked
-                ? [...prev, item.id]
+                ? [...selection, item.id]
                 : selection.filter((id) => id !== item.id)
             );
           }}
@@ -51,8 +42,8 @@ const VideosTable: React.FC<VideosTableProps> = ({ items }) => {
         <HStack align="center" spaceX={4}>
           <Box w="80px" h="60px">
             <Image
-              src={item.imageUrl}
-              alt={item.name}
+              src={item.snippet.thumbnails.high.url}
+              alt={item.snippet.title}
               w="100%"
               h="100%"
               objectFit="cover"
@@ -61,10 +52,10 @@ const VideosTable: React.FC<VideosTableProps> = ({ items }) => {
           </Box>
           <VStack align="flex-start" spaceY={1}>
             <Text fontWeight="bold" fontSize="16px" color="neutral.10">
-              {item.name}
+              {item.snippet.title}
             </Text>
             <Text fontSize="14px" color="neutral.20">
-              {item.description}
+              {truncateText(item.snippet.description, 100)}
             </Text>
           </VStack>
         </HStack>
@@ -84,35 +75,19 @@ const VideosTable: React.FC<VideosTableProps> = ({ items }) => {
                 checked={indeterminate ? "indeterminate" : selection.length > 0}
                 onCheckedChange={(changes) => {
                   setSelection(
-                    changes.checked ? items.map((item) => item.id) : []
+                    changes.checked ? items?.map((item) => item.id) || [] : []
                   );
                 }}
               />
             </Table.ColumnHeader>
             <Table.ColumnHeader borderColor="neutral.40" color="neutral">
-              <Flex px={3} alignItems="center" h="60px">
-                <Text>Vídeos selecionados</Text>
-              </Flex>
+              Vídeos
             </Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>{rows}</Table.Body>
       </Table.Root>
-      {/* 
-      <ActionBarRoot open={hasSelection}>
-        <ActionBarContent>
-          <ActionBarSelectionTrigger>
-            {selection.length} selected
-          </ActionBarSelectionTrigger>
-          <ActionBarSeparator />
-          <Button variant="outline" size="sm">
-            Delete <Kbd>⌫</Kbd>
-          </Button>
-          <Button variant="outline" size="sm">
-            Share <Kbd>T</Kbd>
-          </Button>
-        </ActionBarContent>
-      </ActionBarRoot> */}
+      <button onClick={onGenerateLessons}>Continuar</button>
     </>
   );
 };

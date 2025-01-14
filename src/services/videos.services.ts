@@ -15,3 +15,25 @@ export async function createLesson(moduleId: string | undefined, video: Video) {
   const { data } = await http.post(`/course/lesson/${moduleId}`, formData);
   return data;
 }
+
+export async function getPlaylists(
+  productId?: string | null,
+  channelId?: string | null
+) {
+  const { data } = await http.get<PlaylistsResponse>(
+    `/course/youtube/list-playlists/${productId}/${channelId}`
+  );
+  return data.playlists
+}
+
+export async function getVideosYoutube(
+  productId?: string | null,
+  moduleId?: string | null,
+  playlistId?: string | null
+) {
+  const { data } = await http.get<PlaylistItemListResponse>(
+    `/course/youtube/items/${productId}/${moduleId}/${playlistId}`
+  );
+  return data
+}
+

@@ -29,6 +29,7 @@ import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
 import { getLessons } from "services/product.services";
 import { capitalizeFirstLetter } from "utils/captalizeData";
+import useProductStore from "stores/product.store";
 
 interface AccordeonProps {
   modules?: Module[] | null;
@@ -36,6 +37,7 @@ interface AccordeonProps {
 
 const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
   const navigate = useNavigate();
+  const { setModuleId } = useProductStore();
   const [moduleLessons, setModuleLessons] = useState<Record<string, Lesson[]>>(
     {}
   );
@@ -98,7 +100,10 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                     bg="transparent"
                     w="10px"
                     label="+2"
-                    onClick={() => navigate(`/infoproducts/create/platfoms/${module._id}`)}
+                    onClick={() => {
+                      navigate(`/infoproducts/create/platfoms/${module._id}`),
+                        setModuleId(module._id);
+                    }}
                   />
                 </Flex>
               )}
@@ -199,7 +204,10 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                   </Text.Medium>
                   <HStack gap={2} justify="center" mx="auto" w="100%">
                     <Btn
-                      onClick={() => navigate(`/infoproducts/create/platfoms/${module._id}`)}
+                      onClick={() => {
+                        setModuleId(module._id);
+                        navigate(`/infoproducts/create/platfoms/${module._id}`);
+                      }}
                       w="260px"
                       iconLeft={<HiPlus />}
                       label="Adicionar aulas via integração"

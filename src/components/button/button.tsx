@@ -9,6 +9,7 @@ interface BtnProps {
   bgHover?: string;
   borderColor?: string;
   isLoading?: boolean;
+  disabled?: boolean;
   w?: any;
   h?: string;
   pb?: string;
@@ -42,6 +43,7 @@ const Btn = ({
   borderColor,
   onClick,
   isLoading,
+  disabled,
   fontWeight,
   iconLeft,
   iconRight,
@@ -52,6 +54,7 @@ const Btn = ({
     <Button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       w={w ?? "100%"}
       h={h ?? "44px"}
       padding={padding}

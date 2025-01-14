@@ -12,7 +12,7 @@ import Members from "pages/members";
 import Integrations from "pages/integrations";
 import CareateProduct from "pages/Infoproducts/create/create.product";
 import Platform from "pages/Infoproducts/create/platforms/platform.product";
-import YoutubeChannels from "pages/Infoproducts/create/youtube/youtube.channels";
+import YoutubeChannels from "pages/Infoproducts/create/youtube/channels/youtube.channels";
 import GenrenceInfoproduct from "pages/Infoproducts/gerence";
 import YoutubePlaylists from "pages/Infoproducts/create/youtube/playlists/playlists.youtube";
 import YoutubeVideos from "pages/Infoproducts/create/youtube/videos/videos.youtube";
@@ -44,11 +44,11 @@ const AppRoutes: React.FC = () => {
               element={<YoutubeChannels />}
             />
             <Route
-              path="/infoproducts/create/youtube/playlists"
+              path="/infoproducts/create/youtube/playlists/:id"
               element={<YoutubePlaylists />}
             />
             <Route
-              path="/infoproducts/create/youtube/videos"
+              path="/infoproducts/create/youtube/videos/:id"
               element={<YoutubeVideos />}
             />
             <Route

@@ -1,6 +1,5 @@
 import {
   VStack,
-  HStack,
   Box,
   Text,
   Flex,
@@ -10,38 +9,17 @@ import Btn from "components/button/button";
 import SearchBar from "components/search/search";
 import TitlePage from "components/titlePage/titlePage";
 import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
-import { useNavigate } from "react-router-dom";
 import {
   PaginationItems,
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
 } from "components/ui/pagination";
-
-interface PlaylistData {
-  id: string;
-  title: string;
-  videosCount: number;
-  imageUrl: string;
-}
-
-const playlists: PlaylistData[] = [
-  {
-    id: "playlist-1",
-    title: "Playlist exemplo 1",
-    videosCount: 16,
-    imageUrl: "/images/backgroundlayer.png",
-  },
-  {
-    id: "playlist-2",
-    title: "Playlist exemplo 2",
-    videosCount: 12,
-    imageUrl: "/images/backgroundlayer.png",
-  },
-];
+import usePlaylistsController from "./playlist.youtube.controller";
 
 const YoutubePlaylists = () => {
-  const navigate = useNavigate();
+  const { playlists, onIntegrate, setPlaylist } = usePlaylistsController();
+
   return (
     <VStack px={8} w="100%" align="flex-start" spaceY={8}>
       <TitlePage
@@ -50,56 +28,60 @@ const YoutubePlaylists = () => {
       />
       <VStack align="flex-start" w="100%" spaceY={4}>
         <SearchBar placeholder="Pesquisar playlist" />
-        <RadioCardRoot
-          variant="outline"
-          defaultValue={playlists[0].id}
-          orientation="vertical"
-        >
-          <HStack align="stretch" spaceX={4}>
-            {playlists.map((playlist) => (
-              <RadioCardItem
-                key={playlist.id}
-                value={playlist.id}
-                borderColor="transparent"
-                cursor="pointer"
-                _checked={{
-                  bg: "neutral.60",
-                  borderColor: "primary.50",
-                }}
-                label={
-                  <Box
-                    bgImage={`url(${playlist.imageUrl})`}
-                    bgSize="cover"
-                    bgPos="center"
-                    bgRepeat="no-repeat"
-                    w="320px"
-                    h="180px"
-                  >
-                    <VStack
-                      p={2}
-                      w="100%"
-                      bg="#00000080"
-                      pos="absolute"
-                      bottom={0}
-                      align="flex-start"
+        <RadioCardRoot variant="outline" orientation="vertical">
+          <Flex
+            wrap="wrap"
+            gap={6}
+            justify="flex-start"
+            w="100%"
+          >
+            {playlists?.map((playlist: Playlist) => (
+              <Box key={playlist.id}>
+                <RadioCardItem
+                  value={playlist.id}
+                  borderColor="transparent"
+                  cursor="pointer"
+                  _checked={{
+                    bg: "neutral.60",
+                    borderColor: "primary.50",
+                  }}
+                  onChange={() => setPlaylist(playlist)}
+                  label={
+                    <Box
+                      bgImage={`url(${playlist.snippet?.thumbnails?.high?.url})`}
+                      bgSize="cover"
+                      bgPos="center"
+                      bgRepeat="no-repeat"
+                      w="300px"
+                      h="150px"
                     >
-                      <Text
-                        fontWeight="bold"
-                        fontSize="16px"
-                        color="neutral.10"
+                      <VStack
+                        p={2}
+                        w="100%"
+                        bg="#00000080"
+                        pos="absolute"
+                        bottom={0}
+                        align="flex-start"
                       >
-                        {playlist.title}
-                      </Text>
-                      <Text fontSize="14px" color="neutral.20">
-                        {playlist.videosCount} vídeos
-                      </Text>
-                    </VStack>
-                  </Box>
-                }
-              />
+                        <Text
+                          fontWeight="bold"
+                          fontSize="16px"
+                          color="neutral.10"
+                        >
+                          {playlist.snippet?.title}
+                        </Text>
+                        <Text fontSize="14px" color="neutral.20">
+                          {playlist.contentDetails?.itemCount} vídeos{" "}
+                        </Text>
+                      </VStack>
+                    </Box>
+                  }
+                />
+              </Box>
             ))}
-          </HStack>
+          </Flex>
         </RadioCardRoot>
+
         <Flex
           alignItems="center"
           w="100%"
@@ -126,7 +108,7 @@ const YoutubePlaylists = () => {
           <Btn
             label="Continuar"
             w="200px"
-            onClick={() => navigate("/infoproducts/create/youtube/videos")}
+            onClick={() => onIntegrate()}
           />
         </Flex>
       </VStack>

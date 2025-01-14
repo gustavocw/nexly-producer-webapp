@@ -9,7 +9,7 @@ const usePlatformController = () => {
   const { productId } = useProductStore();
   const navigate = useNavigate();
 
-  useQuery({
+  const { refetch: confirmPlatform, isLoading: loadingConfirm } = useQuery({
     queryKey: ["integration-by-id"],
     queryFn: () =>
       getIntegrationByCourse(productId).then((res) => {
@@ -20,9 +20,10 @@ const usePlatformController = () => {
           fetchUrlGoogle()
         }
       }),
+    enabled: false,
   });
 
-  const { refetch: fetchUrlGoogle } = useQuery({
+  const { refetch: fetchUrlGoogle, isLoading: loadingUrl } = useQuery({
     queryKey: ["youtube-url"],
     queryFn: () =>
       getUrlGoogle().then((res) => {
@@ -33,7 +34,7 @@ const usePlatformController = () => {
 
   const onIntegrate = () => {
     if (platform === "youtube") {
-      fetchUrlGoogle();
+      confirmPlatform();
     } else if (platform === "vimeo") {
       console.log("vimeo");
     }
@@ -43,6 +44,9 @@ const usePlatformController = () => {
     onIntegrate,
     navigate,
     setPlatform,
+    loadingConfirm,
+    loadingUrl,
+    confirmPlatform,
   };
 };
 

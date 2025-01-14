@@ -37,3 +37,84 @@ interface Thumbnail {
   width: number;
   height: number;
 }
+
+interface Thumbnails {
+  default: Thumbnail;
+  medium: Thumbnail;
+  high: Thumbnail;
+  standard?: Thumbnail;
+  maxres?: Thumbnail;
+}
+
+interface Localized {
+  title: string;
+  description: string;
+}
+
+interface Snippet {
+  publishedAt: string;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: Thumbnails;
+  channelTitle: string;
+  localized: Localized;
+}
+
+interface ContentDetails {
+  itemCount: number;
+}
+
+interface Playlist {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: Snippet;
+  contentDetails: ContentDetails;
+}
+
+interface PlaylistsResponse {
+  playlists: Playlist[];
+}
+
+interface VideoContentDetails {
+  videoId: string;
+  videoPublishedAt: string;
+}
+
+interface ResourceId {
+  kind: string;
+  videoId: string;
+}
+
+interface VideoSnippet {
+  publishedAt: string;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: Thumbnails;
+  channelTitle: string;
+  playlistId: string;
+  position: number;
+  resourceId: ResourceId;
+  videoOwnerChannelId: string;
+  videoOwnerChannelTitle: string;
+}
+
+interface PlaylistItem {
+  kind: string;
+  etag: string;
+  id: string;
+  snippet: VideoSnippet;
+  contentDetails: VideoContentDetails;
+}
+
+interface PlaylistItemListResponse {
+  kind: string;
+  etag: string;
+  items: PlaylistItem[];
+  pageInfo: {
+    totalResults: number;
+    resultsPerPage: number;
+  };
+}

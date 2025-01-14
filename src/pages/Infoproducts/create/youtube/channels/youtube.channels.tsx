@@ -7,12 +7,10 @@ import useProductStore from "stores/product.store";
 
 const YoutubeChannels = () => {
   const { productId } = useProductStore();
-  const { data: channels } = useQuery({
+  const { data: channels, isLoading: loadingChannels } = useQuery({
     queryKey: ["channels"],
     queryFn: () => getChannelsYt(productId),
   });
-
-  console.log(channels);
   
   return (
     <VStack h="100%" justify="center" align="center" w="100%">
@@ -26,7 +24,7 @@ const YoutubeChannels = () => {
         </Text.Medium>
       </VStack>
       <HStack w="100%" align="center" justify="center">
-        <RadioChannels channels={channels} />
+        <RadioChannels isLoading={loadingChannels} channels={channels} />
       </HStack>
     </VStack>
   );

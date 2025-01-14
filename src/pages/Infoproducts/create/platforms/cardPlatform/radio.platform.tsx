@@ -6,7 +6,7 @@ import KeyboardArrowRightOutlined from "@mui/icons-material/KeyboardArrowRightOu
 import usePlatformController from "./radio.controller.platform";
 
 const RadioPlatform = () => {
-  const { onIntegrate, setPlatform } = usePlatformController();
+  const { onIntegrate, setPlatform, loadingConfirm, loadingUrl } = usePlatformController();
 
   return (
     <RadioCardRoot orientation="vertical" align="center" defaultValue="youtube">
@@ -49,6 +49,7 @@ const RadioPlatform = () => {
         <Btn
           w="300px"
           label="Continuar"
+          isLoading={loadingConfirm && loadingUrl}
           onClick={() => onIntegrate()}
           iconRight={<KeyboardArrowRightOutlined />}
         />
