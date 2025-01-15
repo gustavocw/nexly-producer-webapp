@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import Text from "components/text/text";
 import { toaster } from "components/ui/toaster";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { setUrlGoogle } from "services/google.services";
 import useProductStore from "stores/product.store";
 
@@ -11,25 +11,36 @@ const AuthYoutube = () => {
   const [searchParams] = useSearchParams();
   const { productId } = useProductStore();
   const code = searchParams.get("code");
+  const navigate = useNavigate();
 
   const { mutate: mutateAuth } = useMutation({
     mutationFn: () => setUrlGoogle(productId, code),
-    onSuccess: (data) => {
-      console.log(data);
-      
+    onSuccess: () => {
       toaster.create({
         title: "Autenticado com sucesso!",
         type: "success",
       });
-      window.close();
+      setTimeout(() => {
+        navigate("/infoproducts/create/youtube");
+      }, 2000);
+    },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao autenticar!",
+        type: "error",
+      });
     },
   });
 
   useEffect(() => {
     if (productId && code) {
-      console.log("a", productId, code);
-      
-      mutateAuth();
+      const delay = setTimeout(() => {
+        console.log("aaaaaaaaaaaaaa")
+        console.log(code);
+        
+        // mutateAuth();
+      }, 3500);
+      return () => clearTimeout(delay);
     }
   }, [productId, code, mutateAuth]);
 

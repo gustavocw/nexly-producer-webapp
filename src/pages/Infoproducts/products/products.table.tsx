@@ -4,10 +4,6 @@ import {
   Image,
   Table,
   VStack,
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
   Skeleton,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
@@ -24,6 +20,12 @@ import useProductStore from "stores/product.store";
 import PublishProductModal from "./publish/publish.course";
 import DeleteProductModal from "../modals/modal.delete.product";
 import CancelDeleteProductModal from "../modals/cancel.delete.product";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "components/ui/menu"
 
 interface TableProducts {
   data?: Product[] | null;
@@ -159,6 +161,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
       borderWidth="1px"
       borderColor="neutral.40"
       rounded="md"
+      h="75vh"
     >
       <Table.Root size="sm" stickyHeader>
         <Table.Header>
@@ -287,7 +290,6 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                           borderRadius="8px"
                           borderWidth="1px"
                           borderColor="neutral.40"
-                          position="absolute"
                         >
                           {renderMenuItems(item, item.state, item.delDate)}
                         </MenuContent>

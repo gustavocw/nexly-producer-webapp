@@ -12,10 +12,10 @@ export async function getUrlGoogle() {
 }
 
 export async function setUrlGoogle(courseId?: string | null, code?: string | null) {
-  const { data } = await http.post(`/course/youtube/token/${courseId}`, null, {
+  const response = await http.post(`/course/youtube/token/${courseId}`, null, {
     params: { code },
   });
-  return data;
+  return response;
 }
 
 export async function changeUrlGoogle(courseId?: string | null, code?: string) {

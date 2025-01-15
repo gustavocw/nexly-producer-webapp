@@ -13,7 +13,6 @@ const usePlatformController = () => {
     queryKey: ["integration-by-id"],
     queryFn: () =>
       getIntegrationByCourse(productId).then((res) => {
-        console.log(res);
         if (res?.youtube === true) {
           navigate("/infoproducts/create/youtube")
         } else {
@@ -27,7 +26,7 @@ const usePlatformController = () => {
     queryKey: ["youtube-url"],
     queryFn: () =>
       getUrlGoogle().then((res) => {
-        window.open(res, "_blank");
+        window.open(res, "_self");
       }),
     enabled: false,
   });

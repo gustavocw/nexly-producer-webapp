@@ -52,7 +52,7 @@ export const DragFile: React.FC<DragFileProps> = ({
         }}
         label={
           <VStack>
-            <Image w="200px" src={value ? value : "/images/FileImage.svg"} alt="File upload icon" />
+            <Image w={value ? "200px" : "50px"} src={value ? value : "/images/FileImage.svg"} alt="File upload icon" />
             <Text.Medium
               whiteSpace="nowrap"
               fontSize="11px"

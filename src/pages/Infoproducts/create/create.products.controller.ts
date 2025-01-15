@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { toaster } from "components/ui/toaster";
+import { useProducts } from "hooks/useProducts";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ const useCreateProductController = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { product } = location.state || {};
+  const { refetchProducts } = useProducts();
 
   const {
     control,
@@ -83,6 +85,7 @@ const useCreateProductController = () => {
             title: "Info produto criado com sucesso",
             type: "success",
           });
+          refetchProducts();
         }
         navigate("/infoproducts");
       });
