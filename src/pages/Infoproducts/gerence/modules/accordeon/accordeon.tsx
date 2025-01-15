@@ -5,10 +5,6 @@ import {
   HStack,
   Icon,
   Image,
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
   VStack,
 } from "@chakra-ui/react";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
@@ -31,6 +27,12 @@ import { getLessons } from "services/product.services";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import useProductStore from "stores/product.store";
 import useVideosStore from "stores/videos.store";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "components/ui/menu"
 
 interface AccordeonProps {
   modules?: Module[] | null;
@@ -172,7 +174,6 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                             borderWidth="1px"
                             borderColor="neutral.40"
                             bg="neutral.60"
-                            position="absolute"
                           >
                             <MenuItem
                               cursor="pointer"

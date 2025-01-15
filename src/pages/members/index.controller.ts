@@ -19,7 +19,7 @@ const useMembersController = () => {
   }, [areaId])
   
 
-  const { data: members } = useQuery({
+  const { data: members, refetch: refetchMembers } = useQuery({
     queryKey: ["members"],
     queryFn: () =>
       getMembersByArea(areaId).then((res) => {
@@ -70,6 +70,7 @@ const useMembersController = () => {
     lastAccess,
     areasList,
     typeAccessOptions,
+    refetchMembers,
     handleMenuAction,
     accessOptions,
     onOpen,

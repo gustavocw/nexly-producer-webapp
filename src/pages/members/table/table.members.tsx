@@ -2,10 +2,6 @@ import {
   Flex,
   Icon,
   Table,
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -14,6 +10,12 @@ import { Avatar } from "components/ui/avatar";
 import type { Member } from "types/members";
 import { formatDateToString } from "utils/formatDateToString";
 import { capitalizeFirstLetter } from "utils/captalizeData";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "components/ui/menu"
 
 interface TableMembersProps {
   data?: Member[] | null;

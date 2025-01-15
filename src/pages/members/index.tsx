@@ -2,10 +2,6 @@ import {
   Flex,
   HStack,
   Icon,
-  MenuContent,
-  MenuItem,
-  MenuRoot,
-  MenuTrigger,
   Stack,
   Tabs,
 } from "@chakra-ui/react";
@@ -17,6 +13,12 @@ import useMembersController from "./index.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ModalCreateMember from "./creare/modal.create.members";
 import type { Member } from "types/members";
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from "components/ui/menu"
 
 const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
   return (
@@ -71,6 +73,7 @@ const Members = () => {
     typeAccessOptions,
     areasList,
     handleSetAreaId,
+    refetchMembers,
   } = useMembersController();
   const bloquedMembers = members?.filter(
     (member: Member) => member.stateUser === "BLOQUEADO"
@@ -117,7 +120,7 @@ const Members = () => {
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
             <SearchBar placeholder="Pesquisar membros" />
-            <ModalCreateMember />
+            <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
                 <Icon
@@ -136,7 +139,6 @@ const Members = () => {
                 borderRadius="8px"
                 borderWidth="1px"
                 borderColor="neutral.40"
-                position="absolute"
               >
                 <MenuItems onAction={handleMenuAction} />
               </MenuContent>

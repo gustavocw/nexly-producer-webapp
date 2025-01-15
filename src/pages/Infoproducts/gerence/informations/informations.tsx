@@ -4,9 +4,6 @@ import {
   Image,
   Flex,
   Icon,
-  MenuContent,
-  MenuRoot,
-  MenuTrigger,
 } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import SearchBar from "components/search/search";
@@ -19,6 +16,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDateToString } from "utils/formatDateToString";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import ModalCreateMember from "pages/members/creare/modal.create.members";
+import {
+  MenuContent,
+  MenuRoot,
+  MenuTrigger,
+} from "components/ui/menu"
+
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   console.log([data]);
@@ -119,7 +122,6 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
                 borderRadius="8px"
                 borderWidth="1px"
                 borderColor="neutral.40"
-                position="absolute"
               >
                 <MenuItems onAction={handleMenuAction} />
               </MenuContent>
