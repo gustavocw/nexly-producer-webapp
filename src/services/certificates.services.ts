@@ -6,24 +6,30 @@ export async function getCertificate(courseId?: string | null) {
 }
 
 export async function createCertificate(
-  data: Certificate,
+  params: Certificate & { files?: { file: File | null; logoUrl: File | null } },
   courseId: string | null | undefined
 ): Promise<void> {
   const formData = new FormData();
-
-  if (data.files?.file) {
-    formData.append("files", data.files.file);
+  if (params.files?.file) {
+    formData.append("files", params.files.file);
   }
-  if (data.files?.logoUrl) {
-    formData.append("files", data.files.logoUrl);
+  if (params.files?.logoUrl) {
+    formData.append("files", params.files.logoUrl);
+  }
+  if (params.description) {
+    formData.append("description", params.description);
+  }
+  if (params.signatureUrl) {
+    formData.append("signatureUrl", params.signatureUrl);
+  }
+  if (params.percent) {
+    formData.append("percent", params.percent);
+  }
+  if (params.progress) {
+    formData.append("progress", params.progress);
   }
 
-  formData.append("description", data.description);
-  formData.append("signatureUrl", data.signatureUrl);
-  formData.append("percent", data.percent);
-  formData.append("progress", data.progress);
-
-  const response = await http.post<any>(
+  const { data } = await http.post<any>(
     `/course/certificate/${courseId}`,
     formData,
     {
@@ -33,5 +39,5 @@ export async function createCertificate(
     }
   );
 
-  return response.data;
+  return data;
 }

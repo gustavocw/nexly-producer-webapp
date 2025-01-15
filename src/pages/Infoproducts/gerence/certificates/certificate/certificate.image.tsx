@@ -4,7 +4,7 @@ interface CertificateImageProps {
   logo: any;
   fundo: any;
   assinatura: string;
-  descricao: string;
+  descricao?: string;
   nome: string;
   curso: string;
 }

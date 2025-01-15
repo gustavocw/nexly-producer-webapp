@@ -12,10 +12,10 @@ import { useGenrenceInfoproduct } from "../index.controller";
 import { useState } from "react";
 
 export const certificateSchema = z.object({
-  signatureUrl: z.string().min(1),
-  description: z.string().min(1),
-  percent: z.string().min(1),
-  progress: z.string().min(1),
+  signatureUrl: z.string().min(1, "A assinatura é obrigatória."),
+  description: z.string(),
+  percent: z.any(),
+  progress: z.string(),
 });
 
 type CertificateFormData = z.infer<typeof certificateSchema>;
@@ -66,7 +66,8 @@ export const useCertificateController = () => {
   });
 
   const { mutate: mutateCertificate } = useMutation({
-    mutationFn: (params: Certificate) => createCertificate(params, productId),
+    mutationFn: (params: CertificateFormData & { files: { file: File | null; logoUrl: File | null } }) =>
+      createCertificate(params, productId),
     onSuccess: () => {
       toaster.create({
         title: "Certificado criado com sucesso!",
@@ -84,21 +85,28 @@ export const useCertificateController = () => {
   });
 
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
+    if (!data.signatureUrl) {
+      toaster.create({
+        title: "A assinatura é obrigatória.",
+        type: "error",
+      });
+      return;
+    }
+
     const processedData = {
       ...data,
-      percent: data.percent,
-      progress: data.progress === "true" ? "true" : "false",
+      percent: data.percent[0],
       files: {
-        file: files.file || null,
-        logoUrl: files.logoUrl || null,
+        file: files.file,
+        logoUrl: files.logoUrl,
       },
     };
-  
-    console.log("Processed Data:", processedData);
+    console.log(processedData);
+    
     mutateCertificate(processedData);
     reset();
   };
-    
+
   return {
     control,
     handleSubmit,
