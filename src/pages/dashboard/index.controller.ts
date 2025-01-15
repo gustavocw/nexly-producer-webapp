@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   getChartComments,
   getChartData,
@@ -19,6 +19,25 @@ interface Post {
   image: string;
 }
 
+const getMonthDates = () => {
+  const now = new Date();
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString();
+  return { startDate: firstDay, endDate: lastDay };
+};
+
+const getWeekDates = () => {
+  const now = new Date();
+  const firstDay = new Date(now.setDate(now.getDate() - now.getDay() + 1)).toISOString(); // Monday
+  const lastDay = new Date(now.setDate(now.getDate() - now.getDay() + 7)).toISOString(); // Sunday
+  return { startDate: firstDay, endDate: lastDay };
+};
+
+const getDayOfWeek = (date: string) => {
+  const daysOfWeek = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+  return daysOfWeek[new Date(date).getDay() - 1] || "Segunda";
+};
+
 export const useDashboardController = () => {
   const optionsNav: Option[] = [
     { label: "Semanal", value: "Semanal" },
@@ -31,26 +50,64 @@ export const useDashboardController = () => {
     { id: 3, title: "Título 3", value: "30", image: "/images/thumb.png" },
   ];
 
+
   const [optionStatus, setOptionStatus] = useState<Option>(optionsNav[0]);
+  const [dates, setDates] = useState(getWeekDates());
+  const [weeklyChange, setWeeklyChange] = useState<number | null>(null);
+
 
   const handleSelectionChange = (selectedOption: Option) => {
     setOptionStatus(selectedOption);
+    if (selectedOption.value === "Mensal") {
+      setDates(getMonthDates());
+    } else {
+      setDates(getWeekDates());
+    }
   };
 
-  const { isLoading: isLoadingChart } = useQuery({
-    queryKey: ["chart-data"],
+  const { data: chartData, isLoading: isLoadingChart } = useQuery({
+    queryKey: ["chart-data", dates],
     queryFn: () =>
-      getChartData("10", "20").then((res) => {
-        // console.log(res);
+      getChartData(dates.endDate, dates.startDate).then((res) => {
+        console.log(res);
         return res;
       }),
   });
 
+  useEffect(() => {
+    if (chartData && optionStatus.value === "Semanal") {
+      const membersByDay: { [key: string]: number } = {
+        Segunda: 0,
+        Terça: 0,
+        Quarta: 0,
+        Quinta: 0,
+        Sexta: 0,
+        Sábado: 0,
+        Domingo: 0,
+      };
+
+      chartData.forEach((item: { _id: string; createdAt: string }) => {
+        const day = getDayOfWeek(item.createdAt);
+        membersByDay[day]++;
+      });
+
+      const days = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+      let totalMembers = 0;
+      const dailyProgression: number[] = [];
+
+      days.forEach((day) => {
+        totalMembers += membersByDay[day] || 0;
+        dailyProgression.push(totalMembers);
+      });
+
+      const change = dailyProgression[dailyProgression.length - 1] - dailyProgression[0];
+      setWeeklyChange(change); // Salva o aumento/redução semanal no estado
+    }
+  }, [chartData]);
   const { isLoading: isLoadingChartPosts } = useQuery({
     queryKey: ["chart-posts"],
     queryFn: () =>
       getChartPosts(10, 10).then((res) => {
-        // console.log(res);
         return res;
       }),
   });
@@ -59,7 +116,6 @@ export const useDashboardController = () => {
     queryKey: ["chart-comments"],
     queryFn: () =>
       getChartComments(10, 10).then((res) => {
-        // console.log(res);
         return res;
       }),
   });
@@ -68,22 +124,20 @@ export const useDashboardController = () => {
     queryKey: ["chart-members"],
     queryFn: () =>
       getChartMembers().then((res) => {
-        console.log("aaa", res);
         return res;
       }),
   });
 
-  console.log(
-    isLoadingChart,
-    isLoadingChartComments,
-    isLoadingChartMembers,
-    isLoadingChartPosts
-  );
-
   return {
     optionsNav,
+    isLoadingChart,
+    isLoadingChartComments,
+    weeklyChange,
+    isLoadingChartMembers,
+    isLoadingChartPosts,
     posts,
     membersCount,
+    chartData,
     optionStatus,
     handleSelectionChange,
   };

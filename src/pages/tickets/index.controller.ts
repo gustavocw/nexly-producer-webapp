@@ -1,9 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { getTicketRooms } from "services/tickets.services";
 
 const useTicketsController = () => {
   const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
   const [prioryty, setPriority] = useState("");
+
+  const { data: tickets } = useQuery({
+    queryKey: ["tickets"],
+    queryFn: () => getTicketRooms(),
+  });
 
   const handleMenuAction = (action: string) => {
     switch (action) {
@@ -50,11 +57,12 @@ const useTicketsController = () => {
     setStatus,
     setCategory,
     category,
+    tickets,
     prioryty,
     priorityOptions,
     handleMenuAction,
     statusOptions,
-    categoryOptions
+    categoryOptions,
   };
 };
 

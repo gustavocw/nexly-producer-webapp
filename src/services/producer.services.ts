@@ -22,6 +22,5 @@ export async function getIntegrations() {
 
 export async function getNotifications() {
   const { data } = await http.get<any>("/producer/notifications", {});
-  console.log(data);
   return data;
 }

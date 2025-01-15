@@ -12,7 +12,7 @@ import {
 
 interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface SelectProps {

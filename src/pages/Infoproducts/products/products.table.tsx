@@ -20,6 +20,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProducts } from "hooks/useProducts";
 import useProductStore from "stores/product.store";
+import PublishProductModal from "./publish/publish.course";
 
 interface TableProducts {
   data?: Product[] | null;
@@ -101,9 +102,8 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             p={2}
             color="neutral"
             value="post"
-            onClick={() => console.log("Publicar curso")}
           >
-            Publicar Curso
+            <PublishProductModal idProduct={item._id} />
           </MenuItem>
         )}
         <MenuItem

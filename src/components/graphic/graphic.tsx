@@ -9,15 +9,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Box, Flex } from "@chakra-ui/react";
-// import { getChartData } from 'services/ProducerRequests/chart';
-
-const weeklyData = [
-  { name: "Segunda", value: 0 },
-  { name: "Terça", value: 0 },
-  { name: "Quarta", value: 0 },
-  { name: "Quinta", value: 0 },
-  { name: "Sexta", value: 0 },
-];
 
 const CustomDot = ({ cx = 0, cy = 0, index = 0 }: any) => {
   if (index === 0) {
@@ -109,52 +100,34 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const GraphicNexly = ({ mode }: { mode: string }) => {
-  const [data, setData] =
-    useState<{ name: string; value: number }[]>(weeklyData);
+const GraphicNexly = ({
+  data,
+  mode,
+}: {
+  data: { createdAt: string }[];
+  mode: string;
+}) => {
+  const [chartData, setChartData] = useState<{ name: string; value: number }[]>(
+    []
+  );
   const [maxValue, setMaxValue] = useState(5);
+
   useEffect(() => {
-    const getData = async () => {
-      const today = new Date();
-      const endDate = today.toISOString();
-      const startDate = new Date();
-      const daysRemove = mode === "Semanal" ? 7 : 30;
-      startDate.setDate(today.getDate() - daysRemove);
-      const formattedStartDate = startDate.toISOString();
+    if (data) {
+      const processedData =
+        mode === "Semanal" ? countDaysOfWeek(data) : countDaysOfMonth(data);
+      setChartData(processedData);
 
-      const getChartData = async (endDate: string, startDate: string) => {
-        console.log(endDate, startDate);
+      const values = processedData.map((item) => item.value);
+      const maxDataValue = Math.max(...values);
+      setMaxValue(maxDataValue);
+    }
+  }, [data, mode]);
 
-        return [
-          { createdAt: "2024-12-18T14:00:00Z" },
-          { createdAt: "2024-12-17T14:00:00Z" },
-          { createdAt: "2024-12-16T14:00:00Z" },
-        ];
-      };
-
-        const fetchedData = await getChartData(endDate, formattedStartDate);
-        if (
-          Array.isArray(fetchedData) &&
-          fetchedData.every((item) => "createdAt" in item)
-        ) {
-          const countedData =
-            mode === "Semanal"
-              ? countDaysOfWeek(fetchedData)
-              : countDaysOfMonth(fetchedData);
-          setData(countedData);
-          const values = countedData.map((item) => item.value);
-          const maxDataValue = Math.max(...values);
-          setMaxValue(maxDataValue);
-        }
-      
-    };
-    getData();
-  }, [mode]);
-
-  const yAxisTicks =
-    maxValue <= 5
-      ? [0, 1, 2, 3, 4, 5]
-      : Array.from({ length: Math.ceil(maxValue / 5) + 1 }, (_, i) => i * 5);
+  const yAxisTicks = Array.from(
+    { length: Math.ceil(maxValue / 2) + 1 },
+    (_, i) => i * 2
+  );
 
   return (
     <Flex
@@ -167,7 +140,7 @@ const GraphicNexly = ({ mode }: { mode: string }) => {
       <Box w="95%" h="100%">
         <ResponsiveContainer>
           <LineChart
-            data={data}
+            data={chartData}
             margin={{ top: 20, right: 50, left: 0, bottom: 5 }}
           >
             <CartesianGrid

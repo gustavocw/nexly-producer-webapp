@@ -35,6 +35,13 @@ export async function getLessons(productId?: string | null) {
   return data.data;
 }
 
+export async function publishProduct(productId?: string | null) {
+  const { data } = await http.put(`/course/state-course/${productId}`, {
+    state: "PUBLICO"
+  });
+  return data.data;
+}
+
 export async function createModule(
   productId?: string | null,
   module?: NewModule

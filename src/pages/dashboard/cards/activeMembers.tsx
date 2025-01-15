@@ -3,10 +3,13 @@ import Text from "components/text/text";
 import type React from "react";
 
 interface CardProps {
-  value: number;
+  value: number | null;
 }
 
 const Card: React.FC<CardProps> = ({ value }) => {
+  const isIncrease = value !== null && value > 0;
+  const isDecrease = value !== null && value < 0;
+
   return (
     <VStack
       borderRadius="8px"
@@ -17,12 +20,25 @@ const Card: React.FC<CardProps> = ({ value }) => {
       bg="neutral.60"
       p="20px"
     >
-      <Text.Medium fontSize="34px">{value ?? 0}</Text.Medium>
+      <Text.Medium fontSize="34px">
+        {value !== null ? Math.abs(value) : 0}
+      </Text.Medium>
       <Text.Medium fontSize="18px">Membros ativos</Text.Medium>
       <Flex align="center" gap={1}>
-        <Text.Medium fontSize="13px" color="error.30">
-          Redução de 8
-        </Text.Medium>
+        {value !== null && (
+          <Text.Medium
+            fontSize="13px"
+            color={
+              isIncrease ? "success.30" : isDecrease ? "error.30" : "neutral.40"
+            }
+          >
+            {isIncrease
+              ? `Aumento de ${Math.abs(value)}`
+              : isDecrease
+              ? `Redução de ${Math.abs(value)}`
+              : "Sem alterações"}
+          </Text.Medium>
+        )}
         <Text.Medium fontSize="13px"> nos últimos 7 dias.</Text.Medium>
       </Flex>
     </VStack>

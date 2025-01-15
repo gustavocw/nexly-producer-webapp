@@ -7,11 +7,8 @@ import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
 
 const Areas = () => {
-  const { areas } = useAreasController();
+  const { areas, loadingAreas } = useAreasController();
   let formSubmitHandler: (() => void) | null = null;
-  console.log(areas);
-  
-
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
   };
@@ -48,7 +45,7 @@ const Areas = () => {
           </Tabs.Content>
         </HStack>
         <Tabs.Content py={5} value="areas">
-          {areas?.length ? (
+          {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
               {areas?.map((area: any) => (
                 <AreaCard key={area.id} data={area} />

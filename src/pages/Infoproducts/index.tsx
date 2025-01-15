@@ -10,6 +10,9 @@ import useInfoproductsController from "./index.controller";
 const Infoproducts = () => {
   const { categoryOptions, statusOptions, setCategory, setStatus, handleSetAreaId, products, areasList, isLoadingProducts } =
     useInfoproductsController();
+
+    console.log(products);
+    
     
 
   return (

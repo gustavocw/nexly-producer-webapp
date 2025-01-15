@@ -9,6 +9,15 @@ import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
 import { Controller } from "react-hook-form";
 import { Switch } from "components/ui/switch";
+import { createListCollection } from "@chakra-ui/react";
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "components/ui/select";
 
 const Certificates = () => {
   const {
@@ -21,6 +30,15 @@ const Certificates = () => {
     onSubmit,
     files,
   } = useCertificateController();
+
+  const percents = createListCollection({
+    items: [
+      { value: "70%", label: "70%" },
+      { value: "80%", label: "80%" },
+      { value: "90%", label: "90%" },
+      { value: "100%", label: "100%" },
+    ],
+  });
 
   const signatureUrl = watch("signatureUrl");
   const description = watch("description");
@@ -65,7 +83,7 @@ const Certificates = () => {
             <HStack justify="center" w="100%">
               <CertificateImage
                 logo={files.logoUrl}
-                fundo={files.background}
+                fundo={files.file}
                 descricao={description}
                 assinatura={signatureUrl}
                 nome="NOME DO ALUNO FICA AQUI"
@@ -103,24 +121,37 @@ const Certificates = () => {
                 errorText={errors.description?.message}
               />
               <Flex alignItems="center" w="100%" gap={2}>
-                <Input.Base
+                <Controller
                   name="percent"
-                  label="Porcentagem"
-                  placeholder="Ex: 100"
-                  type="number"
                   control={control}
-                  errorText={errors.percent?.message}
+                  render={() => (
+                    <SelectRoot collection={percents} size="sm" width="60%">
+                      <SelectLabel>Selecione a porcentagem</SelectLabel>
+                      <SelectTrigger>
+                        <SelectValueText placeholder="Com quantos % o certificado é liberado ?" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {percents.items.map((percent) => (
+                          <SelectItem item={percent} key={percent.value}>
+                            {percent.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </SelectRoot>
+                  )}
                 />
-
                 <Controller
                   name="progress"
                   control={control}
-                  render={() => (
+                  render={({ field }) => (
                     <Flex w="30%">
                       <Switch
-                        onCheckedChange={(v) => setValue("progress", v.checked)}
+                        checked={field.value === "true"}
+                        onCheckedChange={(v) =>
+                          setValue("progress", v.checked ? "true" : "false")
+                        }
                       >
-                        Mostrar progresso ?
+                        Mostrar progresso?
                       </Switch>
                     </Flex>
                   )}
@@ -133,7 +164,7 @@ const Certificates = () => {
                 />
                 <DragFile
                   label="Capa"
-                  onFileSelect={(file) => updateFiles("background", file)}
+                  onFileSelect={(file) => updateFiles("file", file)}
                 />
               </HStack>
             </VStack>

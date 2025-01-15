@@ -14,8 +14,8 @@ import { useState } from "react";
 export const certificateSchema = z.object({
   signatureUrl: z.string().min(1),
   description: z.string().min(1),
-  percent: z.number(),
-  progress: z.boolean(),
+  percent: z.string().min(1),
+  progress: z.string().min(1),
 });
 
 type CertificateFormData = z.infer<typeof certificateSchema>;
@@ -24,10 +24,10 @@ export const useCertificateController = () => {
   const { refetchCourse } = useGenrenceInfoproduct();
   const { id: productId } = useParams<{ id: string }>();
   const [files, setFiles] = useState<{
-    background: File | null;
+    file: File | null;
     logoUrl: File | null;
   }>({
-    background: null,
+    file: null,
     logoUrl: null,
   });
 
@@ -43,8 +43,8 @@ export const useCertificateController = () => {
     defaultValues: {
       signatureUrl: "",
       description: "",
-      percent: 0,
-      progress: false,
+      percent: "",
+      progress: "",
     },
   });
 
@@ -86,17 +86,19 @@ export const useCertificateController = () => {
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
     const processedData = {
       ...data,
-      percent: Number(data.percent),
+      percent: data.percent,
+      progress: data.progress === "true" ? "true" : "false",
       files: {
-        background: files?.background || null,
-        logoUrl: files?.logoUrl || null,
+        file: files.file || null,
+        logoUrl: files.logoUrl || null,
       },
     };
-    console.log("Dados processados:", processedData);
+  
+    console.log("Processed Data:", processedData);
     mutateCertificate(processedData);
     reset();
   };
-
+    
   return {
     control,
     handleSubmit,

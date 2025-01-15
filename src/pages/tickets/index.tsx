@@ -13,6 +13,7 @@ const Tickets = () => {
     priorityOptions,
     categoryOptions,
     statusOptions,
+    tickets,
   } = useTicketsController();
 
   return (
@@ -39,7 +40,7 @@ const Tickets = () => {
                 />
               </HStack>
               <VStack w="100%">
-                <CardTickets />
+                <CardTickets data={tickets} />
               </VStack>
             </VStack>
           </Tabs.Content>

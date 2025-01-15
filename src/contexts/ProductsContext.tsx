@@ -10,6 +10,7 @@ interface ProductContextValue {
   product?: Product | null;
   products?: Product[] | null;
   isLoadingProducts?: boolean,
+  loadingAreas?: boolean,
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
   handleSetAreaId: (_id: string) => void;
@@ -44,7 +45,7 @@ export const ProductProvider = ({
     });
   
 
-  const { data: areas, refetch: refetchAreas } = useQuery({
+  const { data: areas, refetch: refetchAreas, isLoading: loadingAreas } = useQuery({
     queryKey: ["areas"],
     queryFn: () =>
       getAreas().then((res) => {
@@ -58,7 +59,7 @@ export const ProductProvider = ({
   }));
 
   return (
-    <ProductContext.Provider value={{ handleSetAreaId, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>
+    <ProductContext.Provider value={{ handleSetAreaId, loadingAreas, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>
       {children}
     </ProductContext.Provider>
   );
