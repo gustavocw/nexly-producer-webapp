@@ -60,7 +60,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
       borderWidth="1px"
       borderColor="neutral.40"
       rounded="md"
-      maxH="45vh"
+      maxH="70vh"
     >
       <Table.Root size="sm" stickyHeader>
         <Table.Header>

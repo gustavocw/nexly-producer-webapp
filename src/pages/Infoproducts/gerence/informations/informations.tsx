@@ -1,10 +1,4 @@
-import {
-  HStack,
-  VStack,
-  Image,
-  Flex,
-  Icon,
-} from "@chakra-ui/react";
+import { HStack, VStack, Image, Flex, Icon } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import SearchBar from "components/search/search";
 import SelectOption from "components/selectOption/select";
@@ -16,17 +10,19 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDateToString } from "utils/formatDateToString";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import ModalCreateMember from "pages/members/creare/modal.create.members";
-import {
-  MenuContent,
-  MenuRoot,
-  MenuTrigger,
-} from "components/ui/menu"
-
+import { MenuContent, MenuRoot, MenuTrigger } from "components/ui/menu";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
-  console.log([data]);
-  
-  const { handleMenuAction, refetchMembers, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
+  const {
+    handleMenuAction,
+    refetchMembers,
+    setAccessType,
+    setLastAccess,
+    accessOptions,
+    typeAccessOptions,
+    members,
+  } = useInformationsController();
+
   return (
     <VStack gap="32px" w="100%">
       <HStack w="100%">
@@ -41,14 +37,17 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           h="200px"
         >
           <HStack gap="10px">
-            <Image borderRadius="8px" w="100px" h="57px" src={data?.thumbnail ?? "/images/bg.png"} />
+            <Image
+              borderRadius="8px"
+              w="100px"
+              h="57px"
+              src={data?.thumbnail ?? "/images/bg.png"}
+            />
             <Text.Medium fontSize="16px">{data?.name}</Text.Medium>
           </HStack>
           <Divider width="100" />
           <Flex>
-            <Text.Medium fontSize="14px">
-              {data?.description}
-            </Text.Medium>
+            <Text.Medium fontSize="14px">{data?.description}</Text.Medium>
           </Flex>
         </VStack>
         <VStack

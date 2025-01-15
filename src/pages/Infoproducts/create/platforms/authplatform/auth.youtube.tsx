@@ -15,14 +15,17 @@ const AuthYoutube = () => {
 
   const { mutate: mutateAuth } = useMutation({
     mutationFn: () => setUrlGoogle(productId, code),
-    onSuccess: () => {
-      toaster.create({
-        title: "Autenticado com sucesso!",
-        type: "success",
-      });
-      setTimeout(() => {
-        navigate("/infoproducts/create/youtube");
-      }, 2000);
+    onSuccess: (data) => {
+      console.log(data);
+      if (data?.success === true) {
+        toaster.create({
+          title: "Autenticado com sucesso!",
+          type: "success",
+        });
+        setTimeout(() => {
+          navigate("/infoproducts/create/youtube");
+        }, 2000);
+      }
     },
     onError: () => {
       toaster.create({
@@ -35,11 +38,8 @@ const AuthYoutube = () => {
   useEffect(() => {
     if (productId && code) {
       const delay = setTimeout(() => {
-        console.log("aaaaaaaaaaaaaa")
-        console.log(code);
-        
-        // mutateAuth();
-      }, 3500);
+        mutateAuth();
+      }, 2500);
       return () => clearTimeout(delay);
     }
   }, [productId, code, mutateAuth]);
@@ -49,10 +49,10 @@ const AuthYoutube = () => {
       <VStack h="100%" alignItems="center" justify="center">
         <Spinner color="primary.50" />
         <Text.Medium fontSize="20px">
-          A integração está sendo feita e a página será fechada automaticamente.
+          A integração está sendo feita e a página será redirecionada automaticamente.
         </Text.Medium>
         <Text.Small fontSize="16px">
-          Se a janela não fechar automaticamente, você pode fechá-la.
+          Aguarde.
         </Text.Small>
       </VStack>
     </VStack>

@@ -11,11 +11,14 @@ export async function getUrlGoogle() {
   return data;
 }
 
-export async function setUrlGoogle(courseId?: string | null, code?: string | null) {
-  const response = await http.post(`/course/youtube/token/${courseId}`, null, {
+export async function setUrlGoogle(
+  courseId?: string | null,
+  code?: string | null
+) {
+  const { data } = await http.put(`/course/youtube/token/${courseId}`, null, {
     params: { code },
   });
-  return response;
+  return data;
 }
 
 export async function changeUrlGoogle(courseId?: string | null, code?: string) {
@@ -27,7 +30,9 @@ export async function changeUrlGoogle(courseId?: string | null, code?: string) {
 }
 
 export async function getChannelsYt(courseId?: string | null) {
-  const { data } = await http.get<any>(`/course/youtube/list-channels/${courseId}`);
+  const { data } = await http.get<any>(
+    `/course/youtube/list-channels/${courseId}`
+  );
   return data;
 }
 
