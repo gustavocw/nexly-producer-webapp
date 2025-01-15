@@ -86,7 +86,7 @@ export const useCreateModuleController = ({
   });
 
   const { mutate: mutateEditModule } = useMutation({
-    mutationFn: (params: Module) => editModule(params._id, params),
+    mutationFn: (params: NewModule) => editModule(params._id, params),
     onSuccess: () => {
       toaster.create({
         title: "Módulo editado com sucesso!",

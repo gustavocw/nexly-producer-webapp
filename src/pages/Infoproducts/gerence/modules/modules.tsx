@@ -12,7 +12,7 @@ const Modules: React.FC<ModulesProps> = ({ data }) => {
 
   return (
     <Flex w="100%">
-      {data?.modules[0]._id === null ? (
+      {data?.modules && data?.modules[0]?._id === null ? (
         <HStack gap="32px" w="100%">
           <VStack
             w="100%"

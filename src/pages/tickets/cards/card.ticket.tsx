@@ -22,7 +22,7 @@ const CardTickets: React.FC<TicketsProps> = ({ data }) => {
   const collection = createListCollection({
     items: statusOptions,
   });
-
+  console.log(data);
   const dummyTickets = [
     {
       id: "1",

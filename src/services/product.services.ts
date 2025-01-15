@@ -77,7 +77,7 @@ export async function createModule(
   return data;
 }
 
-export async function editModule(moduleId: string, module: Module) {
+export async function editModule(moduleId: string, module: NewModule) {
   const formData = new FormData();
   formData.append("name", module?.name);
   formData.append("description", module?.description);

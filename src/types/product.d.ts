@@ -24,6 +24,15 @@ interface Product {
   modules?: Module[];
 }
 
+interface NewModule {
+  _id?: any;
+  name: string;
+  stateModule: string;
+  description: string;
+  format: string;
+  thumbnail?: File | null;
+}
+
 interface Module {
   _id: any;
   name: string;
