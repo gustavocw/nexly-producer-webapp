@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toaster } from "components/ui/toaster";
-import { useGenrenceInfoproduct } from "pages/Infoproducts/gerence/index.controller";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,12 +14,17 @@ interface CreateModulesFormValues {
   state: string;
 }
 
-const useCreateModuleController = () => {
+const useCreateModuleController = ({
+  refetch,
+  onClose,
+}: {
+  refetch: () => void;
+  onClose: () => void;
+}) => {
   const { areaId } = useProductStore();
   const navigate = useNavigate();
   const { id } = useParams();
   const [productId, setProductId] = useState("");
-  const { refetchCourse } = useGenrenceInfoproduct();
 
   const {
     control,
@@ -57,7 +61,8 @@ const useCreateModuleController = () => {
         type: "success",
       });
       reset();
-      refetchCourse();
+      refetch();
+      onClose();
     },
     onError: () => {
       toaster.create({

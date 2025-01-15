@@ -21,7 +21,9 @@ import { capitalizeFirstLetter } from "utils/captalizeData";
 import ModalCreateMember from "pages/members/creare/modal.create.members";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
-  const { handleMenuAction, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
+  console.log([data]);
+  
+  const { handleMenuAction, refetchMembers, setAccessType, setLastAccess, accessOptions, typeAccessOptions, members } = useInformationsController();
   return (
     <VStack gap="32px" w="100%">
       <HStack w="100%">
@@ -36,7 +38,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           h="200px"
         >
           <HStack gap="10px">
-            <Image borderRadius="8px" w="100px" h="57px" src={data?.urlThumbCourse ?? "/images/bg.png"} />
+            <Image borderRadius="8px" w="100px" h="57px" src={data?.thumbnail ?? "/images/bg.png"} />
             <Text.Medium fontSize="16px">{data?.name}</Text.Medium>
           </HStack>
           <Divider width="100" />
@@ -98,7 +100,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
             <SearchBar placeholder="Pesquisar membros" />
-            <ModalCreateMember />
+            <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
                 <Icon

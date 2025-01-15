@@ -13,7 +13,7 @@ const useInformationsController = () => {
   const { id } = useParams<{ id: string }>();
   const idParam = product?._id ?? id;
 
-  const { data: members } = useQuery({
+  const { data: members, refetch: refetchMembers } = useQuery({
     queryKey: ["members-by-id", idParam],
     queryFn: () =>
       getMembersById(idParam).then((res) => {
@@ -58,6 +58,7 @@ const useInformationsController = () => {
   return {
     accessType,
     setAccessType,
+    refetchMembers,
     setLastAccess,
     lastAccess,
     typeAccessOptions,

@@ -13,6 +13,7 @@ interface DragFileProps {
   hint?: string;
   width?: string;
   onFileSelect: (file: File) => void;
+  value?: any;
 }
 
 export const DragFile: React.FC<DragFileProps> = ({
@@ -20,7 +21,8 @@ export const DragFile: React.FC<DragFileProps> = ({
   label = "Logo da área",
   hint = "A imagem deve estar no formato JPG ou PNG e tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000 pixels.",
   onFileSelect,
-  width = "50%"
+  width = "50%",
+  value
 }) => {
   return (
     <FileUploadRoot
@@ -50,7 +52,7 @@ export const DragFile: React.FC<DragFileProps> = ({
         }}
         label={
           <VStack>
-            <Image src="/images/FileImage.svg" alt="File upload icon" />
+            <Image w="200px" src={value ? value : "/images/FileImage.svg"} alt="File upload icon" />
             <Text.Medium
               whiteSpace="nowrap"
               fontSize="11px"

@@ -27,30 +27,37 @@ const LastPost: React.FC<LastPostProps> = ({ posts }) => {
       alignItems="flex-start"
       gap="20px"
     >
-      {posts.map((post) => (
-        <HStack key={post.id} gap="16px" w="100%">
-          <Image w="100px" h="50px" borderRadius="8px" src={post.image} />
-          <VStack>
-            <Text.Medium fontSize="14px">{post.title}</Text.Medium>
-            <Text.Medium fontSize="14px">{post.value}</Text.Medium>
+      {posts?.length > 0 ? (
+        posts?.map((post) => (
+          <HStack key={post.id} gap="16px" w="100%">
+            <Image w="100px" h="50px" borderRadius="8px" src={post.image} />
+            <VStack alignItems="flex-start">
+              <Text.Medium fontSize="14px">{post.title}</Text.Medium>
+              <Text.Medium fontSize="14px">{post.value}</Text.Medium>
+            </VStack>
+          </HStack>
+        ))
+      ) : (
+        <Text.Medium fontSize="16px">Sem posts recentes.</Text.Medium>
+      )}
+      {posts?.length > 0 && (
+        <>
+          <Divider width="100%" />
+          <VStack justify="center" w="100%">
+            <Link
+              color="primary.50"
+              fontWeight="600"
+              cursor="pointer"
+              textDecoration="none"
+              fontSize="13px"
+            >
+              Analisar estatísticas
+            </Link>
           </VStack>
-        </HStack>
-      ))}
-      <Divider width="100%" />
-      <VStack justify="center" w="100%">
-        <Link
-          color="primary.50"
-          fontWeight="600"
-          cursor="pointer"
-          textDecoration="none"
-          fontSize="13px"
-        >
-          Analisar estatísticas
-        </Link>
-      </VStack>
+        </>
+      )}
     </VStack>
   );
 };
-
 
 export default LastPost;

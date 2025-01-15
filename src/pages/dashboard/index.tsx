@@ -8,7 +8,7 @@ import Comments from "./comments/comments";
 import { useDashboardController } from "./index.controller";
 
 const Dashboard = () => {
-  const { chartData, optionsNav, weeklyChange, posts, optionStatus, handleSelectionChange } =
+  const { chartData, chartPosts, chartComments, optionsNav, weeklyChange, optionStatus, handleSelectionChange } =
     useDashboardController();
 
   return (
@@ -25,12 +25,12 @@ const Dashboard = () => {
         <HStack gap="20px" align="flex-start" w="100%">
           <VStack gap="20px" width="70%" flex={1}>
             <GraphicNexly data={chartData} mode={optionStatus.value} />
-            <Comments />
+            <Comments data={chartComments} />
           </VStack>
           <VStack align="flex-start" gap="20px" width="30%">
           <Card value={weeklyChange} />
           <Statistis time={100} viewers={30} />
-            <LastPost posts={posts} />
+            <LastPost posts={chartPosts} />
           </VStack>
         </HStack>
       </Box>

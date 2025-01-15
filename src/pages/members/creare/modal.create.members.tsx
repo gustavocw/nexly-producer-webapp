@@ -25,8 +25,10 @@ import {
 } from "components/ui/select";
 import { createListCollection } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
-const ModalCreateMember = () => {
+const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams();
   const {
     control,
@@ -35,14 +37,19 @@ const ModalCreateMember = () => {
     handleSelectProduct,
     handleSubmit,
     onSubmit,
-  } = useCreateModuleController();
+  } = useCreateModuleController({ refetch, onClose: () => setIsOpen(false) }); 
   const products = createListCollection({
     items: productList || [],
   });
 
   return (
     <HStack wrap="wrap" gap="4">
-      <DialogRoot placement="center" motionPreset="slide-in-bottom">
+      <DialogRoot
+        placement="center"
+        motionPreset="slide-in-bottom"
+        open={isOpen}
+        onOpenChange={(e) => setIsOpen(e.open)}
+      >
         <DialogTrigger asChild>
           <Btn w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
         </DialogTrigger>
@@ -116,9 +123,9 @@ const ModalCreateMember = () => {
             </VStack>
           </DialogBody>
           <DialogFooter py={4}>
-            <DialogActionTrigger asChild>
-              <Btn bg="transparent" label="Cancelar" w="100px" />
-            </DialogActionTrigger>
+              <DialogActionTrigger asChild>
+                <Btn bg="transparent" label="Cancelar" w="100px" />
+              </DialogActionTrigger>
             <Btn onClick={handleSubmit(onSubmit)} label="Adicionar" w="100px" />
           </DialogFooter>
           <DialogCloseTrigger />

@@ -7,8 +7,17 @@ import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
 
 const CreateProduct = () => {
-  const { control, errors, navigate, handleSubmit, onSubmit, updateFile, areaList } =
-    useCreateProductController();
+  const {
+    control,
+    product,
+    file,
+    errors,
+    navigate,
+    handleSubmit,
+    onSubmit,
+    updateFile,
+    areaList,
+  } = useCreateProductController();
 
   const options = [
     { value: "react", label: "React.js" },
@@ -44,6 +53,7 @@ const CreateProduct = () => {
           onFileSelect={(file) => updateFile(file)}
           width="100%"
           label="Capa do curso"
+          value={file}
         />
 
         <Select
@@ -54,15 +64,16 @@ const CreateProduct = () => {
           placeholder="Escolha uma categoria"
           helperText="Categoria na qual o curso será classificado"
         />
-
-        <Select
-          name="areaId"
-          control={control}
-          label="Área"
-          options={areaList}
-          placeholder="Insira a área do curso"
-          helperText="Defina a área de conhecimento do curso"
-        />
+        {!product && (
+          <Select
+            name="areaId"
+            control={control}
+            label="Área"
+            options={areaList}
+            placeholder="Insira a área do curso"
+            helperText="Defina a área de conhecimento do curso"
+          />
+        )}
         <HStack pb={10} w="100%">
           <Btn
             w="50%"

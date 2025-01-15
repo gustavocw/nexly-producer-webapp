@@ -11,10 +11,6 @@ const Infoproducts = () => {
   const { categoryOptions, statusOptions, setCategory, setStatus, handleSetAreaId, products, areasList, isLoadingProducts } =
     useInfoproductsController();
 
-    console.log(products);
-    
-    
-
   return (
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>

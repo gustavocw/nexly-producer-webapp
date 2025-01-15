@@ -12,13 +12,6 @@ interface Option {
   value: string;
 }
 
-interface Post {
-  id: number;
-  title: string;
-  value: string;
-  image: string;
-}
-
 const getMonthDates = () => {
   const now = new Date();
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -44,13 +37,6 @@ export const useDashboardController = () => {
     { label: "Mensal", value: "Mensal" },
   ];
 
-  const posts: Post[] = [
-    { id: 1, title: "Título 1", value: "10", image: "/images/thumb.png" },
-    { id: 2, title: "Título 2", value: "20", image: "/images/thumb.png" },
-    { id: 3, title: "Título 3", value: "30", image: "/images/thumb.png" },
-  ];
-
-
   const [optionStatus, setOptionStatus] = useState<Option>(optionsNav[0]);
   const [dates, setDates] = useState(getWeekDates());
   const [weeklyChange, setWeeklyChange] = useState<number | null>(null);
@@ -69,7 +55,6 @@ export const useDashboardController = () => {
     queryKey: ["chart-data", dates],
     queryFn: () =>
       getChartData(dates.endDate, dates.startDate).then((res) => {
-        console.log(res);
         return res;
       }),
   });
@@ -101,10 +86,11 @@ export const useDashboardController = () => {
       });
 
       const change = dailyProgression[dailyProgression.length - 1] - dailyProgression[0];
-      setWeeklyChange(change); // Salva o aumento/redução semanal no estado
+      setWeeklyChange(change);
     }
   }, [chartData]);
-  const { isLoading: isLoadingChartPosts } = useQuery({
+
+  const { data: chartPosts, isLoading: isLoadingChartPosts } = useQuery({
     queryKey: ["chart-posts"],
     queryFn: () =>
       getChartPosts(10, 10).then((res) => {
@@ -112,7 +98,7 @@ export const useDashboardController = () => {
       }),
   });
 
-  const { isLoading: isLoadingChartComments } = useQuery({
+  const { data: chartComments, isLoading: isLoadingChartComments } = useQuery({
     queryKey: ["chart-comments"],
     queryFn: () =>
       getChartComments(10, 10).then((res) => {
@@ -131,11 +117,12 @@ export const useDashboardController = () => {
   return {
     optionsNav,
     isLoadingChart,
+    chartPosts,
+    chartComments,
     isLoadingChartComments,
     weeklyChange,
     isLoadingChartMembers,
     isLoadingChartPosts,
-    posts,
     membersCount,
     chartData,
     optionStatus,

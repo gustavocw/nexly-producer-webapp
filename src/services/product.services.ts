@@ -25,10 +25,19 @@ export async function getProducts(memberAreaId: string) {
 
 export async function getProductUnique(productId?: string | null) {
   const { data } = await http.get(`/course/${productId}`, {});
-  console.log(data);
-  
   return data.data;
 }
+
+export async function deleteProduct(productId?: string | null) {
+  const { data } = await http.delete(`/course/${productId}`, {});
+  return data.data;
+}
+export async function cancelDeletion(productId?: string | null) {
+  const { data } = await http.put(`/course/cancel-deletion/${productId}`, {});
+  return data.data;
+}
+
+
 
 export async function getLessons(productId?: string | null) {
   const { data } = await http.get(`/course/lesson/${productId}`, {});

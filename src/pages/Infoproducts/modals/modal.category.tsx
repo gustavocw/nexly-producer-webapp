@@ -14,11 +14,13 @@ import {
 import { LuPlus } from "react-icons/lu";
 import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
 import { products } from "./products";
-import useProductStore from "stores/product.store";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const CardRadio = () => {
-  const { setTypeProduct } = useProductStore();
+  const [typeProduct, setTypeProduct] = useState("");
+  console.log(typeProduct);
+  
 
   return (
     <RadioCardRoot defaultValue="curso-em-video">

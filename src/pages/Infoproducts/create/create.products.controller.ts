@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { toaster } from "components/ui/toaster";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getAreas } from "services/areas.services";
 import { createProduct } from "services/product.services";
 
@@ -16,6 +17,9 @@ const useCreateProductController = () => {
   const [file, setFile] = useState<File | null>(null);
   const [areas, setAreas] = useState<any[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { product } = location.state || {};
+
   const {
     control,
     handleSubmit,
@@ -29,6 +33,18 @@ const useCreateProductController = () => {
       areaId: "",
     },
   });
+
+  useEffect(() => {
+    if (product) {
+      setFile(product?.thumbnail);
+      reset({
+        name: product.name || "",
+        description: product.description || "",
+        category: product.category || "",
+        areaId: product.areaId || "",
+      });
+    }
+  }, [product, reset]);
 
   const updateFile = (file: File | null) => {
     setFile(file);
@@ -49,15 +65,25 @@ const useCreateProductController = () => {
   }));
 
   const onSubmit = (data: CreateProductsFormValues) => {
-    console.log("Submitted Data:", data);
     const { areaId, ...bodyPayload } = data;
     const payload = {
       ...bodyPayload,
       file,
     };
+
+    if (product) {
+      console.log("Edição de produto:", product);
+      return;
+    }
+
     try {
       createProduct(payload, areaId).then((res) => {
-        console.log("Product created:", res);
+        if (res?.id) {
+          toaster.create({
+            title: "Info produto criado com sucesso",
+            type: "success",
+          });
+        }
         navigate("/infoproducts");
       });
     } catch (error) {
@@ -72,9 +98,11 @@ const useCreateProductController = () => {
     onSubmit,
     reset,
     areaList,
+    product,
     navigate,
     errors,
     areas,
+    file,
   };
 };
 

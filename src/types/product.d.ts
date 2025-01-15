@@ -12,18 +12,16 @@ interface Product {
   count_modules: number;
   count_lesson: number;
   count_members: number;
-  isCertificate: boolean;
   name: string;
-  urlThumbCourse: string;
+  thumbnail: string;
   description: string;
   category: string;
   duration: string;
   delDate: string;
-  producerId: string;
   state: string;
   createdAt: string;
   updatedAt: string;
-  modules: Module[];
+  modules?: Module[];
 }
 
 interface Module {

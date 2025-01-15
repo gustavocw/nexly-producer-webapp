@@ -3,11 +3,12 @@ import {
   Icon,
   Image,
   Table,
-  VStack, MenuContent,
+  VStack,
+  MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-  Skeleton
+  Skeleton,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
@@ -21,6 +22,8 @@ import { useNavigate } from "react-router-dom";
 import { useProducts } from "hooks/useProducts";
 import useProductStore from "stores/product.store";
 import PublishProductModal from "./publish/publish.course";
+import DeleteProductModal from "../modals/modal.delete.product";
+import CancelDeleteProductModal from "../modals/cancel.delete.product";
 
 interface TableProducts {
   data?: Product[] | null;
@@ -85,7 +88,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           onClick={() => {
             navigate(`/infoproducts/informations/${item._id}`),
               setProduct(item);
-              setProductId(item._id)
+            setProductId(item._id);
           }}
         >
           Gerenciar
@@ -117,10 +120,15 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           p={2}
           color="neutral"
           value="edit"
-          onClick={() => console.log("Editar produto")}
+          onClick={() => {
+            navigate("/infoproducts/create", {
+              state: { product: item },
+            });
+          }}
         >
           Editar infoproduto
         </MenuItem>
+
         {state === "PUBLICO" && (
           <MenuItem
             border="none"
@@ -135,7 +143,10 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             value="del"
             onClick={() => console.log("Deletar curso")}
           >
-            Deletar infoproduto
+            <DeleteProductModal
+              productId={item?._id}
+              productName={item?.name}
+            />
           </MenuItem>
         )}
       </>
@@ -201,7 +212,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                             minW="100px"
                             h="57px"
                             onLoad={() => setIsLoaded(true)}
-                            src={item?.urlThumbCourse ?? "/images/bg.png"}
+                            src={item?.thumbnail ?? "/images/bg.png"}
                           />
                         </Skeleton>
                         <VStack align="flex-start" w="100%">
@@ -258,28 +269,34 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                     textAlign="end"
                     px={6}
                   >
-                    <MenuRoot>
-                      <MenuTrigger asChild>
-                        <Icon
-                          borderWidth="1px"
+                    {!item?.delDate ? (
+                      <MenuRoot>
+                        <MenuTrigger asChild>
+                          <Icon
+                            borderWidth="1px"
+                            borderRadius="8px"
+                            borderColor="neutral.40"
+                            fontSize="30px"
+                            cursor="pointer"
+                            p="4px"
+                          >
+                            <MoreVertIcon />
+                          </Icon>
+                        </MenuTrigger>
+                        <MenuContent
                           borderRadius="8px"
+                          borderWidth="1px"
                           borderColor="neutral.40"
-                          fontSize="30px"
-                          cursor="pointer"
-                          p="4px"
+                          position="absolute"
                         >
-                          <MoreVertIcon />
-                        </Icon>
-                      </MenuTrigger>
-                      <MenuContent
-                        borderRadius="8px"
-                        borderWidth="1px"
-                        borderColor="neutral.40"
-                        position="absolute"
-                      >
-                        {renderMenuItems(item, item.state, item.delDate)}
-                      </MenuContent>
-                    </MenuRoot>
+                          {renderMenuItems(item, item.state, item.delDate)}
+                        </MenuContent>
+                      </MenuRoot>
+                    ) : (
+                      <Flex w="100%" justify="flex-end">
+                        <CancelDeleteProductModal productId={item?._id} productName={item?.name} />
+                      </Flex>
+                    )}
                   </Table.Cell>
                 </Table.Row>
                 {/* <Table.Row bg="neutral.50">
