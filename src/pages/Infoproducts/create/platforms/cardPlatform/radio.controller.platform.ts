@@ -46,7 +46,7 @@ const usePlatformController = () => {
     queryKey: ["vimeo-url"],
     queryFn: () =>
       getVimeoUrl().then((res) => {
-        window.open(res, "_blank");
+        window.open(res, "_self");
       }),
     enabled: false,
   });
@@ -55,7 +55,7 @@ const usePlatformController = () => {
     queryKey: ["youtube-url"],
     queryFn: () =>
       getUrlGoogle().then((res) => {
-        window.open(res, "_blank");
+        window.open(res, "_self");
       }),
     enabled: false,
   });

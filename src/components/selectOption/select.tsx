@@ -29,16 +29,11 @@ const DropdownIndicator = (props: any) => {
 
 const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSelectChange }) => {
   const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(null);
-
-  // Ref para garantir que onSelectChange seja chamado apenas uma vez durante a inicialização
   const isInitialRender = useRef(true);
-
   useEffect(() => {
-    if (options?.length > 0) {
+    if (options?.length > 0 && !selectedOption) {
       const defaultOption = options[0];
       setSelectedOption(defaultOption);
-
-      // Garante que onSelectChange só seja chamado uma vez na inicialização
       if (isInitialRender.current) {
         onSelectChange(defaultOption.value);
         isInitialRender.current = false;
@@ -52,6 +47,9 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
       onSelectChange(selected.value);
     }
   };
+
+  console.log(selectedOption);
+  
 
   return (
     <Box>

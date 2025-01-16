@@ -33,10 +33,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLogged(true);
   }, []);
 
+  const clearCookies = () => {
+    const cookies = document.cookie.split("; ");
+    for (const cookie of cookies) {
+      const [key] = cookie.split("=");
+      document.cookie = `${key}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
+    }
+  };
+
   const signout = useCallback(async () => {
-    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
+    localStorage.clear();
+    sessionStorage.clear();
+    clearCookies();
     setIsLogged(false);
-  }, [setEmail, setPassword]);
+    setEmail("");
+    setPassword("");
+    window.location.href = "/login";
+  }, [setIsLogged, setEmail, setPassword]);
 
   useEffect(() => {
     const pathname = location.pathname;
