@@ -48,9 +48,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
     }
   };
 
-  console.log(selectedOption);
-  
-
   return (
     <Box>
       <Flex alignItems="center">
