@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getAreas } from "services/areas.services";
 import { getProducts } from "services/product.services";
 import useProductStore from "stores/product.store";
@@ -25,7 +25,7 @@ export const ProductProvider = ({
 }) => {
   const [product, setProductState] = useState<Product | null>(null);
   const [areaId, setAreaId] = useState("");
-  const { setAreaId: setAreaIdProduct } = useProductStore();
+  const { setAreaId: setAreaIdProduct, search } = useProductStore();
 
   const handleSetAreaId = (_id: string) => {
     setAreaId(_id)
@@ -36,9 +36,9 @@ export const ProductProvider = ({
   };
 
     const { data: products, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery({
-      queryKey: ["infoproducts", areaId],
+      queryKey: ["infoproducts", areaId, search],
       queryFn: async () => {
-        const res = await getProducts(areaId);
+        const res = await getProducts(areaId, search);
         setAreaIdProduct(areaId)
         return res;
       },
@@ -58,6 +58,13 @@ export const ProductProvider = ({
     value: area._id,
     label: area.domain,
   }));
+
+  useEffect(() => {
+    if (!products) {
+      refetchProducts();
+    }
+  }, [products])
+  
 
   return (
     <ProductContext.Provider value={{ handleSetAreaId, refetchProducts, loadingAreas, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>

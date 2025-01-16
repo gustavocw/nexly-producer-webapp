@@ -21,7 +21,7 @@ const Integrations = () => {
         </Text.Medium>
         <Tabs.Root>
           <NavOptions
-            defaultValue={optionsNav[2].value}
+            defaultValue={optionsNav[0].value}
             options={optionsNav}
             onChange={(value) => handleSelectionChange(value.value)}
           />

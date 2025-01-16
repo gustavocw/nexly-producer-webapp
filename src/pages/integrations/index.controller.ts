@@ -15,7 +15,7 @@ export const useIntegrationsController = () => {
     { label: "Instaladas", value: "installed" },
     { label: "Disponíveis", value: "available" },
   ];
-  const [selectedOption, setSelectedOption] = useState<string>(optionsNav[2].value);
+  const [selectedOption, setSelectedOption] = useState<string>(optionsNav[0].value);
 
   const handleSelectionChange = (selectedValue: any) => {
     console.log("Opção selecionada:", selectedValue);

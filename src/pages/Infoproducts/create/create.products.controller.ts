@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAreas } from "services/areas.services";
-import { createProduct } from "services/product.services";
+import { createProduct, updateProduct } from "services/product.services";
 
 interface CreateProductsFormValues {
   name: string;
@@ -66,33 +66,46 @@ const useCreateProductController = () => {
     label: area.domain,
   }));
 
-  const onSubmit = (data: CreateProductsFormValues) => {
+  const onSubmit = async (data: CreateProductsFormValues) => {
     const { areaId, ...bodyPayload } = data;
     const payload = {
       ...bodyPayload,
       file,
     };
-
+  
     if (product) {
-      console.log("Edição de produto:", product);
-      return;
-    }
-
-    try {
-      createProduct(payload, areaId).then((res) => {
-        if (res?.id) {
+      try {
+        console.log("aqui");
+        const res = await updateProduct(payload, product._id);
+        if (res && res._id) {
           toaster.create({
-            title: "Info produto criado com sucesso",
+            title: "Info produto atualizado com sucesso",
             type: "success",
           });
+          navigate("/infoproducts");
           refetchProducts();
         }
-        navigate("/infoproducts");
-      });
+      } catch (error) {
+        console.error("Error updating product:", error);
+      }
+      return;
+    }
+  
+    try {
+      const res = await createProduct(payload, areaId);
+      if (res?.id) {
+        toaster.create({
+          title: "Info produto criado com sucesso",
+          type: "success",
+        });
+        refetchProducts();
+      }
+      navigate("/infoproducts");
     } catch (error) {
       console.error("Error creating product:", error);
     }
   };
+  
 
   return {
     control,

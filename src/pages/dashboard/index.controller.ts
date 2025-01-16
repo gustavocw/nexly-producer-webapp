@@ -101,7 +101,7 @@ export const useDashboardController = () => {
   const { data: chartComments, isLoading: isLoadingChartComments } = useQuery({
     queryKey: ["chart-comments"],
     queryFn: () =>
-      getChartComments(10, 10).then((res) => {
+      getChartComments(0, 20).then((res) => {
         return res;
       }),
   });

@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import { sendVideos } from "services/videos.services";
+import useProductStore from "stores/product.store";
 import useVideosStore from "stores/videos.store";
 
 const useMultipleVideoController = () => {
   const [pageRef, setPageRef] = useState(1);
   const { videos, setVideoUrl, setVideos } = useVideosStore();
   const [file, setFile] = useState<File | null>(null);
-  console.log(file);
-  
+  const { productId } = useProductStore();
+
   const navigate = useNavigate();
   const {
     control,
@@ -55,14 +56,15 @@ const useMultipleVideoController = () => {
         title: "Aulas sendo enviadas!",
         type: "success",
       });
-      setVideos([])
-      setVideoUrl("")
+      setVideos([]);
+      setVideoUrl("");
+      navigate(`/infoproducts/informations/${productId}`)
       reset();
     },
   });
 
   const onSubmit = async () => {
-    const payload = videos.map(video => ({
+    const payload = videos.map((video) => ({
       lessonLengh: video.lessonLengh || "",
       description: video.description || "",
       nameLesson: video.nameLesson || "",
@@ -70,7 +72,6 @@ const useMultipleVideoController = () => {
       idLessonYt: video.idLessonYt || "",
       urlVideo: video.urlVideo || "",
     }));
-    console.log("Payload gerado:", payload);
     mutateSendVideos(payload);
   };
 
@@ -91,7 +92,6 @@ const useMultipleVideoController = () => {
       console.warn("Invalid video index.");
     }
   };
-  
 
   const playNextVideo = () => {
     if (pageRef < videos.length) {

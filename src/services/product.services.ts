@@ -18,10 +18,31 @@ export async function createProduct(
   return data;
 }
 
-export async function getProducts(memberAreaId: string) {
-  const { data } = await http.get(`/course/producer/${memberAreaId}`, {});
+export async function updateProduct(
+  params: NewProduct,
+  productId?: string
+): Promise<any> {
+  const formData = new FormData();
+  formData.append("name", params.name);
+  formData.append("description", params.description);
+  formData.append("category", params.category);
+  if (params.duration) {
+    formData.append("duration", params.duration);
+  }
+  if (params.file) {
+    formData.append("file", params.file);
+  }
+  const { data } = await http.patch<any>(`/course/${productId}`, formData);
   return data;
 }
+
+export async function getProducts(memberAreaId: string, search?: string | null) {
+  const url = `/course/producer/${memberAreaId}${search ? `?search=${encodeURIComponent(search)}` : ''}`;
+  const { data } = await http.get(url, {});
+  console.log(data);
+  return data;
+}
+
 
 export async function getProductUnique(productId?: string | null) {
   const { data } = await http.get(`/course/${productId}`, {});

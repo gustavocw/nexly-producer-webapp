@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Select, { components, SingleValue } from 'react-select';
 import { Box, Flex } from '@chakra-ui/react';
 import { LuChevronDown } from 'react-icons/lu';
@@ -28,36 +28,41 @@ const DropdownIndicator = (props: any) => {
 };
 
 const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSelectChange }) => {
-  const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(() =>
-    options && options.length > 0 ? options[0] : { value: '', label: '' }
-  );
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(null);
 
-  const handleChange = (selected: SingleValue<Option>) => {
-    setSelectedOption(selected);
-    onSelectChange(selected ? selected.value : '');
-    if (selectedOption === selected) {
-      setSelectedOption(null);
-    }
-  };
+  // Ref para garantir que onSelectChange seja chamado apenas uma vez durante a inicialização
+  const isInitialRender = useRef(true);
 
   useEffect(() => {
     if (options?.length > 0) {
-      setSelectedOption(options[0]);
-      onSelectChange(options[0].value);
+      const defaultOption = options[0];
+      setSelectedOption(defaultOption);
+
+      // Garante que onSelectChange só seja chamado uma vez na inicialização
+      if (isInitialRender.current) {
+        onSelectChange(defaultOption.value);
+        isInitialRender.current = false;
+      }
     }
-  }, [options, onSelectChange]);
+  }, [options]);
+
+  const handleChange = (selected: SingleValue<Option>) => {
+    setSelectedOption(selected);
+    if (selected) {
+      onSelectChange(selected.value);
+    }
+  };
 
   return (
     <Box>
-      <Flex alignItems="center" onClick={() => setIsOpen(!isOpen)}>
+      <Flex alignItems="center">
         <Select
           placeholder={placeholder}
-          value={{ label: placeholder, value: '' }}
+          value={selectedOption}
           onChange={handleChange}
           options={options}
           styles={{
-            control: base => ({
+            control: (base) => ({
               ...base,
               backgroundColor: 'transparent',
               border: 'none',
@@ -66,14 +71,14 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
               margin: 0,
               cursor: "pointer",
             }),
-            menu: base => ({
+            menu: (base) => ({
               ...base,
               backgroundColor: '#1D1B20',
               width: 'auto',
-              'max-width': '240px',
+              maxWidth: '240px',
               zIndex: 999999,
             }),
-            option: base => ({
+            option: (base) => ({
               ...base,
               cursor: "pointer",
               zIndex: 999999,
@@ -91,11 +96,11 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
                 backgroundColor: '#2E2A34',
               },
             }),
-            singleValue: base => ({
+            singleValue: (base) => ({
               ...base,
               color: 'white',
             }),
-            placeholder: base => ({
+            placeholder: (base) => ({
               ...base,
               color: 'gray',
             }),

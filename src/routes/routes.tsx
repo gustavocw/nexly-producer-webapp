@@ -18,6 +18,8 @@ import YoutubePlaylists from "pages/Infoproducts/create/youtube/playlists/playli
 import YoutubeVideos from "pages/Infoproducts/create/youtube/videos/videos.youtube";
 import PreviewVideos from "pages/Infoproducts/create/videoPreview/preview";
 import AuthYoutube from "pages/Infoproducts/create/platforms/authplatform/auth.youtube";
+import AuthVimeo from "pages/Infoproducts/create/platforms/authplatform/auth.vimeo";
+import { Text } from "@chakra-ui/react";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -44,6 +46,10 @@ const AppRoutes: React.FC = () => {
               element={<YoutubeChannels />}
             />
             <Route
+              path="/infoproducts/create/vimeo"
+              element={<Text>Vimeo channels</Text>}
+            />
+            <Route
               path="/infoproducts/create/youtube/playlists/:id"
               element={<YoutubePlaylists />}
             />
@@ -60,6 +66,7 @@ const AppRoutes: React.FC = () => {
               element={<GenrenceInfoproduct />}
             />
             <Route path="nexlyauth" element={<AuthYoutube />} />
+            <Route path="vimeo/nexlyauth" element={<AuthVimeo />} />
             <Route path="/tickets" element={<Tickets />} />
             <Route path="/areas" element={<Areas />} />
             <Route path="/members" element={<Members />} />
