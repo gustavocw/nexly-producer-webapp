@@ -19,6 +19,7 @@ import {
 
 interface TableMembersProps {
   data?: Member[] | null;
+  areaId?: string;
 }
 
 const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
@@ -162,7 +163,6 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                         borderRadius="8px"
                         borderWidth="1px"
                         borderColor="neutral.40"
-                        position="absolute"
                       >
                         {renderMenuItems(member?.stateUser)}
                       </MenuContent>

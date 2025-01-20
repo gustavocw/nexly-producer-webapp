@@ -7,15 +7,16 @@ export async function getMembers() {
 }
 
 
-export async function getMembersByArea(areaId?: string | null) {
-  const { data } = await http.get<any>(`/member/member-area/${areaId}`);
+export async function getMembersByArea(areaId?: string | null, search?: string) {
+  const { data } = await http.get<any>(`/member/member-area/${areaId}?search=${search}`);
   return data;
 }
 
 export async function getMembersById(
-  idProduct?: string | null
+  idProduct?: string | null,
+  search?: any,
 ) {
-  const { data } = await http.get<any>(`/member/course/${idProduct}`);
+  const { data } = await http.get<any>(`/member/course/${idProduct}?search=${search}`);
   return data.data;
 }
 

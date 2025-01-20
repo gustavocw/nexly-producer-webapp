@@ -16,8 +16,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const {
     handleMenuAction,
     refetchMembers,
-    setAccessType,
-    setLastAccess,
+    setSeach,
     accessOptions,
     typeAccessOptions,
     members,
@@ -90,18 +89,18 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
         <HStack justify="space-between" w="100%">
           <Flex w="100%" gap="32px">
             <SelectOption
-              onSelectChange={(v) => setAccessType(v)}
+              onSelectChange={(v) => setSeach(v)}
               placeholder="Tipo de acesso"
               options={typeAccessOptions}
             />
             <SelectOption
-              onSelectChange={(v) => setLastAccess(v)}
+              onSelectChange={(v) => setSeach(v)}
               placeholder="Último acesso"
               options={accessOptions}
             />
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
-            <SearchBar placeholder="Pesquisar membros" />
+            <SearchBar onChange={(value) => setSeach(value)} placeholder="Pesquisar membros" />
             <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>

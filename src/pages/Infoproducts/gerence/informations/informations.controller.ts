@@ -6,17 +6,16 @@ import { useParams } from "react-router-dom";
 import { getMembersById } from "services/members.services";
 
 const useInformationsController = () => {
-  const [accessType, setAccessType] = useState("");
-  const [lastAccess, setLastAccess] = useState("");
+  const [search, setSeach] = useState("");
   const { onOpen, onClose } = useDisclosure();
   const { product } = useProducts();
   const { id } = useParams<{ id: string }>();
   const idParam = product?._id ?? id;
 
   const { data: members, refetch: refetchMembers } = useQuery({
-    queryKey: ["members-by-id", idParam],
+    queryKey: ["members-by-id", idParam, search],
     queryFn: () =>
-      getMembersById(idParam).then((res) => {
+      getMembersById(idParam, search).then((res) => {
         return res;
       }),
     enabled: !!idParam,
@@ -39,28 +38,21 @@ const useInformationsController = () => {
   };
 
   const typeAccessOptions = [
-    { value: "todos", label: "Todos" },
-    { value: "tecnologia", label: "Tecnologia" },
-    { value: "negocios", label: "Negócios" },
-    { value: "arte", label: "Arte" },
-    { value: "ciencia", label: "Ciência" },
-    { value: "saude", label: "Saúde" },
-    { value: "educacao", label: "Educação" },
-    { value: "idiomas", label: "Idiomas" },
+    { value: "", label: "Nenhum" },
+    { value: "colaborator", label: "Colaborador" },
+    { value: "member", label: "Membro" },
   ];
 
   const accessOptions = [
-    { value: "todos", label: "Todos" },
-    { value: "PUBLICO", label: "Ativos" },
-    { value: "PRIVADO", label: "Inativos" },
+    { value: "", label: "Todos" },
+    { value: "ATIVO", label: "Ativos" },
+    { value: "INATIVO", label: "Inativos" },
   ];
 
+
   return {
-    accessType,
-    setAccessType,
     refetchMembers,
-    setLastAccess,
-    lastAccess,
+    setSeach,
     typeAccessOptions,
     handleMenuAction,
     accessOptions,

@@ -93,7 +93,7 @@ export const useDashboardController = () => {
   const { data: chartPosts, isLoading: isLoadingChartPosts } = useQuery({
     queryKey: ["chart-posts"],
     queryFn: () =>
-      getChartPosts(10, 10).then((res) => {
+      getChartPosts(1, 10).then((res) => {
         return res;
       }),
   });
@@ -105,6 +105,9 @@ export const useDashboardController = () => {
         return res;
       }),
   });
+
+  console.log(chartComments);
+  
 
   const { data: membersCount, isLoading: isLoadingChartMembers } = useQuery({
     queryKey: ["chart-members"],

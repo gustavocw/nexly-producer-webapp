@@ -8,22 +8,25 @@ import useProductStore from "stores/product.store";
 const useMembersController = () => {
   const [accessType, setAccessType] = useState("");
   const [lastAccess, setLastAccess] = useState("");
+  const [search, setSearch] = useState("");
   const { onOpen, onClose } = useDisclosure();
   const { areasList, handleSetAreaId } = useProducts();
   const { areaId } = useProductStore();
 
   useEffect(() => {
     if (!areaId) {
-      handleSetAreaId(areasList[0].value)
+      handleSetAreaId(areasList[0].value);
     }
-  }, [areaId])
-  
+    if (members?.length === 0) {
+      refetchMembers();
+      handleSetAreaId(areasList[0].value);
+    }
+  }, [areaId]);
 
   const { data: members, refetch: refetchMembers } = useQuery({
-    queryKey: ["members"],
+    queryKey: ["members", areaId, search],
     queryFn: () =>
-      getMembersByArea(areaId).then((res) => {
-        console.log(res);
+      getMembersByArea(areaId, search).then((res) => {
         return res.data;
       }),
   });
@@ -45,20 +48,15 @@ const useMembersController = () => {
   };
 
   const typeAccessOptions = [
-    { value: "todos", label: "Todos" },
-    { value: "tecnologia", label: "Tecnologia" },
-    { value: "negocios", label: "Negócios" },
-    { value: "arte", label: "Arte" },
-    { value: "ciencia", label: "Ciência" },
-    { value: "saude", label: "Saúde" },
-    { value: "educacao", label: "Educação" },
-    { value: "idiomas", label: "Idiomas" },
+    { value: "", label: "Nenhum" },
+    { value: "", label: "Colaborador" },
+    { value: "member", label: "Membro" },
   ];
 
   const accessOptions = [
-    { value: "todos", label: "Todos" },
-    { value: "PUBLICO", label: "Ativos" },
-    { value: "PRIVADO", label: "Inativos" },
+    { value: "", label: "Todos" },
+    { value: "ATIVO", label: "Ativos" },
+    { value: "INATIVO", label: "Inativos" },
   ];
 
   return {
@@ -69,6 +67,9 @@ const useMembersController = () => {
     handleSetAreaId,
     lastAccess,
     areasList,
+    setSearch,
+    search,
+    areaId,
     typeAccessOptions,
     refetchMembers,
     handleMenuAction,

@@ -1,10 +1,4 @@
-import {
-  Flex,
-  HStack,
-  Icon,
-  Stack,
-  Tabs,
-} from "@chakra-ui/react";
+import { Flex, HStack, Icon, Stack, Tabs } from "@chakra-ui/react";
 import NavOptions from "components/navoptions/navoptions";
 import TableMembers from "./table/table.members";
 import SearchBar from "components/search/search";
@@ -18,7 +12,7 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "components/ui/menu"
+} from "components/ui/menu";
 
 const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
   return (
@@ -65,13 +59,13 @@ const MenuItems = ({ onAction }: { onAction: (action: string) => void }) => {
 
 const Members = () => {
   const {
+    areaId,
     members,
-    setAccessType,
-    setLastAccess,
     accessOptions,
     handleMenuAction,
     typeAccessOptions,
     areasList,
+    setSearch,
     handleSetAreaId,
     refetchMembers,
   } = useMembersController();
@@ -108,18 +102,18 @@ const Members = () => {
               options={areasList}
             />
             <SelectOption
-              onSelectChange={(v) => setAccessType(v)}
+              onSelectChange={(v) => setSearch(v)}
               placeholder="Tipo de acesso"
               options={typeAccessOptions}
             />
             <SelectOption
-              onSelectChange={(v) => setLastAccess(v)}
+              onSelectChange={(v) => setSearch(v)}
               placeholder="Último acesso"
               options={accessOptions}
             />
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
-            <SearchBar placeholder="Pesquisar membros" />
+            <SearchBar onChange={(value) => setSearch(value)} placeholder="Pesquisar membros" />
             <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
@@ -146,7 +140,7 @@ const Members = () => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers data={members} />
+      <TableMembers areaId={areaId} data={members} />
     </Stack>
   );
 };
