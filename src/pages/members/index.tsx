@@ -73,8 +73,8 @@ const Members = () => {
     (member: Member) => member.stateUser === "BLOQUEADO"
   ).length;
   const optionsNav = [
-    { label: `Ativos ${members?.length}`, value: "actives" },
-    { label: `Bloqueados ${bloquedMembers}`, value: "blocked" },
+    { label: `Ativos ${members?.length ?? 0}`, value: "actives" },
+    { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "blocked" },
   ];
 
   const handleSelectionChange = (selectedOption: {
@@ -88,7 +88,7 @@ const Members = () => {
       <Tabs.Root>
         <NavOptions
           pt="10"
-          defaultValue={optionsNav[0].value}
+          defaultValue={optionsNav[0]?.value}
           options={optionsNav}
           onChange={handleSelectionChange}
         />

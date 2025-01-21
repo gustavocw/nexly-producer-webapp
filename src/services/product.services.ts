@@ -39,7 +39,6 @@ export async function updateProduct(
 export async function getProducts(memberAreaId: string, search?: string | null) {
   const url = `/course/producer/${memberAreaId}${search ? `?search=${encodeURIComponent(search)}` : ''}`;
   const { data } = await http.get(url, {});
-  console.log(data);
   return data;
 }
 

@@ -75,7 +75,6 @@ export const useLoginController = () => {
             setEmail(null);
             setPassword(null);
           }
-
           navigate("/");
         }
       });

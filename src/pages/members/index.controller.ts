@@ -10,18 +10,8 @@ const useMembersController = () => {
   const [lastAccess, setLastAccess] = useState("");
   const [search, setSearch] = useState("");
   const { onOpen, onClose } = useDisclosure();
-  const { areasList, handleSetAreaId } = useProducts();
+  const { areasList, handleSetAreaId, areas } = useProducts();
   const { areaId } = useProductStore();
-
-  useEffect(() => {
-    if (!areaId) {
-      handleSetAreaId(areasList[0].value);
-    }
-    if (members?.length === 0) {
-      refetchMembers();
-      handleSetAreaId(areasList[0].value);
-    }
-  }, [areaId]);
 
   const { data: members, refetch: refetchMembers } = useQuery({
     queryKey: ["members", areaId, search],
@@ -58,6 +48,18 @@ const useMembersController = () => {
     { value: "ATIVO", label: "Ativos" },
     { value: "INATIVO", label: "Inativos" },
   ];
+
+  useEffect(() => {
+    if (!areaId && areas?.length) {
+      handleSetAreaId(areasList[0]?.value);
+    }
+    if (members?.length === 0) {
+      refetchMembers();
+      handleSetAreaId(areasList[0]?.value);
+    }
+  }, [areaId, areasList, members, refetchMembers]);
+  
+
 
   return {
     members,

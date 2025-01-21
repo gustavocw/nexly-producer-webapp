@@ -6,6 +6,7 @@ import { useUnmask } from "hooks/unmask";
 import useAuthStore from "stores/auth.store";
 import { toaster } from "components/ui/toaster";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks/useAuth";
 
 export const registerSchema = z
   .object({
@@ -58,7 +59,8 @@ export const useRegisterController = () => {
   const navigate = useNavigate();
   const umask = useUnmask();
   const { setProducerStore } = useAuthStore();
-  
+  const { auth } = useAuth();
+
   const {
     control,
     handleSubmit,
@@ -92,15 +94,19 @@ export const useRegisterController = () => {
         setProducerStore(res);
         toaster.create({
           title: "Conta criada com sucesso",
-          type: "success"
-        })
-        navigate("/")
+          type: "success",
+        });
+        if (res?.token) {
+          auth(res?.token);
+          setProducerStore(res);
+          navigate("/");
+        }
       });
     } catch (error: unknown) {
       toaster.create({
         title: "Confira seus dados",
-        type: "error"
-      })
+        type: "error",
+      });
     }
   };
 

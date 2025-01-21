@@ -23,7 +23,7 @@ import React from "react";
 const FormArea: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
 }> = ({ setSubmitHandler }) => {
-  const { control, errors, handleSubmit, setValue, onSubmit, updateFile } =
+  const { control, errors, handleSubmit, files, setValue, onSubmit, updateFile } =
     useCreateAreaController();
 
   React.useEffect(() => {
@@ -31,6 +31,7 @@ const FormArea: React.FC<{
   }, [handleSubmit, onSubmit, setSubmitHandler]);
 
 
+console.log(files.background);
 
   return (
     <VStack
@@ -106,6 +107,7 @@ const FormArea: React.FC<{
         <DragFile
           label="Background da área"
           onFileSelect={(file) => updateFile("background", file)}
+          value={files.background}
         />
         <DragFile
           label="Ícone da página"

@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toaster } from "components/ui/toaster";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAreas } from "services/areas.services";
+import { createArea, getAreas } from "services/areas.services";
 import { getProducts } from "services/product.services";
 import useProductStore from "stores/product.store";
 
@@ -11,10 +12,12 @@ interface ProductContextValue {
   products?: Product[] | null;
   isLoadingProducts?: boolean,
   loadingAreas?: boolean,
+  creatingArea?: boolean,
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
   refetchProducts: () => void;
   handleSetAreaId: (_id: string) => void;
+  mutateArea: (payload: any) => void;
 }
 
 export const ProductContext = createContext({} as ProductContextValue);
@@ -54,6 +57,23 @@ export const ProductProvider = ({
       }),
   });
 
+  const { mutate: mutateArea, isPending: creatingArea } = useMutation({
+    mutationFn: (payload: any) => createArea(payload),
+    onSuccess: () => {
+      refetchAreas();
+      toaster.create({
+        title: "Área criada com sucesso",
+        type: "success",
+      });
+    },
+    onError: (error) => {
+      toaster.create({
+        title: `Erro ao criar área: ${error}`,
+        type: "error",
+      });
+    },
+  });
+
   const areasList = areas?.map((area: any) => ({
     value: area._id,
     label: area.domain,
@@ -67,7 +87,7 @@ export const ProductProvider = ({
   
 
   return (
-    <ProductContext.Provider value={{ handleSetAreaId, refetchProducts, loadingAreas, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>
+    <ProductContext.Provider value={{ handleSetAreaId, mutateArea, creatingArea, refetchProducts, loadingAreas, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>
       {children}
     </ProductContext.Provider>
   );

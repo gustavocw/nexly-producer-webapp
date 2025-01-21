@@ -5,9 +5,11 @@ import { useAreasController } from "./index.controller";
 import FormArea from "./form/form.area";
 import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
+import { useProducts } from "hooks/useProducts";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
+  const { creatingArea } = useProducts();
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
@@ -40,6 +42,7 @@ const Areas = () => {
                 w="200px"
                 label="Salvar"
                 onClick={handleSave}
+                isLoading={creatingArea}
               />
             </Tabs.Trigger>
           </Tabs.Content>

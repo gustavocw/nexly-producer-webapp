@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { VStack, Image } from "@chakra-ui/react";
 import Text from "components/text/text";
 import {
   FileUploadList,
   FileUploadDropzone,
-  FileUploadRoot
+  FileUploadRoot,
 } from "components/ui/file-upload";
 
 interface DragFileProps {
@@ -22,8 +22,23 @@ export const DragFile: React.FC<DragFileProps> = ({
   hint = "A imagem deve estar no formato JPG ou PNG e tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000 pixels.",
   onFileSelect,
   width = "50%",
-  value
+  value,
 }) => {
+  const [preview, setPreview] = useState<string | undefined>("");
+
+  useEffect(() => {
+    if (value instanceof File) {
+      const filePreview = URL.createObjectURL(value);
+      setPreview(filePreview);
+
+      return () => {
+        URL.revokeObjectURL(filePreview);
+      };
+    } else {
+      setPreview(value);
+    }
+  }, [value]);
+
   return (
     <FileUploadRoot
       w={width}
@@ -31,7 +46,6 @@ export const DragFile: React.FC<DragFileProps> = ({
       maxW="100%"
       alignItems="stretch"
       maxFiles={maxFiles}
-      
       onFileAccept={(file) => {
         if (file.files.length > 0) {
           onFileSelect(file.files[0]);
@@ -52,7 +66,11 @@ export const DragFile: React.FC<DragFileProps> = ({
         }}
         label={
           <VStack>
-            <Image w={value ? "200px" : "50px"} src={value ? value : "/images/FileImage.svg"} alt="File upload icon" />
+            <Image
+              w={preview ? "200px" : "50px"}
+              src={preview || "/images/FileImage.svg"}
+              alt="File upload icon"
+            />
             <Text.Medium
               whiteSpace="nowrap"
               fontSize="11px"

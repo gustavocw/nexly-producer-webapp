@@ -16,11 +16,11 @@ import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
 import { products } from "./products";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useProducts } from "hooks/useProducts";
 
 const CardRadio = () => {
   const [typeProduct, setTypeProduct] = useState("");
   console.log(typeProduct);
-  
 
   return (
     <RadioCardRoot defaultValue="curso-em-video">
@@ -60,6 +60,7 @@ const CardRadio = () => {
 
 export const ModalCategoryProduct = () => {
   const navigate = useNavigate();
+  const { areas } = useProducts();
 
   return (
     <DialogRoot placement="center" motionPreset="slide-in-bottom">
@@ -69,6 +70,7 @@ export const ModalCategoryProduct = () => {
           h="40px"
           label="Novo infoproduto"
           iconLeft={<LuPlus />}
+          disabled={areas?.length === 0 || areas?.length === undefined}
         />
       </DialogTrigger>
       <DialogContent p="32px" bg="neutral.60" borderRadius="8px" gap="32px">
@@ -84,7 +86,11 @@ export const ModalCategoryProduct = () => {
           <DialogActionTrigger asChild>
             <Btn w="50%" label="Cancel" bg="transparent" />
           </DialogActionTrigger>
-          <Btn w="50%" label="Continuar" onClick={() => navigate("/infoproducts/create")} />
+          <Btn
+            w="50%"
+            label="Continuar"
+            onClick={() => navigate("/infoproducts/create")}
+          />
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>

@@ -43,11 +43,11 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           py="2px"
           px="6px"
           alignItems="center"
-          borderRadius="12px"
+          borderRadius="8px"
           bg="neutral.40"
           gap={1}
         >
-          <Icon color={isIntegrated ? "success.90" : "neutral.20"}>
+          <Icon fontSize="22px" color={isIntegrated ? "success.90" : "neutral.20"}>
             <CheckCircleOutlineIcon />
           </Icon>
           <Text.Medium
@@ -61,6 +61,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           colorPalette="green"
           variant="solid"
           checked={isIntegrated}
+          disabled={isIntegrated}
           onChange={() => onToggleIntegration(id, !isIntegrated)}
         />
       </HStack>

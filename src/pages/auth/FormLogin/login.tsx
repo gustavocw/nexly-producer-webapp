@@ -5,9 +5,11 @@ import { useLoginController } from "./login.controller";
 import { Radio, RadioGroup } from "components/ui/radio";
 import Btn from "components/button/button";
 import useAuthStore from "stores/auth.store";
+import { CheckboxCard } from "components/ui/checkbox-card";
 
 const FormLogin = () => {
-  const { control, errors, handleSubmit, onSubmit, rememberMe, setRememberMe } = useLoginController();
+  const { control, errors, handleSubmit, onSubmit, rememberMe, setRememberMe } =
+    useLoginController();
   const { setStepLogin } = useAuthStore();
 
   return (
@@ -34,7 +36,7 @@ const FormLogin = () => {
             Nexly members!
           </Text.Base>
         </VStack>
-        <VStack w="100%" spaceY={5}>
+        <VStack w="100%" gap="32px">
           <Input.Base
             control={control}
             name="email"
@@ -59,14 +61,18 @@ const FormLogin = () => {
               borderColor="white"
               size="sm"
             >
-              <Radio
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setRememberMe(e.target.value);
+              <CheckboxCard
+                onCheckedChange={(e) => {
+                  if (e.checked === true) {
+                    setRememberMe("true")
+                  } else {
+                    setRememberMe("false")
+                  }
                 }}
-                value="true"
-              >
-                Lembrar de mim
-              </Radio>
+                indicatorPlacement="start"
+                border="none"
+                label="Lembrar de mim"
+              />
             </RadioGroup>
           </HStack>
           <Btn label="Entrar" onClick={handleSubmit(onSubmit)} />

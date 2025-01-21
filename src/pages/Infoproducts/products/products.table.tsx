@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Icon,
-  Image,
-  Table,
-  VStack,
-  Skeleton,
-} from "@chakra-ui/react";
+import { Flex, Icon, Image, Table, VStack, Skeleton, Link } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
@@ -25,7 +18,7 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "components/ui/menu"
+} from "components/ui/menu";
 
 interface TableProducts {
   data?: Product[] | null;
@@ -33,7 +26,7 @@ interface TableProducts {
 
 const TableProducts: React.FC<TableProducts> = ({ data }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { setProduct } = useProducts();
+  const { setProduct, areas } = useProducts();
   const { setProductId } = useProductStore();
   const renderStatusIcon = (state: string, deldate?: any) => {
     if (deldate) {
@@ -296,7 +289,10 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                       </MenuRoot>
                     ) : (
                       <Flex w="100%" justify="flex-end">
-                        <CancelDeleteProductModal productId={item?._id} productName={item?.name} />
+                        <CancelDeleteProductModal
+                          productId={item?._id}
+                          productName={item?.name}
+                        />
                       </Flex>
                     )}
                   </Table.Cell>
@@ -316,10 +312,19 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
               </React.Fragment>
             ))
           ) : (
-            <Flex w="100%" p={2}>
-              <Text.Medium>
-                Você ainda não possui nenhum infoproduto.
-              </Text.Medium>
+            <Flex w="100%" p={4}>
+              {areas?.length === 0 || areas?.length === undefined ? (
+                <Text.Medium fontSize="20px">
+                  Você ainda não criou nenhuma área de membro. Vá até <Link href="/areas" color="primary.40">
+                  "Áreas de
+                  membro"</Link> e crie uma.
+                </Text.Medium>
+              ) : (
+                <Text.Medium fontSize="20px">
+                  Você ainda não possui nenhum infoproduto. Para criar o
+                  primeiro, clique em "Novo Produto".
+                </Text.Medium>
+              )}
             </Flex>
           )}
         </Table.Body>

@@ -20,6 +20,7 @@ import PreviewVideos from "pages/Infoproducts/create/videoPreview/preview";
 import AuthYoutube from "pages/Infoproducts/create/platforms/authplatform/auth.youtube";
 import AuthVimeo from "pages/Infoproducts/create/platforms/authplatform/auth.vimeo";
 import { Text } from "@chakra-ui/react";
+import VimeoFolders from "pages/Infoproducts/create/vimeo/vimeo.folders";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -47,7 +48,7 @@ const AppRoutes: React.FC = () => {
             />
             <Route
               path="/infoproducts/create/vimeo"
-              element={<Text>Vimeo channels</Text>}
+              element={<VimeoFolders />}
             />
             <Route
               path="/infoproducts/create/youtube/playlists/:id"
