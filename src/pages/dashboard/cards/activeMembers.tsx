@@ -29,7 +29,7 @@ const Card: React.FC<CardProps> = ({ value }) => {
           <Text.Medium
             fontSize="13px"
             color={
-              isIncrease ? "success.30" : isDecrease ? "error.30" : "neutral.40"
+              isIncrease ? "success.30" : isDecrease ? "error.30" : "neutral.10"
             }
           >
             {isIncrease

@@ -98,6 +98,9 @@ export const useDashboardController = () => {
       }),
   });
 
+  console.log(chartPosts);
+  
+
   const { data: chartComments, isLoading: isLoadingChartComments } = useQuery({
     queryKey: ["chart-comments"],
     queryFn: () =>
