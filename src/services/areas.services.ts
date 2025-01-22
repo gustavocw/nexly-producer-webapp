@@ -1,8 +1,8 @@
 import { http } from "./http/http";
 
 export async function getAreas() {
-  const {data} = await http.get("/member/member-area", {});
-  return data;
+  const {data} = await http.get("/member/producer/member-area", {});
+  return data.data;
 }
 
 export async function getArea(areaId: string) {

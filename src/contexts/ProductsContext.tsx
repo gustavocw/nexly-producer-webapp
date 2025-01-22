@@ -7,7 +7,7 @@ import { getProducts } from "services/product.services";
 import useProductStore from "stores/product.store";
 
 interface ProductContextValue {
-  areasList: [{ value: string; label: string }];
+  areasList: any;
   areas: Area[];
   product?: Product | null;
   products?: Product[] | null;
@@ -81,12 +81,13 @@ export const ProductProvider = ({
     },
   });
 
-  const areasList = areas?.map((area: any) => ({
-    value: area._id,
-    label: area.domain,
-  }));
+  const areasList = Array.isArray(areas)
+  ? areas.map((area: any) => ({
+      value: area._id,
+      label: area.domain,
+    }))
+  : [];
   
-
   useEffect(() => {
     if (products?.length === 0 && isLogged) {
       refetchProducts();
