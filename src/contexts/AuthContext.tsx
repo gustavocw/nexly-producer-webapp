@@ -46,8 +46,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     sessionStorage.clear();
     clearCookies();
     setIsLogged(false);
-    setEmail("");
-    setPassword("");
     window.location.href = "/login";
   }, [setIsLogged, setEmail, setPassword]);
 

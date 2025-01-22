@@ -26,13 +26,12 @@ import { HiPlus } from "react-icons/hi2";
 import { getLessons } from "services/product.services";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import useProductStore from "stores/product.store";
-import useVideosStore from "stores/videos.store";
 import {
   MenuContent,
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "components/ui/menu"
+} from "components/ui/menu";
 
 interface AccordeonProps {
   modules?: Module[] | null;
@@ -41,17 +40,19 @@ interface AccordeonProps {
 const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
   const navigate = useNavigate();
   const { setModuleId } = useProductStore();
-  const {} = useVideosStore();
   const [moduleLessons, setModuleLessons] = useState<Record<string, Lesson[]>>(
     {}
   );
   const fetchLessons = async (moduleId: string) => {
     if (moduleLessons[moduleId]) return;
-    
+    console.log(moduleId);
     const lessons = await getLessons(moduleId);
-    console.log(lessons);
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
   };
+  
+  const hasLessons = modules?.some(module => module.lessons_count > 0);
+  console.log(hasLessons);
+  
 
   return (
     <AccordionRoot

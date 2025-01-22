@@ -4,6 +4,13 @@ import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Switch } from "components/ui/switch";
+import { Box } from "@chakra-ui/react";
+import { SlExclamation } from "react-icons/sl";
+import {
+  HoverCardContent,
+  HoverCardRoot,
+  HoverCardTrigger,
+} from "components/ui/hover-card";
 export interface CardIntegrationProps {
   data: IntegrationData;
   onToggleIntegration: (id: number, isIntegrated: boolean) => void;
@@ -29,9 +36,32 @@ const CardIntegration: FC<CardIntegrationProps> = ({
       <Flex gap="16px">
         <Image src={imageSrc} w="50px" h="50px" borderRadius="8px" />
         <VStack align="flex-start" w="100%">
-          <Text.Medium fontWeight="500px" fontSize="16px" color="neutral">
-            {title}
-          </Text.Medium>
+          <Flex justify="space-between" alignItems="center" w="100%">
+            <Text.Medium fontWeight="500px" fontSize="16px" color="neutral">
+              {title}
+            </Text.Medium>
+            {(title === "Youtube" || title === "Vimeo") && (
+              <HoverCardRoot size="sm" openDelay={100} closeDelay={100}>
+                <HoverCardTrigger cursor="pointer" asChild>
+                  <Icon color="info.80" fontSize="20px">
+                    <SlExclamation />
+                  </Icon>
+                </HoverCardTrigger>
+                <HoverCardContent
+                  bg="neutral.60"
+                  color="neutral"
+                  p={2}
+                  maxWidth="240px"
+                >
+                  <Box>
+                    Esta integração só é feita na página de infoprodutos ao
+                    publicar aula em um curso, esta informação é apenas
+                    informativa.
+                  </Box>
+                </HoverCardContent>
+              </HoverCardRoot>
+            )}
+          </Flex>
           <Text.Medium color="neutral.10" fontSize="12px">
             {platformType}
           </Text.Medium>
@@ -47,7 +77,10 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           bg="neutral.40"
           gap={1}
         >
-          <Icon fontSize="22px" color={isIntegrated ? "success.90" : "neutral.20"}>
+          <Icon
+            fontSize="22px"
+            color={isIntegrated ? "success.90" : "neutral.20"}
+          >
             <CheckCircleOutlineIcon />
           </Icon>
           <Text.Medium
@@ -61,7 +94,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           colorPalette="green"
           variant="solid"
           checked={isIntegrated}
-          disabled={isIntegrated}
+          disabled={isIntegrated || (title === "Youtube" || title === "Vimeo")}
           onChange={() => onToggleIntegration(id, !isIntegrated)}
         />
       </HStack>

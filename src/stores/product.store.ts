@@ -34,7 +34,6 @@ const useProductStore = create<ProductState & CourseActions>()(
       name: "product-ID",
       partialize: (state) => ({
         productId: state.productId,
-        areaId: state.areaId,
         typeCourse: state.typeCourse,
         moduleId: state.moduleId,
       }), 

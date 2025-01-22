@@ -5,8 +5,24 @@ import { RadioCardItem, RadioCardRoot } from "components/ui/radio-card";
 import KeyboardArrowRightOutlined from "@mui/icons-material/KeyboardArrowRightOutlined";
 import usePlatformController from "./radio.controller.platform";
 
-const RadioPlatform = () => {
+const RadioPlatform = ({ data }: any) => {
   const { onIntegrate, setPlatform, loadingConfirm, loadingUrl } = usePlatformController();
+
+  // Mapeia as plataformas com base no status (true/false) em `data`
+  const items = [
+    {
+      value: "youtube",
+      title: "Youtube",
+      image: "/images/logoytb.png",
+      description: data.youtube ? "Instalada" : "Não instalada",
+    },
+    {
+      value: "vimeo",
+      title: "Vimeo",
+      image: "/images/vimeologo.png",
+      description: data.vimeo ? "Instalada" : "Não instalada",
+    },
+  ];
 
   return (
     <RadioCardRoot orientation="vertical" align="center" defaultValue="youtube">
@@ -57,20 +73,5 @@ const RadioPlatform = () => {
     </RadioCardRoot>
   );
 };
-
-const items = [
-  {
-    value: "youtube",
-    description: "Plataforma de vídeos",
-    title: "Youtube",
-    image: "/images/logoytb.png",
-  },
-  {
-    value: "vimeo",
-    description: "Plataforma de vídeos",
-    title: "Vimeo",
-    image: "/images/vimeologo.png",
-  },
-];
 
 export default RadioPlatform;

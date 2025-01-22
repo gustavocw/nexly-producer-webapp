@@ -73,15 +73,15 @@ const Members = () => {
     (member: Member) => member.stateUser === "BLOQUEADO"
   ).length;
   const optionsNav = [
-    { label: `Ativos ${members?.length ?? 0}`, value: "actives" },
-    { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "blocked" },
+    { label: `Ativos ${members?.length ?? 0}`, value: "ATIVO" },
+    { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "BLOQUEADO" },
   ];
 
   const handleSelectionChange = (selectedOption: {
     label: string;
     value: string;
   }) => {
-    console.log("Opção selecionada:", selectedOption);
+    setSearch(selectedOption.value)
   };
   return (
     <Stack gap="32px" px={8}>

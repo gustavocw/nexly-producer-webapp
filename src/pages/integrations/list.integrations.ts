@@ -1,7 +1,7 @@
 export const integrationsList: IntegrationData[] = [
   {
     id: 1,
-    title: "YouTube",
+    title: "Youtube",
     platformType: "Plataforma de vídeo",
     imageSrc: "/images/ytb.png",
     isIntegrated: false,

@@ -53,7 +53,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSel
       <Flex alignItems="center">
         <Select
           placeholder={placeholder}
-          value={selectedOption}
           onChange={handleChange}
           options={options}
           styles={{

@@ -17,7 +17,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [notifications, setNotifications] = useState([])
 
   const { isLoading: isLoadinsNotifications } = useQuery({
-    queryKey: ["notifications"],
+    queryKey: ["notifications", isLogged],
     queryFn: () =>
       getNotifications().then((res) => {
         setNotifications(res);
@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const { isLoading: isLoadingProfile } = useQuery({
-    queryKey: ["producer"],
+    queryKey: ["producer", isLogged],
     queryFn: () =>
       getMe().then((res) => {
         setProducer(res);

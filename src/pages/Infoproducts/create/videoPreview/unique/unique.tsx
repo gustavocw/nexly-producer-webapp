@@ -34,6 +34,7 @@ const UniqueVideo = () => {
               name="urlMovie"
               placeholder="URL da aula"
               errorText={errors.urlMovie?.message}
+              
               isRequired
             />
           </HStack>

@@ -21,9 +21,12 @@ const Areas = () => {
     }
   };
 
+  console.log(areas);
+  
+
   return (
     <VStack gap="32px" px={8} align="stretch">
-      <Tabs.Root defaultValue="areas">
+      <Tabs.Root unstyled defaultValue="areas">
         <HStack align="flex-start" justify="space-between" spaceY={5} py={5}>
           <Tabs.Content w="100%" display="flex" justifyContent="space-between" value="areas">
           <Text.Medium fontSize="24px">
@@ -50,8 +53,8 @@ const Areas = () => {
         <Tabs.Content py={5} value="areas">
           {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
-              {areas?.map((area: any) => (
-                <AreaCard key={area.id} data={area} />
+              {areas?.map((area: Area) => (
+                <AreaCard key={area._id} data={area} />
               ))}
             </Flex>
           ) : (

@@ -43,7 +43,7 @@ console.log(files.background);
       w="100%"
     >
       <Flex alignItems="center" gap="6px">
-        <Tabs.Trigger value="areas">
+        <Tabs.Trigger display="flex" value="areas">
           <Icon color="neutral">
             <KeyboardArrowLeftIcon />
           </Icon>

@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toaster } from "components/ui/toaster";
+import { useAuth } from "hooks/useAuth";
 import { createContext, useContext, useEffect, useState } from "react";
 import { createArea, getAreas } from "services/areas.services";
 import { getProducts } from "services/product.services";
@@ -10,9 +11,9 @@ interface ProductContextValue {
   areas: Area[];
   product?: Product | null;
   products?: Product[] | null;
-  isLoadingProducts?: boolean,
-  loadingAreas?: boolean,
-  creatingArea?: boolean,
+  isLoadingProducts?: boolean;
+  loadingAreas?: boolean;
+  creatingArea?: boolean;
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
   refetchProducts: () => void;
@@ -29,32 +30,38 @@ export const ProductProvider = ({
   const [product, setProductState] = useState<Product | null>(null);
   const [areaId, setAreaId] = useState("");
   const { setAreaId: setAreaIdProduct, search } = useProductStore();
+  const { isLogged } = useAuth();
 
   const handleSetAreaId = (_id: string) => {
-    setAreaId(_id)
-  }
-  
+    setAreaId(_id);
+  };
+
   const setProduct = (product: Product) => {
     setProductState(product);
   };
 
-    const { data: products, isLoading: isLoadingProducts, refetch: refetchProducts } = useQuery({
-      queryKey: ["infoproducts", areaId, search],
-      queryFn: async () => {
-        const res = await getProducts(areaId, search);
-        setAreaIdProduct(areaId)
-        return res;
-      },
-      enabled: !!areaId,
-    });
-  
+  const {
+    data: products,
+    isLoading: isLoadingProducts,
+    refetch: refetchProducts,
+  } = useQuery({
+    queryKey: ["infoproducts", areaId, search, isLogged],
+    queryFn: async () => {
+      const res = await getProducts(areaId, search);
+      setAreaIdProduct(areaId);
+      return res;
+    },
+    enabled: !!areaId && isLogged,
+  });
 
-  const { data: areas, refetch: refetchAreas, isLoading: loadingAreas } = useQuery({
-    queryKey: ["areas"],
-    queryFn: () =>
-      getAreas().then((res) => {
-        return res;
-      }),
+  const {
+    data: areas,
+    refetch: refetchAreas,
+    isLoading: loadingAreas,
+  } = useQuery({
+    queryKey: ["areas", isLogged],
+    queryFn: async () => await getAreas(),
+    enabled: isLogged,
   });
 
   const { mutate: mutateArea, isPending: creatingArea } = useMutation({
@@ -78,16 +85,31 @@ export const ProductProvider = ({
     value: area._id,
     label: area.domain,
   }));
-
-  useEffect(() => {
-    if (!products) {
-      refetchProducts();
-    }
-  }, [products])
   
 
+  useEffect(() => {
+    if (products?.length === 0 && isLogged) {
+      refetchProducts();
+    }
+  }, [products]);
+
   return (
-    <ProductContext.Provider value={{ handleSetAreaId, mutateArea, creatingArea, refetchProducts, loadingAreas, products, isLoadingProducts, areasList, refetchAreas, areas, product, setProduct }}>
+    <ProductContext.Provider
+      value={{
+        handleSetAreaId,
+        mutateArea,
+        creatingArea,
+        refetchProducts,
+        loadingAreas,
+        products,
+        isLoadingProducts,
+        areasList,
+        refetchAreas,
+        areas,
+        product,
+        setProduct,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );

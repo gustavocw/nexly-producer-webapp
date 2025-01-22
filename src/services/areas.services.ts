@@ -1,13 +1,8 @@
 import { http } from "./http/http";
 
-export async function getAreas(skip?: number, take?: number) {
-  const { data } = await http.get("/member/member-area", {
-    params: {
-      skip,
-      take,
-    },
-  });
-  return data?.data;
+export async function getAreas() {
+  const {data} = await http.get("/member/member-area", {});
+  return data;
 }
 
 export async function getArea(areaId: string) {

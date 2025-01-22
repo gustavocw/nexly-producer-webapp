@@ -55,12 +55,14 @@ interface Lesson {
 }
 
 interface Area {
+  _id?: string;
   domain: string;
   color: string;
   title: string;
-  background: File | null;
-  icon: File | null;
-  logo: File | null;
+  background: any;
+  icon: any;
+  logo: any;
+  courses: Product[]
 }
 
 interface NewModule {

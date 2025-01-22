@@ -1,18 +1,8 @@
 import { FC, useState } from "react";
 import { Box, Text, Flex, Tabs, Image, Skeleton } from "@chakra-ui/react";
 
-export interface AreaData {
-  _id: number;
-  title: string;
-  domain: string;
-  background: string;
-  color: string;
-  icon: string;
-  logo: string;
-}
-
 export interface AreaCardProps {
-  data: AreaData;
+  data: Area;
 }
 
 const AreaCard: FC<AreaCardProps> = ({ data }) => {
@@ -24,9 +14,9 @@ const AreaCard: FC<AreaCardProps> = ({ data }) => {
 
   return (
     <Tabs.Trigger
-      w="100%"
+      w="332px"
+      h="200px"
       value="area"
-      position="absolute"
       display="flex"
       alignItems="flex-start"
       textAlign="start"

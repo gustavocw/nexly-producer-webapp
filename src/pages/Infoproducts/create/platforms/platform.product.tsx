@@ -4,11 +4,25 @@ import Btn from "components/button/button";
 import Text from "components/text/text";
 import TitlePage from "components/titlePage/titlePage";
 import CardPlatform from "./cardPlatform/page.radio.platform";
+import { getIntegrations } from "services/producer.services";
+import { useQuery } from "@tanstack/react-query";
 
 const Platform = () => {
+  const { data: integrations } = useQuery({
+    queryKey: ["integrations"],
+    queryFn: getIntegrations,
+  });
+
+  const hasActiveIntegration = integrations
+    ? Object.values(integrations).some((isIntegrated) => isIntegrated === true)
+    : false;
+
   return (
     <VStack px={8} w="100%" align="flex-start">
-      <Tabs.Root w="100%" defaultValue="initial">
+      <Tabs.Root
+        w="100%"
+        defaultValue={hasActiveIntegration ? "cards" : "initial"}
+      >
         <TitlePage title="Informações básicas" />
         <Tabs.Content value="initial">
           <VStack
@@ -31,12 +45,12 @@ const Platform = () => {
               </Text.Medium>
             </VStack>
             <Tabs.Trigger value="cards">
-            <Btn fontWeight="500" w="200px" label="Ativar integração" />
+              <Btn fontWeight="500" w="200px" label="Ativar integração" />
             </Tabs.Trigger>
           </VStack>
         </Tabs.Content>
         <Tabs.Content h="70vh" m="auto" value="cards">
-          <CardPlatform />
+          <CardPlatform data={integrations} />
         </Tabs.Content>
       </Tabs.Root>
     </VStack>

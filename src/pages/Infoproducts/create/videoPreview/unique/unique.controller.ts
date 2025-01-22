@@ -23,13 +23,12 @@ const useUniqueVideoController = () => {
   const location = useLocation();
   const { lesson } = location.state || {};
 
-  console.log(lesson);
-  
 
   const {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<PreviewVideoFormValues>({
     defaultValues: {
@@ -41,6 +40,8 @@ const useUniqueVideoController = () => {
       urlMovie: "",
     },
   });
+
+  const videoUrl = watch("urlMovie")
 
   const { id: idModule } = useParams<{ id: string }>();
   const updateFile = (file: File | null) => {
@@ -58,8 +59,10 @@ const useUniqueVideoController = () => {
         provider: lesson.provider || "",
         stateLesson: lesson.stateLesson || "",
       });
+    } else {
+      setVideoUrl(videoUrl)
     }
-  }, [lesson, reset]);
+  }, [lesson, reset, watch]);
 
   const { mutate: mutateVideo } = useMutation({
     mutationFn: (params: Video) => createLesson(idModule, params),
@@ -84,7 +87,7 @@ const useUniqueVideoController = () => {
   });
 
   const onSubmit = async (data: Video) => {
-    console.log(lesson._id);
+    console.log(lesson?._id);
     const payload = { ...data, thumbnail: file };
     const payloadEdit = {
       name: data.name,
@@ -92,8 +95,6 @@ const useUniqueVideoController = () => {
       urlVideo: data.urlMovie,
       fileImageUrl: file || lesson?.fileImageUrl || "",
     };
-    console.log(payloadEdit);
-    
     if (lesson) {
       mutateUpdateLesson(payloadEdit);
     } else {

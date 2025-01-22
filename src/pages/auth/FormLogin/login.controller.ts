@@ -40,7 +40,7 @@ export const useLoginController = () => {
     setEmail,
     setPassword,
     rememberMe,
-    setRememberMe
+    setRememberMe,
   } = useAuthStore();
   const { auth } = useAuth();
 
@@ -54,8 +54,8 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: email ?? "",
-      password: password ?? "",
+      email: rememberMe === "true" && email ? email : "",
+      password: rememberMe === "true" && password ? password : "",
     },
   });
 
@@ -72,8 +72,8 @@ export const useLoginController = () => {
             setEmail(data.email);
             setPassword(data.password);
           } else {
-            setEmail(null);
-            setPassword(null);
+            setEmail("");
+            setPassword("");
           }
           navigate("/");
         }
@@ -102,4 +102,3 @@ export const useLoginController = () => {
     reset,
   };
 };
-

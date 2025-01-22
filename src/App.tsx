@@ -7,7 +7,13 @@ import { ProductProvider } from "contexts/ProductsContext";
 
 function App() {
   const queryClient = new QueryClient();
-
+  const originalConsoleError = console.error;
+  console.error = (...args) => {
+    if (args[0] && args[0].includes("validateDOMNesting")) {
+      return;
+    }
+    originalConsoleError(...args);
+  };
   return (
     <>
       <QueryClientProvider client={queryClient}>

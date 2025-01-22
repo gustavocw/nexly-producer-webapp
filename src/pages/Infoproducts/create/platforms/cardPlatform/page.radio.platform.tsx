@@ -2,7 +2,7 @@ import { HStack, VStack } from "@chakra-ui/react";
 import Text from "components/text/text";
 import RadioPlatform from "./radio.platform";
 
-const CardPlatform = () => {
+const CardPlatform = ({data}: any) => {
   return (
     <VStack h="100%" justify="center" align="center" w="100%">
       <VStack w="90%">
@@ -15,7 +15,7 @@ const CardPlatform = () => {
         </Text.Medium>
       </VStack>
       <HStack w="100%" align="center" justify="center">
-        <RadioPlatform />
+        <RadioPlatform data={data} />
       </HStack>
     </VStack>
   );

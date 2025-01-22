@@ -2,7 +2,7 @@ import { Stack, VStack, Image, Flex, Link, HStack } from "@chakra-ui/react";
 import Input from "components/input/input";
 import Text from "components/text/text";
 import { useLoginController } from "./login.controller";
-import { Radio, RadioGroup } from "components/ui/radio";
+import { RadioGroup } from "components/ui/radio";
 import Btn from "components/button/button";
 import useAuthStore from "stores/auth.store";
 import { CheckboxCard } from "components/ui/checkbox-card";
@@ -10,7 +10,7 @@ import { CheckboxCard } from "components/ui/checkbox-card";
 const FormLogin = () => {
   const { control, errors, handleSubmit, onSubmit, rememberMe, setRememberMe } =
     useLoginController();
-  const { setStepLogin } = useAuthStore();
+  const { setStepLogin, setEmail, setPassword } = useAuthStore();
 
   return (
     <Stack justify="space-between" alignItems="center" h="100%" width="100%">
@@ -64,11 +64,14 @@ const FormLogin = () => {
               <CheckboxCard
                 onCheckedChange={(e) => {
                   if (e.checked === true) {
-                    setRememberMe("true")
+                    setRememberMe("true");
                   } else {
-                    setRememberMe("false")
+                    setRememberMe("false");
+                    setEmail("");
+                    setPassword("");
                   }
                 }}
+                checked={rememberMe === "true"}
                 indicatorPlacement="start"
                 border="none"
                 label="Lembrar de mim"
