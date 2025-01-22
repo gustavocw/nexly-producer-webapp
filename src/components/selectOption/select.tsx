@@ -13,6 +13,7 @@ interface SelectOptionProps {
   placeholder: string;
   options: Option[];
   onSelectChange: (value: string) => void;
+  value?: any;
 }
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
@@ -27,11 +28,11 @@ const DropdownIndicator = (props: any) => {
   );
 };
 
-const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSelectChange }) => {
+const SelectOption: React.FC<SelectOptionProps> = ({ placeholder, options, onSelectChange, value }) => {
   const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(null);
   const isInitialRender = useRef(true);
   useEffect(() => {
-    if (options?.length > 0 && !selectedOption) {
+    if (options?.length > 0 && !selectedOption && !value) {
       const defaultOption = options[0];
       setSelectedOption(defaultOption);
       if (isInitialRender.current) {

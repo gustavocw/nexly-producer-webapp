@@ -1,8 +1,4 @@
-import {
-  Flex,
-  Icon,
-  Table,
-} from "@chakra-ui/react";
+import { Flex, Icon, Table } from "@chakra-ui/react";
 import Text from "components/text/text";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import React from "react";
@@ -15,18 +11,31 @@ import {
   MenuItem,
   MenuRoot,
   MenuTrigger,
-} from "components/ui/menu"
+} from "components/ui/menu";
+import { useMutation } from "@tanstack/react-query";
+import { updateStateMember } from "services/members.services";
+import { toaster } from "components/ui/toaster";
 
 interface TableMembersProps {
   data?: Member[] | null;
   areaId?: string;
+  refetch: () => void
 }
 
-const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
-  const renderMenuItems = (status: string) => (
+const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
+  const { mutate: updateState } = useMutation({
+    mutationFn: (memberId: string) => updateStateMember(memberId),
+    onSuccess: () => {
+      toaster.create({
+        title: "Status de membro alterado com sucesso.",
+        type: "success",
+      });
+      refetch();
+    },
+  });
+  const renderMenuItems = (status: string, memberId: string) => (
     <>
       <MenuItem
-        border="none"
         _hover={{ bg: "neutral.40" }}
         bg="neutral.50"
         cursor="pointer"
@@ -38,20 +47,15 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
         Editar Membro
       </MenuItem>
       <MenuItem
-        border="none"
         _hover={{ bg: "neutral.40" }}
         bg="neutral.50"
         cursor="pointer"
         p={2}
         color="neutral"
         value="block"
-        onClick={() =>
-          console.log(
-            status === "Ativo" ? "Bloquear membro" : "Desbloquear membro"
-          )
-        }
+        onClick={() => updateState(memberId)}
       >
-        {status === "Ativo" ? "Bloquear Membro" : "Desbloquear Membro"}
+        {status === "ATIVO" ? "Bloquear Membro" : "Desbloquear Membro"}
       </MenuItem>
     </>
   );
@@ -125,7 +129,9 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     border="none"
                   >
                     <Text.Medium fontSize="14px" color="neutral">
-                      {member?.lastAccess ? formatDateToString(member?.lastAccess) : "Nenhum login"}
+                      {member?.lastAccess
+                        ? formatDateToString(member?.lastAccess)
+                        : "Nenhum login"}
                     </Text.Medium>
                   </Table.Cell>
                   <Table.Cell
@@ -134,7 +140,11 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                     bg="neutral.50"
                     border="none"
                   >
-                    <Text.Medium textTransform="capitalize" fontSize="14px" color="neutral">
+                    <Text.Medium
+                      textTransform="capitalize"
+                      fontSize="14px"
+                      color="neutral"
+                    >
                       {capitalizeFirstLetter(member?.stateUser)}
                     </Text.Medium>
                   </Table.Cell>
@@ -160,11 +170,11 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
                         </Icon>
                       </MenuTrigger>
                       <MenuContent
-                        borderRadius="8px"
                         borderWidth="1px"
                         borderColor="neutral.40"
+                        bg="neutral.50"
                       >
-                        {renderMenuItems(member?.stateUser)}
+                        {renderMenuItems(member?.stateUser, member?._id)}
                       </MenuContent>
                     </MenuRoot>
                   </Table.Cell>
@@ -173,7 +183,8 @@ const TableMembers: React.FC<TableMembersProps> = ({ data }) => {
             ))
           ) : (
             <Text.Medium px={2} py={5} fontSize="14px" color="neutral">
-              Nenhum membro cadastrado.
+              Nenhum membro cadastrado. Selecione acima a área que deseja buscar
+              os membros registrados.
             </Text.Medium>
           )}
         </Table.Body>

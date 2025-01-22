@@ -75,6 +75,7 @@ const Members = () => {
   const optionsNav = [
     { label: `Ativos ${members?.length ?? 0}`, value: "ATIVO" },
     { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "BLOQUEADO" },
+    { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
 
   const handleSelectionChange = (selectedOption: {
@@ -100,6 +101,7 @@ const Members = () => {
               onSelectChange={(v) => handleSetAreaId(v)}
               placeholder="Área"
               options={areasList}
+              value={areaId}
             />
             <SelectOption
               onSelectChange={(v) => setSearch(v)}
@@ -140,7 +142,7 @@ const Members = () => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers areaId={areaId} data={members} />
+      <TableMembers refetch={refetchMembers} areaId={areaId} data={members} />
     </Stack>
   );
 };

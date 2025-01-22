@@ -55,12 +55,9 @@ const useMembersController = () => {
     }
     if (members?.length === 0) {
       refetchMembers();
-      handleSetAreaId(areasList[0]?.value);
     }
   }, [areaId, areasList, members, refetchMembers]);
   
-
-
   return {
     members,
     accessType,
