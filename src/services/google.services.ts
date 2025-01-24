@@ -7,7 +7,6 @@ export async function getIntegrationByCourse(courseId?: string | null) {
 
 export async function getUrlGoogle() {
   const { data } = await http.get<any>(`/producer/login/google`);
-  console.log(data);
   return data;
 }
 
@@ -25,7 +24,6 @@ export async function changeUrlGoogle(courseId?: string | null, code?: string) {
   const { data } = await http.put<any>(`/course/youtube/token/${courseId}`, {
     code,
   });
-  console.log(data);
   return data;
 }
 

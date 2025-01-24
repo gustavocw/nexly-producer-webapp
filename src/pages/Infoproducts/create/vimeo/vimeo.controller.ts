@@ -14,8 +14,6 @@ const useVimeoController = () => {
     queryFn: () => getFolders(productId, "/me/projects"),
   });
 
-  console.log(folder);
-
   const onIntegrate = () => {
     if (folder) {
       navigate(`/infoproducts/create/vimeo/videos${folder.metadata.connections.folders.uri}`);

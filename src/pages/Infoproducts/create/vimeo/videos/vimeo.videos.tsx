@@ -8,8 +8,6 @@ const VimeoVideos: React.FC = () => {
   const { videos, selection, setSelection, generateLessons, loading } =
     useVideoController();
 
-  console.log(videos);
-
   return (
     <VStack px={8} w="100%" align="flex-start" spaceY={8}>
       <TitlePage

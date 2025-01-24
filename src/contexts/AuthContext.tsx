@@ -42,8 +42,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signout = useCallback(async () => {
-    localStorage.clear();
-    sessionStorage.clear();
+    // localStorage.clear();
+    // sessionStorage.clear();
     clearCookies();
     setIsLogged(false);
     window.location.href = "/login";

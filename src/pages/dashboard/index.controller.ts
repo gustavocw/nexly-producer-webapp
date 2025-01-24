@@ -98,9 +98,6 @@ export const useDashboardController = () => {
       }),
   });
 
-  console.log(chartPosts);
-  
-
   const { data: chartComments, isLoading: isLoadingChartComments } = useQuery({
     queryKey: ["chart-comments"],
     queryFn: () =>
@@ -108,9 +105,6 @@ export const useDashboardController = () => {
         return res;
       }),
   });
-
-  console.log(chartComments);
-  
 
   const { data: membersCount, isLoading: isLoadingChartMembers } = useQuery({
     queryKey: ["chart-members"],

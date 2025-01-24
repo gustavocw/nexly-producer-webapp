@@ -16,7 +16,6 @@ const AuthVimeo = () => {
   const { mutate: mutateAuth } = useMutation({
     mutationFn: () => setVimeoUrl(productId, code),
     onSuccess: (data) => {
-      console.log(data);
       if (data?.success === true) {
         toaster.create({
           title: "Autenticado com sucesso!",

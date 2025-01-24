@@ -16,7 +16,6 @@ const AuthYoutube = () => {
   const { mutate: mutateAuth } = useMutation({
     mutationFn: () => setUrlGoogle(productId, code),
     onSuccess: (data) => {
-      console.log(data);
       if (data?.success === true) {
         toaster.create({
           title: "Autenticado com sucesso!",

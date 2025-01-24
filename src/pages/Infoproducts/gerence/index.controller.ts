@@ -26,7 +26,6 @@ export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
       getProductUnique(id).then((res) => {
         setProduct(res[0]);
         setProductId(id);
-        console.log(res);
         return res[0];
       }),
     enabled: !!id,

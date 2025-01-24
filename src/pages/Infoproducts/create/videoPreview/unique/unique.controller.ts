@@ -87,7 +87,6 @@ const useUniqueVideoController = () => {
   });
 
   const onSubmit = async (data: Video) => {
-    console.log(lesson?._id);
     const payload = { ...data, thumbnail: file };
     const payloadEdit = {
       name: data.name,

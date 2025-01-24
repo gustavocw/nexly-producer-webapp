@@ -29,8 +29,6 @@ const StepProduct = () => {
   const handleStepClick = (step: string, productId?: string) => {
     if (step === "Adicione os módulos") {
       window.location.href = `http://localhost:5173/infoproducts/informations/${productId}`;
-    } else {
-      console.log(`Ação executada: ${step} para produto ${productId}`);
     }
   };
 

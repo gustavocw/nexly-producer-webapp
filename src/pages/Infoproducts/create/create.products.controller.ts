@@ -75,7 +75,6 @@ const useCreateProductController = () => {
   
     if (product) {
       try {
-        console.log("aqui");
         const res = await updateProduct(payload, product._id);
         if (res && res._id) {
           toaster.create({

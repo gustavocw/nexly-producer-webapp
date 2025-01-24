@@ -101,8 +101,6 @@ export const useCertificateController = () => {
         logoUrl: files.logoUrl,
       },
     };
-    console.log(processedData);
-    
     mutateCertificate(processedData);
     reset();
   };

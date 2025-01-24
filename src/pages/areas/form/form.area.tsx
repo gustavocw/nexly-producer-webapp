@@ -30,9 +30,6 @@ const FormArea: React.FC<{
     setSubmitHandler(() => handleSubmit(onSubmit)());
   }, [handleSubmit, onSubmit, setSubmitHandler]);
 
-
-console.log(files.background);
-
   return (
     <VStack
       as="form"

@@ -2,12 +2,15 @@ import { HStack, Image, Link, VStack } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import type React from "react";
+import { formatDateToString } from "utils/formatDateToString";
+import { truncateText } from "utils/truncateText";
 
 interface Post {
-  id: number;
-  title: string;
-  value: string;
-  image: string;
+  _id: string;
+  name: string;
+  duration: string;
+  createdAt: string;
+  thumbnail: string;
 }
 
 interface LastPostProps {
@@ -22,6 +25,8 @@ const LastPost: React.FC<LastPostProps> = ({ posts }) => {
       justify="flex-start"
       width="80%"
       mx={4}
+      overflow="auto"
+      maxH="300px"
       bg="neutral.60"
       p="20px"
       alignItems="flex-start"
@@ -29,11 +34,12 @@ const LastPost: React.FC<LastPostProps> = ({ posts }) => {
     >
       {posts?.length > 0 ? (
         posts?.map((post) => (
-          <HStack key={post.id} gap="16px" w="100%">
-            <Image w="100px" h="50px" borderRadius="8px" src={post.image} />
+          <HStack key={post._id} gap="16px" w="100%">
+            <Image w="120px" h="80px" borderRadius="8px" src={post.thumbnail} />
             <VStack alignItems="flex-start">
-              <Text.Medium fontSize="14px">{post.title}</Text.Medium>
-              <Text.Medium fontSize="14px">{post.value}</Text.Medium>
+              <Text.Medium fontSize="14px">{truncateText(post.name, 5)}</Text.Medium>
+              <Text.Medium fontSize="14px">{post.duration}</Text.Medium>
+              <Text.Medium fontSize="14px">{formatDateToString(post.createdAt)}</Text.Medium>
             </VStack>
           </HStack>
         ))

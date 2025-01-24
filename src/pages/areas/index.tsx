@@ -21,9 +21,6 @@ const Areas = () => {
     }
   };
 
-  console.log(areas);
-  
-
   return (
     <VStack gap="32px" px={8} align="stretch">
       <Tabs.Root unstyled defaultValue="areas">

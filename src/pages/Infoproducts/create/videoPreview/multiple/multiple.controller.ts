@@ -36,7 +36,6 @@ const useMultipleVideoController = () => {
   };
 
   useEffect(() => {
-    console.log("atualizou")
     if (videos && videos.length > 0) {
       const firstVideo = videos[0];
       reset({

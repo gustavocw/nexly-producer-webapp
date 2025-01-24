@@ -19,10 +19,10 @@ interface TicketsProps {
 }
 
 const CardTickets: React.FC<TicketsProps> = ({ data }) => {
+  console.log(data);
   const collection = createListCollection({
     items: statusOptions,
   });
-  console.log(data);
   const dummyTickets = [
     {
       id: "1",

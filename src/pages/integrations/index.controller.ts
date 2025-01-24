@@ -18,7 +18,6 @@ export const useIntegrationsController = () => {
   const [selectedOption, setSelectedOption] = useState<string>(optionsNav[0].value);
 
   const handleSelectionChange = (selectedValue: any) => {
-    console.log("Opção selecionada:", selectedValue);
     setSelectedOption(selectedValue);
   };
 
@@ -26,7 +25,6 @@ export const useIntegrationsController = () => {
     queryKey: ["integrations"],
     queryFn: () =>
       getIntegrations().then((res) => {
-        console.log(res);
         setIntegrations((prev) =>
           prev.map((integration) => ({
             ...integration,

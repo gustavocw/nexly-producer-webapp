@@ -20,8 +20,6 @@ import { useProducts } from "hooks/useProducts";
 
 const CardRadio = () => {
   const [typeProduct, setTypeProduct] = useState("");
-  console.log(typeProduct);
-
   return (
     <RadioCardRoot defaultValue="curso-em-video">
       <VStack gap="20px" align="stretch">

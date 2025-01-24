@@ -9,10 +9,6 @@ import { useGenrenceInfoproduct } from "./index.controller";
 
 const GenrenceInfoproduct = () => {
   const { product, optionsNav, handleSelectionChange } = useGenrenceInfoproduct();
-
-  console.log(product);
-  
-
   return (
     <VStack w="100%" align="flex-start" px={8}>
       <TitlePage title={product?.name || "Carregando..."} />
