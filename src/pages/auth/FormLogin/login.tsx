@@ -46,6 +46,7 @@ const FormLogin = () => {
           />
           <Input.Base
             control={control}
+            type="password"
             name="password"
             placeholder="Senha"
             errorText={errors.password?.message}

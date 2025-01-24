@@ -50,14 +50,18 @@ export const useLoginController = () => {
     setError,
     formState: { errors },
     reset,
+    watch,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: rememberMe === "true" && email ? email : "",
-      password: rememberMe === "true" && password ? password : "",
+      email: email || "",
+      password: password || "",
     },
   });
+
+  const watchedEmail = watch("email");
+  const watchedPassword = watch("password");
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
@@ -71,9 +75,6 @@ export const useLoginController = () => {
           if (rememberMe === "true") {
             setEmail(data.email);
             setPassword(data.password);
-          } else {
-            setEmail("");
-            setPassword("");
           }
           navigate("/");
         }
@@ -100,5 +101,7 @@ export const useLoginController = () => {
     errors,
     onSubmit,
     reset,
+    watchedEmail,
+    watchedPassword,
   };
 };

@@ -8,26 +8,25 @@ import usePlatformController from "./radio.controller.platform";
 const RadioPlatform = ({ data }: any) => {
   const { onIntegrate, setPlatform, loadingConfirm, loadingUrl } = usePlatformController();
 
-  // Mapeia as plataformas com base no status (true/false) em `data`
   const items = [
     {
       value: "youtube",
       title: "Youtube",
       image: "/images/logoytb.png",
-      description: data.youtube ? "Instalada" : "Não instalada",
+      description: data?.youtube ? "Instalada" : "Não instalada",
     },
     {
       value: "vimeo",
       title: "Vimeo",
       image: "/images/vimeologo.png",
-      description: data.vimeo ? "Instalada" : "Não instalada",
+      description: data?.vimeo ? "Instalada" : "Não instalada",
     },
   ];
 
   return (
     <RadioCardRoot orientation="vertical" align="center" defaultValue="youtube">
       <HStack w="100%" align="center">
-        {items.map((item) => (
+        {items?.map((item) => (
           <RadioCardItem
             cursor="pointer"
             borderRadius="8px"

@@ -19,8 +19,8 @@ import YoutubeVideos from "pages/Infoproducts/create/youtube/videos/videos.youtu
 import PreviewVideos from "pages/Infoproducts/create/videoPreview/preview";
 import AuthYoutube from "pages/Infoproducts/create/platforms/authplatform/auth.youtube";
 import AuthVimeo from "pages/Infoproducts/create/platforms/authplatform/auth.vimeo";
-import { Text } from "@chakra-ui/react";
 import VimeoFolders from "pages/Infoproducts/create/vimeo/vimeo.folders";
+import VimeoVideos from "pages/Infoproducts/create/vimeo/videos/vimeo.videos";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -65,6 +65,10 @@ const AppRoutes: React.FC = () => {
             <Route
               path="/infoproducts/informations/:id"
               element={<GenrenceInfoproduct />}
+            />
+            <Route
+              path="/infoproducts/create/vimeo/videos/*"
+              element={<VimeoVideos />}
             />
             <Route path="nexlyauth" element={<AuthYoutube />} />
             <Route path="vimeo/nexlyauth" element={<AuthVimeo />} />

@@ -1,11 +1,11 @@
 import {
   VStack, Flex,
-  Group
+  Group, Box, Text
 } from "@chakra-ui/react";
 import Btn from "components/button/button";
 import SearchBar from "components/search/search";
 import TitlePage from "components/titlePage/titlePage";
-import { RadioCardRoot } from "components/ui/radio-card";
+import { RadioCardRoot, RadioCardItem } from "components/ui/radio-card";
 import {
   PaginationItems,
   PaginationNextTrigger,
@@ -15,10 +15,7 @@ import {
 import useVimeoController from "./vimeo.controller";
 
 const VimeoFolders = () => {
-  const { folders, onIntegrate } = useVimeoController();
-
-  console.log(folders);
-  
+  const { folders, onIntegrate, setFolder } = useVimeoController();
 
   return (
     <VStack px={8} w="100%" align="flex-start" spaceY={8}>
@@ -35,20 +32,20 @@ const VimeoFolders = () => {
             justify="flex-start"
             w="100%"
           >
-            {/* {playlists?.map((playlist: Playlist) => (
-              <Box key={playlist.id}>
+            {folders?.data?.map((folder: any) => (
+              <Box key={folder.resource_key}>
                 <RadioCardItem
-                  value={playlist.id}
+                  value={folder.resource_key}
                   borderColor="transparent"
                   cursor="pointer"
                   _checked={{
                     bg: "neutral.60",
                     borderColor: "primary.50",
                   }}
-                  onChange={() => setPlaylist(playlist)}
+                  onChange={() => setFolder(folder)}
                   label={
                     <Box
-                      bgImage={`url(${playlist.snippet?.thumbnails?.high?.url})`}
+                      bgImage={`url(${folder.user.pictures.base_link})`}
                       bgSize="cover"
                       bgPos="center"
                       bgRepeat="no-repeat"
@@ -68,17 +65,17 @@ const VimeoFolders = () => {
                           fontSize="16px"
                           color="neutral.10"
                         >
-                          {playlist.snippet?.title}
+                          {folder.name}
                         </Text>
                         <Text fontSize="14px" color="neutral.20">
-                          {playlist.contentDetails?.itemCount} vídeos{" "}
+                          {folder.metadata.connections.videos.total} vídeos{" "}
                         </Text>
                       </VStack>
                     </Box>
                   }
                 />
               </Box>
-            ))} */}
+            ))}
           </Flex>
         </RadioCardRoot>
 

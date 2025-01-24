@@ -60,7 +60,7 @@ export async function cancelDeletion(productId?: string | null) {
 
 
 export async function getLessons(productId?: string | null) {
-  const { data } = await http.get(`/course/lesson/${productId}`, {});
+  const { data } = await http.get(`/course/lessons/${productId}`, {});
   return data.data;
 }
 

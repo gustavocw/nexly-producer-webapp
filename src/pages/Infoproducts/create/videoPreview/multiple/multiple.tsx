@@ -22,6 +22,8 @@ const MultipleVideos = () => {
     setPageRef,
     playNextVideo,
     playPreviousVideo,
+    setFile,
+    file,
   } = useMultipleVideoController();
   const { videos } = useVideosStore();
 
@@ -90,7 +92,8 @@ const MultipleVideos = () => {
         <DragFile
           width="100%"
           label="Thumbnail"
-          onFileSelect={(file) => console.log(file)}
+          onFileSelect={(file) => setFile(file)}
+          value={file}
         />
         </Box>
       </HStack>

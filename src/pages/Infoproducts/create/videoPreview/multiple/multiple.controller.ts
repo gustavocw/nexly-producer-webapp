@@ -18,6 +18,7 @@ const useMultipleVideoController = () => {
     control,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<LessonYoutube>({
     defaultValues: {
@@ -35,11 +36,12 @@ const useMultipleVideoController = () => {
   };
 
   useEffect(() => {
+    console.log("atualizou")
     if (videos && videos.length > 0) {
       const firstVideo = videos[0];
       reset({
         lessonLengh: firstVideo.lessonLengh || "",
-        description: firstVideo.description || "",
+        description: firstVideo.description ?? "",
         nameLesson: firstVideo.nameLesson || "",
         duration: firstVideo.duration || "",
         idLessonYt: firstVideo.idLessonYt || "",
@@ -64,15 +66,19 @@ const useMultipleVideoController = () => {
   });
 
   const onSubmit = async () => {
-    const payload = videos.map((video) => ({
-      lessonLengh: video.lessonLengh || "",
-      description: video.description || "",
-      nameLesson: video.nameLesson || "",
-      duration: video.duration || "",
-      idLessonYt: video.idLessonYt || "",
-      urlVideo: video.urlVideo || "",
-    }));
-    mutateSendVideos(payload);
+    const editedVideos = videos.map((video) => {
+      const formData = getValues();
+      return {
+        ...video,
+        lessonLengh: formData.lessonLengh || video.lessonLengh,
+        description: formData.description || video.description,
+        nameLesson: formData.nameLesson || video.nameLesson,
+        duration: String(formData.duration || video.duration),
+        idLessonYt: formData.idLessonYt || video.idLessonYt,
+        urlVideo: formData.urlVideo || video.urlVideo,
+      };
+    });
+    mutateSendVideos(editedVideos);
   };
 
   const goToVideo = (index: number) => {
@@ -82,7 +88,7 @@ const useMultipleVideoController = () => {
       setPageRef(index + 1);
       reset({
         lessonLengh: selectedVideo.lessonLengh || "",
-        description: selectedVideo.description || "",
+        description: selectedVideo.description ?? "",
         nameLesson: selectedVideo.nameLesson || "",
         duration: selectedVideo.duration || "",
         idLessonYt: selectedVideo.idLessonYt || "",
@@ -122,6 +128,8 @@ const useMultipleVideoController = () => {
     reset,
     navigate,
     errors,
+    setFile,
+    file,
     playNextVideo,
   };
 };

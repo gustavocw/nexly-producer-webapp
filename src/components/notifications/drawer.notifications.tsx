@@ -43,7 +43,7 @@ const NotificationsDrawer: React.FC<NotificationsProps> = ({ data }) => {
           </Flex>
         </DrawerHeader>
         <DrawerBody>
-          {data.map((notification) => (
+          {data?.map((notification) => (
             <HStack
               key={notification._id}
               borderTopWidth="1px"
