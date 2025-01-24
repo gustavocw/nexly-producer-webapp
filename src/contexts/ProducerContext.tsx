@@ -8,6 +8,7 @@ interface ProducerContextValue {
   isLoadingProfile: boolean;
   isLoadinsNotifications: boolean;
   notifications: any;
+  refetchMe: () => void;
 }
 
 export const ProducerContext = createContext({} as ProducerContextValue);
@@ -26,7 +27,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     enabled: !!isLogged,
   });
 
-  const { isLoading: isLoadingProfile } = useQuery({
+  const { isLoading: isLoadingProfile, refetch: refetchMe } = useQuery({
     queryKey: ["producer", isLogged],
     queryFn: () =>
       getMe().then((res) => {
@@ -37,7 +38,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <ProducerContext.Provider value={{ isLoadingProfile, isLoadinsNotifications, notifications }}>
+    <ProducerContext.Provider value={{ refetchMe, isLoadingProfile, isLoadinsNotifications, notifications }}>
       {children}
     </ProducerContext.Provider>
   );

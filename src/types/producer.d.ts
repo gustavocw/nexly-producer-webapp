@@ -1,6 +1,6 @@
 interface ProducerData {
   _id?: string;
-  address: Address;
+  address: Address[];
   identity: string;
   email: string;
   lastname: string;
@@ -19,8 +19,10 @@ interface ProducerDetails {
 }
 
 type Address = {
+  _id?: string;
   city: string;
   codeStreet: string;
+  neighborhood: string;
   street: string;
   number: string;
   complement?: string;

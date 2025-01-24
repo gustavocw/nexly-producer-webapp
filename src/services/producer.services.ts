@@ -10,10 +10,16 @@ export async function updateProfile(params: ProducerDetails) {
   return data;
 }
 
-export async function updateAddress(params: Address) {
+export async function createAddress(params: Address) {
   const { data } = await http.put<any>("/producer/address", params);
   return data;
 }
+
+export async function updateAddress(id: string,params: Address) {
+  const { data } = await http.put<any>(`/producer/address/${id}`, params);
+  return data;
+}
+
 
 export async function getIntegrations() {
   const { data } = await http.get<any>("/producer/integrations");

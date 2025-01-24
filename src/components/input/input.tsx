@@ -27,6 +27,8 @@ interface InputProps {
   helperText?: string;
   maxH?: string;
   minH?: string;
+  onBlurSubmit?: (value?: any) => void;
+  onEnterSubmit?: (value?: any) => void;
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -45,6 +47,8 @@ const InputBase: React.FC<InputProps> = ({
   autoComplete,
   maxLength,
   mask,
+  onBlurSubmit,
+  onEnterSubmit,
 }) => (
   <Field
     helperText={helperText}
@@ -77,6 +81,18 @@ const InputBase: React.FC<InputProps> = ({
               color="#FFFFFF"
               borderRadius="4px"
               autoComplete={autoComplete}
+              onBlur={(e) => {
+                field.onBlur();
+                if (onBlurSubmit) {
+                  onBlurSubmit(e.target.value);
+                }
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && onEnterSubmit) {
+                  e.preventDefault();
+                  onEnterSubmit(field.value);
+                }
+              }}
             />
           </>
         )}

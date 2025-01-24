@@ -10,16 +10,27 @@ import React from "react";
 const ProfileForm: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
 }> = ({ setSubmitHandler }) => {
-  const { control, errors, handleSubmit, onSubmit } =
-    useFormProfileController();
+  const {
+    profileControl,
+    profileErrors,
+    handleProfileSubmit,
+    onSubmitProfile,
+    addressControl,
+    addressErrors,
+    handleAddressSubmit,
+    onSubmitAddress,
+    fetchAddressByCEP,
+  } = useFormProfileController();
 
   React.useEffect(() => {
-    setSubmitHandler(() => handleSubmit(onSubmit)());
-  }, [handleSubmit, onSubmit, setSubmitHandler]);
+    setSubmitHandler(() => {
+      handleProfileSubmit(onSubmitProfile)();
+      handleAddressSubmit(onSubmitAddress)();
+    });
+  }, [handleProfileSubmit, onSubmitProfile, handleAddressSubmit, onSubmitAddress, setSubmitHandler]);
 
   return (
     <VStack
-      onSubmit={handleSubmit(onSubmit)}
       gap="32px"
       w="100%"
       h="100%"
@@ -54,36 +65,36 @@ const ProfileForm: React.FC<{
         <HStack gap="20px" w="100%">
           <Input.Base
             label="Nome"
-            control={control}
+            control={profileControl}
             name="name"
             placeholder="Digite seu nome"
-            errorText={errors.name?.message}
+            errorText={profileErrors.name?.message}
             isRequired
           />
           <Input.Base
             label="Sobrenome"
-            control={control}
-            name="lastName"
+            control={profileControl}
+            name="lastname"
             placeholder="Digite seu sobrenome"
-            errorText={errors.lastname?.message}
+            errorText={profileErrors.lastname?.message}
             isRequired
           />
         </HStack>
         <HStack gap="20px" w="100%">
           <Input.Base
             label="Email"
-            control={control}
+            control={profileControl}
             name="email"
             placeholder="Digite seu e-mail"
-            errorText={errors.email?.message}
+            errorText={profileErrors.email?.message}
             isRequired
           />
           <Input.Base
             label="Telefone"
-            control={control}
+            control={profileControl}
             name="phone_number"
             placeholder="Digite seu telefone"
-            errorText={errors.phone_number?.message}
+            errorText={profileErrors.phone_number?.message}
             mask="(99) 99999-9999"
             isRequired
           />
@@ -95,54 +106,66 @@ const ProfileForm: React.FC<{
         <HStack gap="20px" w="100%">
           <Input.Base
             label="CEP"
-            control={control}
-            name="address.codeStreet"
+            control={addressControl}
+            name="codeStreet"
             placeholder="Digite seu CEP"
-            errorText={errors.address?.codeStreet?.message}
+            errorText={addressErrors.codeStreet?.message}
             isRequired
+            mask="99999-999"
+            onBlurSubmit={fetchAddressByCEP}
           />
           <Input.Base
             label="Estado"
-            control={control}
-            name="address.uf"
+            control={addressControl}
+            name="uf"
             placeholder="Digite o estado"
-            errorText={errors.address?.uf?.message}
+            errorText={addressErrors.uf?.message}
             isRequired
           />
         </HStack>
         <HStack gap="20px" w="100%">
           <Input.Base
             label="Rua"
-            control={control}
-            name="address.street"
+            control={addressControl}
+            name="street"
             placeholder="Digite o nome da rua"
-            errorText={errors.address?.street?.message}
+            errorText={addressErrors.street?.message}
             isRequired
           />
           <Input.Base
             label="Cidade"
-            control={control}
-            name="address.city"
+            control={addressControl}
+            name="city"
             placeholder="Digite a cidade"
-            errorText={errors.address?.city?.message}
+            errorText={addressErrors.city?.message}
             isRequired
           />
         </HStack>
         <HStack gap="20px" w="100%">
           <Input.Base
-            label="Número"
-            control={control}
-            name="address.number"
-            placeholder="Digite o número"
-            errorText={errors.address?.number?.message}
+            label="Bairro"
+            control={addressControl}
+            name="neighborhood"
+            placeholder="Digite o bairro"
+            errorText={addressErrors.neighborhood?.message}
             isRequired
           />
           <Input.Base
+            label="Número"
+            control={addressControl}
+            name="number"
+            placeholder="Digite o número"
+            errorText={addressErrors.number?.message}
+            isRequired
+          />
+        </HStack>
+        <HStack gap="20px" w="100%">
+          <Input.Base
             label="Complemento"
-            control={control}
-            name="address.complement"
+            control={addressControl}
+            name="complement"
             placeholder="Digite o complemento"
-            errorText={errors.address?.complement?.message}
+            errorText={addressErrors.complement?.message}
           />
         </HStack>
       </VStack>
