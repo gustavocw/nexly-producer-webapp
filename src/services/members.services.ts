@@ -35,10 +35,10 @@ export async function createMember(
   return data;
 }
 
-export async function updateStateMember(memberId?: string | null) {
-  const { data } = await http.post<any>(
-    `/member/change-state/${memberId}}`,
-    {}
+export async function updateStateMember(memberId?: string | null, state?: string) {
+  const { data } = await http.put<any>(
+    `/member/change-state/${memberId}`,
+    { state }
   );
   return data;
 }

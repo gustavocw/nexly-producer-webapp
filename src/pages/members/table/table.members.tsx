@@ -23,8 +23,10 @@ interface TableMembersProps {
 }
 
 const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
+  console.log(data);
+  
   const { mutate: updateState } = useMutation({
-    mutationFn: (memberId: string) => updateStateMember(memberId),
+    mutationFn: ({ memberId, state }: { memberId: string, state: string }) => updateStateMember(memberId, state),
     onSuccess: () => {
       toaster.create({
         title: "Status de membro alterado com sucesso.",
@@ -33,6 +35,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
       refetch();
     },
   });
+
   const renderMenuItems = (status: string, memberId: string) => (
     <>
       <MenuItem
@@ -53,12 +56,13 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
         p={2}
         color="neutral"
         value="block"
-        onClick={() => updateState(memberId)}
+        onClick={() => updateState({ memberId, state: status === "ATIVO" ? "BLOQUEADO" : "ATIVO" })}
       >
         {status === "ATIVO" ? "Bloquear Membro" : "Desbloquear Membro"}
       </MenuItem>
     </>
   );
+
   return (
     <Table.ScrollArea
       w="100%"
