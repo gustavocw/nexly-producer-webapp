@@ -49,6 +49,8 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
   };
   const hasLessons = modules?.some(module => module.lessons_count > 0);
+  console.log(hasLessons);
+  
 
   return (
     <AccordionRoot

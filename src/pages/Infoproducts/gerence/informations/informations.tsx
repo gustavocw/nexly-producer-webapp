@@ -127,7 +127,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers data={members} />
+      <TableMembers refetch={refetchMembers} data={members} />
     </VStack>
   );
 };
