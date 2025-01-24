@@ -5,7 +5,11 @@ import Input from "components/input/input";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { useFormProfileController } from "./form.controller";
-import React from "react";
+import React, { useState } from "react";
+import {
+  FileUploadRoot,
+  FileUploadTrigger,
+} from "components/ui/file-upload"
 
 const ProfileForm: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
@@ -21,37 +25,43 @@ const ProfileForm: React.FC<{
     onSubmitAddress,
     fetchAddressByCEP,
   } = useFormProfileController();
+  const [file, setFile] = useState<File | null>(null)
 
   React.useEffect(() => {
     setSubmitHandler(() => {
       handleProfileSubmit(onSubmitProfile)();
       handleAddressSubmit(onSubmitAddress)();
     });
-  }, [handleProfileSubmit, onSubmitProfile, handleAddressSubmit, onSubmitAddress, setSubmitHandler]);
+  }, [
+    handleProfileSubmit,
+    onSubmitProfile,
+    handleAddressSubmit,
+    onSubmitAddress,
+    setSubmitHandler,
+  ]);
 
   return (
-    <VStack
-      gap="32px"
-      w="100%"
-      h="100%"
-      p="24px"
-      align="flex-start"
-    >
+    <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
       <Text.Medium fontSize="16px">Informações do Perfil</Text.Medium>
       <VStack align="flex-start" w="100%">
         <Text.Medium color="neutral" fontSize="12px">
           Foto do perfil
         </Text.Medium>
         <HStack alignItems="center" w="100%" align="flex-start">
-          <Avatar w="80px" h="80px" src="/images/bg.png" />
+          <Avatar w="80px" h="80px" src={file ? URL.createObjectURL(file) : ""} />
           <Box>
             <Flex gap="10px">
-              <Btn w="120px" label="Alterar foto" />
+              <FileUploadRoot onFileChange={(e) => setFile(e.acceptedFiles[0])}>
+                <FileUploadTrigger asChild>
+                  <Btn w="120px" label="Alterar foto" />
+                </FileUploadTrigger>
+              </FileUploadRoot>
               <Btn
                 w="120px"
                 label="Deletar foto"
                 bg="transparent"
                 color="error.30"
+                onClick={() => setFile(null)}
               />
             </Flex>
             <Text.Medium textAlign="center">
