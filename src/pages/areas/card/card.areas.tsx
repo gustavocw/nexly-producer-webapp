@@ -3,14 +3,18 @@ import { Box, Text, Flex, Tabs, Image, Skeleton } from "@chakra-ui/react";
 
 export interface AreaCardProps {
   data: Area;
+  onClick: () => void;
 }
 
-const AreaCard: FC<AreaCardProps> = ({ data }) => {
+const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
   const { title, domain, background, color, logo, icon } = data;
 
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
   const [iconLoaded, setIconLoaded] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
+
+  console.log(data);
+  
 
   return (
     <Tabs.Trigger
@@ -21,8 +25,9 @@ const AreaCard: FC<AreaCardProps> = ({ data }) => {
       alignItems="flex-start"
       textAlign="start"
       bottom="0"
+      onClick={onClick}
     >
-      <Skeleton  loading={!backgroundLoaded} w="100%" maxW="332px" h="200px" borderRadius="lg">
+      <Skeleton loading={!backgroundLoaded} w="100%" maxW="332px" h="200px" borderRadius="lg">
         <Box
           w="100%"
           maxW="332px"

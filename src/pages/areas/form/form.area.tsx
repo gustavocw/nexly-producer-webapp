@@ -22,13 +22,27 @@ import React from "react";
 
 const FormArea: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
-}> = ({ setSubmitHandler }) => {
-  const { control, errors, handleSubmit, files, setValue, onSubmit, updateFile } =
-    useCreateAreaController();
+  selectedArea: Area | null;
+}> = ({ setSubmitHandler, selectedArea }) => {
+  const { control, errors, handleSubmit, files, setFiles, setValue, onSubmit, updateFile } =
+    useCreateAreaController(selectedArea);
 
   React.useEffect(() => {
     setSubmitHandler(() => handleSubmit(onSubmit)());
   }, [handleSubmit, onSubmit, setSubmitHandler]);
+
+  React.useEffect(() => {
+    if (selectedArea) {
+      setValue("title", selectedArea.title);
+      setValue("domain", selectedArea.domain);
+      setValue("color", selectedArea.color);
+      setFiles({
+        background: selectedArea.background ? new File([], selectedArea.background) : null,
+        icon: selectedArea.icon ? new File([], selectedArea.icon) : null,
+        logo: selectedArea.logo ? new File([], selectedArea.logo) : null,
+      });
+    }
+  }, [selectedArea, setValue, setFiles]);
 
   return (
     <VStack
@@ -45,7 +59,7 @@ const FormArea: React.FC<{
             <KeyboardArrowLeftIcon />
           </Icon>
           <Text.Medium fontSize="16px" color="neutral">
-            Criar área de membros
+            {selectedArea ? "Editar área de membros" : "Criar área de membros"}
           </Text.Medium>
         </Tabs.Trigger>
       </Flex>
@@ -109,9 +123,11 @@ const FormArea: React.FC<{
         <DragFile
           label="Ícone da página"
           onFileSelect={(file) => updateFile("icon", file)}
+          value={files.icon}
         />
         <DragFile
           label="Logo da área"
+          value={files.logo}
           onFileSelect={(file) => updateFile("logo", file)}
         />
       </Flex>

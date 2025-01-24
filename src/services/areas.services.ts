@@ -32,3 +32,27 @@ export async function createArea(params: Area) {
 
   return data;
 }
+
+export async function updateArea(params: Area, areaId: any) {
+  const formData = new FormData();
+  formData.append("domain", params.domain);
+  formData.append("color", params.color);
+  formData.append("title", params.title);
+  if (params.background) {
+    formData.append("background", params.background);
+  }
+  if (params.icon) {
+    formData.append("icon", params.icon);
+  }
+  if (params.logo) {
+    formData.append("logo", params.logo);
+  }
+  const { data } = await http.put(`/member/member-area/${areaId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
+}
+

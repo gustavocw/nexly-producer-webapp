@@ -6,10 +6,12 @@ import FormArea from "./form/form.area";
 import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
 import { useProducts } from "hooks/useProducts";
+import { useState } from "react";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
   const { creatingArea } = useProducts();
+  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
@@ -21,6 +23,10 @@ const Areas = () => {
     }
   };
 
+  const handleAreaClick = (area: Area) => {
+    setSelectedArea(area);
+  };
+
   return (
     <VStack gap="32px" px={8} align="stretch">
       <Tabs.Root unstyled defaultValue="areas">
@@ -30,7 +36,7 @@ const Areas = () => {
             Suas áreas {areas?.length && `${(areas?.length)}`}
           </Text.Medium>
             <Tabs.Trigger value="area">
-              <Btn w="200px" iconLeft={<HiPlus />} label="Nova área" />
+              <Btn w="200px" iconLeft={<HiPlus />} label="Nova área" onClick={() => setSelectedArea(null)} />
             </Tabs.Trigger>
           </Tabs.Content>
           <Tabs.Content w="100%" display="flex" justifyContent="space-between"  value="area">
@@ -51,7 +57,7 @@ const Areas = () => {
           {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
               {areas?.map((area: Area) => (
-                <AreaCard key={area._id} data={area} />
+                <AreaCard key={area._id} data={area} onClick={() => handleAreaClick(area)} />
               ))}
             </Flex>
           ) : (
@@ -62,7 +68,7 @@ const Areas = () => {
         </Tabs.Content>
         <Tabs.Content value="area">
           <VStack w="100%">
-            <FormArea setSubmitHandler={setFormSubmitHandler} />
+            <FormArea setSubmitHandler={setFormSubmitHandler} selectedArea={selectedArea} />
           </VStack>
         </Tabs.Content>
       </Tabs.Root>
