@@ -50,6 +50,9 @@ const FormLogin = () => {
             name="password"
             placeholder="Senha"
             errorText={errors.password?.message}
+            onEnterSubmit={() => {
+              handleSubmit(onSubmit)()
+            }}
             isRequired
           />
           <HStack w="100%" justify="space-between">
