@@ -35,8 +35,8 @@ export const useLoginController = () => {
   const navigate = useNavigate();
   const {
     setProducerStore,
-    email,
-    password,
+    // email,
+    // password,
     setEmail,
     setPassword,
     rememberMe,
@@ -55,8 +55,8 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: email || "",
-      password: password || "",
+      email: "admin@nexly.com.br",
+      password: "Admin@123",
     },
   });
 

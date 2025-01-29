@@ -128,6 +128,7 @@ const FormRegister = () => {
                   label="CPF/CNPJ"
                   placeholder="Digite seu CPF ou CNPJ"
                   mask="999.999.999-99"
+                  onEnterSubmit={() => handleNextStep()}
                   errorText={errors.identity?.message}
                 />
               </VStack>
