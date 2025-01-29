@@ -18,7 +18,7 @@ const FormLogin = () => {
       <VStack
         mb={40}
         spaceY={10}
-        w={{ base: "70%", md: "70%", lg: "50%" }}
+        w={{ base: "90%", md: "70%", lg: "50%" }}
         lineHeight={1}
       >
         <VStack w="100%">
@@ -51,7 +51,7 @@ const FormLogin = () => {
             placeholder="Senha"
             errorText={errors.password?.message}
             onEnterSubmit={() => {
-              handleSubmit(onSubmit)()
+              handleSubmit(onSubmit)();
             }}
             isRequired
           />

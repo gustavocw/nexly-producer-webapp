@@ -27,7 +27,7 @@ const FormRegister = () => {
       h="100%"
       width="100%"
     >
-      <Stack w={{ base: "100%", md: "100%", lg: "80%" }} mx="auto">
+      <Stack w={{ base: "90%", md: "80%", lg: "70%" }} mx="auto">
         <Image my={10} width="150px" src="images/logo-name-svg.svg" />
         <Flex>
           {step === 1 && (
@@ -155,7 +155,7 @@ const FormRegister = () => {
               </>
             )}
             <Btn
-              w="70%"
+              w={{ base: "100%", md: "100%", lg: "70%" }}
               label={step === 0 ? "Continuar" : "Criar conta"}
               onClick={handleNextStep}
             />
