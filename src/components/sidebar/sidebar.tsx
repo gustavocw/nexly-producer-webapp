@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
 
   useEffect(() => {
     const storedNotificationCount = parseInt(localStorage.getItem("notificationCount") || "0", 10);
-    if (notifications.length > storedNotificationCount) {
+    if (notifications?.length > storedNotificationCount) {
       localStorage.setItem("notificationCount", storedNotificationCount.toString());
     }
   }, [notifications]);
@@ -96,7 +96,7 @@ const Sidebar: React.FC = () => {
         >
           <Box mx="auto" position="relative" onClick={handleNotificationsClick}>
             <NotificationsDrawer data={notifications} />
-            {notifications.length > parseInt(localStorage.getItem("notificationCount") || "0", 10) && (
+            {notifications?.length > parseInt(localStorage.getItem("notificationCount") || "0", 10) && (
               <Box
                 position="absolute"
                 top="0"
