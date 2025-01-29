@@ -7,19 +7,23 @@ const AuthProducer = () => {
   const { stepLogin } = useAuthStore();
 
   return (
-    <HStack h="100vh" flex={1}>
-      <Flex h="100%" w={{ base: "100%", md: "100%", lg: "50%" }}>
+    <HStack h="100vh" flex={1} flexDirection={{ base: "column", lg: "row" }}>
+      <Flex h={{ base: "50%", lg: "100%" }} w={{ base: "100%", lg: "50%" }}>
         {!stepLogin ? <FormLogin /> : <FormRegister />}
       </Flex>
       <Stack
         bg="#131313"
-        display={{ base: "none", md: "none", lg: "flex" }}
-        h="100vh"
+        display={{ base: "none", lg: "flex" }}
+        h={{ base: "50%", lg: "100vh" }}
         justify="center"
-        width="50%"
+        width={{ base: "100%", lg: "50%" }}
       >
         <Box>
-          <Image m="auto" objectFit="autoy" src={ stepLogin ? "images/detailLogin2.png" : "images/detailLogin.png" } />
+          <Image
+            m="auto"
+            objectFit="cover"
+            src={stepLogin ? "images/detailLogin2.png" : "images/detailLogin.png"}
+          />
         </Box>
       </Stack>
     </HStack>

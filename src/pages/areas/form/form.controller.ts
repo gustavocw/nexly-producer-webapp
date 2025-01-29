@@ -38,6 +38,7 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
         title: "Área atualizada com sucesso",
         type: "success",
       });
+      reset();
     },
     onError: (error) => {
       toaster.create({
@@ -80,7 +81,6 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       } else {
         mutateArea(payload);
       }
-      reset();
       setFiles({ background: null, icon: null, logo: null });
     } catch (error) {
       toaster.create({
