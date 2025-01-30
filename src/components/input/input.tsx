@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import {
   Input as ChakraInput,
@@ -8,6 +8,8 @@ import {
 import { withMask } from "use-mask-input";
 import Text from "components/text/text";
 import { toaster } from "components/ui/toaster";
+import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 interface InputProps {
   control: any;
@@ -51,8 +53,11 @@ const InputBase: React.FC<InputProps> = ({
   errorToast,
   onBlurSubmit,
   onEnterSubmit,
-}) => (
-  <Controller
+}) => {
+  const [showPassword, setShowPassword] = useState(false); // Adicione isso aqui
+
+  return (
+    <Controller
     name={name}
     control={control}
     render={({ field, fieldState: { error } }) => {
@@ -67,15 +72,25 @@ const InputBase: React.FC<InputProps> = ({
       }, [error, errorToast]);
 
       return (
-        <Box width={width || "100%"} height={height || "auto"} position="relative">
+        <Box
+          width={width || "100%"}
+          height={height || "auto"}
+          position="relative"
+        >
           {label && (
-            <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
+            <Text.Medium
+              fontSize="14px"
+              position="absolute"
+              top="-20px"
+              left="0"
+              color="white"
+            >
               {label} {isRequired && "*"}
             </Text.Medium>
           )}
           <ChakraInput
             {...field}
-            type={type}
+            type={type === "password" && !showPassword ? "password" : "text"}
             placeholder={placeholder}
             onChange={(e) => field.onChange(e.target.value)}
             ref={mask ? withMask(mask) : undefined}
@@ -101,6 +116,20 @@ const InputBase: React.FC<InputProps> = ({
               }
             }}
           />
+
+          {type === "password" && (
+            <Box
+              position="absolute"
+              top="50%"
+              right="10px"
+              transform="translateY(-50%)"
+              cursor="pointer"
+              color="whiteAlpha.800"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <IoEyeOffOutline size={18} /> : <IoEyeOutline size={18} />}
+            </Box>
+          )}
           {helperText && (
             <Text.Medium fontSize="14px" color="whiteAlpha.600" mt={1}>
               {helperText}
@@ -110,7 +139,8 @@ const InputBase: React.FC<InputProps> = ({
       );
     }}
   />
-);
+  )
+}
 
 const InputText: React.FC<InputProps> = ({
   control,
@@ -144,9 +174,19 @@ const InputText: React.FC<InputProps> = ({
       }, [error, errorToast]);
 
       return (
-        <Box width={width || "100%"} height={height || "auto"} position="relative">
+        <Box
+          width={width || "100%"}
+          height={height || "auto"}
+          position="relative"
+        >
           {label && (
-            <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
+            <Text.Medium
+              fontSize="14px"
+              position="absolute"
+              top="-20px"
+              left="0"
+              color="white"
+            >
               {label} {isRequired && "*"}
             </Text.Medium>
           )}

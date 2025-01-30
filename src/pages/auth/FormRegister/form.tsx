@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { SegmentedControl } from "components/ui/segmented-control";
 
 const FormRegister = () => {
-  const { control, handleSubmit, onSubmit } = useRegisterController();
+  const { control, handleSubmit, onSubmit, isStep1Valid, isStep2Valid } = useRegisterController();
   const { setStepLogin } = useAuthStore();
   const [step, setStep] = useState(0);
   const [identityType, setIdentityType] = useState("CPF");
@@ -50,8 +50,16 @@ const FormRegister = () => {
       <Flex w="100%" justify="flex-start">
         <Image width="150px" src="images/logo-name-svg.svg" />
       </Flex>
-      <VStack gap="22px" w="100%" maxH={{ base: "70vh", md: "80vh", lg: "auto" }}>
-        <VStack w="100%" display={step > 0 ? "flex" : "none"} align="flex-start">
+      <VStack
+        gap="22px"
+        w="100%"
+        maxH={{ base: "70vh", md: "80vh", lg: "auto" }}
+      >
+        <VStack
+          w="100%"
+          display={step > 0 ? "flex" : "none"}
+          align="flex-start"
+        >
           {step > 0 && (
             <Box
               _hover={{ color: "fff", bg: "transparent" }}
@@ -164,6 +172,7 @@ const FormRegister = () => {
                     label={identityLabel}
                     placeholder={`Digite seu ${identityLabel}`}
                     mask={identityMask}
+                    onEnterSubmit={() => handleNextStep()}
                   />
                   <SegmentedControl
                     px={2}
@@ -273,6 +282,13 @@ const FormRegister = () => {
               : "Criar conta"
           }
           onClick={handleNextStep}
+          disabled={
+            step === 0
+              ? !isStep1Valid
+              : step === 1 && !isSmallScreen
+              ? !isStep2Valid
+              : false
+          }
         />
       </VStack>
       <Flex justify="center" textAlign="center" py={5} w="80%" gap={2}>

@@ -68,6 +68,7 @@ export const useRegisterController = () => {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors },
     reset,
   } = useForm<RegisterFormData>({
@@ -83,6 +84,26 @@ export const useRegisterController = () => {
       confirmPassword: "",
     },
   });
+
+  const formValues = watch();
+  const isStep1Valid =
+    formValues.name &&
+    formValues.lastname &&
+    formValues.email &&
+    formValues.phone &&
+    formValues.identity &&
+    !errors.name &&
+    !errors.lastname &&
+    !errors.email &&
+    !errors.phone &&
+    !errors.identity;
+
+  const isStep2Valid =
+    formValues.password &&
+    formValues.confirmPassword &&
+    formValues.password === formValues.confirmPassword &&
+    !errors.password &&
+    !errors.confirmPassword;
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
@@ -117,6 +138,8 @@ export const useRegisterController = () => {
   return {
     control,
     handleSubmit,
+    isStep1Valid,
+    isStep2Valid,
     errors,
     onSubmit,
     reset,
