@@ -26,6 +26,7 @@ import {
   MenuRoot,
   MenuTrigger,
 } from "components/ui/menu";
+import { capitalizeFirstLetter } from "utils/captalizeData";
 
 interface TableProducts {
   data?: Product[] | null;
@@ -252,7 +253,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
                     bg="neutral.50"
                     border="none"
                   >
-                    {item?.category}
+                    {capitalizeFirstLetter(item?.category)}
                   </Table.Cell>
                   <Table.Cell
                     h="60px"

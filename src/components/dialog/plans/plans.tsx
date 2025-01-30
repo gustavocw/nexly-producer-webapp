@@ -85,7 +85,7 @@ const Plans = () => {
               label="Alterar para anual (-25%)"
               onClick={() => console.log("Alterar plano")}
               bg="transparent"
-              w="200px"
+              w="250px"
             />
           </HStack>
         </VStack>

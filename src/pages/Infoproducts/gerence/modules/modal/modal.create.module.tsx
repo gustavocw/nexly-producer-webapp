@@ -51,6 +51,9 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
     onSubmit,
     handleSubmit,
     updateFile,
+    creatingModule,
+    updatingModule,
+    isValid,
     file,
   } = useCreateModuleController({ module, isEdit });
 
@@ -266,8 +269,10 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
               <DialogActionTrigger asChild>
                 <Btn
                   w="15%"
-                  label="Criar Módulo"
+                  label={module ? "Editar Módulo" : "Criar Módulo"}
                   onClick={handleSubmit(onSubmit)}
+                  isLoading={creatingModule || updatingModule}
+                  disabled={!isValid}
                 />
               </DialogActionTrigger>
             </DialogFooter>

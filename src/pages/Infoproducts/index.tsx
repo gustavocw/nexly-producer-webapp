@@ -31,14 +31,11 @@ const Infoproducts = () => {
     setSearch(value);
   };
 
-  console.log(products?.length);
-  
-
   return (
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>
         <Text.Medium fontSize="24px">
-          Meus Infoprodutos {products?.length && `${products?.length}`}
+          Meus Infoprodutos {products?.length && `(${products?.length})`}
         </Text.Medium>
       </VStack>
 

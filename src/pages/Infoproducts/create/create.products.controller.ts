@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toaster } from "components/ui/toaster";
 import { useProducts } from "hooks/useProducts";
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ interface CreateProductsFormValues {
   areaId: string;
 }
 
-const useCreateProductController = () => {
+export const useCreateProductController = () => {
   const [file, setFile] = useState<File | null>(null);
   const [areas, setAreas] = useState<any[]>([]);
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ const useCreateProductController = () => {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<CreateProductsFormValues>({
     defaultValues: {
@@ -35,6 +36,18 @@ const useCreateProductController = () => {
       areaId: "",
     },
   });
+
+  const formValues = watch();
+
+  const isValid =
+    formValues.name &&
+    formValues.description &&
+    formValues.category &&
+    formValues.areaId &&
+    !errors.name &&
+    !errors.description &&
+    !errors.category &&
+    !errors.areaId;
 
   useEffect(() => {
     if (product) {
@@ -66,48 +79,63 @@ const useCreateProductController = () => {
     label: area.domain,
   }));
 
-  const onSubmit = async (data: CreateProductsFormValues) => {
-    const { areaId, ...bodyPayload } = data;
-    const payload = {
-      ...bodyPayload,
-      file,
-    };
-  
-    if (product) {
-      try {
-        const res = await updateProduct(payload, product._id);
-        if (res && res._id) {
-          toaster.create({
-            title: "Info produto atualizado com sucesso",
-            type: "success",
-          });
-          navigate("/infoproducts");
-          refetchProducts();
-        }
-      } catch (error) {
-        console.error("Error updating product:", error);
-      }
-      return;
-    }
-  
-    try {
-      const res = await createProduct(payload, areaId);
+  const { mutate: createProductMutate, isPending: creatingCourse } = useMutation({
+    mutationFn: (payload: any) => createProduct(payload),
+    onSuccess: (res) => {
       if (res?.id) {
         toaster.create({
           title: "Info produto criado com sucesso",
           type: "success",
         });
         refetchProducts();
+        navigate("/infoproducts");
       }
-      navigate("/infoproducts");
-    } catch (error) {
-      console.error("Error creating product:", error);
+    },
+    onError: (error) => {
+      toaster.create({
+        title: `Erro ao criar o infoproduto: ${error}`,
+        type: "error",
+      });
+    },
+  });
+
+  const { mutate: updateProductMutate, isPending: updatingCourse } = useMutation({
+    mutationFn: (payload: any) => updateProduct(payload, product._id),
+    onSuccess: (res) => {
+      if (res && res._id) {
+        toaster.create({
+          title: "Info produto atualizado com sucesso",
+          type: "success",
+        });
+        refetchProducts();
+        navigate("/infoproducts");
+      }
+    },
+    onError: (error) => {
+      toaster.create({
+        title: `Erro ao atualizar o infoproduto: ${error}`,
+        type: "error",
+      });
+    },
+  });
+
+  const onSubmit = async (data: CreateProductsFormValues) => {
+    const { areaId, ...bodyPayload } = data;
+    const payload = {
+      ...bodyPayload,
+      file,
+    };
+
+    if (product) {
+      updateProductMutate(payload);
+    } else {
+      createProductMutate({ ...payload, areaId });
     }
   };
-  
 
   return {
     control,
+    isValid,
     updateFile,
     handleSubmit,
     onSubmit,
@@ -118,6 +146,8 @@ const useCreateProductController = () => {
     errors,
     areas,
     file,
+    creatingCourse,
+    updatingCourse,
   };
 };
 

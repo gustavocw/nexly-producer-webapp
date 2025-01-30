@@ -162,7 +162,7 @@ const Members = () => {
           </Flex>
         </HStack>
       </HStack>
-      {!products && !members ? (
+      {products?.length === undefined  && members?.length === undefined ? (
         <VStack
           w="100%"
           py="32px"

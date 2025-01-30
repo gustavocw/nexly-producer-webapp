@@ -43,7 +43,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const products = createListCollection({
     items: productList || [],
   });
-
+    
   return (
     <HStack wrap="wrap" gap="4">
       <DialogRoot
@@ -53,7 +53,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
         onOpenChange={(e) => setIsOpen(e.open)}
       >
         <DialogTrigger asChild>
-          <Btn disabled={!productsAll} w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
+          <Btn disabled={productsAll?.length === 0} w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
         </DialogTrigger>
         <DialogContent padding={4} bg="neutral.60" p="12px">
           <DialogHeader pb={8}>
@@ -63,7 +63,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
             </DialogDescription>
           </DialogHeader>
           <DialogBody>
-            <VStack w="100%">
+            <VStack gap="32px" w="100%">
               <Input.Base
                 name="name"
                 control={control}

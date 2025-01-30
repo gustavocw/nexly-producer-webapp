@@ -17,7 +17,7 @@ const Integrations = () => {
     <VStack gap="32px" px={8} align="stretch">
       <VStack align="flex-start" justify="center" spaceY={5} py={5}>
         <Text.Medium fontSize="24px">
-          Integrações ({integrations.length})
+          Integrações {`(${integrations.length})`}
         </Text.Medium>
         <Tabs.Root>
           <NavOptions

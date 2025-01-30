@@ -215,7 +215,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                         setModuleId(module._id);
                         navigate(`/infoproducts/create/platfoms/${module._id}`);
                       }}
-                      w="260px"
+                      w="20vw"
                       iconLeft={<HiPlus />}
                       label="Adicionar aulas via integração"
                     />
@@ -223,7 +223,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                       onClick={() =>
                         navigate(`/infoproducts/create/video/${module._id}`)
                       }
-                      w="260px"
+                      w="20vw"
                       iconLeft={<HiPlus />}
                       label="Adicionar uma aula única"
                     />

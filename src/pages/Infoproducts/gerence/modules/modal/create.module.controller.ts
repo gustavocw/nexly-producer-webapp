@@ -52,12 +52,14 @@ export const useCreateModuleController = ({
   const { product } = useProducts();
   const idProduct = product?._id ?? productId;
 
+
   const {
     control,
     handleSubmit,
     formState: { errors },
     reset,
     setValue,
+    watch,
   } = useForm<ModuleFormData>({
     resolver: zodResolver(moduleSchema),
     mode: "onBlur",
@@ -68,13 +70,23 @@ export const useCreateModuleController = ({
       format: isEdit ? module?.format || "" : "",
     },
   });
+  
+ 
+  const formValues = watch();
+  
+  const isValid =
+    formValues.name &&
+    formValues.description &&
+    !errors.name &&
+    !errors.description;
+  
 
   const updateFile = (file?: File | null) => {
     setFile(file);
   };
 
 
-  const { mutate: mutateModule } = useMutation({
+  const { mutate: mutateModule, isPending: creatingModule } = useMutation({
     mutationFn: (params: NewModule) => createModule(idProduct, params),
     onSuccess: () => {
       toaster.create({
@@ -85,7 +97,7 @@ export const useCreateModuleController = ({
     },
   });
 
-  const { mutate: mutateEditModule } = useMutation({
+  const { mutate: mutateEditModule, isPending: updatingModule } = useMutation({
     mutationFn: (params: NewModule) => editModule(params._id, params),
     onSuccess: () => {
       toaster.create({
@@ -119,6 +131,9 @@ export const useCreateModuleController = ({
   return {
     control,
     handleSubmit,
+    creatingModule,
+    isValid,
+    updatingModule,
     updateFile,
     errors,
     setValue,

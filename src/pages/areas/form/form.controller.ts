@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +12,17 @@ export const createAreaSchema = z.object({
     .min(3, { message: "O 'domain' deve ter pelo menos 3 caracteres" }),
   color: z.string().nonempty({ message: "O campo 'color' é obrigatório" }),
   title: z.string().nonempty({ message: "O campo 'title' é obrigatório" }),
+  background: z
+    .string()
+    .url({ message: "Insira uma URL válida" })
+    .refine((url) => {
+      return (
+        url.includes("youtube.com") ||
+        url.includes("youtu.be") ||
+        url.includes("vimeo.com") ||
+        url.match(/\.(jpeg|jpg|gif|png|webp)$/)
+      );
+    }, { message: "A URL deve ser um link de imagem ou um vídeo do YouTube/Vimeo" }),
 });
 
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
@@ -41,8 +52,10 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       domain: selectedArea?.domain || "",
       color: selectedArea?.color || "",
       title: selectedArea?.title || "",
+      background: selectedArea?.background || "",
     },
   });
+  
 
   const updateFile = (name: keyof typeof files, file: File | null) => {
     setFiles((prev) => ({ ...prev, [name]: file }));
@@ -75,6 +88,21 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (selectedArea) {
+      setValue("domain", selectedArea.domain);
+      setValue("color", selectedArea.color);
+      setValue("title", selectedArea.title);
+      setValue("background", selectedArea.background || "");
+      
+      setFiles({
+        background: selectedArea.background ? new File([], selectedArea.background) : null,
+        icon: selectedArea.icon ? new File([], selectedArea.icon) : null,
+        logo: selectedArea.logo ? new File([], selectedArea.logo) : null,
+      });
+    }
+  }, [selectedArea, setValue, setFiles]);
 
   return {
     control,

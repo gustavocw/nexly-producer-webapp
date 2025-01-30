@@ -1,7 +1,7 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import Input from "components/input/input";
 import TitlePage from "components/titlePage/titlePage";
-import useCreateProductController from "./create.products.controller";
+import { useCreateProductController } from "./create.products.controller";
 import Select from "components/select/select";
 import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
@@ -15,8 +15,11 @@ const CreateProduct = () => {
     navigate,
     handleSubmit,
     onSubmit,
+    isValid,
     updateFile,
     areaList,
+    updatingCourse,
+    creatingCourse,
   } = useCreateProductController();
 
   const options = [
@@ -38,8 +41,7 @@ const CreateProduct = () => {
     { value: "moda", label: "Moda" },
     { value: "arquitetura", label: "Arquitetura" },
     { value: "esportes", label: "Esportes" },
-];
-
+  ];
 
   return (
     <VStack w="100%" align="flex-start" px={8}>
@@ -97,7 +99,13 @@ const CreateProduct = () => {
             bg="transparent"
             onClick={() => navigate("/infoproducts")}
           />
-          <Btn w="50%" label="Salvar" onClick={handleSubmit(onSubmit)} />
+          <Btn
+            disabled={!isValid}
+            isLoading={creatingCourse || updatingCourse}
+            w="50%"
+            label="Salvar"
+            onClick={handleSubmit(onSubmit)}
+          />
         </HStack>
       </VStack>
     </VStack>

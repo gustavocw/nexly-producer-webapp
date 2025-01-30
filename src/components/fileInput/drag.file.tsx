@@ -30,7 +30,6 @@ export const DragFile: React.FC<DragFileProps> = ({
     if (value instanceof File) {
       const filePreview = URL.createObjectURL(value);
       setPreview(filePreview);
-
       return () => {
         URL.revokeObjectURL(filePreview);
       };

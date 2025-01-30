@@ -71,7 +71,7 @@ const ProfileForm: React.FC<{
         </HStack>
       </VStack>
       <Divider width="100%" />
-      <VStack w="100%" gap="16px">
+      <VStack w="100%" gap="32px">
         <HStack gap="20px" w="100%">
           <Input.Base
             label="Nome"

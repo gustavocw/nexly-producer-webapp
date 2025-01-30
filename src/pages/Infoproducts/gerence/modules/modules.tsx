@@ -9,10 +9,16 @@ interface ModulesProps {
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
+  console.log(data?.modules);
+
+  const hasNoModules =
+    data?.modules?.length === 1 &&
+    data?.modules[0]?._id === null &&
+    data?.modules[0]?.lessons_count === 0;
 
   return (
     <Flex w="100%">
-      {data?.modules && data?.modules[0]?.lessons_count === null ? (
+      {hasNoModules ? (
         <HStack gap="32px" w="100%">
           <VStack
             w="100%"

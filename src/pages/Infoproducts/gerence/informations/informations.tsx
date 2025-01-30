@@ -11,6 +11,7 @@ import { formatDateToString } from "utils/formatDateToString";
 import { capitalizeFirstLetter } from "utils/captalizeData";
 import ModalCreateMember from "pages/members/creare/modal.create.members";
 import { MenuContent, MenuRoot, MenuTrigger } from "components/ui/menu";
+import { FaUsers } from "react-icons/fa";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const {
@@ -100,7 +101,10 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
             />
           </Flex>
           <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
-            <SearchBar onChange={(value) => setSeach(value)} placeholder="Pesquisar membros" />
+            <SearchBar
+              onChange={(value) => setSeach(value)}
+              placeholder="Pesquisar membros"
+            />
             <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
@@ -127,7 +131,31 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
           </Flex>
         </HStack>
       </HStack>
-      <TableMembers refetch={refetchMembers} data={members} />
+      {members?.length === 0 ? (
+        <VStack
+          w="100%"
+          py="32px"
+          px="10px"
+          gap="20px"
+          boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
+        >
+          <Icon fontSize="44px" color="neutral">
+            <FaUsers />
+          </Icon>
+          <VStack gap="10px" lineHeight={1.5} w="100%">
+            <Text.Medium
+              textAlign="center"
+              maxW="70%"
+              fontSize="24px"
+              color="neutral"
+            >
+              Este info produto ainda não possui nenhum membro.
+            </Text.Medium>
+          </VStack>
+        </VStack>
+      ) : (
+        <TableMembers refetch={refetchMembers} data={members} />
+      )}
     </VStack>
   );
 };

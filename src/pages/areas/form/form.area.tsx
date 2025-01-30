@@ -124,6 +124,14 @@ const FormArea: React.FC<{
         width="80%"
       />
 
+      <Input.Base
+        control={control}
+        label="URL Background"
+        name="background"
+        placeholder="URL da imagem ou vídeo (YouTube/Vimeo)"
+        width="80%"
+      />
+
       <Flex gap="2" w="80%" justify="space-between">
         <DragFile
           label="Background da área"

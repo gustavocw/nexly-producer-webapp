@@ -37,7 +37,7 @@ const Select: React.FC<SelectProps> = ({
   isRequired,
 }) => {
   const collection = React.useMemo(() => {
-    if (!Array.isArray(options) || options.length === 0) {
+    if (!Array.isArray(options) || options?.length === 0) {
       return createListCollection({ items: [] });
     }
     return createListCollection({ items: options });
