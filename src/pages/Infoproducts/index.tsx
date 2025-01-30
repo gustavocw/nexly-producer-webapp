@@ -79,8 +79,10 @@ const Infoproducts = () => {
               gap="20px"
               boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
             >
-              <BooksIcon width="42px" />
-              <VStack gap="10px" lineHeight={1.5} w="100%">
+              <Icon fontSize="58px" color="neutral">
+                <BooksIcon width="58px" />
+              </Icon>
+              <VStack gap="32px" lineHeight={1.5} w="100%">
                 <Text.Medium fontSize="24px" color="neutral">
                   Nenhum produto encontrado
                 </Text.Medium>
@@ -99,8 +101,10 @@ const Infoproducts = () => {
               gap="20px"
               boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
             >
-              <BooksIcon width="42px" />
-              <VStack gap="10px" lineHeight={1.5} w="100%">
+              <Icon fontSize="58px" color="neutral">
+                <BooksIcon width="58px" />
+              </Icon>
+              <VStack gap="32px" lineHeight={1.5} w="100%">
                 <Text.Medium fontSize="24px" color="neutral">
                   Você ainda não possui um infoproduto
                 </Text.Medium>
@@ -122,10 +126,10 @@ const Infoproducts = () => {
               gap="20px"
               boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
             >
-              <Icon fontSize="44px" color="neutral">
+              <Icon fontSize="58px" color="neutral">
                 <BsTextareaResize />
               </Icon>
-              <VStack gap="10px" lineHeight={1.5} w="100%">
+              <VStack gap="32px" lineHeight={1.5} w="100%">
                 <Text.Medium fontSize="24px" color="neutral">
                   Você ainda não criou uma área de membro, clique em "Nova área"
                   para criar uma.

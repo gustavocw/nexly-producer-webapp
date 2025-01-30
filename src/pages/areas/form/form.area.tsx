@@ -74,7 +74,7 @@ const FormArea: React.FC<{
         </Tabs.Trigger>
       </Flex>
 
-      <Flex w="80%" gap={2} justify="space-between" alignItems="center">
+      <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
         <Input.Base
           control={control}
           label="Nome da área"
