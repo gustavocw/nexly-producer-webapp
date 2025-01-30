@@ -1,4 +1,4 @@
-import { HStack, Image, Link, VStack } from "@chakra-ui/react";
+import { HStack, Image, Link, VStack, Box } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import type React from "react";
@@ -32,19 +32,23 @@ const LastPost: React.FC<LastPostProps> = ({ posts }) => {
       alignItems="flex-start"
       gap="20px"
     >
-      {posts?.length > 0 ? (
-        posts?.map((post) => (
-          <HStack key={post._id} gap="16px" w="100%">
-            <Image w="120px" h="80px" borderRadius="8px" src={post.thumbnail} />
-            <VStack alignItems="flex-start">
-              <Text.Medium fontSize="14px">{truncateText(post.name, 5)}</Text.Medium>
-              <Text.Medium fontSize="14px">{post.duration}</Text.Medium>
-              <Text.Medium fontSize="14px">{formatDateToString(post.createdAt)}</Text.Medium>
-            </VStack>
-          </HStack>
-        ))
+      {posts?.length === 0 || !posts ? (
+        posts?.map((post) =>
+          post.name && post.thumbnail ? (
+            <HStack key={post._id} gap="16px" w="100%">
+              <Image w="120px" h="80px" borderRadius="8px" src={post.thumbnail} />
+              <VStack alignItems="flex-start">
+                <Text.Medium fontSize="14px">{truncateText(post.name, 5)}</Text.Medium>
+                <Text.Medium fontSize="14px">{post.duration}</Text.Medium>
+                <Text.Medium fontSize="14px">{formatDateToString(post.createdAt)}</Text.Medium>
+              </VStack>
+            </HStack>
+          ) : null
+        )
       ) : (
-        <Text.Medium fontSize="16px">Sem posts recentes.</Text.Medium>
+        <Box w="100%">
+          <Text.Medium fontSize="16px">Nenhum post recente.</Text.Medium>
+        </Box>
       )}
       {posts?.length > 0 && (
         <>

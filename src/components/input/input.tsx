@@ -68,7 +68,7 @@ const InputBase: React.FC<InputProps> = ({
       }, [error, errorToast]);
 
       return (
-        <Box width={width || "100%"} height={height || "auto"} position="relative">
+        <Box my={2} width={width || "100%"} height={height || "auto"} position="relative">
           {label && (
             <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
               {label} {isRequired && "*"}
@@ -84,7 +84,7 @@ const InputBase: React.FC<InputProps> = ({
             disabled={isDisabled}
             maxLength={maxLength}
             height="40px"
-            borderColor={error ? "red.500" : "neutral.30"} // Borda muda se houver erro
+            borderColor={error ? "red.500" : "neutral.30"}
             _placeholder={{ color: "#FFFFFF40" }}
             bg="transparent"
             px={2}
@@ -166,6 +166,7 @@ const InputText: React.FC<InputProps> = ({
             maxH={maxH ?? "200px"}
             minH={minH ?? "200px"}
             p={2}
+            color="neutral"
             disabled={isDisabled}
             maxLength={maxLength}
             borderColor={error ? "red.500" : "neutral.30"}

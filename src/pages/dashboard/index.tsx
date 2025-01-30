@@ -29,7 +29,7 @@ const Dashboard = () => {
           </VStack>
           <VStack align="flex-start" gap="20px" width="30%">
           <Card value={weeklyChange} />
-          <Statistis time={100} viewers={30} />
+          <Statistis time={0} viewers={0} />
             <LastPost posts={chartPosts} />
           </VStack>
         </HStack>

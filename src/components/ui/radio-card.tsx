@@ -35,7 +35,7 @@ export const RadioCardItem = React.forwardRef<
       <RadioCard.ItemControl>
         {indicatorPlacement === "start" && indicator !== false && indicator}
         {hasContent && (
-          <ContentWrapper>
+          <ContentWrapper bg="neutral.60">
             {icon}
             {label && <RadioCard.ItemText>{label}</RadioCard.ItemText>}
             {description && (

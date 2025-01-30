@@ -66,20 +66,25 @@ const countDaysOfWeek = (data: { createdAt: string }[]) => {
 };
 
 const countDaysOfMonth = (data: { createdAt: string }[]) => {
-  const daysOfMonth = Array.from({ length: 31 }, (_, i) => ({
-    name: (i + 1).toString().padStart(2, "0"),
+  const displayDays = ["01", "05", "10", "20", "25", "30", "31"];
+  const daysOfMonth = displayDays.map((day) => ({
+    name: day,
     value: 0,
   }));
 
   data.forEach((item) => {
     const date = new Date(item.createdAt);
-    const dayOfMonth = date.getDate();
+    const dayOfMonth = date.getDate().toString().padStart(2, "0");
 
-    daysOfMonth[dayOfMonth - 1].value++;
+    const index = displayDays.indexOf(dayOfMonth);
+    if (index !== -1) {
+      daysOfMonth[index].value++;
+    }
   });
 
   return daysOfMonth;
 };
+
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -151,8 +156,8 @@ const GraphicNexly = ({
               dataKey="name"
               tick={{ fill: "#FFFFFF", fontSize: 10 }}
               tickLine={{ transform: "translate(0, 6)" }}
-              interval={0}
-              textAnchor="start"
+              interval={0} // Mostra todas as labels
+              textAnchor="middle"
             />
             <YAxis
               domain={[0, Math.max(...yAxisTicks)]}

@@ -31,6 +31,9 @@ const Infoproducts = () => {
     setSearch(value);
   };
 
+  console.log(products?.length);
+  
+
   return (
     <Stack gap="32px" px={8}>
       <VStack align="flex-start" justify="center" pt={5}>
@@ -69,7 +72,7 @@ const Infoproducts = () => {
           </HStack>
         </HStack>
       </VStack>
-      {products?.length === 0 && !isLoadingProducts ? (
+      {products?.length === undefined || products?.length === 0 && !isLoadingProducts ? (
         hasSearch ? (
           <VStack gap="32px" w="100%">
             <VStack

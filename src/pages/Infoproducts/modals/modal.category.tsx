@@ -36,6 +36,8 @@ const CardRadio = () => {
             cursor="pointer"
             divideColor="neutral.40"
             border="1px solid"
+            disabled={item.value !== "curso-em-video"}
+            _disabled={{ color: "neutral.10" }}
             borderColor="neutral.40"
             label={item.title}
             key={item.value}

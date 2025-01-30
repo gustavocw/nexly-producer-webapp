@@ -123,7 +123,7 @@ const FormRegister = () => {
               placeholder="(99) 99999-9999"
               mask="(99) 99999-9999"
             />
-            <Flex alignItems="flex-end" gap={2} w="100%">
+            <Flex alignItems="center" gap={2} w="100%">
               <Input.Base
                 height="44px"
                 errorToast

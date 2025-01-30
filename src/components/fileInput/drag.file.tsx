@@ -65,7 +65,7 @@ export const DragFile: React.FC<DragFileProps> = ({
           display: "none",
         }}
         label={
-          <VStack>
+          <VStack py={10}>
             <Image
               w={preview ? "200px" : "50px"}
               src={preview || "/images/FileImage.svg"}

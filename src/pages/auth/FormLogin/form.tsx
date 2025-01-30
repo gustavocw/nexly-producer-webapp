@@ -36,7 +36,7 @@ const FormLogin = () => {
             Nexly members!
           </Text.Base>
         </VStack>
-        <VStack w="100%" gap="32px">
+        <VStack w="100%" gap="12px">
           <Input.Base
             control={control}
             name="email"
