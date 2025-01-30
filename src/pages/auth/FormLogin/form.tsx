@@ -15,7 +15,7 @@ const FormLogin = () => {
   return (
     <VStack justify="space-between" w="100%" h="100%">
       <Image width="200px" h="100px" src="images/logo.png" />
-      <Box w="50%" maxH="358px">
+      <Box w={{ base: "90%", md: "50%" }} maxH="358px">
       <VStack
         spaceY={10}
         w="100%"

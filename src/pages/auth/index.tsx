@@ -7,8 +7,10 @@ const AuthProducer = () => {
   const { stepLogin } = useAuthStore();
 
   return (
-    <Flex flex={1} w="100%" h="100vh">
-      <VStack py="32px" w="40%" h="100%">
+    <Flex
+    flexDirection={{ base: "column", lg: "row" }}
+     flex={1} w="100%" h="100vh">
+      <VStack h="100%" w={{ base: "100%", lg: "50%" }} py="32px">
         {!stepLogin ? <FormLogin /> : <FormRegister />}
       </VStack>
       <Flex
@@ -17,7 +19,6 @@ const AuthProducer = () => {
         h={{ base: "50%", lg: "100%" }}
         justify="center"
         width={{ base: "100%", lg: "70%" }}
-        w="60%"
       >
         <Image
           m="auto"
