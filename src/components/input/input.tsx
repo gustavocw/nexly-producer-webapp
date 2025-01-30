@@ -16,14 +16,14 @@ interface InputProps {
   type?: React.HTMLInputTypeAttribute;
   isTextarea?: boolean;
   isRequired?: boolean;
-  errorText?: string;
+  errorText?: string | undefined;
   width?: any;
   height?: string | number;
   isReadOnly?: boolean;
   isDisabled?: boolean;
   autoComplete?: string;
   maxLength?: number;
-  mask?: string;
+  mask?: string | null;
   helperText?: string;
   maxH?: string;
   minH?: string;

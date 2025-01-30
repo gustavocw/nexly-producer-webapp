@@ -1,7 +1,7 @@
-import { Stack, VStack, Image, Flex, Link, HStack } from "@chakra-ui/react";
+import { Box, VStack, Image, Flex, Link, HStack } from "@chakra-ui/react";
 import Input from "components/input/input";
 import Text from "components/text/text";
-import { useLoginController } from "./login.controller";
+import { useLoginController } from "./controller";
 import { RadioGroup } from "components/ui/radio";
 import Btn from "components/button/button";
 import useAuthStore from "stores/auth.store";
@@ -13,12 +13,12 @@ const FormLogin = () => {
   const { setStepLogin, setEmail, setPassword } = useAuthStore();
 
   return (
-    <Stack justify="space-between" alignItems="center" h="100%" width="100%">
+    <VStack justify="space-between" w="100%" h="100%">
       <Image width="200px" h="100px" src="images/logo.png" />
+      <Box w="50%" maxH="358px">
       <VStack
-        mb={40}
         spaceY={10}
-        w={{ base: "90%", md: "70%", lg: "50%" }}
+        w="100%"
         lineHeight={1}
       >
         <VStack w="100%">
@@ -84,8 +84,9 @@ const FormLogin = () => {
           </HStack>
           <Btn label="Entrar" onClick={handleSubmit(onSubmit)} />
         </VStack>
-      </VStack>
-      <Flex py={10} gap={2}>
+        </VStack>
+      </Box>
+      <Flex gap={2}>
         <Text.Base>Não possui um conta?</Text.Base>
         <Link
           onClick={() => setStepLogin(true)}
@@ -95,7 +96,7 @@ const FormLogin = () => {
           Cadastre-se
         </Link>
       </Flex>
-    </Stack>
+    </VStack>
   );
 };
 
