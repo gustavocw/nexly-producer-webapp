@@ -7,7 +7,7 @@ import useAuthStore from "stores/auth.store";
 import { toaster } from "components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
-import { validateCPF } from "utils/validateCPF";
+import { validateCPF } from "utils/validateCpf";
 
 export const registerSchema = z
   .object({
