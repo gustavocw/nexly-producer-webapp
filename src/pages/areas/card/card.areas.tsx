@@ -85,18 +85,18 @@ const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
           />
 
           <Flex position="absolute" top="0" w="100%" p="12px" gap={2}>
-            <Skeleton loading={!iconLoaded} w="60px" h="60px" borderRadius="full">
+            <Skeleton loading={!iconLoaded} w="30px" h="30px" borderRadius="full">
               <Image
-                w="60px"
-                h="60px"
+                w="30px"
+                h="30px"
                 src={icon}
                 onLoad={() => setIconLoaded(true)}
               />
             </Skeleton>
-            <Skeleton loading={!logoLoaded} w="60px" h="60px" borderRadius="full">
+            <Skeleton loading={!logoLoaded} w="30px" h="30px" borderRadius="full">
               <Image
-                w="60px"
-                h="60px"
+                w="30px"
+                h="30px"
                 src={logo}
                 onLoad={() => setLogoLoaded(true)}
               />
