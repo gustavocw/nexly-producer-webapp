@@ -1,4 +1,11 @@
-import { Flex, Icon, Image, Table, VStack, Skeleton, Link } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Image,
+  Table,
+  VStack,
+  Skeleton
+} from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import OndemandVideoOutlinedIcon from "@mui/icons-material/OndemandVideoOutlined";
@@ -26,7 +33,7 @@ interface TableProducts {
 
 const TableProducts: React.FC<TableProducts> = ({ data }) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const { setProduct, areas } = useProducts();
+  const { setProduct } = useProducts();
   const { setProductId } = useProductStore();
   const renderStatusIcon = (state: string, deldate?: any) => {
     if (deldate) {
@@ -313,18 +320,10 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
             ))
           ) : (
             <Flex w="100%" p={4}>
-              {areas?.length === 0 || areas?.length === undefined ? (
-                <Text.Medium fontSize="20px">
-                  Você ainda não criou nenhuma área de membro. Vá até <Link href="/areas" color="primary.40">
-                  "Áreas de
-                  membro"</Link> e crie uma.
-                </Text.Medium>
-              ) : (
-                <Text.Medium fontSize="20px">
-                  Você ainda não possui nenhum infoproduto. Para criar o
-                  primeiro, clique em "Novo Produto".
-                </Text.Medium>
-              )}
+              <Text.Medium fontSize="20px">
+                Você ainda não possui nenhum infoproduto. Para criar o primeiro,
+                clique em "Novo Produto".
+              </Text.Medium>
             </Flex>
           )}
         </Table.Body>

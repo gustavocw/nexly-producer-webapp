@@ -26,9 +26,11 @@ import {
 import { createListCollection } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useProducts } from "hooks/useProducts";
 
 const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const {products: productsAll} = useProducts();
   const { id } = useParams();
   const {
     control,
@@ -51,7 +53,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
         onOpenChange={(e) => setIsOpen(e.open)}
       >
         <DialogTrigger asChild>
-          <Btn w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
+          <Btn disabled={!productsAll} w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
         </DialogTrigger>
         <DialogContent padding={4} bg="neutral.60" p="12px">
           <DialogHeader pb={8}>

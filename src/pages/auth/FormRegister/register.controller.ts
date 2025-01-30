@@ -7,6 +7,7 @@ import useAuthStore from "stores/auth.store";
 import { toaster } from "components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
+import { validateCPF } from "utils/validateCPF";
 
 export const registerSchema = z
   .object({
@@ -32,7 +33,10 @@ export const registerSchema = z
       }),
     identity: z
       .string({ required_error: "O campo CPF/CNPJ é obrigatório" })
-      .min(11, { message: "O CPF deve ter no mínimo 11 caracteres" }),
+      .min(11, { message: "O CPF deve ter no mínimo 11 caracteres" })
+      .refine((cpf) => validateCPF(cpf), {
+        message: "CPF inválido",
+      }),
     password: z
       .string({
         required_error: "O campo senha é obrigatório",

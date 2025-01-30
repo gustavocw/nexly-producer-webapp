@@ -1,4 +1,4 @@
-import { Flex, HStack, Stack, VStack } from "@chakra-ui/react";
+import { Flex, HStack, Icon, Stack, VStack } from "@chakra-ui/react";
 import SelectOption from "components/selectOption/select";
 import SearchBar from "components/search/search";
 import BooksIcon from "assets/icons/BooksIcon";
@@ -7,6 +7,10 @@ import { ModalCategoryProduct } from "./modals/modal.category";
 import TableProducts from "./products/products.table";
 import useInfoproductsController from "./index.controller";
 import useProductStore from "stores/product.store";
+import { useProducts } from "hooks/useProducts";
+import { BsArrowRight, BsTextareaResize } from "react-icons/bs";
+import Btn from "components/button/button";
+import { useNavigate } from "react-router-dom";
 
 const Infoproducts = () => {
   const {
@@ -17,11 +21,12 @@ const Infoproducts = () => {
     areasList,
     isLoadingProducts,
   } = useInfoproductsController();
-
+  const navigate = useNavigate();
   const { setSearch, search } = useProductStore();
+  const { areas } = useProducts();
 
   const hasSearch = (search ?? "").trim().length > 0;
- 
+
   const handleSearchChange = (value: string) => {
     setSearch(value);
   };
@@ -55,7 +60,10 @@ const Infoproducts = () => {
               />
             </Flex>
             <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
-              <SearchBar onChange={handleSearchChange} placeholder="Pesquisar produto" />
+              <SearchBar
+                onChange={handleSearchChange}
+                placeholder="Pesquisar produto"
+              />
               <ModalCategoryProduct />
             </Flex>
           </HStack>
@@ -105,8 +113,34 @@ const Infoproducts = () => {
           </VStack>
         )
       ) : (
-        <VStack gap="20px">
-          <TableProducts data={products} />
+        <VStack align="flex-start" gap="20px">
+          {areas?.length === 0 || areas?.length === undefined ? (
+            <VStack
+              w="100%"
+              py="32px"
+              px="10px"
+              gap="20px"
+              boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
+            >
+              <Icon fontSize="44px" color="neutral">
+                <BsTextareaResize />
+              </Icon>
+              <VStack gap="10px" lineHeight={1.5} w="100%">
+                <Text.Medium fontSize="24px" color="neutral">
+                  Você ainda não criou uma área de membro, clique em "Nova área"
+                  para criar uma.
+                </Text.Medium>
+                <Btn
+                  iconRight={<BsArrowRight />}
+                  w="260px"
+                  label="Ir para áreas de membro"
+                  onClick={() => navigate("/areas")}
+                />
+              </VStack>
+            </VStack>
+          ) : (
+            <TableProducts data={products} />
+          )}
         </VStack>
       )}
     </Stack>

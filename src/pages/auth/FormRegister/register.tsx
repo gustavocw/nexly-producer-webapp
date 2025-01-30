@@ -26,44 +26,48 @@ const FormRegister = () => {
       alignItems={{ base: "center", md: "center", lg: "flex-start" }}
       h="100%"
       width="100%"
+      py="32px"
     >
-      <Stack w={{ base: "90%", md: "80%", lg: "70%" }} mx="auto">
-        <Image my={10} width="150px" src="images/logo-name-svg.svg" />
-        <Flex>
-          {step === 1 && (
+      <VStack
+        justify="space-around"
+        h="100%"
+        w={{ base: "100%", md: "100%", lg: "100%" }}
+        mx="auto"
+      >
+        <Flex w="70%">
+        <Image width="150px" src="images/logo-name-svg.svg" />
+        </Flex>
+        <VStack align="flex-start" spaceY={4} w="70%" lineHeight={1}>
+          <VStack align="flex-start">
+            {step === 1 && (
+              <Box
+                _hover={{ color: "fff", bg: "transparent" }}
+                color="white"
+                cursor="pointer"
+                onClick={() => setStep(step - 1)}
+              >
+                <KeyboardArrowLeftOutlinedIcon />
+              </Box>
+            )}
+          </VStack>
+          <Flex w="100%" mx={{ base: "auto", md: "auto", lg: "0" }}>
             <Box
-              _hover={{ color: "fff", bg: "transparent" }}
-              color="white"
-              cursor="pointer"
-              onClick={() => setStep(step - 1)}
-            >
-              <KeyboardArrowLeftOutlinedIcon />
-            </Box>
-          )}
-        </Flex>
-        <Flex mx={{ base: "auto", md: "auto", lg: "0" }} my={10}>
-          <Box
-            width={step === 0 ? "30px" : "12px"}
-            height="12px"
-            borderRadius="20px"
-            transition="width 0.5s ease"
-            bg={step === 0 ? "purple.500" : "gray.300"}
-            mr="2"
-          />
-          <Box
-            width={step === 1 ? "30px" : "12px"}
-            height="12px"
-            borderRadius="20px"
-            transition="width 0.5s ease"
-            bg={step === 1 ? "purple.500" : "gray.300"}
-          />
-        </Flex>
-        <VStack spaceY={10} w="100%" lineHeight={1}>
-          <VStack
-            gap={3}
-            alignItems={{ base: "center", md: "center", lg: "flex-start" }}
-            w="100%"
-          >
+              width={step === 0 ? "30px" : "12px"}
+              height="12px"
+              borderRadius="20px"
+              transition="width 0.5s ease"
+              bg={step === 0 ? "purple.500" : "gray.300"}
+              mr="2"
+            />
+            <Box
+              width={step === 1 ? "30px" : "12px"}
+              height="12px"
+              borderRadius="20px"
+              transition="width 0.5s ease"
+              bg={step === 1 ? "purple.500" : "gray.300"}
+            />
+          </Flex>
+          <VStack gap={3} alignItems="flex-start" w="100%">
             <Text.Base
               textWrap="nowrap"
               textAlign="left"
@@ -83,13 +87,13 @@ const FormRegister = () => {
           </VStack>
           <VStack
             px={{ base: "5", md: "5", lg: 0 }}
-            alignItems={{ base: "center", md: "center", lg: "flex-start" }}
+            alignItems="center"
             w="100%"
           >
             {step === 0 ? (
-              <VStack mb="2" w="100%" spaceY={2}>
+              <VStack justify="center" w="100%" mb="2" spaceY={2}>
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="name"
                   label="Nome"
@@ -97,7 +101,7 @@ const FormRegister = () => {
                   errorText={errors.name?.message}
                 />
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="lastname"
                   label="Sobrenome"
@@ -105,7 +109,7 @@ const FormRegister = () => {
                   errorText={errors.lastname?.message}
                 />
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="email"
                   label="Email"
@@ -113,7 +117,7 @@ const FormRegister = () => {
                   errorText={errors.email?.message}
                 />
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="phone"
                   label="Celular/Whatsapp"
@@ -122,7 +126,7 @@ const FormRegister = () => {
                   errorText={errors.phone?.message}
                 />
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="identity"
                   label="CPF/CNPJ"
@@ -135,7 +139,7 @@ const FormRegister = () => {
             ) : (
               <>
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="password"
                   label="Senha"
@@ -144,7 +148,7 @@ const FormRegister = () => {
                   errorText={errors.password?.message}
                 />
                 <Input.Base
-                  width={{ base: "100%", md: "100%", lg: "70%" }}
+                  height="4vh"
                   control={control}
                   name="confirmPassword"
                   label="Confirmar Senha"
@@ -155,23 +159,23 @@ const FormRegister = () => {
               </>
             )}
             <Btn
-              w={{ base: "100%", md: "100%", lg: "70%" }}
+              w="100%"
               label={step === 0 ? "Continuar" : "Criar conta"}
               onClick={handleNextStep}
             />
           </VStack>
         </VStack>
-      </Stack>
-      <Flex justify="center" textAlign="center" py={5} w="80%" gap={2}>
-        <Text.Base>Não possui uma conta?</Text.Base>
-        <Link
-          onClick={() => setStepLogin(false)}
-          textDecoration="none"
-          color="primary.50"
-        >
-          Fazer login.
-        </Link>
-      </Flex>
+        <Flex justify="center" textAlign="center" py={5} w="80%" gap={2}>
+          <Text.Base>Não possui uma conta?</Text.Base>
+          <Link
+            onClick={() => setStepLogin(false)}
+            textDecoration="none"
+            color="primary.50"
+          >
+            Fazer login.
+          </Link>
+        </Flex>
+      </VStack>
     </Stack>
   );
 };

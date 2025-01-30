@@ -24,8 +24,16 @@ const FormArea: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
   selectedArea: Area | null;
 }> = ({ setSubmitHandler, selectedArea }) => {
-  const { control, errors, handleSubmit, files, setFiles, setValue, onSubmit, updateFile } =
-    useCreateAreaController(selectedArea);
+  const {
+    control,
+    errors,
+    handleSubmit,
+    files,
+    setFiles,
+    setValue,
+    onSubmit,
+    updateFile,
+  } = useCreateAreaController(selectedArea);
 
   React.useEffect(() => {
     setSubmitHandler(() => handleSubmit(onSubmit)());
@@ -37,7 +45,9 @@ const FormArea: React.FC<{
       setValue("domain", selectedArea.domain);
       setValue("color", selectedArea.color);
       setFiles({
-        background: selectedArea.background ? new File([], selectedArea.background) : null,
+        background: selectedArea.background
+          ? new File([], selectedArea.background)
+          : null,
         icon: selectedArea.icon ? new File([], selectedArea.icon) : null,
         logo: selectedArea.logo ? new File([], selectedArea.logo) : null,
       });
@@ -54,7 +64,7 @@ const FormArea: React.FC<{
       w="100%"
     >
       <Flex alignItems="center" gap="6px">
-        <Tabs.Trigger display="flex" value="areas">
+        <Tabs.Trigger cursor="pointer" display="flex" value="areas">
           <Icon color="neutral">
             <KeyboardArrowLeftIcon />
           </Icon>
