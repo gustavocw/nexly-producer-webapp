@@ -6,12 +6,13 @@ import Btn from "components/button/button";
 import { useRegisterController } from "./controller";
 import useAuthStore from "stores/auth.store";
 import { useState } from "react";
-import { personalInfoInputs, passwordInputs } from "./fields";
+import { SegmentedControl } from "components/ui/segmented-control";
 
 const FormRegister = () => {
-  const { control, errors, handleSubmit, onSubmit } = useRegisterController();
+  const { control, handleSubmit, onSubmit } = useRegisterController();
   const { setStepLogin } = useAuthStore();
   const [step, setStep] = useState(0);
+  const [identityType, setIdentityType] = useState("CPF");
 
   const handleNextStep = () => {
     if (step === 0) {
@@ -21,13 +22,26 @@ const FormRegister = () => {
     }
   };
 
+  const identityMask =
+    identityType === "CPF" ? "999.999.999-99" : "99.999.999/9999-99";
+  const identityLabel = identityType === "CPF" ? "CPF" : "CNPJ";
+
   return (
     <VStack maxW="462px" px={2} justify="space-between" w="100%" h="100%">
       <Flex w="100%" justify="flex-start">
         <Image width="150px" src="images/logo-name-svg.svg" />
       </Flex>
-      <VStack gap="22px" w="100%">
-        <VStack w="100%" display={step === 1 ? "flex" : "none"} align="flex-start">
+      <VStack
+        gap="22px"
+        w="100%"
+        maxH={{ base: "70vh", md: "80vh", lg: "auto" }}
+        overflowY="auto"
+      >
+        <VStack
+          w="100%"
+          display={step === 1 ? "flex" : "none"}
+          align="flex-start"
+        >
           {step === 1 && (
             <Box
               _hover={{ color: "fff", bg: "transparent" }}
@@ -56,7 +70,7 @@ const FormRegister = () => {
             bg={step === 1 ? "purple.500" : "gray.300"}
           />
         </Flex>
-        <VStack alignItems="flex-start"  w="100%">
+        <VStack alignItems="flex-start" w="100%">
           <Text.Base
             textWrap="nowrap"
             textAlign="left"
@@ -75,36 +89,81 @@ const FormRegister = () => {
           </Text.Base>
         </VStack>
         {step === 0 ? (
-          <VStack justify="center" w="100%" mb="2" spaceY={2}>
-            {personalInfoInputs.map((input) => (
+          <VStack justify="center" w="100%" spaceY={6}>
+            <Input.Base
+              height="44px"
+              errorToast
+              control={control}
+              name="name"
+              label="Nome"
+              placeholder="Digite seu nome"
+            />
+            <Input.Base
+              height="44px"
+              errorToast
+              control={control}
+              name="lastname"
+              label="Sobrenome"
+              placeholder="Digite seu sobrenome"
+            />
+            <Input.Base
+              height="44px"
+              errorToast
+              control={control}
+              name="email"
+              label="Email"
+              placeholder="Digite seu email"
+            />
+            <Input.Base
+              height="44px"
+              errorToast
+              control={control}
+              name="phone"
+              label="Celular/Whatsapp"
+              placeholder="(99) 99999-9999"
+              mask="(99) 99999-9999"
+            />
+            <Flex alignItems="flex-end" gap={2} w="100%">
               <Input.Base
-                key={input.name}
-                height="4vh"
+                height="44px"
+                errorToast
                 control={control}
-                name={input.name}
-                label={input.label}
-                placeholder={input.placeholder}
-                mask={input.mask}
-                onEnterSubmit={
-                  input.name === "identity" ? handleNextStep : undefined
-                }
-                errorText={errors[input.name as keyof typeof errors]?.message}
+                name="identity"
+                label={identityLabel}
+                placeholder={`Digite seu ${identityLabel}`}
+                mask={identityMask}
               />
-            ))}
+              <SegmentedControl
+                px={2}
+                bg="neutral.60"
+                color="neutral"
+                value={identityType}
+                onValueChange={(value) => setIdentityType(value.value)}
+                items={["CPF", "CNPJ"]}
+              />
+            </Flex>
           </VStack>
         ) : (
-          passwordInputs.map((input) => (
+          <VStack justify="center" w="100%" spaceY={2}>
             <Input.Base
-              key={input.name}
-              height="4vh"
+              height="44px"
+              errorToast
               control={control}
-              name={input.name}
-              label={input.label}
-              type={input.type}
-              placeholder={input.placeholder}
-              errorText={errors[input.name as keyof typeof errors]?.message}
+              name="password"
+              label="Senha"
+              type="password"
+              placeholder="Digite sua senha"
             />
-          ))
+            <Input.Base
+              height="44px"
+              errorToast
+              control={control}
+              name="confirmPassword"
+              label="Confirmar Senha"
+              type="password"
+              placeholder="Confirme sua senha"
+            />
+          </VStack>
         )}
         <Btn
           w="100%"

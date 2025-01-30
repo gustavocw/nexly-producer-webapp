@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import {
   Input as ChakraInput,
   Textarea as ChakraTextarea,
   Box,
 } from "@chakra-ui/react";
-import { Field } from "components/ui/field";
 import { withMask } from "use-mask-input";
+import Text from "components/text/text";
+import { toaster } from "components/ui/toaster";
 
 interface InputProps {
   control: any;
@@ -16,7 +17,6 @@ interface InputProps {
   type?: React.HTMLInputTypeAttribute;
   isTextarea?: boolean;
   isRequired?: boolean;
-  errorText?: string;
   width?: any;
   height?: string | number;
   isReadOnly?: boolean;
@@ -27,6 +27,8 @@ interface InputProps {
   helperText?: string;
   maxH?: string;
   minH?: string;
+  errorText?: string; // Mantendo errorText
+  errorToast?: boolean; // Nova propriedade para exibir toast
   onBlurSubmit?: (value?: any) => void;
   onEnterSubmit?: (value?: any) => void;
 }
@@ -39,7 +41,6 @@ const InputBase: React.FC<InputProps> = ({
   type,
   isRequired,
   helperText,
-  errorText,
   width,
   height,
   isReadOnly,
@@ -47,58 +48,74 @@ const InputBase: React.FC<InputProps> = ({
   autoComplete,
   maxLength,
   mask,
+  errorText,
+  errorToast, // Nova propriedade para toast
   onBlurSubmit,
   onEnterSubmit,
 }) => (
-  <Field
-    helperText={helperText}
-    color="white"
-    label={label}
-    errorText={errorText}
-    required={isRequired}
-    invalid={!!errorText}
-  >
-    <Box width={width || "100%"} height={height || "auto"}>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <>
-            <ChakraInput
-              {...field}
-              type={type}
-              placeholder={placeholder}
-              onChange={(e) => field.onChange(e.target.value)}
-              ref={mask ? withMask(mask) : undefined}
-              readOnly={isReadOnly}
-              disabled={isDisabled}
-              maxLength={maxLength}
-              height="40px"
-              borderColor="neutral.30"
-              _placeholder={{ color: "#FFFFFF40" }}
-              bg="transparent"
-              px={2}
-              color="#FFFFFF"
-              borderRadius="4px"
-              autoComplete={autoComplete}
-              onBlur={(e) => {
-                field.onBlur();
-                if (onBlurSubmit) {
-                  onBlurSubmit(e.target.value);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && onEnterSubmit) {
-                  e.preventDefault();
-                  onEnterSubmit(field.value);
-                }
-              }}
-            />
-          </>
-        )}
-      />
-    </Box>
-  </Field>
+  <Controller
+    name={name}
+    control={control}
+    render={({ field, fieldState: { error } }) => {
+      useEffect(() => {
+        if (error && errorToast) {
+          toaster.create({
+            title: `Erro no campo: ${label || name}`,
+            description: error.message || "Preencha corretamente",
+            type: "error",
+          });
+        }
+      }, [error, errorToast]);
+
+      return (
+        <Box width={width || "100%"} height={height || "auto"} position="relative">
+          {label && (
+            <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
+              {label} {isRequired && "*"}
+            </Text.Medium>
+          )}
+          <ChakraInput
+            {...field}
+            type={type}
+            placeholder={placeholder}
+            onChange={(e) => field.onChange(e.target.value)}
+            ref={mask ? withMask(mask) : undefined}
+            readOnly={isReadOnly}
+            disabled={isDisabled}
+            maxLength={maxLength}
+            height="40px"
+            borderColor={error ? "red.500" : "neutral.30"} // Borda muda se houver erro
+            _placeholder={{ color: "#FFFFFF40" }}
+            bg="transparent"
+            px={2}
+            color="#FFFFFF"
+            borderRadius="4px"
+            autoComplete={autoComplete}
+            onBlur={(e) => {
+              field.onBlur();
+              onBlurSubmit?.(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && onEnterSubmit) {
+                e.preventDefault();
+                onEnterSubmit(field.value);
+              }
+            }}
+          />
+          {helperText && (
+            <Text.Medium fontSize="14px" color="whiteAlpha.600" mt={1}>
+              {helperText}
+            </Text.Medium>
+          )}
+          {error && errorText && (
+            <Text.Medium fontSize="14px" color="red.500" mt={1}>
+              {errorText}
+            </Text.Medium>
+          )}
+        </Box>
+      );
+    }}
+  />
 );
 
 const InputText: React.FC<InputProps> = ({
@@ -107,7 +124,6 @@ const InputText: React.FC<InputProps> = ({
   label,
   placeholder,
   isRequired,
-  errorText,
   width,
   height,
   isReadOnly,
@@ -117,19 +133,30 @@ const InputText: React.FC<InputProps> = ({
   maxH,
   minH,
   mask,
+  errorText,
+  errorToast,
 }) => (
-  <Field
-    color="white"
-    label={label}
-    errorText={errorText}
-    required={isRequired}
-    helperText={helperText}
-  >
-    <Box width={width || "100%"} height={height || "200px"}>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
+  <Controller
+    name={name}
+    control={control}
+    render={({ field, fieldState: { error } }) => {
+      useEffect(() => {
+        if (error && errorToast) {
+          toaster.create({
+            title: `Erro no campo: ${label || name}`,
+            description: error.message || "Preencha corretamente",
+            type: "error",
+          });
+        }
+      }, [error, errorToast]);
+
+      return (
+        <Box width={width || "100%"} height={height || "auto"} position="relative">
+          {label && (
+            <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
+              {label} {isRequired && "*"}
+            </Text.Medium>
+          )}
           <ChakraTextarea
             {...field}
             placeholder={placeholder}
@@ -141,21 +168,27 @@ const InputText: React.FC<InputProps> = ({
             p={2}
             disabled={isDisabled}
             maxLength={maxLength}
-            borderColor="neutral.30"
-            _active={{
-              borderColor: "primary.50",
-            }}
-            _focus={{
-              borderColor: "primary.50",
-            }}
+            borderColor={error ? "red.500" : "neutral.30"}
+            _active={{ borderColor: "primary.50" }}
+            _focus={{ borderColor: "primary.50" }}
             _placeholder={{ color: "#FFFFFF40" }}
             bg="transparent"
             borderRadius="4px"
           />
-        )}
-      />
-    </Box>
-  </Field>
+          {helperText && (
+            <Text.Medium fontSize="14px" color="whiteAlpha.600" mt={1}>
+              {helperText}
+            </Text.Medium>
+          )}
+          {error && errorText && (
+            <Text.Medium fontSize="14px" color="red.500" mt={1}>
+              {errorText}
+            </Text.Medium>
+          )}
+        </Box>
+      );
+    }}
+  />
 );
 
 const Input = {
