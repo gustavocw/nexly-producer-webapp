@@ -22,11 +22,11 @@ const FormRegister = () => {
   };
 
   return (
-    <VStack justify="space-between" w="100%" h="100%">
-      <Flex w="70%" justify="flex-start">
+    <VStack maxW="462px" px={2} justify="space-between" w="100%" h="100%">
+      <Flex w="100%" justify="flex-start">
         <Image width="150px" src="images/logo-name-svg.svg" />
       </Flex>
-      <VStack gap="22px" w="70%">
+      <VStack gap="22px" w="100%">
         <VStack w="100%" display={step === 1 ? "flex" : "none"} align="flex-start">
           {step === 1 && (
             <Box
@@ -56,7 +56,7 @@ const FormRegister = () => {
             bg={step === 1 ? "purple.500" : "gray.300"}
           />
         </Flex>
-        <VStack alignItems="flex-start" w="100%">
+        <VStack alignItems="flex-start"  w="100%">
           <Text.Base
             textWrap="nowrap"
             textAlign="left"

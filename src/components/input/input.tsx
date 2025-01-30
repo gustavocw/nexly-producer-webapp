@@ -16,7 +16,7 @@ interface InputProps {
   type?: React.HTMLInputTypeAttribute;
   isTextarea?: boolean;
   isRequired?: boolean;
-  errorText?: string | undefined;
+  errorText?: string;
   width?: any;
   height?: string | number;
   isReadOnly?: boolean;
