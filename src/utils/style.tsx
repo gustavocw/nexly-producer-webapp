@@ -2,7 +2,7 @@ export const GlobalStyles = () => (
   <style>
     {`
     * {
-      font-family: "Poppins", sans-serif;
+      font-family: "Inter", sans-serif;
       padding: 0;
       margin: 0;
       box-sizing: border-box;

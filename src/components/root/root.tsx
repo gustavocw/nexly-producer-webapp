@@ -12,7 +12,7 @@ export const Root = ({ children }: { children: React.ReactNode }) => {
   });
 
   return (
-    <Flex fontFamily="Poppins" w="100%" height="100vh">
+    <Flex fontFamily="Inter" w="100%" height="100vh">
       <Box
         position={{ base: "fixed", md: "relative" }}
         zIndex="1000"

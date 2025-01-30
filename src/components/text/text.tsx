@@ -8,7 +8,7 @@ interface TextNexlyProps extends TextProps {
 
 const TextBase: React.FC<TextNexlyProps> = (props) => (
   <ChakraText
-    fontFamily="Poppins"
+    fontFamily="Inter"
     fontSize={props.fontSize ?? "16px"}
     fontWeight={props.fontWeight ?? "500"}
     color={props.color ?? "primary"}
@@ -21,7 +21,7 @@ const TextBase: React.FC<TextNexlyProps> = (props) => (
 
 const TextLarge: React.FC<TextNexlyProps> = (props) => (
   <ChakraText
-    fontFamily="Poppins"
+    fontFamily="Inter"
     fontSize={props.fontSize ?? "24px"}
     fontWeight={props.fontWeight ?? "600"}
     color={props.color ?? "primary"}
@@ -34,7 +34,7 @@ const TextLarge: React.FC<TextNexlyProps> = (props) => (
 
 const TextMedium: React.FC<TextNexlyProps> = (props) => (
   <ChakraText
-    fontFamily="Poppins"
+    fontFamily="Inter"
     fontSize={props.fontSize ?? "12px"}
     fontWeight={props.fontWeight ?? "400"}
     color={props.color ?? "primary"}
@@ -48,7 +48,7 @@ const TextMedium: React.FC<TextNexlyProps> = (props) => (
 
 const TextSmall: React.FC<TextNexlyProps> = (props) => (
   <ChakraText
-    fontFamily="Poppins"
+    fontFamily="Inter"
     fontSize={props.fontSize ?? "12px"}
     fontWeight={props.fontWeight ?? "400"}
     color={props.color ?? "primary"}

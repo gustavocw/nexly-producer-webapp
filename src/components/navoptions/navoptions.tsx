@@ -75,7 +75,7 @@ const NavOptions: React.FC<NavOptionsProps> = ({
                   color={selected === option.value ? `${"purple.400"}` : "#FFF"}
                   marginBottom="3"
                   fontWeight="400"
-                  fontFamily="Poppins"
+                  fontFamily="Inter"
                   position="relative"
                 >
                   {option.label}
