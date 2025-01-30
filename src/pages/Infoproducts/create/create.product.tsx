@@ -20,11 +20,27 @@ const CreateProduct = () => {
   } = useCreateProductController();
 
   const options = [
-    { value: "react", label: "React.js" },
-    { value: "vue", label: "Vue.js" },
-    { value: "angular", label: "Angular" },
-    { value: "svelte", label: "Svelte" },
-  ];
+    { value: "programacao", label: "Programação" },
+    { value: "design", label: "Design" },
+    { value: "marketing", label: "Marketing" },
+    { value: "financas", label: "Finanças" },
+    { value: "saude", label: "Saúde" },
+    { value: "educacao", label: "Educação" },
+    { value: "empreendedorismo", label: "Empreendedorismo" },
+    { value: "idiomas", label: "Idiomas" },
+    { value: "gastronomia", label: "Gastronomia" },
+    { value: "fotografia", label: "Fotografia" },
+    { value: "musica", label: "Música" },
+    { value: "desenvolvimento-pessoal", label: "Desenvolvimento Pessoal" },
+    { value: "direito", label: "Direito" },
+    { value: "engenharia", label: "Engenharia" },
+    { value: "gestao", label: "Gestão" },
+    { value: "moda", label: "Moda" },
+    { value: "arquitetura", label: "Arquitetura" },
+    { value: "esportes", label: "Esportes" },
+];
+
+
   return (
     <VStack w="100%" align="flex-start" px={8}>
       <TitlePage

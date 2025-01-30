@@ -4,8 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toaster } from "components/ui/toaster";
 import { useProducts } from "hooks/useProducts";
-import { useMutation } from "@tanstack/react-query";
-import { updateArea } from "services/areas.services";
 
 export const createAreaSchema = z.object({
   domain: z
@@ -19,7 +17,7 @@ export const createAreaSchema = z.object({
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
 
 export const useCreateAreaController = (selectedArea: Area | null) => {
-  const { mutateArea, refetchAreas } = useProducts();
+  const { mutateArea, mutateUpdateArea } = useProducts();
   const [files, setFiles] = useState<{
     background: File | null;
     icon: File | null;
@@ -28,24 +26,6 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
     background: null,
     icon: null,
     logo: null,
-  });
-
-  const { mutate: mutateUpdateArea } = useMutation({
-    mutationFn: (payload: any) => updateArea(payload, selectedArea?._id),
-    onSuccess: () => {
-      refetchAreas();
-      toaster.create({
-        title: "Área atualizada com sucesso",
-        type: "success",
-      });
-      reset();
-    },
-    onError: (error) => {
-      toaster.create({
-        title: `Erro ao atualizar área: ${error}`,
-        type: "error",
-      });
-    },
   });
 
   const {
@@ -71,13 +51,19 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
   const onSubmit: SubmitHandler<CreateAreaFormData> = async (data) => {
     try {
       const payload = {
-        ...data,
-        background: files.background,
-        icon: files.icon,
-        logo: files.logo,
+        _id: selectedArea?._id,
+        area: {
+          ...data,
+          background: files.background,
+          icon: files.icon,
+          logo: files.logo,
+        }
       };
       if (selectedArea) {
-        mutateUpdateArea(payload);
+        try {
+          mutateUpdateArea(payload);
+          reset();
+        } catch {}
       } else {
         mutateArea(payload);
       }

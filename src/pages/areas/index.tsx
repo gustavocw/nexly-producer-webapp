@@ -11,7 +11,7 @@ import { BsTextareaResize } from "react-icons/bs";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
-  const { creatingArea } = useProducts();
+  const { creatingArea, updatingArea } = useProducts();
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
@@ -39,7 +39,7 @@ const Areas = () => {
             value="areas"
           >
             <Text.Medium fontSize="24px">
-              Suas áreas {areas?.length && `${areas?.length}`}
+              Suas áreas {areas?.length && `(${areas?.length})`}
             </Text.Medium>
             {areas?.length > 0 && (
               <Tabs.Trigger value="area">
@@ -64,7 +64,7 @@ const Areas = () => {
                 w="200px"
                 label="Salvar"
                 onClick={handleSave}
-                isLoading={creatingArea}
+                isLoading={creatingArea || updatingArea}
               />
             </Tabs.Trigger>
           </Tabs.Content>

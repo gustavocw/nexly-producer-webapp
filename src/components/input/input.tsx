@@ -27,8 +27,8 @@ interface InputProps {
   helperText?: string;
   maxH?: string;
   minH?: string;
-  errorText?: string; // Mantendo errorText
-  errorToast?: boolean; // Nova propriedade para exibir toast
+  errorText?: string;
+  errorToast?: boolean;
   onBlurSubmit?: (value?: any) => void;
   onEnterSubmit?: (value?: any) => void;
 }
@@ -48,8 +48,7 @@ const InputBase: React.FC<InputProps> = ({
   autoComplete,
   maxLength,
   mask,
-  errorText,
-  errorToast, // Nova propriedade para toast
+  errorToast,
   onBlurSubmit,
   onEnterSubmit,
 }) => (
@@ -68,7 +67,7 @@ const InputBase: React.FC<InputProps> = ({
       }, [error, errorToast]);
 
       return (
-        <Box my={2} width={width || "100%"} height={height || "auto"} position="relative">
+        <Box width={width || "100%"} height={height || "auto"} position="relative">
           {label && (
             <Text.Medium fontSize="14px" position="absolute" top="-20px" left="0" color="white">
               {label} {isRequired && "*"}
@@ -107,11 +106,6 @@ const InputBase: React.FC<InputProps> = ({
               {helperText}
             </Text.Medium>
           )}
-          {error && errorText && (
-            <Text.Medium fontSize="14px" color="red.500" mt={1}>
-              {errorText}
-            </Text.Medium>
-          )}
         </Box>
       );
     }}
@@ -133,7 +127,6 @@ const InputText: React.FC<InputProps> = ({
   maxH,
   minH,
   mask,
-  errorText,
   errorToast,
 }) => (
   <Controller
@@ -179,11 +172,6 @@ const InputText: React.FC<InputProps> = ({
           {helperText && (
             <Text.Medium fontSize="14px" color="whiteAlpha.600" mt={1}>
               {helperText}
-            </Text.Medium>
-          )}
-          {error && errorText && (
-            <Text.Medium fontSize="14px" color="red.500" mt={1}>
-              {errorText}
             </Text.Medium>
           )}
         </Box>

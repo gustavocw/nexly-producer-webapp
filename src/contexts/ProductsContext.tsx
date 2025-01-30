@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toaster } from "components/ui/toaster";
 import { useAuth } from "hooks/useAuth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { createArea, getAreas } from "services/areas.services";
+import { createArea, getAreas, updateArea } from "services/areas.services";
 import { getProducts } from "services/product.services";
 import useProductStore from "stores/product.store";
 
@@ -14,11 +14,13 @@ interface ProductContextValue {
   isLoadingProducts?: boolean;
   loadingAreas?: boolean;
   creatingArea?: boolean;
+  updatingArea?: boolean;
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
   refetchProducts: () => void;
   handleSetAreaId: (_id: string) => void;
   mutateArea: (payload: any) => void;
+  mutateUpdateArea: (payload: any) => void;
 }
 
 export const ProductContext = createContext({} as ProductContextValue);
@@ -81,6 +83,23 @@ export const ProductProvider = ({
     },
   });
 
+    const { mutate: mutateUpdateArea, isPending: updatingArea } = useMutation({
+      mutationFn: (payload: any) => updateArea(payload.area, payload._id),
+      onSuccess: () => {
+        refetchAreas();
+        toaster.create({
+          title: "Área atualizada com sucesso",
+          type: "success",
+        });
+      },
+      onError: (error) => {
+        toaster.create({
+          title: `Erro ao atualizar área: ${error}`,
+          type: "error",
+        });
+      },
+    });
+
   const areasList = Array.isArray(areas)
   ? areas.map((area: any) => ({
       value: area._id,
@@ -98,8 +117,10 @@ export const ProductProvider = ({
     <ProductContext.Provider
       value={{
         handleSetAreaId,
+        mutateUpdateArea,
         mutateArea,
         creatingArea,
+        updatingArea,
         refetchProducts,
         loadingAreas,
         products,
