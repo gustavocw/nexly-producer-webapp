@@ -20,12 +20,11 @@ const Infoproducts = () => {
     statusOptions,
     handleSetAreaId,
     products,
-    areasList,
     isLoadingProducts,
   } = useInfoproductsController();
   const navigate = useNavigate();
   const { setSearch, search } = useProductStore();
-  const { areas, defaultArea } = useProducts();
+  const { areas, defaultArea, areasList } = useProducts();
   const hasSearch = (search ?? "").trim().length > 0;
   const handleSearchChange = useCallback(
     debounce((value: string) => {

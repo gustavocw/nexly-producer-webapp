@@ -4,11 +4,11 @@ import { useProducts } from "hooks/useProducts";
 const useInfoproductsController = () => {
   const { onOpen, onClose } = useDisclosure();
   const {
-    areasList,
     products,
     handleSetAreaId,
     isLoadingProducts,
   } = useProducts();
+  
 
   const statusOptions = [
     { value: "", label: "Todos" },
@@ -18,7 +18,6 @@ const useInfoproductsController = () => {
 
   return {
     products,
-    areasList,
     isLoadingProducts,
     handleSetAreaId,
     statusOptions,

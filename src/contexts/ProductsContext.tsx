@@ -68,9 +68,12 @@ export const ProductProvider = ({
     isLoading: loadingAreas,
   } = useQuery({
     queryKey: ["areas", isLogged],
-    queryFn: async () => await getAreas(),
+    queryFn: async () => {
+      return getAreas()
+    },
     enabled: isLogged,
   });
+  
 
   useMemo(() => {
     if (areas && areas.length > 0) {
@@ -84,7 +87,7 @@ export const ProductProvider = ({
     }
   }, [areas, defaultArea]);
 
-  console.log(defaultArea);
+  console.log(isLogged);
 
   const { mutate: mutateArea, isPending: creatingArea } = useMutation({
     mutationFn: (payload: any) => createArea(payload),
@@ -119,13 +122,15 @@ export const ProductProvider = ({
       });
     },
   });
-
-  const areasList = Array.isArray(areas)
-    ? areas.map((area: any) => ({
-        value: area._id,
-        label: area.title,
-      }))
-    : [];
+  
+  const areasList = useMemo(() => {
+    if (!areas || !Array.isArray(areas)) return [];
+    return areas.map((area: any) => ({
+      value: area._id,
+      label: area.title,
+    }));
+  }, [areas]);
+  
 
   useEffect(() => {
     if (products?.length === 0 && isLogged) {
