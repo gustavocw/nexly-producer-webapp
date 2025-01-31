@@ -24,7 +24,7 @@ const Dashboard = () => {
       <Box w="100%">
         <HStack gap="20px" align="flex-start" w="100%">
           <VStack gap="20px" width="70%" flex={1}>
-            <GraphicNexly data={chartData} mode={optionStatus.value} />
+            <GraphicNexly data={chartData} mode={optionStatus} />
             <Comments data={chartComments} />
           </VStack>
           <VStack align="flex-start" gap="20px" width="30%">

@@ -97,12 +97,6 @@ const Members = () => {
   console.log(defaultArea);
   
 
-  const handleSelectionChange = (selectedOption: {
-    label: string;
-    value: string;
-  }) => {
-    setSearch(selectedOption.value);
-  };
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>
@@ -110,7 +104,7 @@ const Members = () => {
           pt="10"
           defaultValue={optionsNav[0]?.value}
           options={optionsNav}
-          onChange={handleSelectionChange}
+          onChange={setSearch}
         />
       </Tabs.Root>
       <HStack w="100%" justify="space-between" align="center">

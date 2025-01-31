@@ -13,7 +13,7 @@ interface NavOptionsProps {
   pt?: string;
   py?: string;
   pb?: string;
-  value?: string; // Permite receber o estado de fora
+  value?: string;
 }
 
 const NavOptions: React.FC<NavOptionsProps> = ({
@@ -23,13 +23,12 @@ const NavOptions: React.FC<NavOptionsProps> = ({
   pt,
   pb,
   py,
-  value, // Se passado, controla externamente
+  value,
 }) => {
   const [selected, setSelected] = useState<string>(
     value || defaultValue || options[0]?.value
   );
 
-  // Sempre que `value` mudar externamente, atualiza o estado interno
   useEffect(() => {
     if (value) {
       setSelected(value);

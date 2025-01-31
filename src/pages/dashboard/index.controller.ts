@@ -37,14 +37,14 @@ export const useDashboardController = () => {
     { label: "Mensal", value: "Mensal" },
   ];
 
-  const [optionStatus, setOptionStatus] = useState<Option>(optionsNav[0]);
+  const [optionStatus, setOptionStatus] = useState<string>("");
   const [dates, setDates] = useState(getWeekDates());
   const [weeklyChange, setWeeklyChange] = useState<number | null>(null);
 
 
-  const handleSelectionChange = (selectedOption: Option) => {
-    setOptionStatus(selectedOption);
-    if (selectedOption.value === "Mensal") {
+  const handleSelectionChange = (value: string) => {
+    setOptionStatus(value);
+    if (value === "Mensal") {
       setDates(getMonthDates());
     } else {
       setDates(getWeekDates());
@@ -60,7 +60,7 @@ export const useDashboardController = () => {
   });
 
   useEffect(() => {
-    if (chartData && optionStatus.value === "Semanal") {
+    if (chartData && optionStatus === "Semanal") {
       const membersByDay: { [key: string]: number } = {
         Segunda: 0,
         Terça: 0,

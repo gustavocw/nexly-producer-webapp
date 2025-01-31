@@ -23,7 +23,7 @@ const Integrations = () => {
           <NavOptions
             defaultValue={optionsNav[0].value}
             options={optionsNav}
-            onChange={(value) => handleSelectionChange(value.value)}
+            onChange={(value) => handleSelectionChange(value)}
           />
         </Tabs.Root>
         <SearchBar placeholder="Pesquisar integrações" />
