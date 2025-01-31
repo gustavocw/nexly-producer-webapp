@@ -55,6 +55,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
       borderColor="neutral.40"
       spaceY="4"
       collapsible
+      color="neutral"
     >
       {modules?.map((module) => (
         <AccordionItem
