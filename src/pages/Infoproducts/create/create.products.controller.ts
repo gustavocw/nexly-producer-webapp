@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getAreas } from "services/areas.services";
 import { createProduct, updateProduct } from "services/product.services";
+import { formatSelect } from "utils/formatSelect";
 
 interface CreateProductsFormValues {
   name: string;
@@ -120,18 +121,23 @@ export const useCreateProductController = () => {
   });
 
   const onSubmit = async (data: CreateProductsFormValues) => {
-    const { areaId, ...bodyPayload } = data;
+    const { category, areaId: rawAreaId, ...bodyPayload } = data;
+    const extractedCategory = formatSelect(category);
+    const extractedAreaId = formatSelect(rawAreaId);
     const payload = {
       ...bodyPayload,
+      category: extractedCategory,
+      areaId: extractedAreaId,
       file,
     };
-
+  
     if (product) {
       updateProductMutate(payload);
     } else {
-      createProductMutate({ ...payload, areaId });
+      createProductMutate(payload);
     }
   };
+  
 
   return {
     control,

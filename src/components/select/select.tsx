@@ -62,7 +62,7 @@ const Select: React.FC<SelectProps> = ({
             value={value || ""}
             onValueChange={(selectedValue) => {
               if (selectedValue.value) {
-                onChange(selectedValue.value[0]);
+                onChange(selectedValue.value);
               }
             }}
             invalid={!!error}
