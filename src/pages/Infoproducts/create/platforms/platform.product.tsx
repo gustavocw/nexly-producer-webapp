@@ -23,7 +23,8 @@ const Platform = () => {
         w="100%"
         defaultValue={hasActiveIntegration ? "cards" : "initial"}
       >
-        <TitlePage title="Informações básicas" />
+        
+        <TitlePage backParams={{ section: "modules" }} title="Informações básicas" />
         <Tabs.Content value="initial">
           <VStack
             w="90%"

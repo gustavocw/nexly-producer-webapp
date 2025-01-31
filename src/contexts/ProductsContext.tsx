@@ -74,7 +74,6 @@ export const ProductProvider = ({
     enabled: isLogged,
   });
   
-
   useMemo(() => {
     if (areas && areas.length > 0) {
       if (!defaultArea) {
@@ -86,8 +85,6 @@ export const ProductProvider = ({
       }
     }
   }, [areas, defaultArea]);
-
-  console.log(isLogged);
 
   const { mutate: mutateArea, isPending: creatingArea } = useMutation({
     mutationFn: (payload: any) => createArea(payload),

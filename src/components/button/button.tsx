@@ -5,17 +5,13 @@ interface BtnProps {
   label: string;
   weight?: string;
   color?: string;
-  padding?: string;
+  p?: string;
   bgHover?: string;
   borderColor?: string;
   isLoading?: boolean;
   disabled?: boolean;
   w?: any;
   h?: string;
-  pb?: string;
-  pt?: string;
-  pr?: string;
-  pl?: string;
   bg?: string;
   borderRadius?: string;
   onClick?: () => void;
@@ -23,21 +19,19 @@ interface BtnProps {
   iconRight?: JSX.Element;
   fontWeight?: string;
   type?: any;
+  fontSize?: any;
+  iconSize?: any;
 }
 
 const Btn = ({
   label,
   weight,
   color,
-  padding,
+  p,
   bgHover,
   type,
   w,
   h,
-  pb,
-  pt,
-  pr,
-  pl,
   bg,
   borderRadius = "8px",
   borderColor,
@@ -47,6 +41,8 @@ const Btn = ({
   fontWeight,
   iconLeft,
   iconRight,
+  fontSize = { base: "12px", md: "14px" },
+  iconSize = { base: "12px", md: "16px" },
 }: BtnProps) => {
   const isTransparent = bg === "transparent";
 
@@ -57,11 +53,7 @@ const Btn = ({
       disabled={disabled}
       w={w ?? "100%"}
       h={h ?? "44px"}
-      padding={padding}
-      pb={pb}
-      pt={pt}
-      pr={pr}
-      pl={pl}
+      p={p}
       bg={bg ?? "purple.500"}
       borderRadius={borderRadius}
       color={isTransparent ? "#111111" : color ?? "#fff"}
@@ -77,10 +69,11 @@ const Btn = ({
         bg: isTransparent ? "neutral.40" : bgHover ?? "primary.50",
       }}
     >
-      {iconLeft && <Box color="neutral">{iconLeft}</Box>}
+      {iconLeft && <Box color="neutral" fontSize={iconSize}>{iconLeft}</Box>}
       <Text.Large
         color={color || (bg === "transparent" ? "#111111" : "#ffffff")}
         fontWeight={weight}
+        fontSize={fontSize}
       >
         {isLoading ? (
           <Spinner />
@@ -88,13 +81,13 @@ const Btn = ({
           <Text.Medium
             textTransform="initial"
             fontWeight={fontWeight ?? "500px"}
-            fontSize="16px"
+            fontSize={fontSize}
           >
             {label}
           </Text.Medium>
         )}
       </Text.Large>
-      {iconRight && <Box>{iconRight}</Box>}
+      {iconRight && <Box fontSize={iconSize}>{iconRight}</Box>}
     </Button>
   );
 };

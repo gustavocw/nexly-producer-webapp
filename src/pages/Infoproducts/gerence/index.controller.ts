@@ -8,10 +8,7 @@ import useProductStore from "stores/product.store";
 interface UseGenrenceInfoproduct {
   product: Product | null;
   optionsNav: { label: string; value: string }[];
-  handleSelectionChange: (selectedOption: {
-    label: string;
-    value: string;
-  }) => void;
+  handleSelectionChange: (value: string) => void;
   refetchCourse: () => void;
 }
 
@@ -43,11 +40,8 @@ export const useGenrenceInfoproduct = (): UseGenrenceInfoproduct => {
     { label: "Certificado", value: "certificates" },
   ];
 
-  const handleSelectionChange = (selectedOption: {
-    label: string;
-    value: string;
-  }) => {
-    console.log("Opção selecionada:", selectedOption);
+  const handleSelectionChange = (value: string) => {
+    console.log("Opção selecionada:", value);
   };
 
   return {

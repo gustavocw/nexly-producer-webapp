@@ -48,10 +48,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
     const lessons = await getLessons(moduleId);
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
   };
-  const hasLessons = modules?.some(module => module.lessons_count > 0);
-  console.log(hasLessons);
   
-
   return (
     <AccordionRoot
       variant="subtle"
@@ -215,7 +212,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                         setModuleId(module._id);
                         navigate(`/infoproducts/create/platfoms/${module._id}`);
                       }}
-                      w="20vw"
+                      w="30%"
                       iconLeft={<HiPlus />}
                       label="Adicionar aulas via integração"
                     />
@@ -223,7 +220,7 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                       onClick={() =>
                         navigate(`/infoproducts/create/video/${module._id}`)
                       }
-                      w="20vw"
+                      w="30%"
                       iconLeft={<HiPlus />}
                       label="Adicionar uma aula única"
                     />

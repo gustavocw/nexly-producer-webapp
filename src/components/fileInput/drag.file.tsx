@@ -66,9 +66,10 @@ export const DragFile: React.FC<DragFileProps> = ({
         label={
           <VStack py={10}>
             <Image
-              w={preview ? "200px" : "50px"}
+              w={preview ? "100px" : "30px"}
               src={preview || "/images/FileImage.svg"}
               alt="File upload icon"
+              objectFit="contain"
             />
             <Text.Medium
               whiteSpace="nowrap"

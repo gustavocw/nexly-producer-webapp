@@ -11,8 +11,6 @@ export async function getAreaById(areaId: string) {
 }
 
 export async function createArea(params: Area) {
-  console.log(params);
-  
   const formData = new FormData();
   formData.append("domain", params.domain);
   formData.append("color", params.color);

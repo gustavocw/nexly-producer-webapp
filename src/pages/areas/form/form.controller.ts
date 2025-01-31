@@ -83,8 +83,6 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
           reset();
         } catch {}
       } else {
-        console.log(payload.area);
-
         mutateArea(payload.area);
       }
       setFiles({ background: null, icon: null, logo: null });

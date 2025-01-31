@@ -9,8 +9,6 @@ interface ModulesProps {
 }
 
 const Modules: React.FC<ModulesProps> = ({ data }) => {
-  console.log(data?.modules);
-
   const hasNoModules =
     data?.modules?.length === 1 &&
     data?.modules[0]?._id === null &&

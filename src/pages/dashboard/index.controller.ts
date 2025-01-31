@@ -59,9 +59,6 @@ export const useDashboardController = () => {
       }),
   });
 
-  console.log(chartData);
-  
-
   useEffect(() => {
     if (chartData && optionStatus.value === "Semanal") {
       const membersByDay: { [key: string]: number } = {
