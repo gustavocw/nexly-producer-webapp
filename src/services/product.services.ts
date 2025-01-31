@@ -2,7 +2,7 @@ import { http } from "./http/http";
 
 export async function createProduct(
   params: NewProduct,
-  memberAreaId?: string
+  memberAreaId?: any
 ): Promise<any> {
   const formData = new FormData();
   formData.append("name", params.name);
@@ -14,6 +14,8 @@ export async function createProduct(
   if (params.file) {
     formData.append("file", params.file);
   }
+  console.log(formData);
+  
   const { data } = await http.post<any>(`/course/${memberAreaId}`, formData);
   return data;
 }

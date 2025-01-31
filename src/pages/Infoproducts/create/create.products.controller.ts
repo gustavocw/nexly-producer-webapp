@@ -80,7 +80,7 @@ export const useCreateProductController = () => {
   }));
 
   const { mutate: createProductMutate, isPending: creatingCourse } = useMutation({
-    mutationFn: (payload: any) => createProduct(payload),
+    mutationFn: (payload: any) => createProduct(payload, payload.areaId),
     onSuccess: (res) => {
       if (res?.id) {
         toaster.create({
