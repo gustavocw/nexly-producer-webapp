@@ -70,7 +70,7 @@ const MultipleVideos = () => {
       <Divider width="100%" />
 
       <HStack align="flex-start" w="100%">
-        <VStack pt={1} alignItems="flex-start" w="70%">
+        <VStack gap="32px" pt={2} alignItems="flex-start" w="70%">
           <Input.Base
             label="Título"
             control={control}
@@ -91,7 +91,7 @@ const MultipleVideos = () => {
         <Box>
         <DragFile
           width="100%"
-          label="Thumbnail"
+          label="Thumbnail" 
           onFileSelect={(file) => setFile(file)}
           value={file}
         />

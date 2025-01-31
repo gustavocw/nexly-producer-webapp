@@ -86,6 +86,8 @@ export const useFormProfileController = () => {
       });
     }
   };
+  console.log(producer?.address);
+  
 
   const onSubmitProfile: SubmitHandler<ProfileFormData> = async (data) => {
     try {
@@ -115,9 +117,8 @@ export const useFormProfileController = () => {
     data
   ) => {
     try {
-      const addressData = { ...data, neiborhood: data.neighborhood };
       if (producer?.address[0]?._id) {
-        await updateAddress(producer.address[0]._id, addressData).then(() => {
+        await updateAddress(producer.address[0]._id, data).then(() => {
           toaster.create({
             title: "Endereço atualizado com sucesso.",
             type: "success",
@@ -125,7 +126,7 @@ export const useFormProfileController = () => {
           refetchMe();
         });
       } else {
-        await createAddress(addressData).then(() => {
+        await createAddress(data).then(() => {
           toaster.create({
             title: "Endereço criado com sucesso.",
             type: "success",

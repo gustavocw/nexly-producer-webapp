@@ -59,7 +59,9 @@ const useMultipleVideoController = () => {
       });
       setVideos([]);
       setVideoUrl("");
-      navigate(`/infoproducts/informations/${productId}`)
+      navigate(`/infoproducts/informations/${productId}`, {
+        state: { section: "modules" },
+      });
       reset();
     },
   });
