@@ -3,15 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "hooks/useProducts";
 import { useEffect, useState } from "react";
 import { getMembersByArea } from "services/members.services";
-import useProductStore from "stores/product.store";
 
 const useMembersController = () => {
   const [accessType, setAccessType] = useState("");
   const [lastAccess, setLastAccess] = useState("");
   const [search, setSearch] = useState("");
   const { onOpen, onClose } = useDisclosure();
-  const { areasList, handleSetAreaId, areas } = useProducts();
-  const { areaId } = useProductStore();
+  const { areasList, handleSetAreaId, areas, defaultArea, areaId } = useProducts();
 
   const { data: members, refetch: refetchMembers } = useQuery({
     queryKey: ["members", areaId, search],
@@ -19,6 +17,7 @@ const useMembersController = () => {
       getMembersByArea(areaId, search).then((res) => {
         return res.data;
       }),
+    enabled: !!areaId,
   });
 
   const handleMenuAction = (action: string) => {
@@ -57,7 +56,7 @@ const useMembersController = () => {
       refetchMembers();
     }
   }, [areaId, areasList, members, refetchMembers]);
-  
+
   return {
     members,
     accessType,
@@ -65,10 +64,11 @@ const useMembersController = () => {
     setLastAccess,
     handleSetAreaId,
     lastAccess,
+    areaId,
     areasList,
     setSearch,
     search,
-    areaId,
+    defaultArea,
     typeAccessOptions,
     refetchMembers,
     handleMenuAction,

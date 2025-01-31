@@ -41,7 +41,7 @@ const Areas = () => {
             <Text.Medium fontSize="24px">
               Suas áreas {areas?.length && `(${areas?.length})`}
             </Text.Medium>
-            {areas?.length > 0 && (
+            {areas && areas?.length > 0 && (
               <Tabs.Trigger value="area">
                 <Btn
                   w="200px"

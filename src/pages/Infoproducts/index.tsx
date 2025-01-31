@@ -11,10 +11,12 @@ import { useProducts } from "hooks/useProducts";
 import { BsArrowRight, BsTextareaResize } from "react-icons/bs";
 import Btn from "components/button/button";
 import { useNavigate } from "react-router-dom";
+import { categoryOptions } from "utils/categoryProducts";
+import { useCallback } from "react";
+import { debounce } from "lodash";
 
 const Infoproducts = () => {
   const {
-    categoryOptions,
     statusOptions,
     handleSetAreaId,
     products,
@@ -23,13 +25,14 @@ const Infoproducts = () => {
   } = useInfoproductsController();
   const navigate = useNavigate();
   const { setSearch, search } = useProductStore();
-  const { areas } = useProducts();
-
+  const { areas, defaultArea } = useProducts();
   const hasSearch = (search ?? "").trim().length > 0;
-
-  const handleSearchChange = (value: string) => {
-    setSearch(value);
-  };
+  const handleSearchChange = useCallback(
+    debounce((value: string) => {
+      setSearch(value);
+    }, 300),
+    []
+  );
 
   return (
     <Stack gap="32px" px={8}>
@@ -47,6 +50,7 @@ const Infoproducts = () => {
                 onSelectChange={(v) => handleSetAreaId(v)}
                 placeholder="Área"
                 options={areasList}
+                value={defaultArea}
               />
               <SelectOption
                 onSelectChange={handleSearchChange}

@@ -18,7 +18,8 @@ import {
 } from "components/ui/color-picker";
 import { swatches } from "./swatches";
 import { DragFile } from "components/fileInput/drag.file";
-import React from "react";
+import React, { useState } from "react";
+import SelectOption from "components/selectOption/select";
 
 const FormArea: React.FC<{
   setSubmitHandler: (submitHandler: () => void) => void;
@@ -34,6 +35,8 @@ const FormArea: React.FC<{
     onSubmit,
     updateFile,
   } = useCreateAreaController(selectedArea);
+
+  const [useUrl, setUseUrl] = useState(true);
 
   React.useEffect(() => {
     setSubmitHandler(() => handleSubmit(onSubmit)());
@@ -124,20 +127,37 @@ const FormArea: React.FC<{
         width="80%"
       />
 
-      <Input.Base
-        control={control}
-        label="URL Background"
-        name="background"
-        placeholder="URL da imagem ou vídeo (YouTube/Vimeo)"
-        width="80%"
-      />
+      <HStack w="80%" justify="space-between" alignItems="center">
+        <Text.Medium fontSize="14px" color="neutral">
+          Escolha o tipo de background:
+        </Text.Medium>
+        <SelectOption
+        placeholder="Selecione o tipo de background"
+          onSelectChange={(value) => setUseUrl(value === "url")}
+          options={[
+            { label: "URL", value: "url" },
+            { label: "Imagem", value: "image" },
+          ]}
+        />
+      </HStack>
 
-      <Flex gap="2" w="80%" justify="space-between">
+      {useUrl ? (
+        <Input.Base
+          control={control}
+          label="URL Background"
+          name="background"
+          placeholder="URL da imagem ou vídeo (YouTube/Vimeo)"
+          width="80%"
+        />
+      ) : (
         <DragFile
           label="Background da área"
           onFileSelect={(file) => updateFile("background", file)}
           value={files.background}
         />
+      )}
+
+      <Flex gap="2" w="80%" justify="space-between">
         <DragFile
           label="Ícone da página"
           onFileSelect={(file) => updateFile("icon", file)}

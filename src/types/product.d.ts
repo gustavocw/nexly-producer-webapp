@@ -62,7 +62,7 @@ interface Area {
   background: any;
   icon: any;
   logo: any;
-  courses: Product[]
+  courses?: Product[]
 }
 
 interface NewModule {

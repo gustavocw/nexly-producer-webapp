@@ -81,6 +81,7 @@ const Members = () => {
     setSearch,
     handleSetAreaId,
     refetchMembers,
+    defaultArea,
   } = useMembersController();
   const { products } = useProducts();
   const navigate = useNavigate();
@@ -92,6 +93,9 @@ const Members = () => {
     { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "BLOQUEADO" },
     { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
+
+  console.log(defaultArea);
+  
 
   const handleSelectionChange = (selectedOption: {
     label: string;
@@ -116,7 +120,7 @@ const Members = () => {
               onSelectChange={(v) => handleSetAreaId(v)}
               placeholder="Área"
               options={areasList}
-              value={areaId}
+              value={defaultArea}
             />
             <SelectOption
               onSelectChange={(v) => setSearch(v)}
@@ -198,7 +202,7 @@ const Members = () => {
           <FaUsers />
           </Icon>
           <VStack gap="10px" lineHeight={1.5} w="100%">
-            <Text fontSize="24px" color="neutral">
+            <Text textAlign="center" fontSize="24px" color="neutral">
               Não há membros cadastrados. Adicione um novo membro clicando no
               botão "Adicionar membro".
             </Text>

@@ -8,10 +8,10 @@ import TableMembers from "pages/members/table/table.members";
 import useInformationsController from "./informations.controller";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { formatDateToString } from "utils/formatDateToString";
-import { capitalizeFirstLetter } from "utils/captalizeData";
 import ModalCreateMember from "pages/members/creare/modal.create.members";
 import { MenuContent, MenuRoot, MenuTrigger } from "components/ui/menu";
 import { FaUsers } from "react-icons/fa";
+import { categoryOptions } from "utils/categoryProducts";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const {
@@ -23,6 +23,8 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
     members,
   } = useInformationsController();
 
+  const categoryLabel = categoryOptions.find(option => option.value === data?.category)?.label || data?.category;
+  
   return (
     <VStack gap="32px" w="100%">
       <HStack w="100%">
@@ -72,7 +74,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
               Categoria
             </Text.Medium>
             <Text.Medium fontSize="14px" color="primary">
-              {capitalizeFirstLetter(data?.category)}
+              {categoryLabel}
             </Text.Medium>
           </HStack>
           <Divider />

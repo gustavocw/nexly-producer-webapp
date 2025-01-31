@@ -15,14 +15,20 @@ export const createAreaSchema = z.object({
   background: z
     .string()
     .url({ message: "Insira uma URL válida" })
-    .refine((url) => {
-      return (
-        url.includes("youtube.com") ||
-        url.includes("youtu.be") ||
-        url.includes("vimeo.com") ||
-        url.match(/\.(jpeg|jpg|gif|png|webp)$/)
-      );
-    }, { message: "A URL deve ser um link de imagem ou um vídeo do YouTube/Vimeo" }),
+    .refine(
+      (url) => {
+        return (
+          url.includes("youtube.com") ||
+          url.includes("youtu.be") ||
+          url.includes("vimeo.com") ||
+          url.match(/\.(jpeg|jpg|gif|png|webp)$/)
+        );
+      },
+      {
+        message:
+          "A URL deve ser um link de imagem ou um vídeo do YouTube/Vimeo",
+      }
+    ),
 });
 
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
@@ -55,7 +61,6 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       background: selectedArea?.background || "",
     },
   });
-  
 
   const updateFile = (name: keyof typeof files, file: File | null) => {
     setFiles((prev) => ({ ...prev, [name]: file }));
@@ -67,10 +72,10 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
         _id: selectedArea?._id,
         area: {
           ...data,
-          background: files.background,
+          background: files.background || data.background,
           icon: files.icon,
           logo: files.logo,
-        }
+        },
       };
       if (selectedArea) {
         try {
@@ -78,7 +83,9 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
           reset();
         } catch {}
       } else {
-        mutateArea(payload);
+        console.log(payload.area);
+
+        mutateArea(payload.area);
       }
       setFiles({ background: null, icon: null, logo: null });
     } catch (error) {
@@ -95,9 +102,11 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       setValue("color", selectedArea.color);
       setValue("title", selectedArea.title);
       setValue("background", selectedArea.background || "");
-      
+
       setFiles({
-        background: selectedArea.background ? new File([], selectedArea.background) : null,
+        background: selectedArea.background
+          ? new File([], selectedArea.background)
+          : null,
         icon: selectedArea.icon ? new File([], selectedArea.icon) : null,
         logo: selectedArea.logo ? new File([], selectedArea.logo) : null,
       });
