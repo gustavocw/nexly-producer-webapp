@@ -21,7 +21,6 @@ const GenrenceInfoproduct = () => {
   useEffect(() => {
     if (section || location.state) {
       setSelectedTab(section || location.state);
-      navigate(location.pathname, { replace: true, state: {} });
     }
   }, [section, navigate, location.pathname]);
 

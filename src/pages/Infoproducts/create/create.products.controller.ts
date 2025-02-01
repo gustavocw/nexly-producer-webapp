@@ -108,8 +108,8 @@ export const useCreateProductController = () => {
           title: "Info produto atualizado com sucesso",
           type: "success",
         });
-        refetchProducts();
         navigate("/infoproducts");
+        refetchProducts();
       }
     },
     onError: (error) => {
