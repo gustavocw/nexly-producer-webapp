@@ -53,8 +53,8 @@ const VideosTable: React.FC<VideosTableProps> = ({
           <HStack align="center" spaceX={4}>
             <Box w="140px" h="100px">
               <Image
-                src={item.snippet.thumbnails.high.url}
-                alt={item.snippet.title}
+                src={item?.snippet?.thumbnails?.high?.url}
+                alt={item?.snippet?.title}
                 w="100%"
                 h="100%"
                 objectFit="cover"

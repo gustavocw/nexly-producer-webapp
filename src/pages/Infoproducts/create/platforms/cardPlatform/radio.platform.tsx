@@ -64,7 +64,7 @@ const RadioPlatform = ({ data }: any) => {
         <Btn
           w="300px"
           label="Continuar"
-          isLoading={loadingConfirm && loadingUrl}
+          isLoading={loadingConfirm || loadingUrl}
           onClick={() => onIntegrate()}
           iconRight={<KeyboardArrowRightOutlined />}
         />

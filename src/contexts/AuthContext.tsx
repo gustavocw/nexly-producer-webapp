@@ -28,6 +28,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return !!storedAccessToken;
   });
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem(localStorageKeys.ACCESS_TOKEN);
+      setIsLogged(!!token);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+
   const auth = useCallback((accessToken: string) => {
     localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken);
     setIsLogged(true);

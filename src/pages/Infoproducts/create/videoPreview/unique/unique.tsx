@@ -6,7 +6,7 @@ import { DragFile } from "components/fileInput/drag.file";
 import useUniqueVideoController from "./unique.controller";
 
 const UniqueVideo = () => {
-  const { control, errors, onSubmit, handleSubmit, updateFile, lesson } =
+  const { control, creatingVideo, updatingVideo, errors, onSubmit, handleSubmit, updateFile, lesson } =
     useUniqueVideoController();
 
   return (
@@ -89,7 +89,7 @@ const UniqueVideo = () => {
         />
       </HStack>
       <HStack w="100%" justify="flex-end">
-        <Btn label="Publicar" onClick={handleSubmit(onSubmit)} w="200px" />
+        <Btn isLoading={updatingVideo || creatingVideo} label="Publicar" onClick={handleSubmit(onSubmit)} w="200px" />
       </HStack>
     </VStack>
   );

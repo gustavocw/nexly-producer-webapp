@@ -17,10 +17,11 @@ const GenrenceInfoproduct = () => {
   const navigate = useNavigate();
   const section = location.state?.section;
   const [selectedTab, setSelectedTab] = useState("informations");
-
+  console.log(location.state);
+  
   useEffect(() => {
-    if (section) {
-      setSelectedTab(section);
+    if (section || location.state) {
+      setSelectedTab(section || location.state);
       navigate(location.pathname, { replace: true, state: {} });
     }
   }, [section, navigate, location.pathname]);

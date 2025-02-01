@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { createLesson, updateLesson } from "services/videos.services";
+import useProductStore from "stores/product.store";
 import useVideosStore from "stores/videos.store";
 
 interface PreviewVideoFormValues {
@@ -17,12 +18,11 @@ interface PreviewVideoFormValues {
 
 const useUniqueVideoController = () => {
   const [pageRef, setPageRef] = useState(1);
-  const {setVideoUrl} = useVideosStore()
+  const { setVideoUrl } = useVideosStore();
   const [file, setFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { lesson } = location.state || {};
-
 
   const {
     control,
@@ -41,16 +41,17 @@ const useUniqueVideoController = () => {
     },
   });
 
-  const videoUrl = watch("urlMovie")
+  const videoUrl = watch("urlMovie");
 
   const { id: idModule } = useParams<{ id: string }>();
   const updateFile = (file: File | null) => {
     setFile(file);
   };
+  const { productId } = useProductStore();
 
   useEffect(() => {
     if (lesson) {
-      setVideoUrl(lesson.urlVideo)
+      setVideoUrl(lesson.urlVideo);
       reset({
         name: lesson.nameLesson || "",
         urlMovie: lesson.urlVideo || "",
@@ -60,11 +61,11 @@ const useUniqueVideoController = () => {
         stateLesson: lesson.stateLesson || "",
       });
     } else {
-      setVideoUrl(videoUrl)
+      setVideoUrl(videoUrl);
     }
   }, [lesson, reset, watch]);
 
-  const { mutate: mutateVideo } = useMutation({
+  const { mutate: mutateVideo, isPending: creatingVideo } = useMutation({
     mutationFn: (params: Video) => createLesson(idModule, params),
     onSuccess: () => {
       toaster.create({
@@ -72,17 +73,19 @@ const useUniqueVideoController = () => {
         type: "success",
       });
       reset();
+      navigate(`/infoproducts/informations/${productId}`, { state: "modules" });
     },
   });
 
-  const { mutate: mutateUpdateLesson } = useMutation({
+  const { mutate: mutateUpdateLesson, isPending: updatingVideo } = useMutation({
     mutationFn: (params: any) => updateLesson(lesson?._id, params),
     onSuccess: () => {
       toaster.create({
-        title: "Aula criada com sucesso!",
+        title: "Aula atualizada com sucesso!",
         type: "success",
       });
       reset();
+      navigate(`/infoproducts/informations/${productId}`, { state: "modules" });
     },
   });
 
@@ -100,10 +103,11 @@ const useUniqueVideoController = () => {
       mutateVideo(payload);
     }
   };
-  
 
   return {
     control,
+    creatingVideo,
+    updatingVideo,
     handleSubmit,
     setPageRef,
     pageRef,

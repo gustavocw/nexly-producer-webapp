@@ -23,8 +23,8 @@ const PreviewVideos = () => {
       />
       <Player
         videoUrl={
-          videoUrl ??
-          videos[0]?.urlVideo ??
+          videoUrl ||
+          videos[0]?.urlVideo ||
           "https://www.youtube.com/watch?v=KrieZlvNlas"
         }
       />

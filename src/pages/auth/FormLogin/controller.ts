@@ -5,6 +5,7 @@ import { signin } from "services/auth.services";
 import { useAuth } from "hooks/useAuth";
 import useAuthStore from "stores/auth.store";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 export const loginSchema = z.object({
   email: z
@@ -23,13 +24,6 @@ export const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-type ServerErrorResponse = {
-  response?: {
-    data?: {
-      message?: string;
-    };
-  };
-};
 
 export const useLoginController = () => {
   const navigate = useNavigate();
@@ -63,40 +57,38 @@ export const useLoginController = () => {
   const watchedEmail = watch("email");
   const watchedPassword = watch("password");
 
+  const { mutate: mutateLogin, isPending: loadingLogin } = useMutation({
+    mutationFn: (params: any) => signin(params),
+    onSuccess: (data) => {
+      auth(data?.token);
+      setProducerStore(data);
+      if (rememberMe === "true") {
+        setEmail(data.email);
+        setPassword(data.password);
+      }
+      navigate("/");
+    },
+    onError: () => {
+      setError("email", {
+        type: "manual",
+        message: "Credenciais inválidas. Verifique seu e-mail e senha.",
+      });
+    },
+  });
+
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    try {
-      await signin({
+    const payload = {
         email: data.email,
         password: data.password,
-      }).then((res) => {
-        if (res?.token) {
-          auth(res?.token);
-          setProducerStore(res);
-          if (rememberMe === "true") {
-            setEmail(data.email);
-            setPassword(data.password);
-          }
-          navigate("/");
-        }
-      });
-    } catch (error: unknown) {
-      const serverError = error as ServerErrorResponse;
-
-      if (serverError.response?.data?.message) {
-        setError("email", {
-          type: "manual",
-          message: "Credenciais inválidas. Verifique seu e-mail e senha.",
-        });
-      } else {
-        console.error("Erro no login:", error);
-      }
     }
+    mutateLogin(payload)
   };
 
   return {
     setRememberMe,
     rememberMe,
     handleSubmit,
+    loadingLogin,
     control,
     errors,
     onSubmit,
