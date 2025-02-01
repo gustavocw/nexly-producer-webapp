@@ -17,7 +17,6 @@ const GenrenceInfoproduct = () => {
   const navigate = useNavigate();
   const section = location.state?.section;
   const [selectedTab, setSelectedTab] = useState("informations");
-  console.log(location.state);
   
   useEffect(() => {
     if (section || location.state) {

@@ -53,7 +53,7 @@ const useCreateModuleController = ({
 
   const idToSend = productId.length ? productId : id;
 
-  const { mutate: mutateCreateMember } = useMutation({
+  const { mutate: mutateCreateMember, isPending: creatingMember } = useMutation({
     mutationFn: (params?: NewMember) => createMember(areaId, idToSend, params),
     onSuccess: () => {
       toaster.create({
@@ -96,6 +96,7 @@ const useCreateModuleController = ({
     onSubmit,
     handleSelectProduct,
     reset,
+    creatingMember,
     navigate,
     errors,
     productList,

@@ -39,6 +39,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
     handleSelectProduct,
     handleSubmit,
     onSubmit,
+    creatingMember,
   } = useCreateModuleController({ refetch, onClose: () => setIsOpen(false) }); 
   const products = createListCollection({
     items: productList || [],
@@ -128,7 +129,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
               <DialogActionTrigger asChild>
                 <Btn bg="transparent" label="Cancelar" w="100px" />
               </DialogActionTrigger>
-            <Btn onClick={handleSubmit(onSubmit)} label="Adicionar" w="100px" />
+            <Btn isLoading={creatingMember} onClick={handleSubmit(onSubmit)} label="Adicionar" w="100px" />
           </DialogFooter>
           <DialogCloseTrigger />
         </DialogContent>
