@@ -39,16 +39,17 @@ export const useCreateProductController = () => {
   });
 
   const formValues = watch();
-
+  const isEditing = !!product?.id;
   const isValid =
     formValues.name &&
     formValues.description &&
     formValues.category &&
-    formValues.areaId &&
+    (!isEditing || formValues.areaId) &&
     !errors.name &&
     !errors.description &&
     !errors.category &&
-    !errors.areaId;
+    (!isEditing || !errors.areaId);
+  
 
   useEffect(() => {
     if (product) {

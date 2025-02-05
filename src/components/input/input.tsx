@@ -183,7 +183,7 @@ const InputText: React.FC<InputProps> = ({
             <Text.Medium
               fontSize="14px"
               position="absolute"
-              top="-20px"
+              top="-25px"
               left="0"
               color="white"
             >

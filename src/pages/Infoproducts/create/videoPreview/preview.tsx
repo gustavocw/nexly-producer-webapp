@@ -25,7 +25,7 @@ const PreviewVideos = () => {
         videoUrl={
           videoUrl ||
           videos[0]?.urlVideo ||
-          "https://www.youtube.com/watch?v=KrieZlvNlas"
+          "https://www.youtube.com/watch?v=ZHMxuoUaWxM&pp=ygUNNGsgdmlkZW8gcm94bw%3D%3D"
         }
       />
       {videos?.length > 1 ? <MultipleVideos /> : <UniqueVideo />}

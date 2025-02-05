@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { VStack, Image } from "@chakra-ui/react";
 import Text from "components/text/text";
 import {
-  FileUploadList,
   FileUploadDropzone,
   FileUploadRoot,
 } from "components/ui/file-upload";
@@ -18,7 +17,7 @@ interface DragFileProps {
 
 export const DragFile: React.FC<DragFileProps> = ({
   maxFiles = 1,
-  label = "Logo da área",
+  label = "",
   hint = "A imagem deve estar no formato JPG ou PNG e tamanho máximo de 5 MB. Dimensões ideais: 1.500 x 1.000 pixels.",
   onFileSelect,
   width = "50%",
@@ -84,7 +83,6 @@ export const DragFile: React.FC<DragFileProps> = ({
                 selecione manualmente
               </a>
             </Text.Medium>
-            <FileUploadList w="100px" />
           </VStack>
         }
       />

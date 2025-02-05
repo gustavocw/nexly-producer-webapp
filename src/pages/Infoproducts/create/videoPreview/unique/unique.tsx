@@ -6,7 +6,7 @@ import { DragFile } from "components/fileInput/drag.file";
 import useUniqueVideoController from "./unique.controller";
 
 const UniqueVideo = () => {
-  const { control, creatingVideo, updatingVideo, errors, onSubmit, handleSubmit, updateFile, lesson } =
+  const { file, control, creatingVideo, updatingVideo, errors, onSubmit, handleSubmit, updateFile, lesson } =
     useUniqueVideoController();
 
   return (
@@ -72,7 +72,7 @@ const UniqueVideo = () => {
           </HStack>
         </VStack>
       </HStack>
-      <HStack alignItems="flex-start" w="100%">
+      <HStack my={3} alignItems="flex-start" w="100%">
         <Input.Text
           label="Descrição"
           control={control}
@@ -84,8 +84,8 @@ const UniqueVideo = () => {
         />
         <DragFile
           width="100%"
-          label="Thumbnail"
           onFileSelect={(file) => updateFile(file)}
+          value={file}
         />
       </HStack>
       <HStack w="100%" justify="flex-end">

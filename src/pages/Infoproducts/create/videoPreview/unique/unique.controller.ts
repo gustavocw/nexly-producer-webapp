@@ -114,6 +114,7 @@ const useUniqueVideoController = () => {
     updateFile,
     onSubmit,
     lesson,
+    file,
     reset,
     navigate,
     errors,
