@@ -44,7 +44,7 @@ const CreateProduct = () => {
   ];
 
   return (
-    <VStack w="100%" align="flex-start" px={8}>
+    <VStack spaceY={5} w="100%" align="flex-start" px={8}>
       <TitlePage
         description="Principais informações do curso"
         title="Informações básicas"

@@ -19,6 +19,9 @@ const Sidebar: React.FC = () => {
   const { signout } = useAuth();
   const { notifications } = useProducer();
 
+  console.log(notifications);
+  
+
   useEffect(() => {
     const storedNotificationCount = parseInt(localStorage.getItem("notificationCount") || "0", 10);
     if (notifications?.length > storedNotificationCount) {

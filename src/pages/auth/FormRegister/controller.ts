@@ -8,6 +8,7 @@ import { toaster } from "components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
 import { validateCPForCNPJ } from "utils/validateCpf";
+import { useMutation } from "@tanstack/react-query";
 
 export const registerSchema = z
   .object({
@@ -105,39 +106,38 @@ export const useRegisterController = () => {
     !errors.password &&
     !errors.confirmPassword;
 
-  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
-    try {
-      await register({
-        name: data.name,
-        lastname: data.lastname,
-        email: data.email,
-        phone: umask(data.phone),
-        password: data.password,
-        identity: umask(data.identity),
-        confirmPassword: data.confirmPassword,
-      }).then((res) => {
-        setProducerStore(res);
-        toaster.create({
-          title: "Conta criada com sucesso",
-          type: "success",
-        });
-        if (res?.token) {
-          auth(res?.token);
-          setProducerStore(res);
-          navigate("/");
-        }
+  const { mutate: mutateRegister, isPending: loadingRegister } = useMutation({
+    mutationFn: (params: any) => register(params),
+    onSuccess: (data) => {
+      setProducerStore(data);
+      auth(data?.token);
+      navigate("/");
+      toaster.create({
+        title: "Conta criada com sucesso",
+        type: "success",
       });
-    } catch (error: unknown) {
+    },
+    onError: () => {
       toaster.create({
         title: "Confira seus dados",
         type: "error",
       });
-    }
+    },
+  });
+
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
+    const payload = {
+      ...data,
+      phone: umask(data.phone),
+      identity: umask(data.identity),
+    };
+    mutateRegister(payload);
   };
 
   return {
     control,
     handleSubmit,
+    loadingRegister,
     isStep1Valid,
     isStep2Valid,
     errors,

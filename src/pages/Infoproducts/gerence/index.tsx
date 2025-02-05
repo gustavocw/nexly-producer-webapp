@@ -32,7 +32,7 @@ const GenrenceInfoproduct = () => {
 
   return (
     <VStack w="100%" align="flex-start" px={8}>
-      <TitlePage title={product?.name || "Carregando..."} />
+      <TitlePage onClick={() => navigate("/infoproducts")} title={product?.name || "Carregando..."} />
       <VStack w="100%" gap="32px">
         <HStack w="100%">
           <NavOptions value={section} options={optionsNav} onChange={handleTabChange} />

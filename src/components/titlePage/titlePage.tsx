@@ -15,25 +15,26 @@ const TitlePage = ({ title, description, onClick, backParams }: TitlePageProps) 
   const navigate = useNavigate();
   const location = useLocation();
   const [previousPage, setPreviousPage] = useState<string | null>(null);
-
-  // Salva a página anterior antes de mudar para a nova página
+  
   useEffect(() => {
-    const lastPage = sessionStorage.getItem("previousPage");
-
-    if (lastPage && lastPage !== location.pathname) {
-      setPreviousPage(lastPage);
+    if (backParams) {
+      const lastPage = sessionStorage.getItem("previousPage");
+      if (lastPage && lastPage !== location.pathname) {
+        setPreviousPage(lastPage);
+      }
+      sessionStorage.setItem("previousPage", location.pathname);
     }
-
-    sessionStorage.setItem("previousPage", location.pathname);
-  }, [location]);
+  }, [location, backParams]);
 
   const handleBack = () => {
-    if (onClick) onClick();
-    
-    if (previousPage) {
-      navigate(previousPage, { state: backParams });
+    if (onClick)  {
+      onClick();
     } else {
-      navigate(-1);
+      if (previousPage && backParams) {
+        navigate(previousPage, { state: backParams });
+      } else {
+        navigate(-1);
+      }
     }
   };
 
@@ -49,7 +50,7 @@ const TitlePage = ({ title, description, onClick, backParams }: TitlePageProps) 
               {title}
             </Text.Medium>
           </HStack>
-          <Text.Medium ml="48px" fontSize="16px" color="neutral.10">
+          <Text.Medium ml="40px" fontSize="16px" color="neutral.10">
             {description}
           </Text.Medium>
         </VStack>

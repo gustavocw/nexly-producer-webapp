@@ -9,15 +9,7 @@ import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
 import { Controller } from "react-hook-form";
 import { Switch } from "components/ui/switch";
-import { createListCollection } from "@chakra-ui/react";
-import {
-  SelectContent,
-  SelectItem,
-  SelectLabel,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "components/ui/select";
+import Select from "components/select/select";
 
 const Certificates = () => {
   const {
@@ -29,19 +21,20 @@ const Certificates = () => {
     handleSubmit,
     onSubmit,
     files,
+    certificate,
   } = useCertificateController();
 
-  const percents = createListCollection({
-    items: [
-      { value: "70", label: "70%" },
-      { value: "80", label: "80%" },
-      { value: "90", label: "90%" },
-      { value: "100", label: "100%" },
-    ],
-  });
+  const percents = [
+    { value: "70", label: "70%" },
+    { value: "80", label: "80%" },
+    { value: "90", label: "90%" },
+    { value: "100", label: "100%" },
+  ];
 
-  const signatureUrl = watch("signatureUrl");
-  const description = watch("description");
+  const signatureUrl = watch("signatureUrl") || certificate?.signatureUrl;
+  const description = watch("description") || certificate?.description;
+  const logoUrl = files.logoUrl || certificate?.logoUrl;
+  const backgroundUrl = files.file || certificate?.backgroundUrl;
 
   return (
     <VStack flexDir="column" w="100%" align="flex-start" gap="32px">
@@ -81,8 +74,8 @@ const Certificates = () => {
           <Divider width="100%" />
           <HStack justify="center" w="100%">
             <CertificateImage
-              logo={files.logoUrl}
-              fundo={files.file}
+              logo={logoUrl}
+              fundo={backgroundUrl}
               descricao={description}
               assinatura={signatureUrl}
               nome="NOME DO ALUNO FICA AQUI"
@@ -103,7 +96,7 @@ const Certificates = () => {
             </Text.Medium>
           </VStack>
           <Divider width="100%" />
-          <VStack p="20px" w="100%" align="flex-start">
+          <VStack spaceY="32px" p="20px" w="100%" align="flex-start">
             <Input.Base
               name="signatureUrl"
               label="Assinatura"
@@ -119,39 +112,20 @@ const Certificates = () => {
               control={control}
               errorText={errors.description?.message}
             />
-            <Flex alignItems="center" w="100%" gap={2}>
-              <Controller
+            <Flex alignItems="flex-end" w="100%" gap={2}>
+              <Select
+                options={percents}
                 name="percent"
+                label="Selecione a porcentagem"
                 control={control}
-                render={({ field }) => (
-                  <>
-                    <SelectRoot
-                      collection={percents}
-                      size="sm"
-                      width="60%"
-                      onValueChange={(e) => field.onChange(e.value)}
-                    >
-                      <SelectLabel>Selecione a porcentagem</SelectLabel>
-                      <SelectTrigger>
-                        <SelectValueText placeholder="Com quantos % o certificado é liberado ?" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {percents.items.map((percent) => (
-                          <SelectItem item={percent} key={percent.value}>
-                            {percent.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </SelectRoot>
-                  </>
-                )}
+                placeholder="%"
               />
               <Controller
                 name="progress"
                 control={control}
                 render={({ field }) => (
                   <>
-                    <Flex w="30%">
+                    <Flex color="neutral" mb={3} w="30%">
                       <Switch
                         checked={field.value === "true"}
                         onCheckedChange={(checked) =>

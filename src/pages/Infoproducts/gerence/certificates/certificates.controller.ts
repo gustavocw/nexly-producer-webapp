@@ -58,16 +58,24 @@ export const useCertificateController = () => {
       getCertificate(productId)
         .then((res) => res)
         .catch((error) => {
-          if (error.response?.status === 400 && error.response?.data?.message === "certificate not found") {
+          if (
+            error.response?.status === 400 &&
+            error.response?.data?.message === "certificate not found"
+          ) {
             return null;
           }
           throw error;
         }),
   });
 
+  console.log(certificate);
+
   const { mutate: mutateCertificate } = useMutation({
-    mutationFn: (params: CertificateFormData & { files: { file: File | null; logoUrl: File | null } }) =>
-      createCertificate(params, productId),
+    mutationFn: (
+      params: CertificateFormData & {
+        files: { file: File | null; logoUrl: File | null };
+      }
+    ) => createCertificate(params, productId),
     onSuccess: () => {
       toaster.create({
         title: "Certificado criado com sucesso!",

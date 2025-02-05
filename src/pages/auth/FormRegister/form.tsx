@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { SegmentedControl } from "components/ui/segmented-control";
 
 const FormRegister = () => {
-  const { control, handleSubmit, onSubmit, isStep1Valid, isStep2Valid } = useRegisterController();
+  const { control, handleSubmit, onSubmit, isStep1Valid, isStep2Valid, loadingRegister } = useRegisterController();
   const { setStepLogin } = useAuthStore();
   const [step, setStep] = useState(0);
   const [identityType, setIdentityType] = useState("CPF");
@@ -272,6 +272,7 @@ const FormRegister = () => {
         )}
         <Btn
           w="100%"
+          isLoading={loadingRegister}
           label={
             step === 0
               ? "Continuar"
