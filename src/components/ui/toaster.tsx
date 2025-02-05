@@ -19,20 +19,22 @@ export const Toaster = () => {
     <Portal>
       <ChakraToaster toaster={toaster} insetInline={{ mdDown: "4" }}>
         {(toast) => (
-          <Toast.Root width={{ md: "sm" }}>
-            {toast.type === "loading" ? (
-              <Spinner size="sm" color="blue.solid" />
-            ) : (
-              <Toast.Indicator />
-            )}
-            <Stack p={5} gap="1" flex="1" maxWidth="100%">
-              {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
-              {toast.description && (
-                <Toast.Description>{toast.description}</Toast.Description>
+          <Toast.Root width={{ md: "sm" }} borderRadius="md" boxShadow="lg" p={4}>
+            <Stack direction="row" align="center" spaceX={3}>
+              {toast.type === "loading" ? (
+                <Spinner size="sm" color="white" />
+              ) : (
+                <Toast.Indicator color="white" />
               )}
+              <Stack p={2} gap="1" flex="1" maxWidth="100%">
+                {toast.title && <Toast.Title fontSize="md" fontWeight="bold" color="white">{toast.title}</Toast.Title>}
+                {toast.description && (
+                  <Toast.Description fontSize="sm" color="white">{toast.description}</Toast.Description>
+                )}
+              </Stack>
             </Stack>
             {toast.action && (
-              <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
+              <Toast.ActionTrigger fontSize="sm" color="blue.400">{toast.action.label}</Toast.ActionTrigger>
             )}
             {toast.meta?.closable && <Toast.CloseTrigger />}
           </Toast.Root>
