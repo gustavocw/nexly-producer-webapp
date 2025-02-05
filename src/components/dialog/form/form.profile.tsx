@@ -5,15 +5,13 @@ import Input from "components/input/input";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { useFormProfileController } from "./form.controller";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FileUploadRoot,
   FileUploadTrigger,
-} from "components/ui/file-upload"
+} from "components/ui/file-upload";
 
-const ProfileForm: React.FC<{
-  setSubmitHandler: (submitHandler: () => void) => void;
-}> = ({ setSubmitHandler }) => {
+const ProfileForm = () => {
   const {
     profileControl,
     profileErrors,
@@ -34,22 +32,6 @@ const ProfileForm: React.FC<{
   const handleAddressChange = () => {
     setIsAddressEdited(true);
   };
-
-  React.useEffect(() => {
-    setSubmitHandler(async () => {
-      await handleProfileSubmit(onSubmitProfile)();
-      if (isAddressEdited) {
-        await handleAddressSubmit(onSubmitAddress)();
-      }
-    });
-  }, [
-    handleProfileSubmit,
-    onSubmitProfile,
-    handleAddressSubmit,
-    onSubmitAddress,
-    setSubmitHandler,
-    isAddressEdited,
-  ]);
 
   const handleSave = async () => {
     await handleProfileSubmit(onSubmitProfile)();

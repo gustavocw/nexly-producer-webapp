@@ -21,11 +21,6 @@ interface ProfileDialog {
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
   const { producer } = useProducerStore();
-  let formSubmitHandler: (() => void) | null = null;
-
-  const setFormSubmitHandler = (submitHandler: () => void) => {
-    formSubmitHandler = submitHandler;
-  };
 
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
@@ -115,7 +110,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                 h="100%"
               >
                 <Tabs.Content value="profile" w="100%" h="100%">
-                  <ProfileForm setSubmitHandler={setFormSubmitHandler} />
+                  <ProfileForm />
                 </Tabs.Content>
                 <Tabs.Content value="plans" w="100%" h="100%">
                   <Plans />
