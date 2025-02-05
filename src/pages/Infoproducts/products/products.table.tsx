@@ -96,7 +96,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
         >
           Gerenciar
         </MenuItem>
-        {state !== "PUBLICO" && (
+        {state === "PRIVADO" && item?.count_lesson > 0 && (
           <MenuItem
             border="none"
             borderRadius={0}

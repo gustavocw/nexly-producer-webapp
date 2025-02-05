@@ -26,13 +26,15 @@ const PublishProductModal: React.FC<{ idProduct?: string }> = ({
         title: "Publicado com sucesso!",
         type: "success",
       });
-      setIsOpen(false)
+      setIsOpen(false);
     },
   });
 
   return (
-    <DialogRoot open={isOpen} placement="center" role="alertdialog">
-        <Text.Medium onClick={() => setIsOpen(true)} fontSize="14px">Publicar curso</Text.Medium>
+    <DialogRoot onOpenChange={(e) => setIsOpen(e.open)} open={isOpen} placement="center" role="alertdialog">
+      <Text.Medium onClick={() => setIsOpen(true)} fontSize="14px">
+        Publicar curso
+      </Text.Medium>
       <DialogContent color="#fff" bg="neutral.60" p={4}>
         <DialogHeader>
           <DialogTitle>Deseja tornar público este info produto ?</DialogTitle>
@@ -46,7 +48,12 @@ const PublishProductModal: React.FC<{ idProduct?: string }> = ({
           <DialogActionTrigger asChild>
             <Btn w="50%" label="Cancelar" bg="transparent" />
           </DialogActionTrigger>
-          <Btn w="50%" isLoading={isPending} label="Confirmar" onClick={mutatePublish} />
+          <Btn
+            w="50%"
+            isLoading={isPending}
+            label="Confirmar"
+            onClick={mutatePublish}
+          />
         </DialogFooter>
         <DialogCloseTrigger />
       </DialogContent>
