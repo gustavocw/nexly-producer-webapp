@@ -15,6 +15,7 @@ interface ProductContextValue {
   isLoadingProducts?: boolean;
   loadingAreas?: boolean;
   creatingArea?: boolean;
+  successArea?: boolean;
   updatingArea?: boolean;
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
@@ -86,7 +87,7 @@ export const ProductProvider = ({
     }
   }, [areas, defaultArea]);
 
-  const { mutate: mutateArea, isPending: creatingArea } = useMutation({
+  const { mutate: mutateArea, isPending: creatingArea, isSuccess: successArea } = useMutation({
     mutationFn: (payload: any) => createArea(payload),
     onSuccess: () => {
       refetchAreas();
@@ -145,6 +146,7 @@ export const ProductProvider = ({
         defaultArea,
         creatingArea,
         updatingArea,
+        successArea,
         refetchProducts,
         loadingAreas,
         products,

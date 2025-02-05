@@ -34,16 +34,10 @@ export const createAreaSchema = z.object({
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
 
 export const useCreateAreaController = (selectedArea: Area | null) => {
-  const { mutateArea, mutateUpdateArea } = useProducts();
-  const [files, setFiles] = useState<{
-    background: File | null;
-    icon: File | null;
-    logo: File | null;
-  }>({
-    background: null,
-    icon: null,
-    logo: null,
-  });
+  const { successArea, mutateArea, mutateUpdateArea } = useProducts();
+  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+  const [iconFile, setIconFile] = useState<File | null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
   const {
     control,
@@ -51,6 +45,7 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
     setValue,
     formState: { errors },
     reset,
+    watch,
   } = useForm<CreateAreaFormData>({
     resolver: zodResolver(createAreaSchema),
     mode: "onBlur",
@@ -62,8 +57,13 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
     },
   });
 
-  const updateFile = (name: keyof typeof files, file: File | null) => {
-    setFiles((prev) => ({ ...prev, [name]: file }));
+  const updateFile = (
+    name: "background" | "icon" | "logo",
+    file: File | null
+  ) => {
+    if (name === "background") setBackgroundFile(file);
+    if (name === "icon") setIconFile(file);
+    if (name === "logo") setLogoFile(file);
   };
 
   const onSubmit: SubmitHandler<CreateAreaFormData> = async (data) => {
@@ -72,21 +72,24 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
         _id: selectedArea?._id,
         area: {
           ...data,
-          background: files.background || data.background,
-          icon: files.icon,
-          logo: files.logo,
+          background: backgroundFile || data.background,
+          icon: iconFile,
+          logo: logoFile,
         },
       };
       if (selectedArea) {
         try {
           mutateUpdateArea(payload);
-          reset();
         } catch {}
       } else {
         mutateArea(payload.area);
-        reset();
+        if (successArea) {
+          reset();
+          setIconFile(null);
+          setLogoFile(null);
+        }
       }
-      setFiles({ background: null, icon: null, logo: null });
+      setBackgroundFile(null);
     } catch (error) {
       toaster.create({
         title: `Erro ao ${selectedArea ? "atualizar" : "criar"} área: ${error}`,
@@ -102,15 +105,13 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       setValue("title", selectedArea.title);
       setValue("background", selectedArea.background || "");
 
-      setFiles({
-        background: selectedArea.background
-          ? new File([], selectedArea.background)
-          : null,
-        icon: selectedArea.icon ? new File([], selectedArea.icon) : null,
-        logo: selectedArea.logo ? new File([], selectedArea.logo) : null,
-      });
+      setBackgroundFile(
+        selectedArea.background ? new File([], selectedArea.background) : null
+      );
+      setIconFile(selectedArea.icon ? new File([], selectedArea.icon) : null);
+      setLogoFile(selectedArea.logo ? new File([], selectedArea.logo) : null);
     }
-  }, [selectedArea, setValue, setFiles]);
+  }, [selectedArea, setValue]);
 
   return {
     control,
@@ -119,8 +120,13 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
     errors,
     onSubmit,
     reset,
-    setFiles,
-    files,
+    setBackgroundFile,
+    setIconFile,
+    setLogoFile,
+    backgroundFile,
+    iconFile,
+    logoFile,
+    watch,
     updateFile,
   };
 };

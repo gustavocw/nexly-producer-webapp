@@ -94,9 +94,6 @@ const Members = () => {
     { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
 
-  console.log(defaultArea);
-  
-
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>
