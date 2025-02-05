@@ -24,13 +24,23 @@ const ProfileForm: React.FC<{
     handleAddressSubmit,
     onSubmitAddress,
     fetchAddressByCEP,
+    updatingProfile,
+    updatingAddress,
+    creatingAddress,
   } = useFormProfileController();
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [isAddressEdited, setIsAddressEdited] = useState(false);
+
+  const handleAddressChange = () => {
+    setIsAddressEdited(true);
+  };
 
   React.useEffect(() => {
-    setSubmitHandler(() => {
-      handleProfileSubmit(onSubmitProfile)();
-      handleAddressSubmit(onSubmitAddress)();
+    setSubmitHandler(async () => {
+      await handleProfileSubmit(onSubmitProfile)();
+      if (isAddressEdited) {
+        await handleAddressSubmit(onSubmitAddress)();
+      }
     });
   }, [
     handleProfileSubmit,
@@ -38,7 +48,17 @@ const ProfileForm: React.FC<{
     handleAddressSubmit,
     onSubmitAddress,
     setSubmitHandler,
+    isAddressEdited,
   ]);
+
+  const handleSave = async () => {
+    await handleProfileSubmit(onSubmitProfile)();
+    if (isAddressEdited) {
+      await handleAddressSubmit(onSubmitAddress)();
+    }
+  };
+
+  const isPending = updatingProfile || updatingAddress || creatingAddress;
 
   return (
     <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
@@ -122,7 +142,10 @@ const ProfileForm: React.FC<{
             errorText={addressErrors.codeStreet?.message}
             isRequired
             mask="99999-999"
-            onBlurSubmit={fetchAddressByCEP}
+            onBlurSubmit={(value) => {
+              fetchAddressByCEP(value);
+              handleAddressChange();
+            }}
           />
           <Input.Base
             label="Estado"
@@ -179,6 +202,7 @@ const ProfileForm: React.FC<{
           />
         </HStack>
       </VStack>
+      <Btn onClick={handleSave} label="Salvar" w="100%" isLoading={isPending} />
     </VStack>
   );
 };

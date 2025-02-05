@@ -10,6 +10,7 @@ import {
 import { toaster } from "components/ui/toaster";
 import axios from "axios";
 import { useProducer } from "hooks/useProducer";
+import { useMutation } from "@tanstack/react-query";
 
 export const profileSchema = z.object({
   name: z.string(),
@@ -88,57 +89,75 @@ export const useFormProfileController = () => {
   };
   console.log(producer?.address);
   
-
-  const onSubmitProfile: SubmitHandler<ProfileFormData> = async (data) => {
-    try {
-      const profileData = {
-        name: data.name,
-        lastname: data.lastname,
-        email: data.email,
-        phone_number: data.phone_number,
-      };
-      await updateProfile(profileData).then(() => {
-        toaster.create({
-          title: "Perfil editado com sucesso.",
-          type: "success",
-        });
-        refetchMe();
+  const { mutate: mutateUpdateProfile, isPending: updatingProfile } = useMutation({
+    mutationFn: (payload: any) => updateProfile(payload),
+    onSuccess: () => {
+      toaster.create({
+        title: "Perfil editado com sucesso.",
+        type: "success",
       });
+      refetchMe();
+    },
+    onError: () => {
       resetProfile();
-    } catch (error) {
       toaster.create({
         title: "Erro ao atualizar o perfil.",
         type: "error",
       });
-    }
-  };
+    },
+  });
 
-  const onSubmitAddress: SubmitHandler<ProfileFormData["address"]> = async (
-    data
-  ) => {
-    try {
-      if (producer?.address[0]?._id) {
-        await updateAddress(producer.address[0]._id, data).then(() => {
-          toaster.create({
-            title: "Endereço atualizado com sucesso.",
-            type: "success",
-          });
-          refetchMe();
-        });
-      } else {
-        await createAddress(data).then(() => {
-          toaster.create({
-            title: "Endereço criado com sucesso.",
-            type: "success",
-          });
-        });
-      }
+  const { mutate: mutateUpdateAddress, isPending: updatingAddress } = useMutation({
+    mutationFn: (payload: any) => updateAddress(producer?.address[0]?._id, payload),
+    onSuccess: () => {
+      toaster.create({
+        title: "Endereço atualizado com sucesso.",
+        type: "success",
+      });
+      refetchMe();
+    },
+    onError: () => {
       resetAddress();
-    } catch (error) {
       toaster.create({
         title: "Erro ao atualizar o endereço.",
         type: "error",
       });
+    },
+  });
+
+  const { mutate: mutateCreateAddress, isPending: creatingAddress } = useMutation({
+    mutationFn: (payload: any) => createAddress(payload),
+    onSuccess: () => {
+      toaster.create({
+        title: "Endereço criado com sucesso.",
+        type: "success",
+      });
+      refetchMe();
+    },
+    onError: () => {
+      resetAddress();
+      toaster.create({
+        title: "Erro ao criar o endereço.",
+        type: "error",
+      });
+    },
+  });
+
+  const onSubmitProfile: SubmitHandler<ProfileFormData> = async (data) => {
+    const profileData = {
+      name: data.name,
+      lastname: data.lastname,
+      email: data.email,
+      phone_number: data.phone_number,
+    };
+    await mutateUpdateProfile(profileData);
+  };
+
+  const onSubmitAddress: SubmitHandler<ProfileFormData["address"]> = async (data) => {
+    if (producer?.address[0]?._id) {
+      await mutateUpdateAddress(data);
+    } else {
+      await mutateCreateAddress(data);
     }
   };
 
@@ -154,5 +173,8 @@ export const useFormProfileController = () => {
     onSubmitAddress,
     resetAddress,
     fetchAddressByCEP,
+    updatingProfile,
+    updatingAddress,
+    creatingAddress,
   };
 };

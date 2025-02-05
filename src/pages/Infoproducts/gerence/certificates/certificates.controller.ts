@@ -68,8 +68,6 @@ export const useCertificateController = () => {
         }),
   });
 
-  console.log(certificate);
-
   const { mutate: mutateCertificate } = useMutation({
     mutationFn: (
       params: CertificateFormData & {

@@ -14,7 +14,6 @@ import type React from "react";
 import ProfileForm from "./form/form.profile";
 import Plans from "./plans/plans";
 import useProducerStore from "stores/producer.store";
-import Btn from "components/button/button";
 
 interface ProfileDialog {
   isOpen: boolean;
@@ -23,14 +22,9 @@ interface ProfileDialog {
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
   const { producer } = useProducerStore();
   let formSubmitHandler: (() => void) | null = null;
+
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
-  };
-
-  const handleSave = () => {
-    if (formSubmitHandler) {
-      formSubmitHandler();
-    }
   };
 
   return (
@@ -111,11 +105,6 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                     </Flex>
                   </Tabs.Trigger>
                 </Box>
-                <Tabs.Content  value="profile">
-                  <Flex justify="center" w="100%">
-                    <Btn onClick={handleSave} label="Salvar" w="90%" />
-                  </Flex>
-                </Tabs.Content>
               </VStack>
               <VStack
                 w="75%"
@@ -126,7 +115,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                 h="100%"
               >
                 <Tabs.Content value="profile" w="100%" h="100%">
-                <ProfileForm setSubmitHandler={setFormSubmitHandler} />
+                  <ProfileForm setSubmitHandler={setFormSubmitHandler} />
                 </Tabs.Content>
                 <Tabs.Content value="plans" w="100%" h="100%">
                   <Plans />

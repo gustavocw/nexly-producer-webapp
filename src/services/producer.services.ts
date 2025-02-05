@@ -15,7 +15,7 @@ export async function createAddress(params: Address) {
   return data;
 }
 
-export async function updateAddress(id: string,params: Address) {
+export async function updateAddress(id?: string, params?: Address) {
   const { data } = await http.put<any>(`/producer/address/${id}`, params);
   return data;
 }
