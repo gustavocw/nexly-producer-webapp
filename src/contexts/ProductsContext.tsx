@@ -133,7 +133,6 @@ export const ProductProvider = ({
 
 
   useEffect(() => {
-    console.log("Current areaId:", areaId);
     if (!areaId && areasList.length > 0) {
       const firstAreaId = areasList[0].value;
       setAreaId(firstAreaId);

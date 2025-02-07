@@ -37,7 +37,7 @@ const Certificates = () => {
   const backgroundUrl = files.file || certificate?.backgroundUrl;
 
   return (
-    <VStack flexDir="column" w="100%" align="flex-start" gap="32px">
+    <VStack pb={10} flexDir="column" w="100%" align="flex-start" gap="32px">
       <Text.Medium fontSize="16px">Informações do certificado</Text.Medium>
       <VStack
         boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
@@ -143,10 +143,12 @@ const Certificates = () => {
               <DragFile
                 label="Logotipo"
                 onFileSelect={(file) => updateFiles("logoUrl", file)}
+                value={files.logoUrl}
               />
               <DragFile
                 label="Capa"
                 onFileSelect={(file) => updateFiles("file", file)}
+                value={files.file}
               />
             </HStack>
           </VStack>
