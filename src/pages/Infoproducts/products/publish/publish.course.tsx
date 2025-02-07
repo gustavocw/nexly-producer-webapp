@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "components/ui/dialog";
 import { toaster } from "components/ui/toaster";
+import { useProducts } from "hooks/useProducts";
 import { useState } from "react";
 import { publishProduct } from "services/product.services";
 
@@ -19,9 +20,11 @@ const PublishProductModal: React.FC<{ idProduct?: string }> = ({
   idProduct,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { refetchProducts } = useProducts();
   const { mutate: mutatePublish, isPending } = useMutation({
     mutationFn: () => publishProduct(idProduct),
     onSuccess: () => {
+      refetchProducts();
       toaster.create({
         title: "Publicado com sucesso!",
         type: "success",
@@ -31,7 +34,12 @@ const PublishProductModal: React.FC<{ idProduct?: string }> = ({
   });
 
   return (
-    <DialogRoot onOpenChange={(e) => setIsOpen(e.open)} open={isOpen} placement="center" role="alertdialog">
+    <DialogRoot
+      onOpenChange={(e) => setIsOpen(e.open)}
+      open={isOpen}
+      placement="center"
+      role="alertdialog"
+    >
       <Text.Medium onClick={() => setIsOpen(true)} fontSize="14px">
         Publicar curso
       </Text.Medium>

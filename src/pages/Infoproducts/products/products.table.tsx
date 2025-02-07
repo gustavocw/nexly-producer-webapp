@@ -74,7 +74,6 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
 
   const renderMenuItems = (item: Product, state: string, deldate?: any) => {
     if (deldate) return null;
-
     return (
       <>
         <MenuItem
@@ -96,7 +95,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
         >
           Gerenciar
         </MenuItem>
-        {state === "PRIVADO" && item?.count_lesson > 0 && (
+        {state === "PRIVADO" && item?.count_modules > 0 && (
           <MenuItem
             border="none"
             borderRadius={0}

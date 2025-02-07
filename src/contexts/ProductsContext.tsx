@@ -33,7 +33,6 @@ export const ProductProvider = ({
   children: React.ReactNode;
 }) => {
   const [product, setProductState] = useState<Product | null>(null);
-  const [areaId, setAreaId] = useState("");
   const [defaultArea, setDefaultArea] = useState<{
     value: string;
     label: string;
@@ -50,6 +49,28 @@ export const ProductProvider = ({
   };
 
   const {
+    data: areas,
+    refetch: refetchAreas,
+    isLoading: loadingAreas,
+  } = useQuery({
+    queryKey: ["areas", isLogged],
+    queryFn: async () => {
+      return getAreas()
+    },
+    enabled: isLogged,
+  });
+    
+  const areasList = useMemo(() => {
+    if (!areas || !Array.isArray(areas)) return [];
+    return areas.map((area: any) => ({
+      value: area._id,
+      label: area.title,
+    }));
+  }, [areas]);
+  
+  const [areaId, setAreaId] = useState(() => areasList.length > 0 ? areasList[0].value : "");
+
+  const {
     data: products,
     isLoading: isLoadingProducts,
     refetch: refetchProducts,
@@ -63,17 +84,6 @@ export const ProductProvider = ({
     enabled: !!areaId && isLogged,
   });
 
-  const {
-    data: areas,
-    refetch: refetchAreas,
-    isLoading: loadingAreas,
-  } = useQuery({
-    queryKey: ["areas", isLogged],
-    queryFn: async () => {
-      return getAreas()
-    },
-    enabled: isLogged,
-  });
   
   useMemo(() => {
     if (areas && areas.length > 0) {
@@ -120,22 +130,20 @@ export const ProductProvider = ({
       });
     },
   });
-  
-  const areasList = useMemo(() => {
-    if (!areas || !Array.isArray(areas)) return [];
-    return areas.map((area: any) => ({
-      value: area._id,
-      label: area.title,
-    }));
-  }, [areas]);
-  
+
 
   useEffect(() => {
+    console.log("Current areaId:", areaId);
+    if (!areaId && areasList.length > 0) {
+      const firstAreaId = areasList[0].value;
+      setAreaId(firstAreaId);
+    }
+  
     if (products?.length === 0 && isLogged) {
       refetchProducts();
     }
-  }, [products]);
-
+  }, [products, areaId, areasList]);
+  
   return (
     <ProductContext.Provider
       value={{
