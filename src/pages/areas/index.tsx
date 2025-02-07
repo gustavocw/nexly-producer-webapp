@@ -1,4 +1,4 @@
-import { VStack, Flex, Tabs, HStack, Icon } from "@chakra-ui/react";
+import { VStack, Flex, Tabs, HStack, Icon, Box } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AreaCard from "./card/card.areas";
 import { useAreasController } from "./index.controller";
@@ -6,13 +6,19 @@ import FormArea from "./form/form.area";
 import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
 import { useProducts } from "hooks/useProducts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsTextareaResize } from "react-icons/bs";
+import { checkDomainStatus } from "utils/domainVercel";
+import ModalDomain from "./modal/modal.domain";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
   const { creatingArea, updatingArea } = useProducts();
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const [domainStatuses, setDomainStatuses] = useState<{
+    [key: string]: string;
+  }>({});
+
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
     formSubmitHandler = submitHandler;
@@ -27,6 +33,29 @@ const Areas = () => {
   const handleAreaClick = (area: Area) => {
     setSelectedArea(area);
   };
+
+  useEffect(() => {
+    const verifyDomains = async () => {
+      if (!areas || areas.length === 0) return;
+
+      const newStatuses: { [key: string]: string } = {};
+
+      for (const area of areas) {
+        if (area.domain && area._id) {
+          const result = await checkDomainStatus(area.domain);
+          if (result.error) {
+            newStatuses[area._id] = "⏳ Aguardando configuração DNS";
+          } else {
+            newStatuses[area._id] = "✅ Domínio configurado corretamente!";
+          }
+        }
+      }
+
+      setDomainStatuses(newStatuses);
+    };
+
+    verifyDomains();
+  }, [areas]);
 
   return (
     <VStack gap="32px" px={8} align="stretch">
@@ -72,12 +101,17 @@ const Areas = () => {
         <Tabs.Content py={5} value="areas">
           {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
-              {areas?.map((area: Area) => (
-                <AreaCard
-                  key={area._id}
-                  data={area}
-                  onClick={() => handleAreaClick(area)}
-                />
+              {areas?.map((area) => (
+                <Box>
+                  <AreaCard data={area} onClick={() => handleAreaClick(area)} />
+                  <ModalDomain
+                    area={area}
+                    initialStatus={
+                      domainStatuses[area._id ?? ""] ||
+                      "🔍 Verificando domínio..."
+                    }
+                  />
+                </Box>
               ))}
             </Flex>
           ) : (
@@ -93,7 +127,7 @@ const Areas = () => {
               </Icon>
               <VStack gap="32px" lineHeight={1.5} w="100%">
                 <Text.Medium fontSize="24px" color="neutral">
-                  Comece sua jornada com a nexly criando sua primeira área de
+                  Comece sua jornada com a Nexly criando sua primeira área de
                   membro.
                 </Text.Medium>
                 <Tabs.Trigger value="area">

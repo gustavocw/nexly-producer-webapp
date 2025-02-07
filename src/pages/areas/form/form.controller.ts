@@ -77,9 +77,18 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
           logo: logoFile,
         },
       };
+
       if (selectedArea) {
+        const partialPayload: Partial<CreateAreaFormData & { background: any; icon: File | null; logo: File | null }> = {};
+        if (data.domain !== selectedArea.domain) partialPayload.domain = data.domain;
+        if (data.color !== selectedArea.color) partialPayload.color = data.color;
+        if (data.title !== selectedArea.title) partialPayload.title = data.title;
+        if (data.background !== selectedArea.background) partialPayload.background = backgroundFile || data.background;
+        if (iconFile && iconFile.name !== selectedArea.icon) partialPayload.icon = iconFile;
+        if (logoFile && logoFile.name !== selectedArea.logo) partialPayload.logo = logoFile;
+
         try {
-          mutateUpdateArea(payload);
+          mutateUpdateArea({ _id: selectedArea._id, area: partialPayload });
         } catch {}
       } else {
         mutateArea(payload.area);
