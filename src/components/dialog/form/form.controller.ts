@@ -5,6 +5,8 @@ import useProducerStore from "stores/producer.store";
 import {
   createAddress,
   updateAddress,
+  uploadPhoto,
+  deletePhoto,
   updateProfile,
 } from "services/producer.services";
 import { toaster } from "components/ui/toaster";
@@ -87,8 +89,43 @@ export const useFormProfileController = () => {
       });
     }
   };
-  console.log(producer?.address);
-  
+
+  const { mutate: mutatePhoto, isPending: uploadingPhoto } = useMutation({
+    mutationFn: (file: File) => uploadPhoto(file),
+    onSuccess: () => {
+      toaster.create({
+        title: "Foto alterada com sucesso.",
+        type: "success",
+      });
+      refetchMe();
+    },
+    onError: () => {
+      resetProfile();
+      toaster.create({
+        title: "Erro ao atualizar a foto.",
+        type: "error",
+      });
+    },
+  });
+
+  const { mutate: mutateDelete, isPending: deletingPhoto } = useMutation({
+    mutationFn: () => deletePhoto(),
+    onSuccess: () => {
+      toaster.create({
+        title: "Foto removida com sucesso.",
+        type: "success",
+      });
+      refetchMe();
+    },
+    onError: () => {
+      resetProfile();
+      toaster.create({
+        title: "Erro ao remover a foto.",
+        type: "error",
+      });
+    },
+  });
+
   const { mutate: mutateUpdateProfile, isPending: updatingProfile } = useMutation({
     mutationFn: (payload: any) => updateProfile(payload),
     onSuccess: () => {
@@ -150,14 +187,14 @@ export const useFormProfileController = () => {
       email: data.email,
       phone_number: data.phone_number,
     };
-    await mutateUpdateProfile(profileData);
+     mutateUpdateProfile(profileData);
   };
 
   const onSubmitAddress: SubmitHandler<ProfileFormData["address"]> = async (data) => {
     if (producer?.address[0]?._id) {
-      await mutateUpdateAddress(data);
+      mutateUpdateAddress(data);
     } else {
-      await mutateCreateAddress(data);
+      mutateCreateAddress(data);
     }
   };
 
@@ -176,5 +213,9 @@ export const useFormProfileController = () => {
     updatingProfile,
     updatingAddress,
     creatingAddress,
+    mutatePhoto,
+    uploadingPhoto,
+    mutateDelete,
+    deletingPhoto,
   };
 };

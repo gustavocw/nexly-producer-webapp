@@ -11,6 +11,7 @@ const useTicketsController = () => {
     queryKey: ["tickets"],
     queryFn: () => getTicketRooms(),
   });
+
   const handleMenuAction = (action: string) => {
     switch (action) {
       case "export":

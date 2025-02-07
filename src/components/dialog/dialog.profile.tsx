@@ -21,7 +21,7 @@ interface ProfileDialog {
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
   const { producer } = useProducerStore();
-
+  
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger cursor="pointer" asChild>
@@ -37,7 +37,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
           borderRadius="18px"
           w="100%"
         >
-          <Avatar size="sm" src="avatar-1.jpg" />
+          <Avatar size="sm" src={producer?.photo} />
           {isOpen && (
             <Flex flexDir="column" ml={4}>
               <Heading color="primary" as="h3" size="sm">

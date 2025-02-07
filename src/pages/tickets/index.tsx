@@ -16,6 +16,9 @@ const Tickets = () => {
     tickets,
   } = useTicketsController();
 
+  console.log(tickets);
+  
+
   return (
     <VStack align="flex-start">
       <Tabs.Root variant="subtle" w="100%" defaultValue="tickets">
@@ -40,7 +43,7 @@ const Tickets = () => {
                 />
               </HStack>
               <VStack w="100%">
-                <CardTickets data={tickets} />
+                <CardTickets data={tickets as Ticket[]} />
               </VStack>
             </VStack>
           </Tabs.Content>

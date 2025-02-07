@@ -10,95 +10,31 @@ import {
   SelectValueText,
   VStack,
 } from "@chakra-ui/react";
+import { useMutation } from "@tanstack/react-query";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import type React from "react";
+import { createRoom } from "services/tickets.services";
 
 interface TicketsProps {
   data: Ticket[];
 }
 
 const CardTickets: React.FC<TicketsProps> = ({ data }) => {
-  console.log(data);
-  
   const collection = createListCollection({
     items: statusOptions,
   });
-  const dummyTickets = [
-    {
-      id: "1",
-      name: "Erro na funcionalidade de login",
-      number: "3212",
-      description: "Usuários estão relatando problemas ao tentar realizar login no sistema.",
-      category: "Autenticação",
-      priority: "Alta",
-      createdAt: "2023-12-25T14:32:00Z",
-      author: {
-        name: "João Silva",
-        avatar: "https://via.placeholder.com/150",
-      },
-    },
-    {
-      id: "2",
-      name: "Bug no relatório financeiro",
-      number: "3213",
-      description: "O relatório financeiro exibe valores incorretos em determinadas situações.",
-      category: "Financeiro",
-      priority: "Média",
-      createdAt: "2023-12-20T10:15:00Z",
-      author: {
-        name: "Maria Oliveira",
-        avatar: "https://via.placeholder.com/150",
-      },
-    },
-    {
-      id: "3",
-      name: "Sugestão para melhoria no layout",
-      number: "3214",
-      description: "Os usuários sugeriram melhorias na interface para torná-la mais intuitiva.",
-      category: "Design",
-      priority: "Baixa",
-      createdAt: "2023-12-18T09:00:00Z",
-      author: {
-        name: "Carlos Ferreira",
-        avatar: "https://via.placeholder.com/150",
-      },
-    },
-    {
-      id: "4",
-      name: "Falha no envio de e-mails automáticos",
-      number: "3215",
-      description: "Os e-mails automáticos não estão sendo enviados corretamente.",
-      category: "Infraestrutura",
-      priority: "Alta",
-      createdAt: "2023-12-28T08:45:00Z",
-      author: {
-        name: "Ana Costa",
-        avatar: "https://via.placeholder.com/150",
-      },
-    },
-    {
-      id: "5",
-      name: "Integração com API externa",
-      number: "3216",
-      description: "Problemas de autenticação ao tentar integrar com a API de terceiros.",
-      category: "Integração",
-      priority: "Média",
-      createdAt: "2023-12-22T13:10:00Z",
-      author: {
-        name: "Lucas Pereira",
-        avatar: "https://via.placeholder.com/150",
-      },
-    },
-  ];
-  
-  
+
+  const { mutate: mutateCreateRoom } = useMutation({
+    mutationFn: (params: { nameRoom: string; ticketId?: string }) =>
+      createRoom(params?.ticketId, params?.nameRoom),
+  });
 
   return (
     <VStack spaceY="20px" w="100%">
-      {dummyTickets.map((ticket) => (
+      {data?.map((ticket) => (
         <VStack
-          key={ticket.id}
+          key={ticket.identity}
           p="22px"
           borderRadius="8px"
           boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
@@ -131,11 +67,11 @@ const CardTickets: React.FC<TicketsProps> = ({ data }) => {
           </Flex>
           <HStack w="100%" justify="space-between">
             <Flex gap="10px" alignItems="center">
-              <Avatar src={ticket.author.avatar} />
-              <Text.Medium fontSize="14px">{ticket.author.name}</Text.Medium>
+              <Avatar />
+              <Text.Medium fontSize="14px">aaaa</Text.Medium>
             </Flex>
             <Flex gap="10px" w="300px" justify="flex-end">
-              <Link color="primary.50">Responder</Link>
+              <Link onClick={() => mutateCreateRoom({ ticketId: ticket._id, nameRoom: ticket.name })} color="primary.50">Responder</Link>
               <Flex
                 alignItems="center"
                 justify="center"
@@ -209,12 +145,14 @@ function formatDate(date: string): string {
 }
 
 function getPriorityColor(priority: string): string {
-  switch (priority.toLowerCase()) {
-    case "alta":
+  switch (priority) {
+    case "ALTA":
       return "error.90";
-    case "média":
+    case "URGENTE":
+      return "error.90";
+    case "MEDIA":
       return "info.90";
-    case "baixa":
+    case "BAIXA":
       return "success.90";
     default:
       return "neutral.90";
