@@ -1,19 +1,19 @@
 import { persist, createJSONStorage } from "zustand/middleware";
 import { create } from "zustand";
 
-interface AuthState {
-  isOpen: boolean;
+interface SidebarState {
+  storedNotificationCount: number;
 }
 
-interface AuthActions {
-  setIsOpen: (isOpen: boolean) => void;
+interface SidebarActions {
+  setStoredNotificationCount: (count: number) => void;
 }
 
-const useSidebar = create<AuthState & AuthActions>()(
+const useSidebar = create<SidebarState & SidebarActions>()(
   persist(
     (set) => ({
-      isOpen: false,
-      setIsOpen: (isOpen) => set({ isOpen }),
+      storedNotificationCount: parseInt(localStorage.getItem("notificationCount") || "0", 10),
+      setStoredNotificationCount: (count) => set({ storedNotificationCount: count }),
     }),
     {
       name: "sidebar",

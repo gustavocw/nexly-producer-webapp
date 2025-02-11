@@ -94,6 +94,9 @@ const Members = () => {
     { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
 
+
+  console.log(products?.length !== undefined);
+  
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>
@@ -181,7 +184,7 @@ const Members = () => {
             />
           </VStack>
         </VStack>
-      ) : !!products && !!members ? (
+      ) : products?.length !== undefined && members?.length === 0 ? (
         <VStack
           w="100%"
           py="32px"

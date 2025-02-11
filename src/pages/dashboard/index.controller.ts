@@ -106,6 +106,9 @@ export const useDashboardController = () => {
       }),
   });
 
+  console.log(chartComments);
+  
+
   const { data: membersCount, isLoading: isLoadingChartMembers } = useQuery({
     queryKey: ["chart-members"],
     queryFn: () =>

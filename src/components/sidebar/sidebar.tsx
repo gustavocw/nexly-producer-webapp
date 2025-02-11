@@ -13,20 +13,22 @@ import ProfileDialog from "components/dialog/dialog.profile";
 import { useAuth } from "hooks/useAuth";
 import { useProducer } from "hooks/useProducer";
 import { useEffect } from "react";
+import useSidebar from "stores/sidebar.store";
 
 const Sidebar: React.FC = () => {
   const { isOpen, toggleIsOpen } = useSidebarController();
   const { signout } = useAuth();
   const { notifications } = useProducer();
+  const { storedNotificationCount, setStoredNotificationCount } = useSidebar();
 
   useEffect(() => {
-    const storedNotificationCount = parseInt(localStorage.getItem("notificationCount") || "0", 10);
     if (notifications?.length > storedNotificationCount) {
       localStorage.setItem("notificationCount", storedNotificationCount.toString());
     }
-  }, [notifications]);
+  }, [notifications, storedNotificationCount]);
 
   const handleNotificationsClick = () => {
+    setStoredNotificationCount(notifications.length);
     localStorage.setItem("notificationCount", notifications.length.toString());
   };
 
@@ -96,7 +98,7 @@ const Sidebar: React.FC = () => {
         >
           <Box mx="auto" position="relative" onClick={handleNotificationsClick}>
             <NotificationsDrawer data={notifications} />
-            {notifications?.length > parseInt(localStorage.getItem("notificationCount") || "0", 10) && (
+            {notifications?.length > storedNotificationCount && (
               <Box
                 position="absolute"
                 top="0"
