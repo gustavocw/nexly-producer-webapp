@@ -1,15 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useProducts } from "contexts/ProductsContext";
+import { useEffect, useState } from "react";
 import { getTicketRooms } from "services/tickets.services";
 
 const useTicketsController = () => {
+  const { areasList, handleSetAreaId, areas, defaultArea, areaId } =
+    useProducts();
   const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
   const [prioryty, setPriority] = useState("");
 
-  const { data: tickets } = useQuery({
+  const { data: tickets, refetch: refetchTickets } = useQuery({
     queryKey: ["tickets"],
-    queryFn: () => getTicketRooms(),
+    queryFn: () => getTicketRooms(areaId),
   });
 
   const handleMenuAction = (action: string) => {
@@ -51,11 +54,23 @@ const useTicketsController = () => {
     { value: "PRIVADO", label: "Inativos" },
   ];
 
+    useEffect(() => {
+      if (!areaId && areas?.length) {
+        handleSetAreaId(areasList[0]?.value);
+      }
+      if (tickets?.length === 0) {
+        refetchTickets();
+      }
+    }, [areaId, areasList, tickets, refetchTickets]);
+
   return {
     status,
     setPriority,
     setStatus,
     setCategory,
+    handleSetAreaId,
+    areasList,
+    defaultArea,
     category,
     tickets,
     prioryty,

@@ -95,8 +95,6 @@ const Members = () => {
   ];
 
 
-  console.log(products?.length !== undefined);
-  
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>

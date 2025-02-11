@@ -7,8 +7,8 @@ export async function createTicketRoom(ticketId: string, nameRoom: string) {
   return data;
 }
 
-export async function getTicketRooms(skip?: number, take?: number) {
-  const { data } = await http.get<any>("/tickets", {
+export async function getTicketRooms(areaId?: string, skip?: number, take?: number) {
+  const { data } = await http.get<any>(`/tickets/${areaId}`, {
     params: {
       skip,
       take,
