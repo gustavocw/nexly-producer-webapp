@@ -62,9 +62,6 @@ const ModalWebhookHotmart = () => {
                 readOnly
                 value={`https://optimumsistemas.dev.br/create/member/hotmart/${productId}`}
               />
-              {/* <TextNexly color="purple.500" textAlign="start">
-                  {`https://optimumsistemas.dev.br/create/member/hotmart/${productId}`}
-                </TextNexly> */}
               <ClipboardRoot
                 value={`https://optimumsistemas.dev.br/create/member/hotmart/${productId}`}
               >

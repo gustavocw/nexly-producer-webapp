@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Flex, HStack, Icon, Image, VStack } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
@@ -11,6 +11,8 @@ import {
   HoverCardRoot,
   HoverCardTrigger,
 } from "components/ui/hover-card";
+import ModalHotmart from "../modal/hotmart";
+
 export interface CardIntegrationProps {
   data: IntegrationData;
   onToggleIntegration: (id: number, isIntegrated: boolean) => void;
@@ -21,6 +23,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({
   onToggleIntegration,
 }) => {
   const { id, title, platformType, imageSrc, isIntegrated } = data;
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
     <VStack
@@ -33,6 +36,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({
       p="20px"
       gap="20px"
     >
+      {title === "Hotmart" && <ModalHotmart onClose={() => setIsModalOpen(false)} isOpen={isModalOpen} />}
       <Flex gap="16px">
         <Image src={imageSrc} w="50px" h="50px" borderRadius="8px" />
         <VStack align="flex-start" w="100%">
@@ -95,7 +99,15 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           variant="solid"
           checked={isIntegrated}
           disabled={isIntegrated || (title === "Youtube" || title === "Vimeo")}
-          onChange={() => onToggleIntegration(id, !isIntegrated)}
+          onClick={() => {
+            isIntegrated ? setIsModalOpen(true) : null
+          }}
+          onChange={() => {
+            onToggleIntegration(id, !isIntegrated);
+            if (title === "Hotmart") {
+              setIsModalOpen(true);
+            }
+          }}
         />
       </HStack>
     </VStack>

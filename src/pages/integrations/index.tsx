@@ -13,8 +13,6 @@ const Integrations = () => {
     handleSelectionChange,
   } = useIntegrationsController();
 
-  console.log(integrations);
-  
 
   return (
     <VStack gap="32px" px={8} align="stretch">
