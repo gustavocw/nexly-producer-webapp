@@ -12,6 +12,7 @@ import ModalCreateMember from "pages/members/creare/modal.create.members";
 import { MenuContent, MenuRoot, MenuTrigger } from "components/ui/menu";
 import { FaUsers } from "react-icons/fa";
 import { categoryOptions } from "utils/categoryProducts";
+import ModalWebhookHotmart from "pages/members/modal/ModalWebHook";
 
 const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
   const {
@@ -108,6 +109,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
               placeholder="Pesquisar membros"
             />
             <ModalCreateMember refetch={refetchMembers} />
+            <ModalWebhookHotmart />
             <MenuRoot positioning={{ placement: "left-start" }}>
               <MenuTrigger asChild>
                 <Icon

@@ -23,7 +23,6 @@ interface TableMembersProps {
 }
 
 const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
-  console.log(data);
   
   const { mutate: updateState } = useMutation({
     mutationFn: ({ memberId, state }: { memberId: string, state: string }) => updateStateMember(memberId, state),
