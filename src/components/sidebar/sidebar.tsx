@@ -16,6 +16,7 @@ import useSidebar from "stores/sidebar.store";
 
 const Sidebar: React.FC = () => {
   const { signout } = useAuth();
+  const isMobile = window.innerWidth <= 768;
   const { notifications } = useProducer();
   const {
     storedNotificationCount,
@@ -40,7 +41,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      {!isOpen && (
+      {!isOpen && isMobile && (
         <Icon
           aria-label="Toggle Sidebar"
           position="fixed"

@@ -15,9 +15,6 @@ const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
   const { creatingArea, updatingArea } = useProducts();
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
-  const [domainStatuses, setDomainStatuses] = useState<{
-    [key: string]: string;
-  }>({});
 
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
@@ -50,8 +47,6 @@ const Areas = () => {
           }
         }
       }
-
-      setDomainStatuses(newStatuses);
     };
 
     verifyDomains();
@@ -64,19 +59,22 @@ const Areas = () => {
           <Tabs.Content
             w="100%"
             display="flex"
-            justifyContent="space-between"
+            gap={2}
+            justifyContent={{ base: "flex-start", md: "space-between" }}
             value="areas"
+            alignItems="center"
           >
-            <Text.Medium fontSize="24px">
+            <Text.Medium fontSize={{ base: "18px", md: "24px" }}>
               Suas áreas {areas?.length && `(${areas?.length})`}
             </Text.Medium>
             {areas && areas?.length > 0 && (
               <Tabs.Trigger value="area">
                 <Btn
-                  w="200px"
+                  w={{ base: "140px", md: "200px" }}
                   iconLeft={<HiPlus />}
                   label="Nova área"
                   onClick={() => setSelectedArea(null)}
+                  h="30px"
                 />
               </Tabs.Trigger>
             )}
@@ -102,16 +100,15 @@ const Areas = () => {
           {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
               {areas?.map((area) => (
-                <Box>
-                  <AreaCard data={area} onClick={() => handleAreaClick(area)} />
-                  <ModalDomain
-                    area={area}
-                    initialStatus={
-                      domainStatuses[area._id ?? ""] ||
-                      "🔍 Verificando domínio..."
-                    }
-                  />
-                </Box>
+                <Flex flexWrap="wrap" w="100%">
+                  <Box w="100%">
+                    <AreaCard
+                      data={area}
+                      onClick={() => handleAreaClick(area)}
+                    />
+                    <ModalDomain area={area} />
+                  </Box>
+                </Flex>
               ))}
             </Flex>
           ) : (

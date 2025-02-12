@@ -94,7 +94,6 @@ const Members = () => {
     { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
 
-
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>
@@ -106,7 +105,7 @@ const Members = () => {
         />
       </Tabs.Root>
       <HStack w="100%" justify="space-between" align="center">
-        <HStack justify="space-between" w="100%">
+        <Stack flexDirection={{ base: "column", md: "flex" }} justify="space-between" w="100%">
           <Flex w="100%" gap="32px">
             <SelectOption
               onSelectChange={(v) => handleSetAreaId(v)}
@@ -132,9 +131,7 @@ const Members = () => {
             />
             <ModalCreateMember refetch={refetchMembers} />
             <MenuRoot positioning={{ placement: "left-start" }}>
-              <MenuTrigger
-                asChild
-              >
+              <MenuTrigger asChild>
                 <Icon
                   borderWidth="1px"
                   borderRadius="8px"
@@ -156,9 +153,9 @@ const Members = () => {
               </MenuContent>
             </MenuRoot>
           </Flex>
-        </HStack>
+        </Stack>
       </HStack>
-      {products?.length === undefined  && members?.length === undefined ? (
+      {products?.length === undefined && members?.length === undefined ? (
         <VStack
           w="100%"
           py="32px"
@@ -191,7 +188,7 @@ const Members = () => {
           boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
         >
           <Icon fontSize="44px" color="neutral">
-          <FaUsers />
+            <FaUsers />
           </Icon>
           <VStack gap="10px" lineHeight={1.5} w="100%">
             <Text textAlign="center" fontSize="24px" color="neutral">

@@ -13,13 +13,11 @@ const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
   const [iconLoaded, setIconLoaded] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
 
-  // Verifica se o background é um vídeo do YouTube ou Vimeo
   const isYouTube = background.includes("youtube.com") || background.includes("youtu.be");
   const isVimeo = background.includes("vimeo.com");
   const isVideo = isYouTube || isVimeo;
   const isImage = background.includes("cdn.nexly");
 
-  // Formata a URL para exibição no <iframe> (sem controles)
   const videoUrl = isYouTube
     ? background.replace("watch?v=", "embed/") + "?autoplay=1&mute=1&loop=1&playlist=" + background.split("v=")[1] + "&controls=0&disablekb=1&modestbranding=1&showinfo=0"
     : isVimeo
@@ -28,7 +26,7 @@ const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
 
   return (
     <Tabs.Trigger
-      w="332px"
+      w={{ base: "100%", md: "332px" }}
       h="200px"
       value="area"
       display="flex"

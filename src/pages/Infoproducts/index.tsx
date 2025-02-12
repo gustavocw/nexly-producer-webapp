@@ -1,4 +1,9 @@
-import { Flex, HStack, Icon, Stack, VStack } from "@chakra-ui/react";
+import {
+  Flex,
+  HStack,
+  Icon,
+  Stack, VStack
+} from "@chakra-ui/react";
 import SelectOption from "components/selectOption/select";
 import SearchBar from "components/search/search";
 import BooksIcon from "assets/icons/BooksIcon";
@@ -14,18 +19,17 @@ import { useNavigate } from "react-router-dom";
 import { categoryOptions } from "utils/categoryProducts";
 import { useCallback } from "react";
 import { debounce } from "lodash";
+import { useDevice } from "utils/breakPoints";
 
 const Infoproducts = () => {
-  const {
-    statusOptions,
-    handleSetAreaId,
-    products,
-    isLoadingProducts,
-  } = useInfoproductsController();
+  const { statusOptions, handleSetAreaId, products, isLoadingProducts } =
+    useInfoproductsController();
   const navigate = useNavigate();
   const { setSearch, search } = useProductStore();
   const { areas, defaultArea, areasList } = useProducts();
   const hasSearch = (search ?? "").trim().length > 0;
+  const { device } = useDevice();
+
   const handleSearchChange = useCallback(
     debounce((value: string) => {
       setSearch(value);
@@ -41,9 +45,14 @@ const Infoproducts = () => {
         </Text.Medium>
       </VStack>
 
-      <VStack gap="20px">
+      <VStack w="100%" gap="20px">
         <HStack w="100%" justify="space-between" align="center">
-          <HStack justify="space-between" w="100%">
+          <Stack
+            flexDirection={{ base: "column", md: "row" }}
+            justify="space-between"
+            w="100%"
+            flexWrap="wrap"
+          >
             <Flex w="100%" gap="32px">
               <SelectOption
                 onSelectChange={(v) => handleSetAreaId(v)}
@@ -62,17 +71,27 @@ const Infoproducts = () => {
                 options={statusOptions}
               />
             </Flex>
-            <Flex alignItems="center" justify="flex-end" gap="20px" w="100%">
+            <Flex
+              alignItems="center"
+              justify={{ base: "flex-start", md: "flex-end" }}
+              flexDirection={{ base: "row", md: "row" }}
+              gap="20px"
+              w="100%"
+              mt={{ base: "20px", md: "0" }}
+            >
               <SearchBar
                 onChange={handleSearchChange}
                 placeholder="Pesquisar produto"
               />
-              <ModalCategoryProduct />
+              {(device === "desktop" || device === "large-desktop") && (
+                <ModalCategoryProduct />
+              )}
             </Flex>
-          </HStack>
+          </Stack>
         </HStack>
       </VStack>
-      {products?.length === undefined || products?.length === 0 && !isLoadingProducts ? (
+      {products?.length === undefined ||
+      (products?.length === 0 && !isLoadingProducts) ? (
         hasSearch ? (
           <VStack gap="32px" w="100%">
             <VStack
@@ -120,7 +139,7 @@ const Infoproducts = () => {
           </VStack>
         )
       ) : (
-        <VStack align="flex-start" gap="20px">
+        <VStack w="100%" align="flex-start" gap="20px">
           {areas?.length === 0 || areas?.length === undefined ? (
             <VStack
               w="100%"
