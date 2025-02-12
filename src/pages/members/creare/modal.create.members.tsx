@@ -30,7 +30,7 @@ import { useProducts } from "hooks/useProducts";
 
 const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const {products: productsAll} = useProducts();
+  const { products: productsAll } = useProducts();
   const { id } = useParams();
   const {
     control,
@@ -40,11 +40,11 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
     handleSubmit,
     onSubmit,
     creatingMember,
-  } = useCreateModuleController({ refetch, onClose: () => setIsOpen(false) }); 
+  } = useCreateModuleController({ refetch, onClose: () => setIsOpen(false) });
   const products = createListCollection({
     items: productList || [],
   });
-    
+
   return (
     <HStack wrap="wrap" gap="4">
       <DialogRoot
@@ -54,7 +54,12 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
         onOpenChange={(e) => setIsOpen(e.open)}
       >
         <DialogTrigger asChild>
-          <Btn disabled={productsAll?.length === 0} w="200px" label="Adicionar membro" iconLeft={<LuPlus />} />
+          <Btn
+            disabled={productsAll?.length === 0}
+            w="200px"
+            label="Adicionar membro"
+            iconLeft={<LuPlus />}
+          />
         </DialogTrigger>
         <DialogContent padding={4} bg="neutral.60" p="12px">
           <DialogHeader pb={8}>
@@ -80,15 +85,15 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 errorText={errors?.email?.message}
               />
               <Select
-                name="state"
-                control={control}
+              name="state"
                 options={[
                   { label: "Ativo", value: "ATIVO" },
                   { label: "Bloqueado", value: "BLOQUEADO" },
                   { label: "Colaborador", value: "COLABORADOR" },
                 ]}
                 label="Status"
-                placeholder="Escolha o status "
+                placeholder="Status"
+                control={control}
               />
               {!id && (
                 <SelectRoot
@@ -126,10 +131,15 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
             </VStack>
           </DialogBody>
           <DialogFooter py={4}>
-              <DialogActionTrigger asChild>
-                <Btn bg="transparent" label="Cancelar" w="100px" />
-              </DialogActionTrigger>
-            <Btn isLoading={creatingMember} onClick={handleSubmit(onSubmit)} label="Adicionar" w="100px" />
+            <DialogActionTrigger asChild>
+              <Btn bg="transparent" label="Cancelar" w="100px" />
+            </DialogActionTrigger>
+            <Btn
+              isLoading={creatingMember}
+              onClick={handleSubmit(onSubmit)}
+              label="Adicionar"
+              w="100px"
+            />
           </DialogFooter>
           <DialogCloseTrigger />
         </DialogContent>

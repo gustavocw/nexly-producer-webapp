@@ -6,10 +6,7 @@ import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { useFormProfileController } from "./form.controller";
 import { useState } from "react";
-import {
-  FileUploadRoot,
-  FileUploadTrigger,
-} from "components/ui/file-upload";
+import { FileUploadRoot, FileUploadTrigger } from "components/ui/file-upload";
 import useProducerStore from "stores/producer.store";
 import { uploadPhoto, deletePhoto } from "services/producer.services";
 
@@ -62,13 +59,19 @@ const ProfileForm = () => {
           Foto do perfil
         </Text.Medium>
         <HStack alignItems="center" w="100%" align="flex-start">
-          <Avatar w="80px" h="80px" src={file ? URL.createObjectURL(file) : producer?.photo} />
+          <Avatar
+            w="80px"
+            h="80px"
+            src={file ? URL.createObjectURL(file) : producer?.photo}
+          />
           <Box>
             <Flex gap="10px">
-              <FileUploadRoot onFileChange={(e) => {
-                setFile(e.acceptedFiles[0])
-                mutatePhoto(e.acceptedFiles[0])
-              }}>
+              <FileUploadRoot
+                onFileChange={(e) => {
+                  setFile(e.acceptedFiles[0]);
+                  mutatePhoto(e.acceptedFiles[0]);
+                }}
+              >
                 <FileUploadTrigger asChild>
                   <Btn w="120px" label="Alterar foto" />
                 </FileUploadTrigger>
@@ -197,9 +200,14 @@ const ProfileForm = () => {
             placeholder="Digite o complemento"
             errorText={addressErrors.complement?.message}
           />
+          <Btn
+            onClick={handleSave}
+            label="Salvar"
+            w="200px"
+            isLoading={isPending}
+          />
         </HStack>
       </VStack>
-      <Btn onClick={handleSave} label="Salvar" w="100%" isLoading={isPending} />
     </VStack>
   );
 };

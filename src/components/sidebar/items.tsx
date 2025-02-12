@@ -5,6 +5,8 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import IntegrationInstructionsOutlinedIcon from "@mui/icons-material/IntegrationInstructionsOutlined";
 import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
 
+const isMobile = window.innerWidth <= 768;
+
 export const menuItems = [
   {
     path: "/",
@@ -17,8 +19,8 @@ export const menuItems = [
     label: "Produtos",
   },
   { path: "/members", icon: <GroupOutlinedIcon />, label: "Membros" },
-  { path: "/tickets", icon: <SupportAgentOutlinedIcon />, label: "Tickets" },
-  {
+  !isMobile && { path: "/tickets", icon: <SupportAgentOutlinedIcon />, label: "Tickets" },
+  !isMobile && {
     path: "/integrations",
     icon: <IntegrationInstructionsOutlinedIcon />,
     label: "Integrações",
@@ -26,7 +28,6 @@ export const menuItems = [
   {
     path: '/areas',
     icon: <DriveFileRenameOutlineRoundedIcon />,
-
     label: 'Áreas de membro',
   },
-];
+].filter(Boolean);

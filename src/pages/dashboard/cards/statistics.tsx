@@ -14,7 +14,7 @@ const Statistis: React.FC<StatistisProps> = ({ viewers, time }) => {
       borderRadius="8px"
       boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
       justify="flex-start"
-      width="80%"
+      width={{ base: "100%", md: "80%" }}
       mx={4}
       bg="neutral.60"
       p="20px"
