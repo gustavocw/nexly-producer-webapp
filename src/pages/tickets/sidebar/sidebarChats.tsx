@@ -3,7 +3,11 @@ import SearchBar from "components/search/search";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 
-const SidebarChats = () => {
+const SidebarChats: React.FC<any> = ({ rooms }) => {
+
+  console.log(rooms);
+  
+
   return (
     <VStack
       bg="neutral.60"

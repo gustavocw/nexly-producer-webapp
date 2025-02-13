@@ -1,7 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toaster } from "components/ui/toaster";
 import { useProducts } from "contexts/ProductsContext";
 import { useEffect, useState } from "react";
-import { getTicketRooms } from "services/tickets.services";
+import { createRoom, getRooms, getTicketRooms } from "services/tickets.services";
 
 const useTicketsController = () => {
   const { areasList, handleSetAreaId, areas, defaultArea, areaId } =
@@ -13,6 +14,23 @@ const useTicketsController = () => {
   const { data: tickets, refetch: refetchTickets } = useQuery({
     queryKey: ["tickets"],
     queryFn: () => getTicketRooms(areaId),
+  });
+
+  const { data: rooms, refetch: refetchRooms } = useQuery({
+    queryKey: ["rooms"],
+    queryFn: () => getRooms(),
+  });
+
+  const { mutate: mutateCreateRoom } = useMutation({
+    mutationFn: (params: { nameRoom: string; ticketId?: string }) =>
+      createRoom(params?.ticketId, params?.nameRoom),
+    onSuccess: () => {
+      refetchRooms();
+      toaster.create({
+        title: "Sala criada com sucesso, pode visualizar na direita.",
+        type: "success"
+      })
+    }
   });
 
   const handleMenuAction = (action: string) => {
@@ -69,6 +87,9 @@ const useTicketsController = () => {
     setStatus,
     setCategory,
     handleSetAreaId,
+    refetchRooms,
+    rooms,
+    mutateCreateRoom,
     areasList,
     defaultArea,
     category,

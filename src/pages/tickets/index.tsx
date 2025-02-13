@@ -18,9 +18,9 @@ const Tickets = () => {
     handleSetAreaId,
     areasList,
     defaultArea,
+    rooms,
+    mutateCreateRoom,
   } = useTicketsController();
-
-  console.log(tickets);
 
   return (
     <VStack align="flex-start">
@@ -70,7 +70,7 @@ const Tickets = () => {
                     </VStack>
                   </VStack>
                 ) : (
-                  <CardTickets data={tickets as Ticket[]} />
+                  <CardTickets mutateCreateRoom={mutateCreateRoom} data={tickets as Ticket[]} />
                 )}
               </VStack>
             </VStack>
@@ -78,7 +78,7 @@ const Tickets = () => {
           <Tabs.Content value="chat">
             <Chat />
           </Tabs.Content>
-          <SidebarChats />
+          <SidebarChats rooms={rooms} />
         </Flex>
       </Tabs.Root>
     </VStack>

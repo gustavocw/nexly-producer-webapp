@@ -10,24 +10,18 @@ import {
   SelectValueText,
   VStack,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import type React from "react";
-import { createRoom } from "services/tickets.services";
 
 interface TicketsProps {
   data: Ticket[];
+  mutateCreateRoom: (params: any) => void;
 }
 
-const CardTickets: React.FC<TicketsProps> = ({ data }) => {
+const CardTickets: React.FC<TicketsProps> = ({ data, mutateCreateRoom }) => {
   const collection = createListCollection({
     items: statusOptions,
-  });
-
-  const { mutate: mutateCreateRoom } = useMutation({
-    mutationFn: (params: { nameRoom: string; ticketId?: string }) =>
-      createRoom(params?.ticketId, params?.nameRoom),
   });
 
   return (
@@ -71,7 +65,17 @@ const CardTickets: React.FC<TicketsProps> = ({ data }) => {
               <Text.Medium fontSize="14px">aaaa</Text.Medium>
             </Flex>
             <Flex gap="10px" w="300px" justify="flex-end">
-              <Link onClick={() => mutateCreateRoom({ ticketId: ticket._id, nameRoom: ticket.name })} color="primary.50">Responder</Link>
+              <Link
+                onClick={() =>
+                  mutateCreateRoom({
+                    ticketId: ticket._id,
+                    nameRoom: ticket.name,
+                  })
+                }
+                color="primary.50"
+              >
+                Responder
+              </Link>
               <Flex
                 alignItems="center"
                 justify="center"
