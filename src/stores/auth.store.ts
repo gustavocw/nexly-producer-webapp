@@ -14,6 +14,8 @@ interface AuthState {
   email: string | null;
   password: string | null;
   rememberMe: string;
+  plan: string;
+  setPlan: (plan: string) => void;
 }
 
 interface AuthActions {
@@ -37,6 +39,8 @@ const useAuthStore = create<AuthState & AuthActions>()(
       setEmail: (email) => set({ email }),
       setPassword: (password) => set({ password }),
       setRememberMe: (rememberMe) => set({ rememberMe }),
+      plan: '',
+      setPlan: (plan) => set({ plan: plan }),
     }),
     {
       name: "auth-storage",

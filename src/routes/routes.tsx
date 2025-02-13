@@ -21,6 +21,7 @@ import AuthYoutube from "pages/Infoproducts/create/platforms/authplatform/auth.y
 import AuthVimeo from "pages/Infoproducts/create/platforms/authplatform/auth.vimeo";
 import VimeoFolders from "pages/Infoproducts/create/vimeo/vimeo.folders";
 import VimeoVideos from "pages/Infoproducts/create/vimeo/videos/vimeo.videos";
+import PlansPage from "pages/plans";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -76,6 +77,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/areas" element={<Areas />} />
             <Route path="/members" element={<Members />} />
             <Route path="/integrations" element={<Integrations />} />
+            <Route path="/plans" element={<PlansPage />} />
           </Route>
         </Route>
       </Routes>

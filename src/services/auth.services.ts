@@ -15,3 +15,7 @@ export async function register(params: CreateProducer) {
   return data;
 }
 
+export async function getPlan(email: string | undefined, plan: string) {
+  const { data } = await http.get(`producer/payment/url?email=${email}&plan=${plan}`, {});
+  return data;
+}

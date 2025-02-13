@@ -19,10 +19,13 @@ interface TicketsProps {
   mutateCreateRoom: (params: any) => void;
 }
 
+
+
 const CardTickets: React.FC<TicketsProps> = ({ data, mutateCreateRoom }) => {
   const collection = createListCollection({
     items: statusOptions,
   });
+  console.log(data);
 
   return (
     <VStack spaceY="20px" w="100%">
@@ -61,8 +64,8 @@ const CardTickets: React.FC<TicketsProps> = ({ data, mutateCreateRoom }) => {
           </Flex>
           <HStack w="100%" justify="space-between">
             <Flex gap="10px" alignItems="center">
-              <Avatar />
-              <Text.Medium fontSize="14px">aaaa</Text.Medium>
+              <Avatar src={ticket?.photo} />
+              <Text.Medium fontSize="14px">{ticket?.name_student}</Text.Medium>
             </Flex>
             <Flex gap="10px" w="300px" justify="flex-end">
               <Link

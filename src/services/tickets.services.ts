@@ -1,8 +1,8 @@
 import { http } from "./http/http";
 
 export async function getRooms() {
-  const { data } = await http.post<any>(`/tickets/room/`, {});
-  return data;
+  const { data } = await http.get<any>(`/tickets/rooms`, {});
+  return data.data;
 }
 
 export async function getTicketRooms(areaId?: string, skip?: number, take?: number) {

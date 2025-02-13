@@ -9,4 +9,6 @@ interface Ticket {
   priority: string;
   status: string;
   createdAt: string;
+  name_student: string;
+  photo: string;
 }
