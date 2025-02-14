@@ -1,6 +1,17 @@
 export const dummyMessages = [
   { id: 1, author: "Eu", content: "Olá, tudo bem?", timestamp: new Date() },
   { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
+  { id: 2, author: "Outro", content: "Sim, e você?", timestamp: new Date() },
   {
     id: 3,
     author: "Eu",

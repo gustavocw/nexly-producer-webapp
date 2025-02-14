@@ -2,12 +2,12 @@ import {
   createListCollection,
   Flex,
   HStack,
-  Icon, SelectContent,
+  Icon,
+  SelectContent,
   SelectItem,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
-  Tabs,
   Textarea,
   VStack
 } from "@chakra-ui/react";
@@ -19,7 +19,9 @@ import SendIcon from "@mui/icons-material/Send";
 import { useChatController } from "./chat.controller";
 import React, { useEffect, useRef } from "react";
 
-const Chat = () => {
+const Chat: React.FC<any> = ({ roomId, setStep }) => {
+  console.log(roomId);
+  
   const collection = createListCollection({
     items: statusOptions,
   });
@@ -41,32 +43,31 @@ const Chat = () => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
-  }, [getMessagesInReverseOrder()]); // Reposiciona o scroll sempre que novas mensagens chegarem
+  }, [getMessagesInReverseOrder()]);
 
   return (
-    <VStack h="100vh" flex={1} align="flex-start">
+    <VStack position="relative" w="100%" h="100%" flex={1} align="flex-start">
       <HStack
         borderBottom="1px solid"
         borderColor="neutral.40"
         p="32px"
         h="100px"
-        w="100%"
+        w="calc(100vw - 550px)"
         justify="space-between"
+        flexShrink={0}
       >
-        <Tabs.Trigger value="tickets" w="100%">
+        <Flex alignItems="center" gap="10px" onClick={() => setStep("tickets")} cursor="pointer">
+          <Icon color="neutral">
+            <KeyboardArrowLeftIcon />
+          </Icon>
           <Flex alignItems="center" gap="10px">
-            <Icon color="neutral">
-              <KeyboardArrowLeftIcon />
-            </Icon>
-            <Flex alignItems="center" gap="10px">
-              <Text.Medium fontSize="22px">Nome do ticket</Text.Medium>
-              <Text.Medium fontSize="22px">|</Text.Medium>
-              <Text.Medium color="neutral.10" fontSize="22px">
-                #2123
-              </Text.Medium>
-            </Flex>
+            <Text.Medium fontSize="22px">Nome do ticket</Text.Medium>
+            <Text.Medium fontSize="22px">|</Text.Medium>
+            <Text.Medium color="neutral.10" fontSize="22px">
+              #2123
+            </Text.Medium>
           </Flex>
-        </Tabs.Trigger>
+        </Flex>
         <Flex gap="10px" w="300px" justify="flex-end">
           <Flex
             alignItems="center"
@@ -124,12 +125,16 @@ const Chat = () => {
           </SelectRoot>
         </Flex>
       </HStack>
+
+      {/* Área de mensagens com scroll */}
       <VStack
         px={10}
-        w="100%"
-        overflowY="auto"
+        w="calc(100vw - 550px)"
         ref={messagesContainerRef}
-        flex={1} // Garante que ocupe todo o espaço vertical disponível
+        flex={1}
+        py={20}
+        overflowY="auto"
+        maxH="calc(100vh - 100px)"
       >
         {Object.keys(groupedMessages).reverse().map((date) => (
           <React.Fragment key={date}>
@@ -190,20 +195,26 @@ const Chat = () => {
           </React.Fragment>
         ))}
       </VStack>
+
+      {/* Input fixo na parte inferior */}
       <Flex
+        position="absolute"
         alignItems="center"
-        bottom={0}
-        w="100%"
+        bottom="0"
+        zIndex={999}
+        w="calc(100vw - 550px)"
         borderTopWidth="1px"
         borderColor="neutral.40"
-        h="100px"
+        h="120px"
+        bg="neutral.60"
+        flexShrink={0}
       >
         <Textarea
           borderRadius="0"
           my={0}
           h="100%"
-          minH="100px"
-          maxH="100px"
+          minH="120px"
+          maxH="120px"
           color="neutral"
           p="2"
           border="none"
@@ -213,7 +224,7 @@ const Chat = () => {
           placeholder="Digite sua mensagem..."
         />
         <Icon
-          w="50px"
+          w="80px"
           cursor="pointer"
           onClick={() => sendMessage(input)}
           color="neutral"
@@ -221,6 +232,7 @@ const Chat = () => {
           <SendIcon />
         </Icon>
       </Flex>
+
     </VStack>
   );
 };
