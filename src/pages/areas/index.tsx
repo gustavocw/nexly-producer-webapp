@@ -43,9 +43,7 @@ const Areas = () => {
   useEffect(() => {
     const verifyDomains = async () => {
       if (!areas || areas.length === 0) return;
-
       const newStatuses: { [key: string]: string } = {};
-
       for (const area of areas) {
         if (area.domain && area._id) {
           const result = await checkDomainStatus(area.domain);
@@ -90,7 +88,7 @@ const Areas = () => {
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
               {areas?.map((area) => (
                 <Flex flexWrap="wrap" w="100%">
-                  <Box  w="100%">
+                  <Box w="300px">
                   <Box onClick={() => handleAreaClick(area)} w="100%">
                     <AreaCard data={area} />
                   </Box>

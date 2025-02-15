@@ -9,7 +9,7 @@ import {
 import { useParams } from "react-router-dom";
 import { toaster } from "components/ui/toaster";
 import { useGenrenceInfoproduct } from "../index.controller";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const certificateSchema = z.object({
   signatureUrl: z.string().min(1, "A assinatura é obrigatória."),
@@ -68,10 +68,10 @@ export const useCertificateController = () => {
         }),
   });
 
-  const { mutate: mutateCertificate } = useMutation({
+  const { mutate: mutateCertificate, isPending } = useMutation({
     mutationFn: (
       params: CertificateFormData & {
-        files: { file: File | null; logoUrl: File | null };
+        files: { logoUrl: File | null; file: File | null };
       }
     ) => createCertificate(params, productId),
     onSuccess: () => {
@@ -89,6 +89,17 @@ export const useCertificateController = () => {
       });
     },
   });
+
+  useEffect(() => {
+    if (certificate) {
+      reset({
+        signatureUrl: certificate?.signatureUrl || "",
+        description: certificate?.description || "",
+        percent: certificate?.percent || 0,
+        progress: certificate?.progress || "",
+      });
+    }
+  }, [certificate, reset]);
 
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
     if (!data.signatureUrl) {
@@ -117,6 +128,7 @@ export const useCertificateController = () => {
     certificate,
     errors,
     watch,
+    isPending,
     setValue,
     files,
     updateFiles,

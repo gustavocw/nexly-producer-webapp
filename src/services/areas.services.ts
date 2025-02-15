@@ -30,7 +30,7 @@ export async function createArea(params: Area) {
     },
   });
 
-  return data;
+  return data.data[0];
 }
 
 export async function updateArea(params: Partial<Area>, areaId: any) {

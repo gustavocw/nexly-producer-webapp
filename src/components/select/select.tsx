@@ -1,14 +1,10 @@
 import React from "react";
 import { Controller } from "react-hook-form";
-import { createListCollection } from "@chakra-ui/react";
 import { Field } from "components/ui/field";
 import {
-  SelectContent,
-  SelectItem,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "components/ui/select";
+  NativeSelectField,
+  NativeSelectRoot,
+} from "components/ui/native-select";
 
 interface Option {
   label: string;
@@ -36,13 +32,6 @@ const Select: React.FC<SelectProps> = ({
   placeholder = "Select an option",
   isRequired,
 }) => {
-  const collection = React.useMemo(() => {
-    if (!Array.isArray(options) || options?.length === 0) {
-      return createListCollection({ items: [] });
-    }
-    return createListCollection({ items: options });
-  }, [options]);
-
   return (
     <Field
       helperText={helperText}
@@ -56,44 +45,36 @@ const Select: React.FC<SelectProps> = ({
         name={name}
         control={control}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <SelectRoot
-            collection={collection}
+          <NativeSelectRoot
             width="100%"
-            value={value || ""}
-            onValueChange={(selectedValue) => {
-              if (selectedValue.value) {
-                onChange(selectedValue.value);
-              }
-            }}
             invalid={!!error}
             zIndex={1000000}
+            border="1px solid"
+            borderColor="neutral.40"
+            bg="neutral.50"
+            color="neutral"
+            borderRadius="8px"
           >
-            <SelectTrigger zIndex={1000000} _icon={{ mr: "2", color: "neutral" }}>
-              <SelectValueText px={2} placeholder={placeholder} />
-            </SelectTrigger>
-            <SelectContent
-              zIndex={1000000}
-              gap={2}
-              border="1px solid"
-              borderColor="neutral.40"
-              bg="neutral.50"
-              color="neutral"
+            <NativeSelectField
+              value={value || ""}
+              onChange={(e) => onChange(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
             >
+              <option value="" disabled>
+                {placeholder}
+              </option>
               {options?.map((option) => (
-                <SelectItem
-                  cursor="pointer"
-                  fontSize="16px"
-                  zIndex={1000000}
-                  p={2}
-                  _hover={{ bg: "neutral.20" }}
-                  item={option}
-                  key={option?.value}
-                >
-                  {option?.label}
-                </SelectItem>
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
               ))}
-            </SelectContent>
-          </SelectRoot>
+            </NativeSelectField>
+          </NativeSelectRoot>
         )}
       />
     </Field>

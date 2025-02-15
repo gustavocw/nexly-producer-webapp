@@ -22,6 +22,7 @@ const Certificates = () => {
     onSubmit,
     files,
     certificate,
+    isPending,
   } = useCertificateController();
 
   const percents = [
@@ -156,6 +157,7 @@ const Certificates = () => {
             <Btn
               onClick={handleSubmit(onSubmit)}
               type="submit"
+              isLoading={isPending}
               w="200px"
               label="Salvar"
             />

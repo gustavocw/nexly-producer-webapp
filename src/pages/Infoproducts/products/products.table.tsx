@@ -164,7 +164,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
       borderWidth="1px"
       borderColor="neutral.40"
       rounded="md"
-      h="75vh"
+      h="auto"
     >
       <Table.Root size="sm" stickyHeader>
         <Table.Header>

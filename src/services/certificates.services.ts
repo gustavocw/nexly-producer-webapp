@@ -10,10 +10,10 @@ export async function createCertificate(
   courseId: string | null | undefined
 ): Promise<void> {
   const formData = new FormData();
-  if (params.files?.file) {
-    formData.append("files", params.files.file);
-  }
   if (params.files?.logoUrl) {
+    formData.append("files", params.files.logoUrl);
+  }
+  if (params.files?.file) {
     formData.append("files", params.files.logoUrl);
   }
   if (params.description) {
