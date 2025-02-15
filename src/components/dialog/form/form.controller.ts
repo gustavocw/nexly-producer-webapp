@@ -19,9 +19,10 @@ export const profileSchema = z.object({
   lastname: z.string(),
   email: z.string(),
   phone_number: z
-    .string()
-    .min(9, { message: "Phone number must have at least 9 digits" }),
-  address: z.object({
+    .string(),
+});
+
+export const addressSchema = z.object({
     codeStreet: z.string(),
     uf: z.string(),
     city: z.string(),
@@ -29,10 +30,11 @@ export const profileSchema = z.object({
     number: z.string(),
     complement: z.string(),
     neighborhood: z.string(),
-  }),
 });
 
 type ProfileFormData = z.infer<typeof profileSchema>;
+type AddressFormData = z.infer<typeof addressSchema>;
+
 
 export const useFormProfileController = () => {
   const { producer } = useProducerStore();
@@ -53,14 +55,17 @@ export const useFormProfileController = () => {
     },
   });
 
+  console.log(profileErrors);
+  
+
   const {
     control: addressControl,
     handleSubmit: handleAddressSubmit,
     formState: { errors: addressErrors },
     reset: resetAddress,
     setValue: setAddressValue,
-  } = useForm<ProfileFormData["address"]>({
-    resolver: zodResolver(profileSchema.shape.address),
+  } = useForm<AddressFormData>({
+    resolver: zodResolver(addressSchema),
     mode: "onBlur",
     defaultValues: {
       codeStreet: producer?.address[0]?.codeStreet ?? "",
@@ -181,6 +186,8 @@ export const useFormProfileController = () => {
   });
 
   const onSubmitProfile: SubmitHandler<ProfileFormData> = async (data) => {
+    console.log(data);
+
     const profileData = {
       name: data.name,
       lastname: data.lastname,
@@ -190,7 +197,7 @@ export const useFormProfileController = () => {
      mutateUpdateProfile(profileData);
   };
 
-  const onSubmitAddress: SubmitHandler<ProfileFormData["address"]> = async (data) => {
+  const onSubmitAddress: SubmitHandler<AddressFormData> = async (data) => {
     if (producer?.address[0]?._id) {
       mutateUpdateAddress(data);
     } else {

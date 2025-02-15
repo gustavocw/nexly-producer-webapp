@@ -5,6 +5,7 @@ import Text from "components/text/text";
 import useProducerStore from "stores/producer.store";
 import { useNavigate } from "react-router-dom";
 import { getPlanStyles } from "./getPlans";
+import { formatToBRL } from "utils/formatBrl";
 
 interface PlansProps {
   onClose: () => void;
@@ -14,7 +15,7 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
   const { producer } = useProducerStore();
   const navigate = useNavigate();
 
-  const planStyles = getPlanStyles(producer?.plan);
+  const planPropeties = getPlanStyles(producer?.plan);
 
   return (
     <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
@@ -40,17 +41,17 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
                 Planos
               </Text.Medium>
               <Flex
-                color={planStyles.textColor}
+                color={planPropeties.textColor}
                 alignItems="center"
                 justify="center"
-                bg={planStyles.bg}
+                bg={planPropeties.bg}
                 borderRadius="lg"
                 py="6px"
                 px="10px"
-                border={planStyles.border}
-                borderColor={planStyles.borderColor}
+                border={planPropeties.border}
+                borderColor={planPropeties.borderColor}
               >
-                {planStyles.text}
+                {planPropeties.text}
               </Flex>
             </Flex>
             <Btn
@@ -74,7 +75,7 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
           >
             <Flex gap="10px" alignItems="center">
               <Text.Medium fontSize="16px" color="neutral">
-                R$450,00
+                {formatToBRL(planPropeties.monthlyPrice)}
               </Text.Medium>
               <Flex
                 color="neutral"
@@ -89,12 +90,12 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
               </Flex>
             </Flex>
             <Btn
-              label="Alterar para anual (-25%)"
+              label={`Alterar para anual (-20%) ${formatToBRL(planPropeties.annualPrice)}`}
               onClick={() => {
                 onClose();
               }}
               bg="transparent"
-              w="250px"
+              w="auto"
             />
           </HStack>
         </VStack>

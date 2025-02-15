@@ -12,6 +12,7 @@ export const createAreaSchema = z.object({
     .min(3, { message: "O 'domain' deve ter pelo menos 3 caracteres" }),
   color: z.string().nonempty({ message: "O campo 'color' é obrigatório" }),
   title: z.string().nonempty({ message: "O campo 'title' é obrigatório" }),
+  description: z.string().optional(),
   background: z
     .string()
     .url({ message: "Insira uma URL válida" })
@@ -53,6 +54,7 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       domain: selectedArea?.domain || "",
       color: selectedArea?.color || "",
       title: selectedArea?.title || "",
+      description: selectedArea?.description || "",
       background: selectedArea?.background || "",
     },
   });
@@ -83,6 +85,7 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
         if (data.domain !== selectedArea.domain) partialPayload.domain = data.domain;
         if (data.color !== selectedArea.color) partialPayload.color = data.color;
         if (data.title !== selectedArea.title) partialPayload.title = data.title;
+        if (data.description !== selectedArea.description) partialPayload.description = data.description;
         if (data.background !== selectedArea.background) partialPayload.background = backgroundFile || data.background;
         if (iconFile && iconFile.name !== selectedArea.icon) partialPayload.icon = iconFile;
         if (logoFile && logoFile.name !== selectedArea.logo) partialPayload.logo = logoFile;
@@ -112,6 +115,7 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       setValue("domain", selectedArea.domain);
       setValue("color", selectedArea.color);
       setValue("title", selectedArea.title);
+      setValue("description", selectedArea.description);
       setValue("background", selectedArea.background || "");
 
       setBackgroundFile(

@@ -54,6 +54,7 @@ const Btn = ({
       w={w ?? "100%"}
       h={h ?? "44px"}
       p={p}
+      px={2}
       bg={bg ?? "purple.500"}
       borderRadius={borderRadius}
       color={isTransparent ? "#111111" : color ?? "#fff"}

@@ -46,7 +46,18 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
         value="edit"
         onClick={() => console.log("Editar membro")}
       >
-        Editar Membro
+        Editar membro
+      </MenuItem>
+      <MenuItem
+        _hover={{ bg: "neutral.40" }}
+        bg="neutral.50"
+        cursor="pointer"
+        p={2}
+        color="neutral"
+        value="edit"
+        onClick={() => console.log("Editar membro")}
+      >
+        Alterar senha
       </MenuItem>
       <MenuItem
         _hover={{ bg: "neutral.40" }}
@@ -57,7 +68,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
         value="block"
         onClick={() => updateState({ memberId, state: status === "ATIVO" ? "BLOQUEADO" : "ATIVO" })}
       >
-        {status === "ATIVO" ? "Bloquear Membro" : "Desbloquear Membro"}
+        {status === "ATIVO" ? "Bloquear membro" : "Desbloquear membro"}
       </MenuItem>
     </>
   );

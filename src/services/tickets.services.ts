@@ -1,7 +1,12 @@
 import { http } from "./http/http";
 
-export async function getRooms() {
-  const { data } = await http.get<any>(`/tickets/rooms`, {});
+export async function getRooms(skip?: number, take?: number) {
+  const { data } = await http.get<any>(`/tickets/rooms`, {
+    params: {
+      skip,
+      take,
+    },
+  });
   return data.data;
 }
 

@@ -1,4 +1,4 @@
-export   const getPlanStyles = (planType?: string) => {
+export const getPlanStyles = (planType?: string) => {
   switch (planType) {
     case "visitor":
       return {
@@ -7,27 +7,35 @@ export   const getPlanStyles = (planType?: string) => {
         borderColor: "neutral.40",
         text: "FREE",
         textColor: "neutral",
+        monthlyPrice: 0,
+        annualPrice: 0,
       };
-    case "pro":
+    case "basic":
       return {
         bg: "neutral",
         border: "none",
-        text: "PRO",
-        textColor: "neutral",
+        text: "STARTER",
+        textColor: "neutral.60",
+        monthlyPrice: 29700,
+        annualPrice: 237600,
       };
-    case "premium":
+    case "pro":
       return {
         bg: "primary.50",
         border: "none",
-        text: "PREMIUM",
+        text: "PRO",
         textColor: "neutral",
+        monthlyPrice: 49700,
+        annualPrice: 397600,
       };
     case "bigger":
       return {
-        bg: "linear-gradient(to right, pink, purple)",
+        bg: "linear-gradient(90deg, #7F00FF, #E100FF)",
         border: "none",
-        text: "ELITE",
+        text: "PREMIUM",
         textColor: "neutral",
+        monthlyPrice: 79700,
+        annualPrice: 637600,
       };
     default:
       return {
@@ -35,6 +43,8 @@ export   const getPlanStyles = (planType?: string) => {
         border: "none",
         text: "N/A",
         textColor: "neutral",
+        monthlyPrice: 0,
+        annualPrice: 0,
       };
   }
 };

@@ -18,7 +18,7 @@ const useTicketsController = () => {
 
   const { data: rooms, refetch: refetchRooms } = useQuery({
     queryKey: ["rooms"],
-    queryFn: () => getRooms(),
+    queryFn: () => getRooms(0, 10),
   });
 
   const { mutate: mutateCreateRoom } = useMutation({

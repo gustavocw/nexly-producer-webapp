@@ -27,7 +27,6 @@ const FormArea: React.FC<{
 }> = ({ setSubmitHandler, selectedArea }) => {
   const {
     control,
-    errors,
     handleSubmit,
     backgroundFile,
     iconFile,
@@ -42,7 +41,7 @@ const FormArea: React.FC<{
   } = useCreateAreaController(selectedArea);
 
   const [useUrl, setUseUrl] = useState(true);
-  const color = watch("color") || "#ffffff"
+  const color = watch("color") || "#ffffff";
   React.useEffect(() => {
     setSubmitHandler(() => handleSubmit(onSubmit)());
   }, [handleSubmit, onSubmit, setSubmitHandler]);
@@ -52,7 +51,9 @@ const FormArea: React.FC<{
       setValue("title", selectedArea.title);
       setValue("domain", selectedArea.domain);
       setValue("color", selectedArea.color);
-      setBackgroundFile(selectedArea.background ? new File([], selectedArea.background) : null);
+      setBackgroundFile(
+        selectedArea.background ? new File([], selectedArea.background) : null
+      );
       setIconFile(selectedArea.icon ? new File([], selectedArea.icon) : null);
       setLogoFile(selectedArea.logo ? new File([], selectedArea.logo) : null);
     }
@@ -62,20 +63,17 @@ const FormArea: React.FC<{
     <VStack
       as="form"
       onSubmit={handleSubmit(onSubmit)}
-      spaceY={5}
+      spaceY={8}
       align="flex-start"
       justify="space-between"
       w="100%"
     >
-
-
       <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
         <Input.Base
           control={control}
           label="Nome da área"
           name="title"
           placeholder="Nome da área de membros"
-          errorText={errors.title?.message}
           isRequired
           width="100%"
         />
@@ -125,11 +123,17 @@ const FormArea: React.FC<{
         label="Domínio"
         name="domain"
         placeholder="Domínio personalizado"
-        errorText={errors.domain?.message}
         isRequired
         width="80%"
       />
 
+      <Input.Text
+        control={control}
+        label="Descrição da área"
+        name="description"
+        placeholder="Descrição da área de membros"
+        width="80%"
+      />
       <HStack w="80%" justify="space-between" alignItems="center">
         <Text.Medium fontSize="14px" color="neutral">
           Escolha o tipo de background:

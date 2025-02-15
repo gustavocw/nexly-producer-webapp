@@ -17,7 +17,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
       position="fixed"
       top="10px"
       right="10px"
-      zIndex={99999}
+      zIndex={10}
     >
       <Flex w="100%" justify="center" h="100px">
         <SearchBar placeholder="Pesquisar chats" />

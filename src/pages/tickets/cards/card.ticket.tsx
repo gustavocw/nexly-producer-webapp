@@ -25,17 +25,17 @@ const CardTickets: React.FC<TicketsProps> = ({ data, mutateCreateRoom }) => {
   const collection = createListCollection({
     items: statusOptions,
   });
-  console.log(data);
 
   return (
-    <VStack spaceY="20px" w="100%">
+    <VStack align="flex-start" spaceY="20px" w="100%">
       {data?.map((ticket) => (
         <VStack
           key={ticket.identity}
           p="22px"
           borderRadius="8px"
           boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
-          w="100%"
+          w="auto"
+          minW="85%"
           gap="10px"
           cursor="pointer"
         >

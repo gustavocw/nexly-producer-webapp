@@ -204,7 +204,7 @@ const ProfileForm = () => {
             onClick={handleSave}
             label="Salvar"
             w="200px"
-            isLoading={isPending}
+            isLoading={isPending || updatingProfile || updatingAddress}
           />
         </HStack>
       </VStack>
