@@ -42,3 +42,11 @@ export async function updateStateMember(memberId?: string | null, state?: string
   );
   return data;
 }
+
+
+export async function changePasswordMember(memberId?: string | null, password?: string) {
+  const { data } = await http.put(`/member/change-password-member/${memberId}`, {
+    password
+  });
+  return data.data;
+}
