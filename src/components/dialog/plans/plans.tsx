@@ -6,7 +6,11 @@ import useProducerStore from "stores/producer.store";
 import { useNavigate } from "react-router-dom";
 import { getPlanStyles } from "./getPlans";
 
-const Plans = () => {
+interface PlansProps {
+  onClose: () => void;
+}
+
+const Plans: React.FC<PlansProps> = ({ onClose }) => {
   const { producer } = useProducerStore();
   const navigate = useNavigate();
 
@@ -51,7 +55,10 @@ const Plans = () => {
             </Flex>
             <Btn
               label="Atualizar plano"
-              onClick={() => navigate("/plans", { state: { plan: producer?.plan } })}
+              onClick={() => {
+                navigate("/plans", { state: { plan: producer?.plan } }),
+                onClose()
+              }}
               w="200px"
             />
           </HStack>
@@ -83,7 +90,9 @@ const Plans = () => {
             </Flex>
             <Btn
               label="Alterar para anual (-25%)"
-              onClick={() => console.log("Alterar plano")}
+              onClick={() => {
+                onClose();
+              }}
               bg="transparent"
               w="250px"
             />

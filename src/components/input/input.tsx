@@ -54,7 +54,7 @@ const InputBase: React.FC<InputProps> = ({
   onBlurSubmit,
   onEnterSubmit,
 }) => {
-  const [showPassword, setShowPassword] = useState(false); // Adicione isso aqui
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Controller

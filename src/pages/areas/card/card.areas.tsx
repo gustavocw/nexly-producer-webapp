@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
-import { Box, Text, Flex, Tabs, Image, Skeleton } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Skeleton } from "@chakra-ui/react";
 
 export interface AreaCardProps {
   data: Area;
-  onClick: () => void;
 }
 
-const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
+const AreaCard: FC<AreaCardProps> = ({ data }) => {
   const { title, domain, background, color, logo, icon } = data;
 
   const [backgroundLoaded, setBackgroundLoaded] = useState(false);
@@ -25,16 +24,6 @@ const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
     : "";
 
   return (
-    <Tabs.Trigger
-      w={{ base: "100%", md: "332px" }}
-      h="200px"
-      value="area"
-      display="flex"
-      alignItems="flex-start"
-      textAlign="start"
-      bottom="0"
-      onClick={onClick}
-    >
       <Skeleton loading={!backgroundLoaded && isImage} w="100%" maxW="332px" h="200px" borderRadius="lg">
         <Box
           w="100%"
@@ -120,7 +109,6 @@ const AreaCard: FC<AreaCardProps> = ({ data, onClick }) => {
           </Flex>
         </Box>
       </Skeleton>
-    </Tabs.Trigger>
   );
 };
 

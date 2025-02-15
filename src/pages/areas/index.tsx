@@ -1,4 +1,4 @@
-import { VStack, Flex, Tabs, HStack, Icon, Box } from "@chakra-ui/react";
+import { VStack, Flex, HStack, Icon, Box } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AreaCard from "./card/card.areas";
 import { useAreasController } from "./index.controller";
@@ -10,11 +10,13 @@ import { useState, useEffect } from "react";
 import { BsTextareaResize } from "react-icons/bs";
 import { checkDomainStatus } from "utils/domainVercel";
 import ModalDomain from "./modal/modal.domain";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
   const { creatingArea, updatingArea } = useProducts();
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const [step, setStep] = useState<"list" | "form">("list");
 
   let formSubmitHandler: (() => void) | null = null;
   const setFormSubmitHandler = (submitHandler: () => void) => {
@@ -24,11 +26,18 @@ const Areas = () => {
   const handleSave = () => {
     if (formSubmitHandler) {
       formSubmitHandler();
+      setStep("list");
     }
   };
 
   const handleAreaClick = (area: Area) => {
     setSelectedArea(area);
+    setStep("form");
+  };
+
+  const handleNewArea = () => {
+    setSelectedArea(null);
+    setStep("form");
   };
 
   useEffect(() => {
@@ -54,59 +63,38 @@ const Areas = () => {
 
   return (
     <VStack gap="32px" px={8} align="stretch">
-      <Tabs.Root unstyled defaultValue="areas">
-        <HStack align="flex-start" justify="space-between" spaceY={5} py={5}>
-          <Tabs.Content
-            w="100%"
-            display="flex"
-            gap={2}
-            justifyContent={{ base: "flex-start", md: "space-between" }}
-            value="areas"
-            alignItems="center"
-          >
-            <Text.Medium fontSize={{ base: "18px", md: "24px" }}>
-              Suas áreas {areas?.length && `(${areas?.length})`}
-            </Text.Medium>
-            {areas && areas?.length > 0 && (
-              <Tabs.Trigger value="area">
+      {step === "list" && (
+        <>
+          <HStack align="flex-start" justify="space-between" spaceY={5} py={5}>
+            <Flex
+              w="100%"
+              gap={2}
+              justifyContent={{ base: "flex-start", md: "space-between" }}
+              alignItems="center"
+            >
+              <Text.Medium fontSize={{ base: "18px", md: "24px" }}>
+                Suas áreas {areas?.length && `(${areas?.length})`}
+              </Text.Medium>
+              {areas && areas?.length > 0 && (
                 <Btn
                   w={{ base: "140px", md: "200px" }}
                   iconLeft={<HiPlus />}
                   label="Nova área"
-                  onClick={() => setSelectedArea(null)}
-                  h="30px"
+                  onClick={handleNewArea}
+                  h="40px"
                 />
-              </Tabs.Trigger>
-            )}
-          </Tabs.Content>
-          <Tabs.Content
-            w="100%"
-            display="flex"
-            justifyContent="space-between"
-            value="area"
-          >
-            <Text.Medium fontSize="24px">Nova área</Text.Medium>
-            <Tabs.Trigger value="area">
-              <Btn
-                w="200px"
-                label="Salvar"
-                onClick={handleSave}
-                isLoading={creatingArea || updatingArea}
-              />
-            </Tabs.Trigger>
-          </Tabs.Content>
-        </HStack>
-        <Tabs.Content py={5} value="areas">
+              )}
+            </Flex>
+          </HStack>
           {areas?.length && !loadingAreas ? (
             <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
               {areas?.map((area) => (
                 <Flex flexWrap="wrap" w="100%">
-                  <Box w="100%">
-                    <AreaCard
-                      data={area}
-                      onClick={() => handleAreaClick(area)}
-                    />
-                    <ModalDomain area={area} />
+                  <Box  w="100%">
+                  <Box onClick={() => handleAreaClick(area)} w="100%">
+                    <AreaCard data={area} />
+                  </Box>
+                  <ModalDomain area={area} />
                   </Box>
                 </Flex>
               ))}
@@ -127,27 +115,51 @@ const Areas = () => {
                   Comece sua jornada com a Nexly criando sua primeira área de
                   membro.
                 </Text.Medium>
-                <Tabs.Trigger value="area">
-                  <Btn
-                    w="200px"
-                    iconLeft={<HiPlus />}
-                    label="Nova área"
-                    onClick={() => setSelectedArea(null)}
-                  />
-                </Tabs.Trigger>
+                <Btn
+                  w="200px"
+                  iconLeft={<HiPlus />}
+                  label="Nova área"
+                  onClick={handleNewArea}
+                />
               </VStack>
             </VStack>
           )}
-        </Tabs.Content>
-        <Tabs.Content value="area">
-          <VStack w="100%">
-            <FormArea
-              setSubmitHandler={setFormSubmitHandler}
-              selectedArea={selectedArea}
-            />
-          </VStack>
-        </Tabs.Content>
-      </Tabs.Root>
+        </>
+      )}
+      {step === "form" && (
+        <VStack w="100%">
+          <Flex
+            w="100%"
+            py={10}
+            alignItems="center"
+            gap="6px"
+            onClick={() => setStep("list")}
+          >
+            <Flex cursor="pointer">
+              <Icon color="neutral">
+                <KeyboardArrowLeftIcon />
+              </Icon>
+              <Text.Medium fontSize="16px" color="neutral">
+                {selectedArea
+                  ? "Editar área de membros"
+                  : "Criar área de membros"}
+              </Text.Medium>
+            </Flex>
+          </Flex>
+          <FormArea
+            setSubmitHandler={setFormSubmitHandler}
+            selectedArea={selectedArea}
+          />
+          <Flex w="60%" py={10} justify="flex-end">
+          <Btn
+            w="200px"
+            label="Salvar"
+            onClick={handleSave}
+            isLoading={creatingArea || updatingArea}
+          />
+          </Flex>
+        </VStack>
+      )}
     </VStack>
   );
 };

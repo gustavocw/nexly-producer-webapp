@@ -1,7 +1,6 @@
-import { Flex, HStack, Icon, Tabs, VStack, parseColor } from "@chakra-ui/react";
+import { Flex, HStack, VStack, parseColor } from "@chakra-ui/react";
 import Input from "components/input/input";
 import { useCreateAreaController } from "./form.controller";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import Text from "components/text/text";
 import {
   ColorPickerArea,
@@ -68,16 +67,7 @@ const FormArea: React.FC<{
       justify="space-between"
       w="100%"
     >
-      <Flex alignItems="center" gap="6px">
-        <Tabs.Trigger cursor="pointer" display="flex" value="areas">
-          <Icon color="neutral">
-            <KeyboardArrowLeftIcon />
-          </Icon>
-          <Text.Medium fontSize="16px" color="neutral">
-            {selectedArea ? "Editar área de membros" : "Criar área de membros"}
-          </Text.Medium>
-        </Tabs.Trigger>
-      </Flex>
+
 
       <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
         <Input.Base

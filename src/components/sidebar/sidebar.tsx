@@ -13,6 +13,7 @@ import { useAuth } from "hooks/useAuth";
 import { useProducer } from "hooks/useProducer";
 import { useEffect } from "react";
 import useSidebar from "stores/sidebar.store";
+import { useSidebarController } from "./sidebar.controler";
 
 const Sidebar: React.FC = () => {
   const { signout } = useAuth();
@@ -24,6 +25,7 @@ const Sidebar: React.FC = () => {
     isOpen,
     toggleIsOpen,
   } = useSidebar();
+  const {isOpenModal, toggleIsOpenModal} = useSidebarController();
 
   useEffect(() => {
     if (notifications?.length > storedNotificationCount) {
@@ -153,7 +155,7 @@ const Sidebar: React.FC = () => {
               </Icon>
             </Center>
           </Flex>
-          <ProfileDialog isOpen={isOpen} />
+          <ProfileDialog toggleIsOpenModal={toggleIsOpenModal} isOpenModal={isOpenModal} isOpen={isOpen} />
         </Stack>
       </Flex>
     </>

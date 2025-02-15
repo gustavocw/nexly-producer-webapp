@@ -17,13 +17,15 @@ import useProducerStore from "stores/producer.store";
 
 interface ProfileDialog {
   isOpen: boolean;
+  isOpenModal: boolean;
+  toggleIsOpenModal: () => void
 }
 
-const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
+const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen, isOpenModal, toggleIsOpenModal }) => {
   const { producer } = useProducerStore();
   
   return (
-    <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
+    <DialogRoot open={isOpenModal} onOpenChange={() => toggleIsOpenModal()} size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger cursor="pointer" asChild>
         <Flex
           mt="auto"
@@ -113,7 +115,7 @@ const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen }) => {
                   <ProfileForm />
                 </Tabs.Content>
                 <Tabs.Content value="plans" w="100%" h="100%">
-                  <Plans />
+                  <Plans onClose={toggleIsOpenModal} />
                 </Tabs.Content>
               </VStack>
             </Flex>
