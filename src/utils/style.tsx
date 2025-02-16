@@ -20,7 +20,7 @@ export const GlobalStyles = () => (
       /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
   scrollbar-width: thin;
-  scrollbar-color: #911DD4 #2E2A34;
+  scrollbar-color:rgb(27, 26, 28) #2E2A34;
 }*/
 
 /* Chrome, Edge and Safari */
@@ -34,24 +34,24 @@ export const GlobalStyles = () => (
 }
 
 *::-webkit-scrollbar-track:hover {
-  background-color: #7809C2;
+  background-color:rgb(30, 29, 31);
 }
 
 *::-webkit-scrollbar-track:active {
-  background-color: #800FC2;
+  background-color:rgb(40, 38, 41);
 }
 
 *::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #911DD4;
+  background-color:rgb(39, 36, 41);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #570BA3;
+  background-color:rgb(15, 12, 18);
 }
 
 *::-webkit-scrollbar-thumb:active {
-  background-color: #4F06A3;
+  background-color:rgb(18, 15, 21);
 }
 
   `}

@@ -20,44 +20,28 @@ import { DragFile } from "components/fileInput/drag.file";
 import React, { useState } from "react";
 import SelectOption from "components/selectOption/select";
 import { Controller } from "react-hook-form";
+import Btn from "components/button/button";
 
 const FormArea: React.FC<{
-  setSubmitHandler: (submitHandler: () => void) => void;
   selectedArea: Area | null;
-}> = ({ setSubmitHandler, selectedArea }) => {
+  goBack: () => void
+}> = ({ selectedArea, goBack }) => {
   const {
     control,
     handleSubmit,
     backgroundFile,
     iconFile,
     logoFile,
-    setBackgroundFile,
-    setIconFile,
-    setLogoFile,
-    setValue,
+    creatingArea,
+    updatingArea,
     onSubmit,
     updateFile,
     watch,
-  } = useCreateAreaController(selectedArea);
+  } = useCreateAreaController(selectedArea, goBack);
 
   const [useUrl, setUseUrl] = useState(true);
   const color = watch("color") || "#ffffff";
-  React.useEffect(() => {
-    setSubmitHandler(() => handleSubmit(onSubmit)());
-  }, [handleSubmit, onSubmit, setSubmitHandler]);
 
-  React.useEffect(() => {
-    if (selectedArea) {
-      setValue("title", selectedArea.title);
-      setValue("domain", selectedArea.domain);
-      setValue("color", selectedArea.color);
-      setBackgroundFile(
-        selectedArea.background ? new File([], selectedArea.background) : null
-      );
-      setIconFile(selectedArea.icon ? new File([], selectedArea.icon) : null);
-      setLogoFile(selectedArea.logo ? new File([], selectedArea.logo) : null);
-    }
-  }, [selectedArea, setValue, setBackgroundFile, setIconFile, setLogoFile]);
 
   return (
     <VStack
@@ -143,7 +127,7 @@ const FormArea: React.FC<{
           onSelectChange={(value) => setUseUrl(value === "url")}
           options={[
             { label: "URL", value: "url" },
-            { label: "Imagem", value: "image" },
+            { label: "Arquivo", value: "image" },
           ]}
         />
       </HStack>
@@ -168,12 +152,20 @@ const FormArea: React.FC<{
         <DragFile
           label="Ícone da página"
           onFileSelect={(file) => updateFile("icon", file)}
-          value={iconFile?.name}
+          value={iconFile}
         />
         <DragFile
           label="Logo da área"
-          value={logoFile?.name}
+          value={logoFile}
           onFileSelect={(file) => updateFile("logo", file)}
+        />
+      </Flex>
+      <Flex w="80%" py={10} justify="flex-end">
+        <Btn
+          w="200px"
+          label="Salvar"
+          onClick={() => handleSubmit(onSubmit)()}
+          isLoading={creatingArea || updatingArea}
         />
       </Flex>
     </VStack>

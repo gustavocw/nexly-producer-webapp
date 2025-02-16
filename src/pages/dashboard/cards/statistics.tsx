@@ -2,6 +2,7 @@ import { HStack, Link, VStack } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import type React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface StatistisProps {
   viewers: number;
@@ -9,6 +10,7 @@ interface StatistisProps {
 }
 
 const Statistis: React.FC<StatistisProps> = ({ viewers, time }) => {
+  const navigate = useNavigate();
   return (
     <VStack
       borderRadius="8px"
@@ -43,6 +45,7 @@ const Statistis: React.FC<StatistisProps> = ({ viewers, time }) => {
           cursor="pointer"
           textDecoration="none"
           fontSize="13px"
+          onClick={() => navigate("/dashboard/statistics")}
         >
           Analisar estatísticas
         </Link>

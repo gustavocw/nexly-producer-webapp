@@ -22,7 +22,7 @@ const Comments: React.FC<CommentProps> = ({ data }) => {
       <Text.Medium color="neutral" fontSize="18px">
         Comentários recentes
       </Text.Medium>
-      <VStack w="100%" gap="20px">
+      <VStack overflowY="auto" maxH="400px" w="100%" gap="20px">
         {data?.length > 0 ? (
           data?.map((comment, index) => (
             <VStack key={comment._id} w="100%" gap="16px">

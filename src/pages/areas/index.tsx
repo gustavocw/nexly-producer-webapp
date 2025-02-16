@@ -5,7 +5,6 @@ import { useAreasController } from "./index.controller";
 import FormArea from "./form/form.area";
 import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
-import { useProducts } from "hooks/useProducts";
 import { useState, useEffect } from "react";
 import { BsTextareaResize } from "react-icons/bs";
 import { checkDomainStatus } from "utils/domainVercel";
@@ -14,21 +13,8 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
-  const { creatingArea, updatingArea } = useProducts();
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
   const [step, setStep] = useState<"list" | "form">("list");
-
-  let formSubmitHandler: (() => void) | null = null;
-  const setFormSubmitHandler = (submitHandler: () => void) => {
-    formSubmitHandler = submitHandler;
-  };
-
-  const handleSave = () => {
-    if (formSubmitHandler) {
-      formSubmitHandler();
-      setStep("list");
-    }
-  };
 
   const handleAreaClick = (area: Area) => {
     setSelectedArea(area);
@@ -38,6 +24,11 @@ const Areas = () => {
   const handleNewArea = () => {
     setSelectedArea(null);
     setStep("form");
+  };
+
+  const goBack = () => {
+    setSelectedArea(null);
+    setStep("list");
   };
 
   useEffect(() => {
@@ -145,17 +136,9 @@ const Areas = () => {
             </Flex>
           </Flex>
           <FormArea
-            setSubmitHandler={setFormSubmitHandler}
             selectedArea={selectedArea}
+            goBack={goBack}
           />
-          <Flex w="60%" py={10} justify="flex-end">
-          <Btn
-            w="200px"
-            label="Salvar"
-            onClick={handleSave}
-            isLoading={creatingArea || updatingArea}
-          />
-          </Flex>
         </VStack>
       )}
     </VStack>

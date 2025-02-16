@@ -8,10 +8,10 @@ export const Root = ({ children }: { children: React.ReactNode }) => {
   const sidebarWidth = useBreakpointValue({ base: isOpen ? "250px" : "0px", md: isOpen ? "250px" : "80px" });
 
   return (
-    <Flex fontFamily="Inter" w="100%" height="100vh">
+    <Flex overflow="hidden" fontFamily="Inter" w="100%" height="100vh">
       <Box
         w={sidebarWidth}
-        overflow="hidden"
+        overflowY="hidden"
         height="100vh"
         position="fixed"
         left="0"
@@ -23,6 +23,7 @@ export const Root = ({ children }: { children: React.ReactNode }) => {
         flex="1"
         ml={sidebarWidth}
         height="100%"
+        overflowY="auto"
       >
         {children}
       </Box>

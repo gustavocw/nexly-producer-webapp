@@ -20,6 +20,8 @@ interface Product {
   delDate: string;
   state: string;
   createdAt: string;
+  views?: string;
+  watchTime?: string;
   updatedAt: string;
   modules?: Module[];
 }

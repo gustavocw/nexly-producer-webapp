@@ -4,6 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toaster } from "components/ui/toaster";
 import { useProducts } from "hooks/useProducts";
+import { useMutation } from "@tanstack/react-query";
+import { createArea, updateArea } from "services/areas.services";
 
 export const createAreaSchema = z.object({
   domain: z
@@ -34,11 +36,53 @@ export const createAreaSchema = z.object({
 
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;
 
-export const useCreateAreaController = (selectedArea: Area | null) => {
-  const { successArea, mutateArea, mutateUpdateArea } = useProducts();
+export const useCreateAreaController = (
+  selectedArea: Area | null,
+  goBack: () => void
+) => {
+  const { refetchAreas } = useProducts();
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+
+  const { mutate: mutateArea, isPending: creatingArea } = useMutation({
+    mutationFn: (payload: any) => createArea(payload),
+    onSuccess: () => {
+      refetchAreas();
+      reset();
+      setIconFile(null);
+      setLogoFile(null);
+      toaster.create({
+        title: "Área criada com sucesso",
+        type: "success",
+      });
+      goBack();
+    },
+    onError: (error) => {
+      toaster.create({
+        title: `Erro ao criar área: ${error}`,
+        type: "error",
+      });
+    },
+  });
+
+  const { mutate: mutateUpdateArea, isPending: updatingArea } = useMutation({
+    mutationFn: (payload: any) => updateArea(payload.area, payload._id),
+    onSuccess: () => {
+      refetchAreas();
+      toaster.create({
+        title: "Área atualizada com sucesso",
+        type: "success",
+      });
+      goBack();
+    },
+    onError: (error) => {
+      toaster.create({
+        title: `Erro ao atualizar área: ${error}`,
+        type: "error",
+      });
+    },
+  });
 
   const {
     control,
@@ -80,26 +124,24 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
         },
       };
 
-      if (selectedArea) {
-        const partialPayload: Partial<CreateAreaFormData & { background: any; icon: File | null; logo: File | null }> = {};
-        if (data.domain !== selectedArea.domain) partialPayload.domain = data.domain;
-        if (data.color !== selectedArea.color) partialPayload.color = data.color;
-        if (data.title !== selectedArea.title) partialPayload.title = data.title;
-        if (data.description !== selectedArea.description) partialPayload.description = data.description;
-        if (data.background !== selectedArea.background) partialPayload.background = backgroundFile || data.background;
-        if (iconFile && iconFile.name !== selectedArea.icon) partialPayload.icon = iconFile;
-        if (logoFile && logoFile.name !== selectedArea.logo) partialPayload.logo = logoFile;
+      const payloadEdit = {
+        _id: selectedArea?._id,
+        area: {
+          title: data.title,
+          color: data.color,
+          domain: data.domain !== selectedArea?.domain ? data.domain : null,
+          background: backgroundFile || data.background,
+          icon: iconFile,
+          logo: logoFile,
+        },
+      };
 
+      if (selectedArea) {
         try {
-          mutateUpdateArea({ _id: selectedArea._id, area: partialPayload });
+          mutateUpdateArea({ _id: selectedArea._id, area: payloadEdit.area });
         } catch {}
       } else {
         mutateArea(payload.area);
-        if (successArea) {
-          reset();
-          setIconFile(null);
-          setLogoFile(null);
-        }
       }
       setBackgroundFile(null);
     } catch (error) {
@@ -118,11 +160,9 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
       setValue("description", selectedArea.description);
       setValue("background", selectedArea.background || "");
 
-      setBackgroundFile(
-        selectedArea.background ? new File([], selectedArea.background) : null
-      );
-      setIconFile(selectedArea.icon ? new File([], selectedArea.icon) : null);
-      setLogoFile(selectedArea.logo ? new File([], selectedArea.logo) : null);
+      setBackgroundFile(selectedArea.background);
+      setIconFile(selectedArea.icon);
+      setLogoFile(selectedArea.logo);
     }
   }, [selectedArea, setValue]);
 
@@ -133,9 +173,8 @@ export const useCreateAreaController = (selectedArea: Area | null) => {
     errors,
     onSubmit,
     reset,
-    setBackgroundFile,
-    setIconFile,
-    setLogoFile,
+    updatingArea,
+    creatingArea,
     backgroundFile,
     iconFile,
     logoFile,

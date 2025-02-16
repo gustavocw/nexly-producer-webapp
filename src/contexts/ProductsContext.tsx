@@ -1,8 +1,7 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { toaster } from "components/ui/toaster";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "hooks/useAuth";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { createArea, getAreas, updateArea } from "services/areas.services";
+import { getAreas } from "services/areas.services";
 import { getProducts } from "services/product.services";
 import useProductStore from "stores/product.store";
 
@@ -14,15 +13,10 @@ interface ProductContextValue {
   products?: Product[] | null;
   isLoadingProducts?: boolean;
   loadingAreas?: boolean;
-  creatingArea?: boolean;
-  successArea?: boolean;
-  updatingArea?: boolean;
   setProduct: (product: Product) => void;
   refetchAreas: () => void;
   refetchProducts: () => void;
   handleSetAreaId: (_id: string) => void;
-  mutateArea: (payload: any) => void;
-  mutateUpdateArea: (payload: any) => void;
   defaultArea?: { value: string; label: string };
 }
 
@@ -97,41 +91,6 @@ export const ProductProvider = ({
     }
   }, [areas, defaultArea]);
 
-  const { mutate: mutateArea, isPending: creatingArea, isSuccess: successArea } = useMutation({
-    mutationFn: (payload: any) => createArea(payload),
-    onSuccess: () => {
-      refetchAreas();
-      toaster.create({
-        title: "Área criada com sucesso",
-        type: "success",
-      });
-    },
-    onError: (error) => {
-      toaster.create({
-        title: `Erro ao criar área: ${error}`,
-        type: "error",
-      });
-    },
-  });
-
-  const { mutate: mutateUpdateArea, isPending: updatingArea } = useMutation({
-    mutationFn: (payload: any) => updateArea(payload.area, payload._id),
-    onSuccess: () => {
-      refetchAreas();
-      toaster.create({
-        title: "Área atualizada com sucesso",
-        type: "success",
-      });
-    },
-    onError: (error) => {
-      toaster.create({
-        title: `Erro ao atualizar área: ${error}`,
-        type: "error",
-      });
-    },
-  });
-
-
   useEffect(() => {
     if (!areaId && areasList.length > 0) {
       const firstAreaId = areasList[0].value;
@@ -148,12 +107,7 @@ export const ProductProvider = ({
       value={{
         areaId,
         handleSetAreaId,
-        mutateUpdateArea,
-        mutateArea,
         defaultArea,
-        creatingArea,
-        updatingArea,
-        successArea,
         refetchProducts,
         loadingAreas,
         products,

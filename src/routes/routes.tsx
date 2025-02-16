@@ -22,6 +22,7 @@ import AuthVimeo from "pages/Infoproducts/create/platforms/authplatform/auth.vim
 import VimeoFolders from "pages/Infoproducts/create/vimeo/vimeo.folders";
 import VimeoVideos from "pages/Infoproducts/create/vimeo/videos/vimeo.videos";
 import PlansPage from "pages/plans";
+import Statistics from "pages/dashboard/statistics";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -37,6 +38,7 @@ const AppRoutes: React.FC = () => {
         <Route element={<AuthGuard isPrivate={true} />}>
           <Route element={<LayoutWithRoot />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard/statistics" element={<Statistics />} />
             <Route path="/infoproducts" element={<Infoproducts />} />
             <Route path="/infoproducts/create" element={<CareateProduct />} />
             <Route
