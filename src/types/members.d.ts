@@ -1,6 +1,6 @@
 import { UserData } from "./user";
 
-interface Member {
+type Member = {
   _id: string;
   lastAccess: string;
   name: string;
@@ -8,8 +8,18 @@ interface Member {
   stateUser: string;
 }
 
-interface NewMember {
+type NewMember = {
   name: string;
   email: string;
   state: string;
+}
+
+type EditMember = {
+  id?: string,
+  name: string,
+  lastname: string,
+  sex: string,
+  phone: string,
+  email: string,
+  file: File,
 }

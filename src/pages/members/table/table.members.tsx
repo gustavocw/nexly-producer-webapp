@@ -16,6 +16,7 @@ import { useMutation } from "@tanstack/react-query";
 import { updateStateMember } from "services/members.services";
 import { toaster } from "components/ui/toaster";
 import ModalChangePassword from "../modal/ModalChangePassword";
+import ModalEditUser from "../modal/EditMember";
 
 interface TableMembersProps {
   data?: Member[] | null;
@@ -38,17 +39,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
 
   const renderMenuItems = (status: string, memberId: string, memberName: string) => (
     <>
-      <MenuItem
-        _hover={{ bg: "neutral.40" }}
-        bg="neutral.50"
-        cursor="pointer"
-        p={2}
-        color="neutral"
-        value="edit"
-        onClick={() => console.log("Editar membro")}
-      >
-        Editar membro
-      </MenuItem>
+      <ModalEditUser memberId={memberId} />
       <ModalChangePassword memberName={memberName} idMember={memberId} refetch={refetch} />
       <MenuItem
         _hover={{ bg: "neutral.40" }}

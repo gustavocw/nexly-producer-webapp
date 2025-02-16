@@ -1,5 +1,5 @@
 import { http } from "services/http/http";
-import type { NewMember } from "types/members";
+import type { EditMember, NewMember } from "types/members";
 
 export async function getMembers() {
   const { data } = await http.get<any>("/member");
@@ -49,4 +49,21 @@ export async function changePasswordMember(memberId?: string | null, password?: 
     password
   });
   return data.data;
+}
+
+export async function updateMember(studentId?: string, params?: Partial<EditMember>) {
+  const { data } = await http.put<any>(`/member/change-details-member/${studentId}`, params);
+  return data;
+}
+
+export async function uploadPhotoMember(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+  const { data } = await http.patch<any>("/student/profile", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return data;
 }
