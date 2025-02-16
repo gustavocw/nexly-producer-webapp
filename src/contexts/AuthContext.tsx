@@ -14,8 +14,6 @@ export const AuthContext = createContext({} as AuthContextValue);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const {
     producerStore,
-    setEmail,
-    setPassword,
     email,
     password,
     rememberMe,
@@ -52,11 +50,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const signout = useCallback(async () => {
-    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
+  const signout = useCallback(() => {
+    const authStorage = JSON.parse(localStorage.getItem("auth-storage") || "{}");
+    const newAuthState = {
+      state: {
+        rememberMe: authStorage?.state?.rememberMe || "false",
+        email: authStorage?.state?.rememberMe === "true" ? authStorage?.state?.email : null,
+        password: authStorage?.state?.rememberMe === "true" ? authStorage?.state?.password : null,
+      },
+      version: 0,
+    };
+    localStorage.clear();
+    localStorage.setItem("auth-storage", JSON.stringify(newAuthState));
+    localStorage.removeItem("auti:accessToken");
     clearCookies();
     setIsLogged(false);
-  }, [setIsLogged, setEmail, setPassword]);
+  }, [setIsLogged]);
+  
 
   useEffect(() => {
     const pathname = location.pathname;

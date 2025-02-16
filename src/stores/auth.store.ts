@@ -47,7 +47,6 @@ const useAuthStore = create<AuthState & AuthActions>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         producerStore: state.producerStore,
-        stepLogin: state.stepLogin,
         email: state.rememberMe === "true" ? state.email : null,
         password: state.rememberMe === "true" ? state.password : null,
         rememberMe: state.rememberMe,

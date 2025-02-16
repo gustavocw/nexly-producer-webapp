@@ -7,6 +7,7 @@ export const renderMenuItem = (item: any, isOpen: boolean) => (
     to={item.path !== "/comunidade" ? item.path : undefined}
     key={item.path}
     style={{ width: "100%", zIndex: 9999 }}
+    className={`menu-${item.path.replace("/", "")}`}
   >
     {({ isActive }) => (
       <Flex

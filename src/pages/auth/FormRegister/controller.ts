@@ -88,25 +88,22 @@ export const useRegisterController = () => {
 
   const formValues = watch();
   const isStep1Valid =
-  formValues.name &&
-  formValues.lastname &&
-  !errors.name &&
-  !errors.lastname;
+    formValues.name && formValues.lastname && !errors.name && !errors.lastname;
 
-const isStep2Valid =
-  formValues.email &&
-  formValues.phone &&
-  formValues.identity &&
-  !errors.email &&
-  !errors.phone &&
-  !errors.identity;
+  const isStep2Valid =
+    formValues.email &&
+    formValues.phone &&
+    formValues.identity &&
+    !errors.email &&
+    !errors.phone &&
+    !errors.identity;
 
-const isStep3Valid =
-  formValues.password &&
-  formValues.confirmPassword &&
-  formValues.password === formValues.confirmPassword &&
-  !errors.password &&
-  !errors.confirmPassword;
+  const isStep3Valid =
+    formValues.password &&
+    formValues.confirmPassword &&
+    formValues.password === formValues.confirmPassword &&
+    !errors.password &&
+    !errors.confirmPassword;
 
   const { mutate: mutateRegister, isPending: loadingRegister } = useMutation({
     mutationFn: (params: any) => register(params),
