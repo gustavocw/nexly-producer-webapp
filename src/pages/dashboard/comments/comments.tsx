@@ -2,17 +2,10 @@ import { HStack, Image, Link, VStack } from "@chakra-ui/react";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
-
-interface Comment {
-  id: number;
-  user: string;
-  time: string;
-  content: string;
-  image: string;
-}
+import { formatDateToString } from "utils/formatDateToString";
 
 interface CommentProps {
-  data: Comment[];
+  data: CommentData[];
 }
 
 const Comments: React.FC<CommentProps> = ({ data }) => {
@@ -30,21 +23,21 @@ const Comments: React.FC<CommentProps> = ({ data }) => {
         Comentários recentes
       </Text.Medium>
       <VStack w="100%" gap="20px">
-        {data?.length > 1000 ? (
+        {data?.length > 0 ? (
           data?.map((comment, index) => (
-            <VStack key={comment.id} w="100%" gap="16px">
+            <VStack key={comment._id} w="100%" gap="16px">
               <HStack gap="6px" justify="space-between" w="100%">
                 <HStack>
-                  <Avatar />
+                  <Avatar src={comment.userPhoto} />
                   <VStack w="100%" gap="6px" align="flex-start">
                     <Text.Medium fontSize="14px">
-                      {comment.user} • {comment.time}
+                      {comment.username} • {formatDateToString(comment.createdAt)}
                     </Text.Medium>
-                    <Text.Medium fontSize="13px">{comment.content}</Text.Medium>
+                    <Text.Medium fontSize="13px">{comment.comment}</Text.Medium>
                   </VStack>
                 </HStack>
                 <Image
-                  src={comment.image}
+                  src={comment.userPhoto}
                   borderRadius="8px"
                   w="100px"
                   h="50px"

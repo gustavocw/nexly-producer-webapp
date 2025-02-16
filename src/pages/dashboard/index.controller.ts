@@ -21,8 +21,8 @@ const getMonthDates = () => {
 
 const getWeekDates = () => {
   const now = new Date();
-  const firstDay = new Date(now.setDate(now.getDate() - now.getDay() + 1)).toISOString(); // Monday
-  const lastDay = new Date(now.setDate(now.getDate() - now.getDay() + 7)).toISOString(); // Sunday
+  const firstDay = new Date(now.setDate(now.getDate() - now.getDay() + 1)).toISOString();
+  const lastDay = new Date(now.setDate(now.getDate() - now.getDay() + 7)).toISOString();
   return { startDate: firstDay, endDate: lastDay };
 };
 
@@ -37,7 +37,7 @@ export const useDashboardController = () => {
     { label: "Mensal", value: "Mensal" },
   ];
 
-  const [optionStatus, setOptionStatus] = useState<string>("");
+  const [optionStatus, setOptionStatus] = useState<string>("Semanal");
   const [dates, setDates] = useState(getWeekDates());
   const [weeklyChange, setWeeklyChange] = useState<number | null>(null);
 
@@ -100,21 +100,15 @@ export const useDashboardController = () => {
 
   const { data: chartComments, isLoading: isLoadingChartComments } = useQuery({
     queryKey: ["chart-comments"],
-    queryFn: () =>
-      getChartComments(0, 20).then((res) => {
-        return res;
-      }),
+    queryFn: async () => {
+      const res = await getChartComments(0, 20);
+      return res?.[0]?.comments || [];
+    },
   });
-
-  console.log(chartComments);
-  
 
   const { data: membersCount, isLoading: isLoadingChartMembers } = useQuery({
     queryKey: ["chart-members"],
-    queryFn: () =>
-      getChartMembers().then((res) => {
-        return res;
-      }),
+    queryFn: () => getChartMembers(),
   });
 
   return {

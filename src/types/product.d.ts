@@ -347,3 +347,15 @@ interface FoldersResponse {
   };
   data: Folder[];
 }
+
+
+interface CommentData {
+  _id: string;
+  comment: string;
+  userPhoto: string;
+  username: string;
+  lesson: string;
+  lessonId: string;
+  userId: string;
+  createdAt: string;
+}
