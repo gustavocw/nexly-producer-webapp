@@ -37,10 +37,10 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
     },
   });
 
-  const renderMenuItems = (status: string, memberId: string, memberName: string) => (
+  const renderMenuItems = (member: Member) => (
     <>
-      <ModalEditUser memberId={memberId} />
-      <ModalChangePassword memberName={memberName} idMember={memberId} refetch={refetch} />
+      <ModalEditUser member={member} />
+      <ModalChangePassword memberName={member.name} idMember={member._id} refetch={refetch} />
       <MenuItem
         _hover={{ bg: "neutral.40" }}
         bg="neutral.50"
@@ -48,7 +48,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
         p={2}
         color="neutral"
         value="block"
-        onClick={() => updateState({ memberId, state: status === "ATIVO" ? "BLOQUEADO" : "ATIVO" })}
+        onClick={() => updateState({ memberId: member._id, state: member?.stateUser === "ATIVO" ? "BLOQUEADO" : "ATIVO" })}
       >
         {status === "ATIVO" ? "Bloquear membro" : "Desbloquear membro"}
       </MenuItem>
@@ -170,7 +170,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
                         borderColor="neutral.40"
                         bg="neutral.50"
                       >
-                        {renderMenuItems(member?.stateUser, member?._id, member?.name)}
+                        {renderMenuItems(member)}
                       </MenuContent>
                     </MenuRoot>
                   </Table.Cell>

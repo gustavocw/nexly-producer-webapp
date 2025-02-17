@@ -4,6 +4,7 @@ import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { LuMessageCircle } from "react-icons/lu";
 import { formatDateToString } from "utils/formatDateToString";
+import { truncateText } from "utils/truncateText";
 
 const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
   console.log(rooms);
@@ -17,7 +18,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
       h="100vh"
       position="fixed"
       top="10px"
-      right="10px"
+      right="0px"
       zIndex={10}
     >
       <Flex w="100%" justify="center" h="100px">
@@ -26,7 +27,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
       <VStack w="100%">
         {rooms?.length === 0 ? (
           <VStack
-            w="90%"
+            w="100%"
             py="10px"
             px="10px"
             gap="20px"
@@ -59,7 +60,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
               <VStack align="flex-start" w="100%">
                 <Flex w="100%" alignItems="center" justify="space-between">
                   <Flex whiteSpace="nowrap" gap="5px" alignItems="center">
-                    <Text.Medium>{room.nameRoom}</Text.Medium>
+                    <Text.Medium>{truncateText(room.nameRoom, 10)}</Text.Medium>
                     <Text.Medium>|</Text.Medium>
                     <Text.Medium color="neutral.10">Ticket #{room.ticketNumber}</Text.Medium>
                   </Flex>

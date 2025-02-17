@@ -93,7 +93,7 @@ const Members = () => {
     { label: `Bloqueados ${bloquedMembers ?? 0}`, value: "BLOQUEADO" },
     { label: `Colaboradores ${bloquedMembers ?? 0}`, value: "COLABORADOR" },
   ];
-
+  
   return (
     <Stack gap="32px" px={8}>
       <Tabs.Root>

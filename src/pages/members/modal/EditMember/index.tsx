@@ -14,8 +14,9 @@ import {
   DialogTrigger,
 } from "components/ui/dialog";
 import React from "react";
+import { Member } from "types/members";
 
-const ModalEditUser: React.FC<any> = ({ memberId }) => {
+const ModalEditUser: React.FC<{ member?: Member }> = ({ member }) => {
   const {
     controlProfile,
     loadingImage,
@@ -23,7 +24,7 @@ const ModalEditUser: React.FC<any> = ({ memberId }) => {
     handleProfileSubmit,
     onSubmitProfile,
     updatingProfile,
-  } = useProfileController(memberId);
+  } = useProfileController(member);
 
   return (
     <DialogRoot size="cover" placement="center" motionPreset="slide-in-bottom">
@@ -38,13 +39,13 @@ const ModalEditUser: React.FC<any> = ({ memberId }) => {
           Editar membro
         </Text>
       </DialogTrigger>
-      <DialogContent w="60%" h="80%" bg="neutral.60">
+      <DialogContent zIndex={99999} w="60%" h="80%" bg="neutral.60">
         <VStack w="100%">
           <VStack align="flex-start" gap="32px" py={4} m="auto" w="90%">
             <DialogHeader w="100%">
               <Flex w="100%" justify="space-between">
                 <Text fontSize="20px" color="neutral">
-                  Editar dados do usuário {memberId}
+                  Editar dados do usuário {member?.name}
                 </Text>
                 <DialogCloseTrigger cursor="pointer" fontSize="24px">
                   <IoClose color="#fff" />

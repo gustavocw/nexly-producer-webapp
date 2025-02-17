@@ -2,14 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toaster } from "components/ui/toaster";
 import { updateMember, uploadPhotoMember } from "services/members.services";
-import { EditMember } from "types/members";
+import { EditMember, Member } from "types/members";
 
-interface UseProfileControllerProps {
-  memberId: string;
-  user?: Partial<EditMember>;
-}
-
-export const useProfileController = ({ memberId }: UseProfileControllerProps) => {
+export const useProfileController = (member: Member | undefined) => {
    const {
     register: registerProfile,
     handleSubmit: handleProfileSubmit,
@@ -47,7 +42,7 @@ export const useProfileController = ({ memberId }: UseProfileControllerProps) =>
   });
 
   const { mutate: mutateProfile, isPending: updatingProfile } = useMutation({
-    mutationFn: (params: Partial<EditMember>) => updateMember(memberId, params),
+    mutationFn: (params: Partial<EditMember>) => updateMember(member?._id, params),
     onSuccess: () => {
       resetProfile();
       toaster.create({

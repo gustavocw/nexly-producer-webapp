@@ -49,7 +49,7 @@ const Btn = ({
   return (
     <Button
       type={type}
-      zIndex={9999}
+      zIndex={10}
       onClick={(e) => {
         if (onClick) {
           onClick(e)
