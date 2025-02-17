@@ -10,6 +10,7 @@ import { BsTextareaResize } from "react-icons/bs";
 import { checkDomainStatus } from "utils/domainVercel";
 import ModalDomain from "./modal/modal.domain";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import DomainList from "./domains";
 
 const Areas = () => {
   const { areas, loadingAreas } = useAreasController();
@@ -76,18 +77,21 @@ const Areas = () => {
             </Flex>
           </HStack>
           {areas?.length && !loadingAreas ? (
-            <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
-              {areas?.map((area) => (
-                <Flex flexWrap="wrap" w="100%">
-                  <Box w="300px">
-                  <Box onClick={() => handleAreaClick(area)} w="100%">
-                    <AreaCard data={area} />
-                  </Box>
-                  <ModalDomain area={area} />
-                  </Box>
-                </Flex>
-              ))}
-            </Flex>
+            <>
+              <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
+                {areas?.map((area) => (
+                  <Flex flexWrap="wrap" w="100%">
+                    <Box w="300px">
+                      <Box onClick={() => handleAreaClick(area)} w="100%">
+                        <AreaCard data={area} />
+                      </Box>
+                      <ModalDomain area={area} />
+                    </Box>
+                  </Flex>
+                ))}
+              </Flex>
+              <DomainList />
+            </>
           ) : (
             <VStack
               w="100%"
@@ -135,10 +139,7 @@ const Areas = () => {
               </Text.Medium>
             </Flex>
           </Flex>
-          <FormArea
-            selectedArea={selectedArea}
-            goBack={goBack}
-          />
+          <FormArea selectedArea={selectedArea} goBack={goBack} />
         </VStack>
       )}
     </VStack>
