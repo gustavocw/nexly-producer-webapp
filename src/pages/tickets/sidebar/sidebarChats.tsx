@@ -1,20 +1,26 @@
-import { Box, Flex, HStack, VStack, Icon } from "@chakra-ui/react";
+import { Flex, HStack, VStack, Icon } from "@chakra-ui/react";
 import SearchBar from "components/search/search";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { LuMessageCircle } from "react-icons/lu";
 import { formatDateToString } from "utils/formatDateToString";
 import { truncateText } from "utils/truncateText";
+import { useChatController } from "../chat/chat.controller";
 
 const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
-  console.log(rooms);
-  
+  const { selectRoom } = useChatController();
+
+  const handleChatClick = (room: any) => {
+    selectRoom(room);
+    onChatClick(room.id);
+  };
+
   return (
     <VStack
       bg="neutral.60"
       borderLeftWidth="1px"
       borderColor="neutral.40"
-      w="300px"
+      w="400px"
       h="100vh"
       position="fixed"
       top="10px"
@@ -54,34 +60,32 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
               align="flex-start"
               p="20px"
               w="100%"
-              onClick={() => onChatClick(room.id)}
+              onClick={() => handleChatClick(room)}
             >
-              <Avatar />
+              <Avatar src={room.photoStudent} />
               <VStack align="flex-start" w="100%">
                 <Flex w="100%" alignItems="center" justify="space-between">
-                  <Flex whiteSpace="nowrap" gap="5px" alignItems="center">
-                    <Text.Medium>{truncateText(room.nameRoom, 10)}</Text.Medium>
-                    <Text.Medium>|</Text.Medium>
-                    <Text.Medium color="neutral.10">Ticket #{room.ticketNumber}</Text.Medium>
-                  </Flex>
-                  <Box>
+                  <Text.Medium color="neutral.10">
+                    {truncateText(room.nameRoom, 12)} | #Ticket{room.numberTicket}
+                  </Text.Medium>
                     <Text.Medium fontSize="11px" color="primary.50">
                       {formatDateToString(room.createdAt)}
-                    </Text.Medium>
-                  </Box>
+                  </Text.Medium>
                 </Flex>
-                <Flex justify="space-between" w="100%">
-                  <Text.Medium color="neutral.10">{room.lastMessage}</Text.Medium>
+                <Flex alignItems="center" justify="space-between" w="100%">
+                  <Text.Medium color="neutral.10">
+                    {room.nameStudent} {room.lastnameStudent}
+                  </Text.Medium>
                   <Flex
                     justify="center"
                     alignItems="center"
                     borderRadius="50%"
                     bg="primary.50"
-                    w="24px"
-                    h="24px"
+                    w="20px"
+                    h="20px"
                   >
                     <Text.Medium fontSize="11px" color="neutral">
-                      {room.unreadCount}
+                      {room.messageCount}
                     </Text.Medium>
                   </Flex>
                 </Flex>

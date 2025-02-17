@@ -52,7 +52,7 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
         borderColor="neutral.40"
         p="32px"
         h="100px"
-        w="calc(100vw - 550px)"
+        w="calc(100vw - 650px)"
         justify="space-between"
         flexShrink={0}
       >
@@ -68,7 +68,7 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
             </Text.Medium>
           </Flex>
         </Flex>
-        <Flex gap="10px" w="300px" justify="flex-end">
+        <Flex gap="10px" w="400px" justify="flex-end">
           <Flex
             alignItems="center"
             justify="center"
@@ -129,10 +129,11 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
       {/* Área de mensagens com scroll */}
       <VStack
         px={10}
-        w="calc(100vw - 550px)"
+        w="calc(100vw - 650px)"
         ref={messagesContainerRef}
         flex={1}
-        py={20}
+        pt={10}
+        pb={40}
         overflowY="auto"
         maxH="calc(100vh - 100px)"
       >
@@ -195,14 +196,12 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
           </React.Fragment>
         ))}
       </VStack>
-
-      {/* Input fixo na parte inferior */}
       <Flex
         position="absolute"
         alignItems="center"
         bottom="0"
         zIndex={999}
-        w="calc(100vw - 550px)"
+        w="calc(100vw - 650px)"
         borderTopWidth="1px"
         borderColor="neutral.40"
         h="120px"
