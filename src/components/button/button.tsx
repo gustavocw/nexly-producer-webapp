@@ -14,7 +14,7 @@ interface BtnProps {
   h?: string;
   bg?: string;
   borderRadius?: string;
-  onClick: (e?: any) => void;
+  onClick?: (e?: any) => void;
   iconLeft?: JSX.Element;
   iconRight?: JSX.Element;
   fontWeight?: string;
@@ -51,7 +51,9 @@ const Btn = ({
       type={type}
       zIndex={9999}
       onClick={(e) => {
-        onClick(e)
+        if (onClick) {
+          onClick(e)
+        }
       }}
       disabled={disabled}
       w={w ?? "100%"}
