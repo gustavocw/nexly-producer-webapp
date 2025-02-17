@@ -1,5 +1,5 @@
 import { http } from "services/http/http";
-import type { EditMember, NewMember } from "types/members";
+import type { Member, NewMember } from "types/members";
 
 export async function getMembers() {
   const { data } = await http.get<any>("/member");
@@ -35,24 +35,50 @@ export async function createMember(
   return data;
 }
 
-export async function updateStateMember(memberId?: string | null, state?: string) {
-  const { data } = await http.put<any>(
-    `/member/change-state/${memberId}`,
-    { state }
-  );
+export async function updateStateMember(
+  memberId?: string | null,
+  state?: string
+) {
+  const { data } = await http.put<any>(`/member/change-state/${memberId}`, {
+    state,
+  });
   return data;
 }
 
-
-export async function changePasswordMember(memberId?: string | null, password?: string) {
-  const { data } = await http.put(`/member/change-password-member/${memberId}`, {
-    password
-  });
+export async function changePasswordMember(
+  memberId?: string | null,
+  password?: string
+) {
+  const { data } = await http.put(
+    `/member/change-password-member/${memberId}`,
+    {
+      password,
+    }
+  );
   return data.data;
 }
 
-export async function updateMember(studentId?: string, params?: Partial<EditMember>) {
-  const { data } = await http.put<any>(`/member/change-details-member/${studentId}`, params);
+export async function updateMember(
+  studentId?: string,
+  photo?: File | null,
+  params?: Partial<Member>
+) {
+  const formData = new FormData();
+
+  if (params?.name) formData.append("name", params?.name);
+  if (params?.lastname) formData.append("lastname", params?.lastname);
+  if (params?.phone) formData.append("phone", params?.phone);
+  if (params?.sex) formData.append("sex", params?.sex);
+  if (params?.bio) formData.append("bio", params?.bio);
+  if (params?.email) formData.append("email", params?.email);
+
+  if (photo) {
+    formData.append("file", photo);
+  }
+  const { data } = await http.put<any>(
+    `/member/change-details-member/${studentId}`,
+    params
+  );
   return data;
 }
 

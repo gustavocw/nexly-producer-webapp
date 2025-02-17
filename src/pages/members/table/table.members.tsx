@@ -40,7 +40,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
   const renderMenuItems = (member: Member) => (
     <>
       <ModalEditUser member={member} />
-      <ModalChangePassword memberName={member.name} idMember={member._id} refetch={refetch} />
+      <ModalChangePassword memberName={member.name} idMember={member.studentId} refetch={refetch} />
       <MenuItem
         _hover={{ bg: "neutral.40" }}
         bg="neutral.50"
@@ -102,7 +102,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
                     border="none"
                   >
                     <Flex align="center" gap="12px">
-                      <Avatar name={member?.name} />
+                      <Avatar src={member?.photo} name={member?.name} />
                       <Text.Medium fontSize="14px" color="neutral">
                         {member?.name}
                       </Text.Medium>

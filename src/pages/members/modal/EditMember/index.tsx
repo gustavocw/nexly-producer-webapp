@@ -19,11 +19,11 @@ import { Member } from "types/members";
 const ModalEditUser: React.FC<{ member?: Member }> = ({ member }) => {
   const {
     controlProfile,
-    loadingImage,
-    mutateFile,
     handleProfileSubmit,
     onSubmitProfile,
     updatingProfile,
+    setPhotoFile,
+    photoFile,
   } = useProfileController(member);
 
   return (
@@ -39,7 +39,7 @@ const ModalEditUser: React.FC<{ member?: Member }> = ({ member }) => {
           Editar membro
         </Text>
       </DialogTrigger>
-      <DialogContent zIndex={99999} w="60%" h="80%" bg="neutral.60">
+      <DialogContent zIndex={99999} w="60%" h="auto" py={4} bg="neutral.60">
         <VStack w="100%">
           <VStack align="flex-start" gap="32px" py={4} m="auto" w="90%">
             <DialogHeader w="100%">
@@ -61,14 +61,14 @@ const ModalEditUser: React.FC<{ member?: Member }> = ({ member }) => {
               mx={{ base: "auto", md: 0 }}
             >
               <FileUploadRoot
-                onFileChange={(file) => mutateFile(file.acceptedFiles[0])}
+                onFileChange={(file) =>setPhotoFile(file.acceptedFiles[0])}
                 w="100px"
                 borderRadius="full"
               >
                 <FileUploadTrigger borderRadius="full" cursor="pointer">
-                  <SkeletonCircle loading={loadingImage}>
+                  <SkeletonCircle loading={!member?.photo}>
                     <Avatar
-                      // src={user?.photo}
+                      src={photoFile?.name ? URL.createObjectURL(photoFile) : member?.photo}
                       mx={{ base: "auto", md: 0 }}
                       w="112px"
                       h="112px"

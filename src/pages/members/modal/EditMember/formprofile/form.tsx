@@ -51,22 +51,13 @@ const FormProfile: React.FC<FormProps> = ({ control }) => {
             control={control}
             label="Gênero"
             name="sex"
-          />
-        </Flex>
-        <Flex gap={2} w="100%">
-          <Input.Base
-            name="email"
-            maxLength={200}
-            control={control}
-            label="E-mail"
-          />
-          <Input.Base
-            name="cpf"
-            maxLength={200}
-            control={control}
-            label="CPF"
-            isDisabled
-          />
+          />          <Input.Base
+          name="email"
+          maxLength={200}
+          control={control}
+          label="E-mail"
+        />
+
         </Flex>
       </VStack>
     </VStack>

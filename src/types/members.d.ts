@@ -6,7 +6,16 @@ type Member = {
   name: string;
   email: string;
   stateUser: string;
-}
+  courseId: string;
+  createdAt: string;
+  photo: string;
+  bio: string;
+  studentId: string;
+  lastname: string;
+  phone: string;
+  sex: string;
+};
+
 
 type NewMember = {
   name: string;
