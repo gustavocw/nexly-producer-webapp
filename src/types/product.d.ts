@@ -359,5 +359,6 @@ interface CommentData {
   lesson: string;
   lessonId: string;
   userId: string;
+  thumbnail: string;
   createdAt: string;
 }

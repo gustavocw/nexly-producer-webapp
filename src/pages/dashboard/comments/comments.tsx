@@ -37,7 +37,7 @@ const Comments: React.FC<CommentProps> = ({ data }) => {
                   </VStack>
                 </HStack>
                 <Image
-                  src={comment.userPhoto}
+                  src={comment.thumbnail}
                   borderRadius="8px"
                   w="100px"
                   h="50px"

@@ -17,6 +17,9 @@ const Dashboard = () => {
     handleSelectionChange,
   } = useDashboardController();
 
+  console.log(chartComments);
+  
+
   return (
     <Stack pb={{ base: 20, md: 0 }} gap="32px" px={8}>
       <Tabs.Root>

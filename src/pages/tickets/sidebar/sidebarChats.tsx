@@ -3,6 +3,7 @@ import SearchBar from "components/search/search";
 import Text from "components/text/text";
 import { Avatar } from "components/ui/avatar";
 import { LuMessageCircle } from "react-icons/lu";
+import { formatDateToString } from "utils/formatDateToString";
 
 const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
   console.log(rooms);
@@ -57,14 +58,14 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
               <Avatar />
               <VStack align="flex-start" w="100%">
                 <Flex w="100%" alignItems="center" justify="space-between">
-                  <Flex gap="5px" alignItems="center">
-                    <Text.Medium>{room.name}</Text.Medium>
+                  <Flex whiteSpace="nowrap" gap="5px" alignItems="center">
+                    <Text.Medium>{room.nameRoom}</Text.Medium>
                     <Text.Medium>|</Text.Medium>
                     <Text.Medium color="neutral.10">Ticket #{room.ticketNumber}</Text.Medium>
                   </Flex>
                   <Box>
                     <Text.Medium fontSize="11px" color="primary.50">
-                      {room.lastMessageTime}
+                      {formatDateToString(room.createdAt)}
                     </Text.Medium>
                   </Box>
                 </Flex>

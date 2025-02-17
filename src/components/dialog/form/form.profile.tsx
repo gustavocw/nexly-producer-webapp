@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FileUploadRoot, FileUploadTrigger } from "components/ui/file-upload";
 import useProducerStore from "stores/producer.store";
 import { uploadPhoto, deletePhoto } from "services/producer.services";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ProfileForm = () => {
   const {
@@ -30,6 +31,8 @@ const ProfileForm = () => {
   const [isAddressEdited, setIsAddressEdited] = useState(false);
   const { producer } = useProducerStore();
 
+  const queryClient = useQueryClient();
+
   const handleAddressChange = () => {
     setIsAddressEdited(true);
   };
@@ -47,6 +50,7 @@ const ProfileForm = () => {
   const handleDeletePhoto = async () => {
     await deletePhoto();
     setFile(null);
+    queryClient.invalidateQueries({ queryKey: ["me"] })
   };
 
   const isPending = updatingProfile || updatingAddress || creatingAddress;
@@ -73,7 +77,7 @@ const ProfileForm = () => {
                 }}
               >
                 <FileUploadTrigger asChild>
-                  <Btn w="120px" label="Alterar foto" />
+                  <Btn onClick={() => console.log("")} w="120px" label="Alterar foto" />
                 </FileUploadTrigger>
               </FileUploadRoot>
               <Btn

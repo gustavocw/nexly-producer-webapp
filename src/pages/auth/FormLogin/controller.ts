@@ -49,8 +49,8 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: "admin@nexly.com.br",
-      password: "Admin@123",
+      email: "optimumsistemasbrasil@gmail.com.br",
+      password: "Decode3430!",
     },
   });
 
