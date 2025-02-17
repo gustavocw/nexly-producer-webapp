@@ -14,7 +14,7 @@ interface BtnProps {
   h?: string;
   bg?: string;
   borderRadius?: string;
-  onClick?: () => void;
+  onClick: (e?: any) => void;
   iconLeft?: JSX.Element;
   iconRight?: JSX.Element;
   fontWeight?: string;
@@ -49,7 +49,10 @@ const Btn = ({
   return (
     <Button
       type={type}
-      onClick={onClick}
+      zIndex={9999}
+      onClick={(e) => {
+        onClick(e)
+      }}
       disabled={disabled}
       w={w ?? "100%"}
       h={h ?? "44px"}
@@ -83,6 +86,7 @@ const Btn = ({
             textTransform="initial"
             fontWeight={fontWeight ?? "500px"}
             fontSize={fontSize}
+            color={color || "neutral"}
           >
             {label}
           </Text.Medium>

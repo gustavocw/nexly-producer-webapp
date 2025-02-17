@@ -5,142 +5,120 @@ import { useAreasController } from "./index.controller";
 import FormArea from "./form/form.area";
 import Btn from "components/button/button";
 import { HiPlus } from "react-icons/hi2";
-import { useState, useEffect } from "react";
 import { BsTextareaResize } from "react-icons/bs";
-import { checkDomainStatus } from "utils/domainVercel";
-import ModalDomain from "./modal/modal.domain";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import DomainList from "./domains";
+import NavOptions from "components/navoptions/navoptions";
 
 const Areas = () => {
-  const { areas, loadingAreas } = useAreasController();
-  const [selectedArea, setSelectedArea] = useState<Area | null>(null);
-  const [step, setStep] = useState<"list" | "form">("list");
-
-  const handleAreaClick = (area: Area) => {
-    setSelectedArea(area);
-    setStep("form");
-  };
-
-  const handleNewArea = () => {
-    setSelectedArea(null);
-    setStep("form");
-  };
-
-  const goBack = () => {
-    setSelectedArea(null);
-    setStep("list");
-  };
-
-  useEffect(() => {
-    const verifyDomains = async () => {
-      if (!areas || areas.length === 0) return;
-      const newStatuses: { [key: string]: string } = {};
-      for (const area of areas) {
-        if (area.domain && area._id) {
-          const result = await checkDomainStatus(area.domain);
-          if (result.error) {
-            newStatuses[area._id] = "⏳ Aguardando configuração DNS";
-          } else {
-            newStatuses[area._id] = "✅ Domínio configurado corretamente!";
-          }
-        }
-      }
-    };
-
-    verifyDomains();
-  }, [areas]);
+  const {
+    areas,
+    loadingAreas,
+    selectedArea,
+    step,
+    selectedTab,
+    optionsNav,
+    handleTabChange,
+    handleAreaClick,
+    handleNewArea,
+    goBack,
+  } = useAreasController();
 
   return (
     <VStack gap="32px" px={8} align="stretch">
-      {step === "list" && (
+      <HStack align="flex-start" justify="space-between" py={5}>
+        <NavOptions
+          value={selectedTab}
+          options={optionsNav}
+          onChange={handleTabChange}
+        />
+        {step === "list" && areas && areas?.length > 0 && (
+          <Btn
+            w={{ base: "140px", md: "200px" }}
+            iconLeft={<HiPlus />}
+            label="Nova área"
+            onClick={handleNewArea}
+            h="40px"
+          />
+        )}
+      </HStack>
+
+      {selectedTab === "domains" ? (
+        <DomainList />
+      ) : (
         <>
-          <HStack align="flex-start" justify="space-between" spaceY={5} py={5}>
-            <Flex
-              w="100%"
-              gap={2}
-              justifyContent={{ base: "flex-start", md: "space-between" }}
-              alignItems="center"
-            >
-              <Text.Medium fontSize={{ base: "18px", md: "24px" }}>
-                Suas áreas {areas?.length && `(${areas?.length})`}
-              </Text.Medium>
-              {areas && areas?.length > 0 && (
-                <Btn
-                  w={{ base: "140px", md: "200px" }}
-                  iconLeft={<HiPlus />}
-                  label="Nova área"
-                  onClick={handleNewArea}
-                  h="40px"
-                />
-              )}
-            </Flex>
-          </HStack>
-          {areas?.length && !loadingAreas ? (
+          {step === "list" && (
             <>
-              <Flex w="100%" wrap="wrap" gap="24px" justifyContent="flex-start">
-                {areas?.map((area) => (
-                  <Flex flexWrap="wrap" w="100%">
-                    <Box w="300px">
-                      <Box onClick={() => handleAreaClick(area)} w="100%">
-                        <AreaCard data={area} />
-                      </Box>
-                      <ModalDomain area={area} />
-                    </Box>
+              {areas?.length && !loadingAreas ? (
+                <>
+                  <Flex
+                    w="100%"
+                    wrap="wrap"
+                    gap="24px"
+                    justifyContent="flex-start"
+                  >
+                    {areas?.map((area) => (
+                      <Flex flexWrap="wrap" w="100%" key={area._id}>
+                        <Box w="300px">
+                          <Box onClick={() => handleAreaClick(area)} w="100%">
+                            <AreaCard data={area} />
+                          </Box>
+                        </Box>
+                      </Flex>
+                    ))}
                   </Flex>
-                ))}
-              </Flex>
-              <DomainList />
+                </>
+              ) : (
+                <VStack
+                  w="100%"
+                  py="32px"
+                  px="10px"
+                  gap="20px"
+                  boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
+                >
+                  <Icon fontSize="58px" color="neutral">
+                    <BsTextareaResize />
+                  </Icon>
+                  <VStack gap="32px" lineHeight={1.5} w="100%">
+                    <Text.Medium fontSize="24px" color="neutral">
+                      Comece sua jornada com a Nexly criando sua primeira área
+                      de membro.
+                    </Text.Medium>
+                    <Btn
+                      w="200px"
+                      iconLeft={<HiPlus />}
+                      label="Nova área"
+                      onClick={handleNewArea}
+                    />
+                  </VStack>
+                </VStack>
+              )}
             </>
-          ) : (
-            <VStack
-              w="100%"
-              py="32px"
-              px="10px"
-              gap="20px"
-              boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
-            >
-              <Icon fontSize="58px" color="neutral">
-                <BsTextareaResize />
-              </Icon>
-              <VStack gap="32px" lineHeight={1.5} w="100%">
-                <Text.Medium fontSize="24px" color="neutral">
-                  Comece sua jornada com a Nexly criando sua primeira área de
-                  membro.
-                </Text.Medium>
-                <Btn
-                  w="200px"
-                  iconLeft={<HiPlus />}
-                  label="Nova área"
-                  onClick={handleNewArea}
-                />
-              </VStack>
+          )}
+          {step === "form" && (
+            <VStack w="100%">
+              <Flex
+                w="100%"
+                py={5}
+                alignItems="center"
+                gap="6px"
+                onClick={goBack}
+              >
+                <Flex cursor="pointer">
+                  <Icon color="neutral">
+                    <KeyboardArrowLeftIcon />
+                  </Icon>
+                  <Text.Medium fontSize="16px" color="neutral">
+                    {selectedArea
+                      ? "Editar área de membros"
+                      : "Criar área de membros"}
+                  </Text.Medium>
+                </Flex>
+              </Flex>
+              <FormArea selectedArea={selectedArea} goBack={goBack} />
             </VStack>
           )}
         </>
-      )}
-      {step === "form" && (
-        <VStack w="100%">
-          <Flex
-            w="100%"
-            py={10}
-            alignItems="center"
-            gap="6px"
-            onClick={() => setStep("list")}
-          >
-            <Flex cursor="pointer">
-              <Icon color="neutral">
-                <KeyboardArrowLeftIcon />
-              </Icon>
-              <Text.Medium fontSize="16px" color="neutral">
-                {selectedArea
-                  ? "Editar área de membros"
-                  : "Criar área de membros"}
-              </Text.Medium>
-            </Flex>
-          </Flex>
-          <FormArea selectedArea={selectedArea} goBack={goBack} />
-        </VStack>
       )}
     </VStack>
   );
