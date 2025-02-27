@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toaster } from "components/ui/toaster";
 import { useProducts } from "hooks/useProducts";
 import { useMutation } from "@tanstack/react-query";
-import { createArea, updateArea } from "services/areas.services";
+import { createArea, deleteAreaById, updateArea } from "services/areas.services";
 
 export const createAreaSchema = z.object({
   domain: z
@@ -166,9 +166,30 @@ export const useCreateAreaController = (
     }
   }, [selectedArea, setValue]);
 
+  const handleComplete = (response: { title: string; description: string }) => {
+    if (!response || typeof response !== "object") {
+      console.error("Resposta inválida da IA:", response);
+      return;
+    }
+    if (!response.title || !response.description) {
+      console.error("Dados incompletos recebidos:", response);
+      return;
+    }
+    setValue("title", response.title.trim());
+    setValue("description", response.description.trim());
+  };
+  
+  const mutateDelete = useMutation({
+    mutationKey: ["deleteArea"],
+    mutationFn: (areaId?: string) => deleteAreaById(areaId)
+  })
+  
+
   return {
     control,
     handleSubmit,
+    handleComplete,
+    mutateDelete,
     setValue,
     errors,
     onSubmit,

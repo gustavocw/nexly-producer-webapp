@@ -12,7 +12,7 @@ export const useAreasController = () => {
   const [selectedTab, setSelectedTab] = useState("areas");
 
   const optionsNav = [
-    { label: `Areas (${areas?.length})`, value: "areas" },
+    { label: `Areas (${areas?.length || 0})`, value: "areas" },
     { label: "Dominios", value: "domains" },
   ];
 

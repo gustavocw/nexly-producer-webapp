@@ -56,10 +56,9 @@ const AreaCard: FC<AreaCardProps> = ({ data }) => {
             >
               <iframe
                 src={videoUrl}
-                width="100%"
+                width="110%"
                 height="100%"
-                style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
-                frameBorder="0"
+                style={{ position: "absolute", top: 0, left: -25, pointerEvents: "none" }}
               />
             </Box>
           )}

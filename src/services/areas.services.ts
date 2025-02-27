@@ -51,3 +51,8 @@ export async function updateArea(params: Partial<Area>, areaId: any) {
   return data;
 }
 
+
+export async function deleteAreaById(areaId?: string) {
+  const { data } = await http.delete(`/member/member-area/${areaId}`, {});
+  return data;
+}

@@ -21,19 +21,24 @@ import React, { useState } from "react";
 import SelectOption from "components/selectOption/select";
 import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
+import ModalGpt from "components/GptModal";
+import help from "./help";
+import ConfirmDialog from "components/confirmDialog";
 
 const FormArea: React.FC<{
   selectedArea: Area | null;
-  goBack: () => void
+  goBack: () => void;
 }> = ({ selectedArea, goBack }) => {
   const {
     control,
     handleSubmit,
+    handleComplete,
     backgroundFile,
     iconFile,
     logoFile,
     creatingArea,
     updatingArea,
+    mutateDelete,
     onSubmit,
     updateFile,
     watch,
@@ -41,7 +46,7 @@ const FormArea: React.FC<{
 
   const [useUrl, setUseUrl] = useState(true);
   const color = watch("color") || "#ffffff";
-
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
     <VStack
@@ -52,6 +57,10 @@ const FormArea: React.FC<{
       justify="space-between"
       w="100%"
     >
+      <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
+        <ModalGpt help={help} onConfirm={handleComplete} />
+      </Flex>
+
       <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
         <Input.Base
           control={control}
@@ -101,7 +110,6 @@ const FormArea: React.FC<{
           )}
         />
       </Flex>
-
       <Input.Base
         control={control}
         label="Domínio"
@@ -110,7 +118,6 @@ const FormArea: React.FC<{
         isRequired
         width="80%"
       />
-
       <Input.Text
         control={control}
         label="Descrição da área"
@@ -160,7 +167,15 @@ const FormArea: React.FC<{
           onFileSelect={(file) => updateFile("logo", file)}
         />
       </Flex>
-      <Flex w="80%" py={10} justify="flex-end">
+      <Flex w="80%" py={10} justify="space-between">
+      <Btn
+          w="200px"
+          label="Deletar Área"
+          bg="error.50"
+          bgHover="red"
+          onClick={() => setDialogOpen(true)}
+          isLoading={creatingArea || updatingArea}
+        />
         <Btn
           w="200px"
           label="Salvar"
@@ -168,6 +183,12 @@ const FormArea: React.FC<{
           isLoading={creatingArea || updatingArea}
         />
       </Flex>
+      <ConfirmDialog
+        isOpen={isDialogOpen}
+        onClose={() => setDialogOpen(false)}
+        message="Tem certeza que deseja excluir esta área de membro ?"
+        onConfirm={() => mutateDelete.mutate(selectedArea?._id)}
+      />
     </VStack>
   );
 };

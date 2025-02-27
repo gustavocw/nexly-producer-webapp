@@ -1,4 +1,4 @@
-import { VStack, Flex, HStack, Icon, Box } from "@chakra-ui/react";
+import { VStack, Flex, HStack, Icon, Box, Grid } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AreaCard from "./card/card.areas";
 import { useAreasController } from "./index.controller";
@@ -42,7 +42,6 @@ const Areas = () => {
           />
         )}
       </HStack>
-
       {selectedTab === "domains" ? (
         <DomainList />
       ) : (
@@ -51,21 +50,22 @@ const Areas = () => {
             <>
               {areas?.length && !loadingAreas ? (
                 <>
-                  <Flex
-                    w="100%"
-                    wrap="wrap"
-                    gap="24px"
-                    justifyContent="flex-start"
-                  >
-                    {areas?.map((area) => (
-                      <Flex flexWrap="wrap" w="100%" key={area._id}>
-                        <Box w="300px">
-                          <Box onClick={() => handleAreaClick(area)} w="100%">
-                            <AreaCard data={area} />
-                          </Box>
+                  <Flex w="100%" justifyContent="center">
+                    <Grid
+                      templateColumns="repeat(3, 1fr)"
+                      w="100%"
+                    >
+                      {areas?.map((area) => (
+                        <Box
+                          key={area._id}
+                          w="100%"
+                          maxW="320px"
+                          onClick={() => handleAreaClick(area)}
+                        >
+                          <AreaCard data={area} />
                         </Box>
-                      </Flex>
-                    ))}
+                      ))}
+                    </Grid>
                   </Flex>
                 </>
               ) : (

@@ -10,7 +10,6 @@ import Text from "components/text/text";
 import { toaster } from "components/ui/toaster";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
-
 interface InputProps {
   control: any;
   name: string;
@@ -33,6 +32,7 @@ interface InputProps {
   errorToast?: boolean;
   onBlurSubmit?: (value?: any) => void;
   onEnterSubmit?: (value?: any) => void;
+  onGenerateIa?: (message?: string) => void
 }
 
 const InputBase: React.FC<InputProps> = ({

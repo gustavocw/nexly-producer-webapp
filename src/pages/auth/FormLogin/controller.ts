@@ -6,6 +6,7 @@ import { useAuth } from "hooks/useAuth";
 import useAuthStore from "stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { localStorageKeys } from "config/localStorageKeys";
 
 export const loginSchema = z.object({
   email: z
@@ -23,7 +24,6 @@ export const loginSchema = z.object({
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
-
 
 export const useLoginController = () => {
   const navigate = useNavigate();
@@ -60,6 +60,8 @@ export const useLoginController = () => {
   const { mutate: mutateLogin, isPending: loadingLogin } = useMutation({
     mutationFn: (params: any) => signin(params),
     onSuccess: (data) => {
+      localStorage.setItem(localStorageKeys.ACCESS_TOKEN, data?.plan);
+
       auth(data?.token);
       setProducerStore(data);
       if (rememberMe === "true") {
@@ -78,10 +80,10 @@ export const useLoginController = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     const payload = {
-        email: data.email,
-        password: data.password,
-    }
-    mutateLogin(payload)
+      email: data.email,
+      password: data.password,
+    };
+    mutateLogin(payload);
   };
 
   return {

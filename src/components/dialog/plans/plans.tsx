@@ -54,14 +54,16 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
                 {planPropeties.text}
               </Flex>
             </Flex>
-            <Btn
-              label="Atualizar plano"
-              onClick={() => {
-                navigate("/plans", { state: { plan: producer?.plan } }),
-                onClose()
-              }}
-              w="200px"
-            />
+            {producer?.plan !== "bigger" && (
+              <Btn
+                label="Atualizar plano"
+                onClick={() => {
+                  navigate("/plans", { state: { plan: producer?.plan } }),
+                    onClose();
+                }}
+                w="200px"
+              />
+            )}
           </HStack>
         </VStack>
         <Divider width="100%" />
@@ -90,7 +92,9 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
               </Flex>
             </Flex>
             <Btn
-              label={`Alterar para anual (-20%) ${formatToBRL(planPropeties.annualPrice)}`}
+              label={`Alterar para anual (-20%) ${formatToBRL(
+                planPropeties.annualPrice
+              )}`}
               onClick={() => {
                 onClose();
               }}

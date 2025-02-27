@@ -49,7 +49,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 }) => {
   const isInitialRender = useRef(true);
   const [selectedOption, setSelectedOption] = useState<SingleValue<Option>>(
-    value || (options.length > 0 ? options[0] : null)
+    value || (options?.length > 0 ? options[0] : null)
   );
  
   useEffect(() => {
