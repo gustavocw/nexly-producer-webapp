@@ -36,7 +36,7 @@ const Certificates = () => {
   const description = watch("description") || certificate?.description;
   const logoUrl = files.logoUrl || certificate?.logoUrl;
   const backgroundUrl = files.file || certificate?.backgroundUrl;
-
+  
   return (
     <VStack pb={10} flexDir="column" w="100%" align="flex-start" gap="32px">
       <Text.Medium fontSize="16px">Informações do certificado</Text.Medium>

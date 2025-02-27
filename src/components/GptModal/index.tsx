@@ -16,10 +16,11 @@ import { useRef, useState, useEffect } from "react";
 
 interface ModalGptProps {
   help: string;
+  titleModal: string;
   onConfirm: (response: { title: string; description: string }) => void;
 }
 
-const ModalGpt = ({ help, onConfirm }: ModalGptProps) => {
+const ModalGpt = ({ help, onConfirm, titleModal }: ModalGptProps) => {
   const { mutate, isPending } = useGPTChat();
   const ref = useRef<HTMLTextAreaElement>(null);
   const [formattedText, setFormattedText] = useState("");
@@ -89,7 +90,7 @@ const ModalGpt = ({ help, onConfirm }: ModalGptProps) => {
       </DialogTrigger>
       <DialogContent bg="neutral.60" color="neutral" p={4}>
         <DialogHeader>
-          <DialogTitle mb={5}>Conte pra nós sobre o que será sua área de membro.</DialogTitle>
+          <DialogTitle mb={5}>{titleModal}</DialogTitle>
         </DialogHeader>
         <DialogBody pb="4">
           <Stack gap="4">

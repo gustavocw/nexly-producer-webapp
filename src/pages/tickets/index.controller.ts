@@ -25,11 +25,11 @@ const useTicketsController = () => {
     mutationFn: (params: { nameRoom: string; ticketId?: string }) =>
       createRoom(params?.ticketId, params?.nameRoom),
     onSuccess: () => {
-      refetchRooms();
       toaster.create({
         title: "Sala criada com sucesso, pode visualizar na direita.",
         type: "success"
       })
+      refetchRooms();
     }
   });
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createCertificate,
   getCertificate,
@@ -51,7 +51,7 @@ export const useCertificateController = () => {
   const updateFiles = (name: keyof typeof files, file: File | null) => {
     setFiles((prev) => ({ ...prev, [name]: file }));
   };
-
+  const queryClient = useQueryClient();
   const { data: certificate, refetch } = useQuery({
     queryKey: ["certificates", productId],
     queryFn: () =>
@@ -75,6 +75,7 @@ export const useCertificateController = () => {
       }
     ) => createCertificate(params, productId),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: "certificates" });
       toaster.create({
         title: "Certificado criado com sucesso!",
         type: "success",

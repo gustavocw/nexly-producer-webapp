@@ -58,7 +58,11 @@ const FormArea: React.FC<{
       w="100%"
     >
       <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
-        <ModalGpt help={help} onConfirm={handleComplete} />
+        <ModalGpt
+          titleModal="Conte pra nós sobre o que será sua área de membro."
+          help={help}
+          onConfirm={handleComplete}
+        />
       </Flex>
 
       <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
@@ -167,15 +171,17 @@ const FormArea: React.FC<{
           onFileSelect={(file) => updateFile("logo", file)}
         />
       </Flex>
-      <Flex w="80%" py={10} justify="space-between">
-      <Btn
-          w="200px"
-          label="Deletar Área"
-          bg="error.50"
-          bgHover="red"
-          onClick={() => setDialogOpen(true)}
-          isLoading={creatingArea || updatingArea}
-        />
+      <Flex w="80%" py={10} justify={selectedArea ? "space-between" : "flex-end"}>
+        {selectedArea && (
+          <Btn
+            w="200px"
+            label="Deletar Área"
+            bg="error.50"
+            bgHover="red"
+            onClick={() => setDialogOpen(true)}
+            isLoading={creatingArea || updatingArea}
+          />
+        )}
         <Btn
           w="200px"
           label="Salvar"

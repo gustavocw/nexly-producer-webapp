@@ -84,10 +84,7 @@ const useCreateModuleController = ({
       });
       return;
     }
-    mutateCreateMember({
-      ...data,
-      state: data.state[0],
-    });
+    mutateCreateMember(data);
   };
 
   return {

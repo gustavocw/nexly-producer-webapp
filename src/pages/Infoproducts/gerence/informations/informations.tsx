@@ -49,7 +49,7 @@ const Informations: React.FC<{ data?: Product | null }> = ({ data }) => {
             <Text.Medium fontSize="16px">{data?.name}</Text.Medium>
           </HStack>
           <Divider width="100" />
-          <Flex>
+          <Flex overflowY="auto">
             <Text.Medium fontSize="14px">{data?.description}</Text.Medium>
           </Flex>
         </VStack>

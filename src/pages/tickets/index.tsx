@@ -31,6 +31,8 @@ const Tickets = () => {
     setStep("chat");
   };
 
+  console.log(selectedRoom)
+
   return (
     <Flex overflow="hidden" w="100%" align="flex-start" h="100%">
       {step === "tickets" && (

@@ -5,6 +5,8 @@ import { useCreateProductController } from "./create.products.controller";
 import Select from "components/select/select";
 import Btn from "components/button/button";
 import { DragFile } from "components/fileInput/drag.file";
+import ModalGpt from "components/GptModal";
+import help from "./youtube/help";
 
 const CreateProduct = () => {
   const {
@@ -19,6 +21,7 @@ const CreateProduct = () => {
     updateFile,
     areaList,
     updatingCourse,
+    handleComplete,
     creatingCourse,
   } = useCreateProductController();
 
@@ -49,7 +52,8 @@ const CreateProduct = () => {
         description="Principais informações do curso"
         title="Informações básicas"
       />
-      <VStack gap="64px" ml={2} w="60%">
+      <VStack align="flex-start" gap="64px" ml={2} w="60%">
+        <ModalGpt titleModal="Conte pra nós sobre o que será seu info produto." onConfirm={handleComplete} help={help}  />
         <Input.Base
           name="name"
           control={control}

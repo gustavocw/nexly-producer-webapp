@@ -26,6 +26,7 @@ export const useCreateProductController = () => {
   const {
     control,
     handleSubmit,
+    setValue,
     reset,
     watch,
     formState: { errors },
@@ -139,6 +140,18 @@ export const useCreateProductController = () => {
     }
   };
   
+    const handleComplete = (response: { title: string; description: string }) => {
+      if (!response || typeof response !== "object") {
+        console.error("Resposta inválida da IA:", response);
+        return;
+      }
+      if (!response.title || !response.description) {
+        console.error("Dados incompletos recebidos:", response);
+        return;
+      }
+      setValue("name", response.title.trim());
+      setValue("description", response.description.trim());
+    };
 
   return {
     control,
@@ -147,6 +160,7 @@ export const useCreateProductController = () => {
     handleSubmit,
     onSubmit,
     reset,
+    handleComplete,
     areaList,
     product,
     navigate,
