@@ -46,7 +46,7 @@ export const useChatController = () => {
       socket.emit("enterRoom", selectedRoom.nameRoom);
 
       socket.on("joinedRoom", (message: string) => {
-        console.log("✅ Usuário entrou na sala:", message);
+        console.log("Usuário entrou na sala:", message);
       });
 
       socket.on("newMessage", (message: Message) => {

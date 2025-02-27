@@ -3,8 +3,7 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toaster } from "components/ui/toaster";
-import { useProducts } from "hooks/useProducts";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createArea, deleteAreaById, updateArea } from "services/areas.services";
 
 export const createAreaSchema = z.object({
@@ -40,15 +39,15 @@ export const useCreateAreaController = (
   selectedArea: Area | null,
   goBack: () => void
 ) => {
-  const { refetchAreas } = useProducts();
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const queryClient = useQueryClient()
 
   const { mutate: mutateArea, isPending: creatingArea } = useMutation({
     mutationFn: (payload: any) => createArea(payload),
     onSuccess: () => {
-      refetchAreas();
+      queryClient.invalidateQueries({ queryKey: ["areas"] })
       reset();
       setIconFile(null);
       setLogoFile(null);
@@ -69,7 +68,7 @@ export const useCreateAreaController = (
   const { mutate: mutateUpdateArea, isPending: updatingArea } = useMutation({
     mutationFn: (payload: any) => updateArea(payload.area, payload._id),
     onSuccess: () => {
-      refetchAreas();
+      queryClient.invalidateQueries({ queryKey: ["areas"] })
       toaster.create({
         title: "Área atualizada com sucesso",
         type: "success",
@@ -181,7 +180,10 @@ export const useCreateAreaController = (
   
   const mutateDelete = useMutation({
     mutationKey: ["deleteArea"],
-    mutationFn: (areaId?: string) => deleteAreaById(areaId)
+    mutationFn: (areaId?: string) => deleteAreaById(areaId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["areas"] })
+    }
   })
   
 

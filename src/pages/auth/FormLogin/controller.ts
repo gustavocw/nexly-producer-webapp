@@ -29,8 +29,8 @@ export const useLoginController = () => {
   const navigate = useNavigate();
   const {
     setProducerStore,
-    // email,
-    // password,˝
+    email,
+    password,
     setEmail,
     setPassword,
     rememberMe,
@@ -49,8 +49,8 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: "optimumsistemasbrasil@gmail.com",
-      password: "Decode3430!",
+      email: email || "",
+      password: password || "",
     },
   });
 

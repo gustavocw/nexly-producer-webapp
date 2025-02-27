@@ -50,7 +50,7 @@ const TableMembers: React.FC<TableMembersProps> = ({ data, refetch }) => {
         value="block"
         onClick={() => updateState({ memberId: member._id, state: member?.stateUser === "ATIVO" ? "BLOQUEADO" : "ATIVO" })}
       >
-        {status === "ATIVO" ? "Bloquear membro" : "Desbloquear membro"}
+        {member?.stateUser === "ATIVO" ? "Bloquear membro" : "Desbloquear membro"}
       </MenuItem>
     </>
   );

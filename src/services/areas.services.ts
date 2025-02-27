@@ -24,13 +24,13 @@ export async function createArea(params: Area) {
   if (params.logo) {
     formData.append("logo", params.logo);
   }
-  const { data } = await http.post(`/member/member-area`, formData, {
+  const response = await http.post(`/member/member-area`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
 
-  return data.data[0];
+  return response;
 }
 
 export async function updateArea(params: Partial<Area>, areaId: any) {

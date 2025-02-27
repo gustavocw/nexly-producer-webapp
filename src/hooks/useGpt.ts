@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 
-const API_URL = 'https://api.openai.com/v1/chat/completions';
-const API_KEY = import.meta.env.VITE_VERCEL_TOKEN_GPT;
+const API_URL = import.meta.env.VITE_GPT_API;
+const API_KEY = import.meta.env.VITE_TOKEN_GPT;
 
 const useGPTChat = () => {
   return useMutation({

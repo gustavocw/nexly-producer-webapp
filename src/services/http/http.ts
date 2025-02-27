@@ -4,11 +4,11 @@ import { localStorageKeys } from 'config/localStorageKeys'
 export const basicClient = axios.create()
 
 export const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.VITE_API_URL_PRODUCTION,
 })
 
 export const api = axios.create({
-  baseURL: 'https://localhost:9000',
+  baseURL: import.meta.env.VITE_API_URL_DEVELOPMENT,
 })
 
 http.interceptors.request.use((config) => {
