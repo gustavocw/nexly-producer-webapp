@@ -22,7 +22,7 @@ const FormLogin = () => {
   return (
     <VStack justify="space-between" w="100%" h="100%">
       <Image width="200px" h="100px" src="images/logo.png" />
-      <Box w={{ base: "90%", md: "100%" }} maxH="358px" maxW="462px">
+      <Box w="90%" maxH="358px" maxW="462px">
         <VStack spaceY={10} w="100%" lineHeight={1}>
           <VStack w="100%">
             <Text.Base

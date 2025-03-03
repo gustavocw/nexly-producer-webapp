@@ -3,7 +3,7 @@ import NavOptions from "components/navoptions/navoptions";
 import TitlePage from "components/titlePage/titlePage";
 import Informations from "./informations/informations";
 import Modules from "./modules/modules";
-import Certificates from "./certificates/certificates";
+import Certificates from "./certificates";
 import { ModalCreateModule } from "./modules/modal/modal.create.module";
 import { useGenrenceInfoproduct } from "./index.controller";
 import { useEffect, useState } from "react";

@@ -61,7 +61,6 @@ export const useLoginController = () => {
     mutationFn: (params: any) => signin(params),
     onSuccess: (data) => {
       localStorage.setItem(localStorageKeys.ACCESS_TOKEN, data?.plan);
-
       auth(data?.token);
       setProducerStore(data);
       if (rememberMe === "true") {

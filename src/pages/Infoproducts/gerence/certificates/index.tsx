@@ -2,7 +2,7 @@ import { Flex, HStack, VStack } from "@chakra-ui/react";
 import CertificateIcon from "assets/icons/CertificateIcon";
 import Divider from "components/divider/divider";
 import Text from "components/text/text";
-import { useCertificateController } from "./certificates.controller";
+import { useCertificateController } from "./index.controller";
 import Input from "components/input/input";
 import CertificateImage from "./certificate/certificate.image";
 import Btn from "components/button/button";
