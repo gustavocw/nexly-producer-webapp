@@ -14,23 +14,7 @@ export const createAreaSchema = z.object({
   color: z.string().nonempty({ message: "O campo 'color' é obrigatório" }),
   title: z.string().nonempty({ message: "O campo 'title' é obrigatório" }),
   description: z.string().optional(),
-  background: z
-    .string()
-    .url({ message: "Insira uma URL válida" })
-    .refine(
-      (url) => {
-        return (
-          url.includes("youtube.com") ||
-          url.includes("youtu.be") ||
-          url.includes("vimeo.com") ||
-          url.match(/\.(jpeg|jpg|gif|png|webp)$/)
-        );
-      },
-      {
-        message:
-          "A URL deve ser um link de imagem ou um vídeo do YouTube/Vimeo",
-      }
-    ),
+  background: z.any(),
 });
 
 type CreateAreaFormData = z.infer<typeof createAreaSchema>;

@@ -17,7 +17,7 @@ import {
 } from "components/ui/color-picker";
 import { swatches } from "./swatches";
 import { DragFile } from "components/fileInput/drag.file";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SelectOption from "components/selectOption/select";
 import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
@@ -44,9 +44,19 @@ const FormArea: React.FC<{
     watch,
   } = useCreateAreaController(selectedArea, goBack);
 
-  const [useUrl, setUseUrl] = useState(true);
+  const background = watch("background");
   const color = watch("color") || "#ffffff";
   const [isDialogOpen, setDialogOpen] = useState(false);
+
+  const isYouTubeOrVimeo = background?.includes("youtube.com") || background?.includes("vimeo.com");
+  const isOptimumCDN = background?.startsWith("https://opt-nexly-members-courses.s3.us-east-1.amazonaws.com");
+
+  const [useUrl, setUseUrl] = useState(!isOptimumCDN);
+
+  useEffect(() => {
+    if (isYouTubeOrVimeo) setUseUrl(true);
+    else if (isOptimumCDN) setUseUrl(false);
+  }, [background]);
 
   return (
     <VStack
@@ -155,7 +165,7 @@ const FormArea: React.FC<{
         <DragFile
           label="Background da área"
           onFileSelect={(file) => updateFile("background", file)}
-          value={backgroundFile?.name}
+          value={backgroundFile}
         />
       )}
 
@@ -171,7 +181,11 @@ const FormArea: React.FC<{
           onFileSelect={(file) => updateFile("logo", file)}
         />
       </Flex>
-      <Flex w="80%" py={10} justify={selectedArea ? "space-between" : "flex-end"}>
+      <Flex
+        w="80%"
+        py={10}
+        justify={selectedArea ? "space-between" : "flex-end"}
+      >
         {selectedArea && (
           <Btn
             w="200px"
