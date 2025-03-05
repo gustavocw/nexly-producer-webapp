@@ -18,7 +18,6 @@ interface Room {
   firstName: string;
   lastName: string;
   producerId: string;
-  studentId: string;
 }
 
 export const useChatController = () => {
@@ -28,7 +27,7 @@ export const useChatController = () => {
 
   const socket: Socket = socketClient("ws://nexly-producer.com/chat", {
     auth: {
-      student: selectedRoom?.studentId,
+      student: "yourStudentId",
       producer: selectedRoom?.producerId,
     },
     transports: ["websocket"],
@@ -38,7 +37,7 @@ export const useChatController = () => {
   useEffect(() => {
     if (selectedRoom) {
       socket.auth = {
-        student: selectedRoom?.studentId,
+        student: "yourStudentId",
         producer: selectedRoom.producerId,
       };
 
@@ -46,7 +45,7 @@ export const useChatController = () => {
       socket.emit("enterRoom", selectedRoom.nameRoom);
 
       socket.on("joinedRoom", (message: string) => {
-        console.log("Usuário entrou na sala:", message);
+        console.log("✅ Usuário entrou na sala:", message);
       });
 
       socket.on("newMessage", (message: Message) => {

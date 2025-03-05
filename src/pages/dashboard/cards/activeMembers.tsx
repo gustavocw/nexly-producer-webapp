@@ -15,7 +15,7 @@ const Card: React.FC<CardProps> = ({ value }) => {
       borderRadius="8px"
       boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
       justify="center"
-      width={{ base: "100%", md: "80%" }}
+      width="100%"
       mx={4}
       bg="neutral.60"
       p="20px"

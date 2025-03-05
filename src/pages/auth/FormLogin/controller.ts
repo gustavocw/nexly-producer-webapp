@@ -6,7 +6,6 @@ import { useAuth } from "hooks/useAuth";
 import useAuthStore from "stores/auth.store";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { localStorageKeys } from "config/localStorageKeys";
 
 export const loginSchema = z.object({
   email: z
@@ -29,11 +28,9 @@ export const useLoginController = () => {
   const navigate = useNavigate();
   const {
     setProducerStore,
-    email,
-    password,
-    setEmail,
-    setPassword,
     rememberMe,
+    saveCredentials,
+    savedCredentials,
     setRememberMe,
   } = useAuthStore();
   const { auth } = useAuth();
@@ -49,8 +46,8 @@ export const useLoginController = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     defaultValues: {
-      email: email || "",
-      password: password || "",
+      email: savedCredentials?.email || "",
+      password: savedCredentials?.password || "",
     },
   });
 
@@ -60,12 +57,10 @@ export const useLoginController = () => {
   const { mutate: mutateLogin, isPending: loadingLogin } = useMutation({
     mutationFn: (params: any) => signin(params),
     onSuccess: (data) => {
-      localStorage.setItem(localStorageKeys.ACCESS_TOKEN, data?.plan);
       auth(data?.token);
       setProducerStore(data);
-      if (rememberMe === "true") {
-        setEmail(data.email);
-        setPassword(data.password);
+      if (rememberMe === true) {
+        saveCredentials(watchedEmail, watchedPassword);
       }
       navigate("/");
     },

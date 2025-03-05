@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { register } from "services/auth.services";
 import { useUnmask } from "hooks/unmask";
-import useAuthStore from "stores/auth.store";
 import { toaster } from "components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/useAuth";
@@ -63,7 +62,6 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 export const useRegisterController = () => {
   const navigate = useNavigate();
   const umask = useUnmask();
-  const { setProducerStore } = useAuthStore();
   const { auth } = useAuth();
 
   const {
@@ -74,7 +72,7 @@ export const useRegisterController = () => {
     reset,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       name: "",
       lastname: "",
@@ -89,7 +87,6 @@ export const useRegisterController = () => {
   const formValues = watch();
   const isStep1Valid =
     formValues.name && formValues.lastname && !errors.name && !errors.lastname;
-
   const isStep2Valid =
     formValues.email &&
     formValues.phone &&
@@ -108,13 +105,12 @@ export const useRegisterController = () => {
   const { mutate: mutateRegister, isPending: loadingRegister } = useMutation({
     mutationFn: (params: any) => register(params),
     onSuccess: (data) => {
-      setProducerStore(data);
       auth(data?.token);
-      navigate("/");
       toaster.create({
         title: "Conta criada com sucesso",
         type: "success",
       });
+      navigate("/");
     },
     onError: () => {
       toaster.create({

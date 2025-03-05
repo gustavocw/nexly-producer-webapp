@@ -29,19 +29,19 @@ const Dashboard = () => {
       </Tabs.Root>
       <Box w="100%">
         <Stack
-          flexDirection={{ base: "column", md: "row" }}
+          flexDirection={{ base: "column", md: "column", lg: "row" }}
           gap="20px"
           align="flex-start"
           w="100%"
         >
-          <VStack gap="20px" width={{ base: "100%", md: "70%" }} flex={1}>
+          <VStack gap="20px" width={{ base: "100%", md: "100%", lg: "70%" }} flex={1}>
             <GraphicNexly data={chartData} mode={optionStatus} />
             <Comments data={chartComments} />
           </VStack>
           <VStack
-            align={{ base: "center", md: "flex-start" }}
+            align={{ base: "center", md: "center", lg: "flex-start" }}
             gap="20px"
-            width={{ base: "100%", md: "30%" }}
+            width={{ base: "100%", md: "100%", lg: "30%" }}
           >
             <Card value={weeklyChange} />
             <Statistis time={0} viewers={0} />

@@ -17,7 +17,7 @@ const FormLogin = () => {
     rememberMe,
     setRememberMe,
   } = useLoginController();
-  const { setStepLogin, setEmail, setPassword } = useAuthStore();
+  const { setStepLogin, saveCredentials } = useAuthStore();
 
   return (
     <VStack justify="space-between" w="100%" h="100%">
@@ -63,7 +63,7 @@ const FormLogin = () => {
                 Esqueceu a senha?
               </Link>
               <RadioGroup
-                defaultValue={rememberMe || "false"}
+                defaultValue={rememberMe ? "true" : "false"}
                 color="#fff"
                 borderColor="white"
                 size="sm"
@@ -71,14 +71,13 @@ const FormLogin = () => {
                 <CheckboxCard
                   onCheckedChange={(e) => {
                     if (e.checked === true) {
-                      setRememberMe("true");
+                      setRememberMe(true);
                     } else {
-                      setRememberMe("false");
-                      setEmail("");
-                      setPassword("");
+                      setRememberMe(false);
+                      saveCredentials(null, null);
                     }
                   }}
-                  checked={rememberMe === "true"}
+                  checked={rememberMe}
                   indicatorPlacement="start"
                   border="none"
                   label="Lembrar de mim"

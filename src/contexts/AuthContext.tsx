@@ -13,10 +13,10 @@ export const AuthContext = createContext({} as AuthContextValue);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const {
-    producerStore,
-    email,
-    password,
     rememberMe,
+    producerStore,
+    clearCredentials,
+    resetProducerStore,
   } = useAuthStore();
 
   const [isLogged, setIsLogged] = useState<boolean>(() => {
@@ -36,7 +36,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-
   const auth = useCallback((accessToken: string) => {
     localStorage.setItem(localStorageKeys.ACCESS_TOKEN, accessToken);
     setIsLogged(true);
@@ -51,22 +50,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signout = useCallback(() => {
-    const authStorage = JSON.parse(localStorage.getItem("auth-storage") || "{}");
-    const newAuthState = {
-      state: {
-        rememberMe: authStorage?.state?.rememberMe || "false",
-        email: authStorage?.state?.rememberMe === "true" ? authStorage?.state?.email : null,
-        password: authStorage?.state?.rememberMe === "true" ? authStorage?.state?.password : null,
-      },
-      version: 0,
-    };
-    localStorage.clear();
-    localStorage.setItem("auth-storage", JSON.stringify(newAuthState));
-    localStorage.removeItem("auti:accessToken");
     clearCookies();
     setIsLogged(false);
-  }, [setIsLogged]);
-  
+    const keysToPreserve = [
+      localStorageKeys.ACCESS_TOKEN,
+      'sidebarTourCompleted',
+      'auth-storage'
+    ];
+    Object.keys(localStorage).forEach(key => {
+      if (!keysToPreserve.includes(key)) {
+        localStorage.removeItem(key);
+      }
+    });
+    if (!rememberMe) {
+      clearCredentials();
+    }
+    resetProducerStore();
+    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
+  }, [setIsLogged, rememberMe, clearCredentials, resetProducerStore]);
 
   useEffect(() => {
     const pathname = location.pathname;
@@ -79,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       signout();
     }
-  }, [email, password, rememberMe, producerStore, signout]);
+  }, [producerStore, signout]);
 
   return (
     <AuthContext.Provider

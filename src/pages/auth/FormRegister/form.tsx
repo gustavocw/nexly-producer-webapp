@@ -90,7 +90,6 @@ const FormRegister = () => {
             <>
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="name"
                 label="Nome"
@@ -98,11 +97,11 @@ const FormRegister = () => {
               />
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="lastname"
                 label="Sobrenome"
                 placeholder="Digite seu sobrenome"
+                onEnterSubmit={() => handleNextStep()}
               />
             </>
           )}
@@ -111,7 +110,6 @@ const FormRegister = () => {
             <>
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="email"
                 label="Email"
@@ -119,7 +117,6 @@ const FormRegister = () => {
               />
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="phone"
                 label="Celular/Whatsapp"
@@ -129,12 +126,12 @@ const FormRegister = () => {
               <Flex alignItems="center" gap={2} w="100%">
                 <Input.Base
                   height="44px"
-                  errorToast
                   control={control}
                   name="identity"
                   label={identityLabel}
                   placeholder={`Digite seu ${identityLabel}`}
                   mask={identityMask}
+                  onEnterSubmit={() => handleNextStep()}
                 />
                 <SegmentedControl
                   px={2}
@@ -152,7 +149,6 @@ const FormRegister = () => {
             <>
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="password"
                 label="Senha"
@@ -161,7 +157,6 @@ const FormRegister = () => {
               />
               <Input.Base
                 height="44px"
-                errorToast
                 control={control}
                 name="confirmPassword"
                 label="Confirmar Senha"

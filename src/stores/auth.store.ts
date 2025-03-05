@@ -2,28 +2,28 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { create } from "zustand";
 
 interface ProducerProps {
-  id: string;
-  success: boolean;
   token: string;
   plan: string;
+  logged: boolean;
 }
 
 interface AuthState {
   producerStore: ProducerProps | null;
   stepLogin: boolean;
-  email: string | null;
-  password: string | null;
-  rememberMe: string;
-  plan: string;
-  setPlan: (plan: string) => void;
+  savedCredentials: {
+    email: string | null;
+    password: string | null;
+  } | null;
+  rememberMe: boolean;
 }
 
 interface AuthActions {
-  setProducerStore: (producer: AuthState["producerStore"]) => void;
-  setStepLogin: (stepLogin: AuthState["stepLogin"]) => void;
-  setEmail: (email: AuthState["email"]) => void;
-  setPassword: (password: AuthState["password"]) => void;
-  setRememberMe: (rememberMe: string) => void;
+  setProducerStore: (producer: ProducerProps | null) => void;
+  setStepLogin: (stepLogin: boolean) => void;
+  saveCredentials: (email: string | null, password: string | null) => void;
+  setRememberMe: (rememberMe: boolean) => void;
+  clearCredentials: () => void;
+  resetProducerStore: () => void;
 }
 
 const useAuthStore = create<AuthState & AuthActions>()(
@@ -31,25 +31,34 @@ const useAuthStore = create<AuthState & AuthActions>()(
     (set) => ({
       producerStore: null,
       stepLogin: false,
-      email: null,
-      password: null,
-      rememberMe: "false",
+      savedCredentials: null,
+      rememberMe: false,
+
       setProducerStore: (producerStore) => set({ producerStore }),
       setStepLogin: (stepLogin) => set({ stepLogin }),
-      setEmail: (email) => set({ email }),
-      setPassword: (password) => set({ password }),
-      setRememberMe: (rememberMe) => set({ rememberMe }),
-      plan: '',
-      setPlan: (plan) => set({ plan: plan }),
+      saveCredentials: (email, password) => 
+        set(state => ({
+          savedCredentials: state.rememberMe ? { email, password } : null
+        })),
+      setRememberMe: (rememberMe) => set(state => ({
+        rememberMe,
+        savedCredentials: rememberMe ? state.savedCredentials : null
+      })),
+      clearCredentials: () => set({ 
+        savedCredentials: null, 
+        rememberMe: false 
+      }),
+      resetProducerStore: () => set({ 
+        producerStore: null 
+      }),
     }),
     {
       name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         producerStore: state.producerStore,
-        email: state.rememberMe === "true" ? state.email : null,
-        password: state.rememberMe === "true" ? state.password : null,
         rememberMe: state.rememberMe,
+        savedCredentials: state.rememberMe ? state.savedCredentials : null,
       }),
     }
   )
