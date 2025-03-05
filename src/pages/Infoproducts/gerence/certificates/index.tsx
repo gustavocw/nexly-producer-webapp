@@ -128,7 +128,7 @@ const Certificates = () => {
                   <>
                     <Flex color="neutral" mb={3} w="30%">
                       <Switch
-                        checked={field.value === "true"}
+                        checked={field.value === "true" || certificate?.progress}
                         onCheckedChange={(checked) =>
                           setValue("progress", checked ? "true" : "false")
                         }
@@ -144,12 +144,12 @@ const Certificates = () => {
               <DragFile
                 label="Logotipo"
                 onFileSelect={(file) => updateFiles("logoUrl", file)}
-                value={files.logoUrl}
+                value={files.logoUrl || logoUrl}
               />
               <DragFile
                 label="Capa"
                 onFileSelect={(file) => updateFiles("backgroundUrl", file)}
-                value={files.backgroundUrl}
+                value={files.backgroundUrl || backgroundUrl}
               />
             </HStack>
           </VStack>

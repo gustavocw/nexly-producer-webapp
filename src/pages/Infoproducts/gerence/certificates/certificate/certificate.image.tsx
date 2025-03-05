@@ -30,14 +30,15 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
       boxShadow="lg"
       p="16px"
     >
-      <Image
-        src={logo}
-        alt="Logo"
-        w="80px"
-        position="absolute"
-        top="16px"
-        left="16px"
-      />
+      {logo && (
+        <Image
+          src={logo}
+          w="80px"
+          position="absolute"
+          top="16px"
+          left="16px"
+        />
+      )}
 
       <Text
         fontSize="32px"

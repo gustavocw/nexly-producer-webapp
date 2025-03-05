@@ -39,8 +39,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     enabled: !!isLogged,
   });
 
-  console.log(localStorageKeys.PLAN)
-
   return (
     <ProducerContext.Provider value={{ refetchMe, isLoadingProfile, isLoadinsNotifications, notifications }}>
       {children}

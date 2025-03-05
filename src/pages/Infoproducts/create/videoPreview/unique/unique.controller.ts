@@ -18,7 +18,7 @@ interface PreviewVideoFormValues {
 
 const useUniqueVideoController = () => {
   const [pageRef, setPageRef] = useState(1);
-  const { setVideoUrl } = useVideosStore();
+  const { setVideoUrl, videoUrl: videoStored } = useVideosStore();
   const [file, setFile] = useState<File | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,6 +31,7 @@ const useUniqueVideoController = () => {
     watch,
     formState: { errors },
   } = useForm<PreviewVideoFormValues>({
+    mode: "onChange",
     defaultValues: {
       name: "",
       description: "",
@@ -63,7 +64,7 @@ const useUniqueVideoController = () => {
     } else {
       setVideoUrl(videoUrl);
     }
-  }, [lesson, reset, watch]);
+  }, [lesson, videoStored, reset, watch]);
 
   const { mutate: mutateVideo, isPending: creatingVideo } = useMutation({
     mutationFn: (params: Video) => createLesson(idModule, params),
@@ -118,6 +119,8 @@ const useUniqueVideoController = () => {
     reset,
     navigate,
     errors,
+    setVideoUrl,
+    watch
   };
 };
 

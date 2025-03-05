@@ -4,10 +4,17 @@ import Btn from "components/button/button";
 import Select from "components/select/select";
 import { DragFile } from "components/fileInput/drag.file";
 import useUniqueVideoController from "./unique.controller";
+import { useEffect } from "react";
 
 const UniqueVideo = () => {
-  const { file, control, creatingVideo, updatingVideo, errors, onSubmit, handleSubmit, updateFile, lesson } =
+  const { file, control, creatingVideo, updatingVideo, errors, onSubmit, handleSubmit, updateFile, lesson, setVideoUrl, watch } =
     useUniqueVideoController();
+
+  const urlMovie = watch("urlMovie");
+
+  useEffect(() => {
+    setVideoUrl(urlMovie);
+  }, [urlMovie, setVideoUrl]);
 
   return (
     <VStack
@@ -34,7 +41,6 @@ const UniqueVideo = () => {
               name="urlMovie"
               placeholder="URL da aula"
               errorText={errors.urlMovie?.message}
-              
               isRequired
             />
           </HStack>

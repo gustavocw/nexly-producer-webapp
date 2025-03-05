@@ -38,13 +38,15 @@ import {
   FileUploadRoot,
 } from "components/ui/file-upload";
 import type React from "react";
+import { usePlanFeatures } from "hooks/userRoles";
 
 interface ModalPops {
   isEdit?: boolean;
   module?: Module;
+  modules?: Module[];
 }
 
-export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
+export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module, modules }) => {
   const {
     control,
     errors,
@@ -56,6 +58,7 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
     isValid,
     file,
   } = useCreateModuleController({ module, isEdit });
+  const { canHaveMoreModules } = usePlanFeatures();
 
 
   return (
@@ -66,7 +69,7 @@ export const ModalCreateModule: React.FC<ModalPops> = ({ isEdit, module }) => {
             <ModeEditOutlineOutlinedIcon />
           </Icon>
         ) : (
-          <Btn w="200px" h="40px" label="Novo módulo" iconLeft={<LuPlus />} />
+          <Btn disabled={!canHaveMoreModules(modules)} w="200px" h="40px" label="Novo módulo" iconLeft={<LuPlus />} />
         )}
       </DialogTrigger>
       <DialogContent

@@ -8,10 +8,11 @@ interface TitlePageProps {
   title?: string;
   description?: string;
   onClick?: () => void;
+  onAction?: () => void;
   backParams?: Record<string, any>;
 }
 
-const TitlePage = ({ title, description, onClick, backParams }: TitlePageProps) => {
+const TitlePage = ({ title, description, onClick, onAction, backParams }: TitlePageProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [previousPage, setPreviousPage] = useState<string | null>(null);
@@ -30,6 +31,9 @@ const TitlePage = ({ title, description, onClick, backParams }: TitlePageProps) 
     if (onClick)  {
       onClick();
     } else {
+      if (onAction) {
+        onAction();
+      }
       if (previousPage && backParams) {
         navigate(previousPage, { state: backParams });
       } else {

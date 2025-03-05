@@ -46,7 +46,6 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
   const fetchLessons = async (moduleId: string) => {
     if (moduleLessons[moduleId]) return;
     const lessons = await getLessons(moduleId);
-    console.log(moduleId, lessons);
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
   };
 

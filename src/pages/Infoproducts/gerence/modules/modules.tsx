@@ -30,7 +30,7 @@ const Modules: React.FC<ModulesProps> = ({ data }) => {
               <Text.Medium fontSize="24px" color="neutral">
                 O curso não possui módulos
               </Text.Medium>
-              <ModalCreateModule />
+              <ModalCreateModule modules={data?.modules} />
             </VStack>
           </VStack>
         </HStack>

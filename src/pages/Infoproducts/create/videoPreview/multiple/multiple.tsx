@@ -19,11 +19,9 @@ const MultipleVideos = () => {
     onSubmit,
     handleSubmit,
     pageRef,
-    setPageRef,
-    playNextVideo,
-    playPreviousVideo,
     setFile,
     file,
+    goToVideo,
   } = useMultipleVideoController();
   const { videos } = useVideosStore();
 
@@ -47,8 +45,7 @@ const MultipleVideos = () => {
             {pageRef > 0 && (
               <PaginationPrevTrigger
                 onClick={() => {
-                  playPreviousVideo();
-                  setPageRef(pageRef - 1);
+                  goToVideo(pageRef - 2);
                 }}
               />
             )}
@@ -56,8 +53,7 @@ const MultipleVideos = () => {
             {pageRef < videos?.length ? (
               <PaginationNextTrigger
                 onClick={() => {
-                  setPageRef(pageRef + 1);
-                  playNextVideo();
+                  goToVideo(pageRef);
                 }}
               />
             ) : (

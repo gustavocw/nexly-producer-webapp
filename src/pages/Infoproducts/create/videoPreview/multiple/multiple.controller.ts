@@ -54,7 +54,6 @@ const useMultipleVideoController = () => {
     mutationFn: (params: LessonYoutube[]) => sendVideos(idModule, params),
     onSuccess: (data) => {
       console.log(data);
-      
       toaster.create({
         title: "Aulas sendo enviadas!",
         type: "success",
@@ -66,6 +65,10 @@ const useMultipleVideoController = () => {
       });
       reset();
     },
+    onError: (error) => {
+      console.log(error);
+      
+    }
   });
 
   const onSubmit = async () => {
@@ -81,8 +84,6 @@ const useMultipleVideoController = () => {
         urlVideo: formData.urlVideo || video.urlVideo,
       };
     });
-    console.log(editedVideos);
-    
     mutateSendVideos(editedVideos);
   };
 
@@ -136,6 +137,7 @@ const useMultipleVideoController = () => {
     setFile,
     file,
     playNextVideo,
+    goToVideo,
   };
 };
 
