@@ -179,7 +179,7 @@ const FormArea: React.FC<{
             bg="error.50"
             bgHover="red"
             onClick={() => setDialogOpen(true)}
-            isLoading={creatingArea || updatingArea}
+            isLoading={mutateDelete.isPending}
           />
         )}
         <Btn

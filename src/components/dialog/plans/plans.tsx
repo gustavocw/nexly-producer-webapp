@@ -91,16 +91,18 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
                 Mensal
               </Flex>
             </Flex>
-            <Btn
-              label={`Alterar para anual (-20%) ${formatToBRL(
-                planPropeties.annualPrice
-              )}`}
-              onClick={() => {
-                onClose();
-              }}
-              bg="transparent"
-              w="auto"
-            />
+            {producer?.plan !== "visitor" && (
+              <Btn
+                label={`Alterar para anual (-20%) ${formatToBRL(
+                  planPropeties.annualPrice
+                )}`}
+                onClick={() => {
+                  onClose();
+                }}
+                bg="transparent"
+                w="auto"
+              />
+            )}
           </HStack>
         </VStack>
       </VStack>

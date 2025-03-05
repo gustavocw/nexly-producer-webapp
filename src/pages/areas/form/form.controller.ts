@@ -183,6 +183,7 @@ export const useCreateAreaController = (
     mutationFn: (areaId?: string) => deleteAreaById(areaId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["areas"] })
+      window.location.reload(); 
     }
   })
   

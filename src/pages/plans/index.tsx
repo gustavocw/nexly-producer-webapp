@@ -35,29 +35,43 @@ const PlansPage = () => {
   const currentPlanType =
     PlansFn[producer?.plan as keyof typeof PlansFn] || "Starter";
 
-  const handleHeaderClick = (selectedPlanType: "mensal" | "anual") => {
+  const handleHeaderClick = (selectedType: "mensal" | "anual") => {
     const updatedPlans = planDetails.map((planDetail) => {
-      const basePrice = Number(planDetail.price);
-
-      const newPrice =
-        selectedPlanType === "anual"
-          ? basePrice * 0.8
-          : basePrice / 12;
-
-      return {
-        ...planDetail,
-        price: newPrice,
+      if (planDetail.planName === 'FREE') {
+        return { ...planDetail, installmentInfo: 'Grátis' };
+      }
+      const monthlyPrices = {
+        'Starter': 10000,   
+        'Pro': 30000,       
+        'Premium': 80000    
       };
+      if (selectedType === "anual") {
+        const monthlyPrice = monthlyPrices[planDetail.planName as 'Starter' | 'Pro' | 'Premium'];
+        const annualPrice = monthlyPrice * 12 * 0.8;
+        
+        return {
+          ...planDetail,
+          price: annualPrice,
+          installmentInfo: `${formatToBRL(annualPrice)}/ano`
+        };
+      } else {
+        const monthlyPrice = monthlyPrices[planDetail.planName as 'Starter' | 'Pro' | 'Premium'];
+        return {
+          ...planDetail,
+          price: monthlyPrice,
+          installmentInfo: `${formatToBRL(monthlyPrice)}/mês`
+        };
+      }
     });
 
     setUpdatedPlanDetails(updatedPlans);
   };
 
   return (
-    <Box>
+    <Box h="100%">
       <Header click={handleHeaderClick} />
-      <Flex w="95%" gap="5" mx="auto" justify="space-between" wrap="wrap">
-        {updatedPlanDetails.map((planDetail) => (
+      <Flex py={5} w="95%" gap="5" mx="auto" justify="space-between" wrap="wrap">
+        {updatedPlanDetails.map((planDetail: any) => (
           <PlanCard
             key={planDetail.planName}
             planName={planDetail.planName}
@@ -65,7 +79,7 @@ const PlansPage = () => {
             installmentInfo={planDetail.installmentInfo}
             features={planDetail.features}
             additionalInfo={planDetail.additionalInfo}
-            onChoosePlan={() => mutateGetPlan(planDetail.planType)}
+            onChoosePlan={() => mutateGetPlan(planDetail.onClick)}
             isCurrentPlan={currentPlanType === planDetail.planType}
             planType={planDetail.planType}
             mutateGetPlan={mutateGetPlan}

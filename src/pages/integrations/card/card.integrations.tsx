@@ -20,9 +20,8 @@ export interface CardIntegrationProps {
 
 const CardIntegration: FC<CardIntegrationProps> = ({
   data,
-  onToggleIntegration,
 }) => {
-  const { id, title, platformType, imageSrc, isIntegrated } = data;
+  const { title, platformType, imageSrc, isIntegrated } = data;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   return (
@@ -98,12 +97,11 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           colorPalette="green"
           variant="solid"
           checked={isIntegrated}
-          disabled={isIntegrated || (title === "Youtube" || title === "Vimeo")}
+          disabled={title === "Youtube" || title === "Vimeo"}
           onClick={() => {
             isIntegrated ? setIsModalOpen(true) : null
           }}
           onChange={() => {
-            onToggleIntegration(id, !isIntegrated);
             if (title === "Hotmart") {
               setIsModalOpen(true);
             }

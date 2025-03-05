@@ -13,6 +13,7 @@ import { integrateHotmart } from "services/integrations.services";
 import { useForm, Control, useWatch } from "react-hook-form";
 import Btn from "components/button/button";
 import { toaster } from "components/ui/toaster";
+import { queryClient } from "config/queryClient";
 
 interface IntegrationFormData {
   CLIENT_ID_HOTMART: string;
@@ -48,10 +49,11 @@ const ModalHotmart: React.FC<ModalHotmartProps> = ({ isOpen, onClose }) => {
         type: "success",
       });
       onClose();
+      queryClient.invalidateQueries({ queryKey: ["integrations"] });
     },
-    onError: () => {
+    onError: (error: any) => {
       toaster.create({
-        title: "Erro ao integrar com a Hotmart.",
+        title: `Erro ao integrar com a Hotmart. ${error.response.data.message}`,
         type: "error",
       });
     },

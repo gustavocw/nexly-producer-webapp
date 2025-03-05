@@ -23,6 +23,7 @@ import VimeoFolders from "pages/Infoproducts/create/vimeo/vimeo.folders";
 import VimeoVideos from "pages/Infoproducts/create/vimeo/videos/vimeo.videos";
 import PlansPage from "pages/plans";
 import Statistics from "pages/dashboard/statistics";
+import SuccessPayment from "pages/payment/success";
 
 const LayoutWithRoot: React.FC = () => (
   <Root>
@@ -35,6 +36,7 @@ const AppRoutes: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<AuthProducer />} />
+        <Route path="/success/payment" element={<SuccessPayment />} />
         <Route element={<AuthGuard isPrivate={true} />}>
           <Route element={<LayoutWithRoot />}>
             <Route path="/" element={<Dashboard />} />

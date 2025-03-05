@@ -6,7 +6,7 @@ interface PlanProps {
 }
 
 const HeaderPlans: React.FC<PlanProps> = ({ click }) => {
-  const [selectedPlan, setSelectedPlan] = useState<'anual' | 'mensal'>('mensal');
+  const [selectedPlan, setSelectedPlan] = useState<'anual' | 'mensal'>('anual');
 
   const handleClick = (plan: 'anual' | 'mensal') => {
     setSelectedPlan(plan);
