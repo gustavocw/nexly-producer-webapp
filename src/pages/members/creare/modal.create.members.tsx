@@ -27,10 +27,12 @@ import { createListCollection } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useProducts } from "hooks/useProducts";
+import { usePlanFeatures } from "hooks/userRoles";
 
 const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { products: productsAll } = useProducts();
+  const { canHaveMoreStudents } = usePlanFeatures();
   const { id } = useParams();
   const {
     control,
@@ -55,7 +57,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
       >
         <DialogTrigger asChild>
           <Btn
-            disabled={productsAll?.length === 0}
+            disabled={productsAll?.length === 0 || !canHaveMoreStudents(productsAll)}
             w="200px"
             label="Adicionar membro"
             iconLeft={<LuPlus />}
@@ -85,7 +87,7 @@ const ModalCreateMember: React.FC<{ refetch: () => void }> = ({ refetch }) => {
                 errorText={errors?.email?.message}
               />
               <Select
-              name="state"
+                name="state"
                 options={[
                   { label: "Ativo", value: "ATIVO" },
                   { label: "Bloqueado", value: "BLOQUEADO" },

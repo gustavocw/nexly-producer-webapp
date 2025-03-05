@@ -3,6 +3,7 @@ import Select, { components, SingleValue } from "react-select";
 import { Box, Flex } from "@chakra-ui/react";
 import { LuChevronDown } from "react-icons/lu";
 import Text from "components/text/text";
+import { truncateText } from "utils/truncateText";
 
 interface Option {
   value: string;
@@ -108,7 +109,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
-              width: "120px",
+              width: "150px",
               "&:hover": {
                 transition: "0.2s",
                 backgroundColor: "#2E2A34",
@@ -132,7 +133,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
         <LuChevronDown width={8} height={8} color="#911DD4" />
       </Flex>
       <Text.Medium ml="30px" mt="2" fontSize="16px" color="neutral">
-        {selectedOption ? capitalize(selectedOption.label) : ""}
+        {selectedOption ? capitalize(truncateText(selectedOption.label, 10)) : ""}
       </Text.Medium>
     </Box>
   );

@@ -60,7 +60,7 @@ const CardRadio = () => {
   );
 };
 
-export const ModalCategoryProduct = () => {
+export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({ isDisabled }) => {
   const navigate = useNavigate();
   const { areas } = useProducts();
 
@@ -72,7 +72,7 @@ export const ModalCategoryProduct = () => {
           h="40px"
           label="Novo infoproduto"
           iconLeft={<LuPlus />}
-          disabled={areas?.length === 0 || areas?.length === undefined}
+          disabled={areas?.length === 0 || areas?.length === undefined || isDisabled}
         />
       </DialogTrigger>
       <DialogContent p="32px" bg="neutral.60" borderRadius="8px" gap="32px">

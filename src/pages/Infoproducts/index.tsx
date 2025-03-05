@@ -1,9 +1,4 @@
-import {
-  Flex,
-  HStack,
-  Icon,
-  Stack, VStack
-} from "@chakra-ui/react";
+import { Flex, HStack, Icon, Stack, VStack } from "@chakra-ui/react";
 import SelectOption from "components/selectOption/select";
 import SearchBar from "components/search/search";
 import BooksIcon from "assets/icons/BooksIcon";
@@ -20,6 +15,7 @@ import { categoryOptions } from "utils/categoryProducts";
 import { useCallback } from "react";
 import { debounce } from "lodash";
 import { useDevice } from "utils/breakPoints";
+import { usePlanFeatures } from "hooks/userRoles";
 
 const Infoproducts = () => {
   const { statusOptions, handleSetAreaId, products, isLoadingProducts } =
@@ -29,6 +25,8 @@ const Infoproducts = () => {
   const { areas, defaultArea, areasList } = useProducts();
   const hasSearch = (search ?? "").trim().length > 0;
   const { device } = useDevice();
+
+  const { canHaveMoreInfoProducts } = usePlanFeatures();
 
   const handleSearchChange = useCallback(
     debounce((value: string) => {
@@ -83,8 +81,10 @@ const Infoproducts = () => {
                 onChange={handleSearchChange}
                 placeholder="Pesquisar produto"
               />
-              {(device === "desktop" || device === "large-desktop") && (
-                <ModalCategoryProduct />
+              {(device === "desktop" ||
+                device === "large-desktop" ||
+                device === "ultrawide") && (
+                <ModalCategoryProduct isDisabled={!canHaveMoreInfoProducts(products)} />
               )}
             </Flex>
           </Stack>
@@ -134,7 +134,7 @@ const Infoproducts = () => {
                   Crie seu curso personalizado e compartilhe seu conhecimento
                 </Text.Medium>
               </VStack>
-              <ModalCategoryProduct />
+              <ModalCategoryProduct isDisabled={false} />
             </VStack>
           </VStack>
         )

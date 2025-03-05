@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { localStorageKeys } from "config/localStorageKeys";
 import { useAuth } from "hooks/useAuth";
 import { createContext, useContext, useState } from "react";
 import { getMe, getNotifications } from "services/producer.services";
@@ -32,10 +33,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     queryFn: () =>
       getMe().then((res) => {
         setProducer(res);
+        localStorage.setItem(localStorageKeys.PLAN, res?.plan);
         return res;
       }),
     enabled: !!isLogged,
   });
+
+  console.log(localStorageKeys.PLAN)
 
   return (
     <ProducerContext.Provider value={{ refetchMe, isLoadingProfile, isLoadinsNotifications, notifications }}>

@@ -24,10 +24,10 @@ export const useCertificateController = () => {
   const { refetchCourse } = useGenrenceInfoproduct();
   const { id: productId } = useParams<{ id: string }>();
   const [files, setFiles] = useState<{
-    file: File | null;
+    backgroundUrl: File | null;
     logoUrl: File | null;
   }>({
-    file: null,
+    backgroundUrl: null,
     logoUrl: null,
   });
 
@@ -115,7 +115,7 @@ export const useCertificateController = () => {
       ...data,
       percent: data.percent[0],
       files: {
-        file: files.file,
+        file: files.backgroundUrl,
         logoUrl: files.logoUrl,
       },
     };

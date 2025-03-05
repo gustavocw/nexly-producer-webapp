@@ -35,7 +35,7 @@ const Certificates = () => {
   const signatureUrl = watch("signatureUrl") || certificate?.signatureUrl;
   const description = watch("description") || certificate?.description;
   const logoUrl = files.logoUrl || certificate?.logoUrl;
-  const backgroundUrl = files.file || certificate?.backgroundUrl;
+  const backgroundUrl = files.backgroundUrl || certificate?.backgroundUrl;
   
   return (
     <VStack pb={10} flexDir="column" w="100%" align="flex-start" gap="32px">
@@ -148,8 +148,8 @@ const Certificates = () => {
               />
               <DragFile
                 label="Capa"
-                onFileSelect={(file) => updateFiles("file", file)}
-                value={files.file}
+                onFileSelect={(file) => updateFiles("backgroundUrl", file)}
+                value={files.backgroundUrl}
               />
             </HStack>
           </VStack>

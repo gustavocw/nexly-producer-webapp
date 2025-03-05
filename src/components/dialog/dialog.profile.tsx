@@ -23,7 +23,7 @@ interface ProfileDialog {
 
 const ProfileDialog: React.FC<ProfileDialog> = ({ isOpen, isOpenModal, toggleIsOpenModal }) => {
   const { producer } = useProducerStore();
-  
+
   return (
     <DialogRoot open={isOpenModal} onOpenChange={() => toggleIsOpenModal()} size="cover" placement="center" motionPreset="slide-in-bottom">
       <DialogTrigger cursor="pointer" asChild>

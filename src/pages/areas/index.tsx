@@ -9,6 +9,7 @@ import { BsTextareaResize } from "react-icons/bs";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import DomainList from "./domains";
 import NavOptions from "components/navoptions/navoptions";
+import { usePlanFeatures } from "hooks/userRoles";
 
 const Areas = () => {
   const {
@@ -24,6 +25,8 @@ const Areas = () => {
     goBack,
   } = useAreasController();
 
+  const { canHaveMoreMemberAreas } = usePlanFeatures();
+
   return (
     <VStack gap="32px" px={8} align="stretch">
       <HStack align="flex-start" justify="space-between" py={5}>
@@ -38,6 +41,7 @@ const Areas = () => {
             iconLeft={<HiPlus />}
             label="Nova área"
             onClick={handleNewArea}
+            disabled={!canHaveMoreMemberAreas(areas)}
             h="40px"
           />
         )}
@@ -51,10 +55,7 @@ const Areas = () => {
               {areas?.length && !loadingAreas ? (
                 <>
                   <Flex w="100%" justifyContent="center">
-                    <Grid
-                      templateColumns="repeat(3, 1fr)"
-                      w="100%"
-                    >
+                    <Grid templateColumns="repeat(3, 1fr)" w="100%">
                       {areas?.map((area) => (
                         <Box
                           key={area._id}

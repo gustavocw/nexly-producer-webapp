@@ -12,17 +12,17 @@ import {
   HoverCardTrigger,
 } from "components/ui/hover-card";
 import ModalHotmart from "../modal/hotmart";
+import { usePlanFeatures } from "hooks/userRoles";
 
 export interface CardIntegrationProps {
   data: IntegrationData;
   onToggleIntegration: (id: number, isIntegrated: boolean) => void;
 }
 
-const CardIntegration: FC<CardIntegrationProps> = ({
-  data,
-}) => {
+const CardIntegration: FC<CardIntegrationProps> = ({ data }) => {
   const { title, platformType, imageSrc, isIntegrated } = data;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { hotmartIntegration } = usePlanFeatures();
 
   return (
     <VStack
@@ -35,7 +35,12 @@ const CardIntegration: FC<CardIntegrationProps> = ({
       p="20px"
       gap="20px"
     >
-      {title === "Hotmart" && <ModalHotmart onClose={() => setIsModalOpen(false)} isOpen={isModalOpen} />}
+      {title === "Hotmart" && (
+        <ModalHotmart
+          onClose={() => setIsModalOpen(false)}
+          isOpen={isModalOpen}
+        />
+      )}
       <Flex gap="16px">
         <Image src={imageSrc} w="50px" h="50px" borderRadius="8px" />
         <VStack align="flex-start" w="100%">
@@ -97,9 +102,9 @@ const CardIntegration: FC<CardIntegrationProps> = ({
           colorPalette="green"
           variant="solid"
           checked={isIntegrated}
-          disabled={title === "Youtube" || title === "Vimeo"}
+          disabled={title === "Youtube" || title === "Vimeo" || !hotmartIntegration}
           onClick={() => {
-            isIntegrated ? setIsModalOpen(true) : null
+            isIntegrated ? setIsModalOpen(true) : null;
           }}
           onChange={() => {
             if (title === "Hotmart") {
