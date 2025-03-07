@@ -28,6 +28,7 @@ const useMultipleVideoController = () => {
       duration: "",
       idLessonYt: "",
       urlVideo: "",
+      thumbnail: "",
     },
   });
   const { id: idModule } = useParams<{ id: string }>();
@@ -45,10 +46,17 @@ const useMultipleVideoController = () => {
         duration: firstVideo.duration || "",
         idLessonYt: firstVideo.idLessonYt || "",
         urlVideo: firstVideo.urlVideo || "",
+        thumbnail: firstVideo.thumbnail || "",
       });
       setVideoUrl(firstVideo.urlVideo);
+      if (typeof firstVideo.thumbnail === "string") {
+        setFile(null);
+      } else {
+        setFile(firstVideo.thumbnail || null);
+      }
     }
   }, [videos, reset, setVideoUrl]);
+  
 
   const { mutate: mutateSendVideos } = useMutation({
     mutationFn: (params: LessonYoutube[]) => sendVideos(idModule, params),
@@ -82,10 +90,12 @@ const useMultipleVideoController = () => {
         duration: String(formData.duration || video.duration),
         idLessonYt: formData.idLessonYt || video.idLessonYt,
         urlVideo: formData.urlVideo || video.urlVideo,
+        thumbnail: file || video.thumbnail,
       };
     });
     mutateSendVideos(editedVideos);
   };
+  
 
   const goToVideo = (index: number) => {
     if (index >= 0 && index < videos.length) {

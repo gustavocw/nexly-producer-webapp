@@ -116,6 +116,7 @@ interface LessonYoutube {
   duration: string;
   idLessonYt: string;
   urlVideo: string;
+  thumbnail: string | File;
 }
 
 interface PlaylistItemListResponse {

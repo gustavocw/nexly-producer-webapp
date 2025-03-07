@@ -19,8 +19,7 @@ const useVideoController = () => {
 
   const generateLessons = () => {
     if (!videos?.items || selection.length === 0) return;
-
-    const lessons: any = videos.items
+    const lessons = videos.items
       .filter((item) => selection.includes(item.id))
       .map((item) => ({
         lessonLengh: item.contentDetails.videoPublishedAt,
@@ -29,11 +28,12 @@ const useVideoController = () => {
         duration: "00:00:00",
         idLessonYt: item.id,
         urlVideo: `https://www.youtube.com/watch?v=${item.contentDetails.videoId}`,
+        thumbnail: item.snippet.thumbnails.high.url,
       }));
-
     setVideos(lessons);
     navigate(`/infoproducts/create/video/${moduleId}`);
-  };
+};
+
 
   return {
     videos,

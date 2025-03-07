@@ -85,12 +85,17 @@ const MultipleVideos = () => {
           />
         </VStack>
         <Box>
-        <DragFile
-          width="100%"
-          label="Thumbnail" 
-          onFileSelect={(file) => setFile(file)}
-          value={file}
-        />
+          <DragFile
+            width="100%"
+            label="Thumbnail"
+            onFileSelect={(file) => setFile(file)}
+            value={
+              file ||
+              (typeof videos[pageRef - 1]?.thumbnail === "string"
+                ? videos[pageRef - 1]?.thumbnail
+                : null)
+            }
+          />
         </Box>
       </HStack>
     </VStack>

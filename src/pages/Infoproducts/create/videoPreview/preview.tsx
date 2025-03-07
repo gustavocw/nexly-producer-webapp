@@ -14,9 +14,6 @@ const PreviewVideos = () => {
     setDuration("");
   };
 
-  console.log(videoUrl);
-  
-
   return (
     <VStack align="flex-start" px={8} w="100%">
       <TitlePage
@@ -24,7 +21,7 @@ const PreviewVideos = () => {
         onAction={clearVideos}
         title="Video"
       />
-      {videoUrl && videos?.length === 0 ? (
+      {videoUrl || videos?.length > 0 ? (
         <Player videoUrl={videoUrl || videos[0]?.urlVideo} />
       ) : (
         <VStack 

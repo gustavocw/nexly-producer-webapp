@@ -32,7 +32,7 @@ const VideosTable: React.FC<VideosTableProps> = ({
               : [...selection, item.id]
           );
         }}
-        style={{ cursor: "pointer" }} // Adiciona um indicador visual de clicável
+        style={{ cursor: "pointer" }}
       >
         <Table.Cell borderColor="neutral.40">
           <Checkbox
@@ -46,7 +46,7 @@ const VideosTable: React.FC<VideosTableProps> = ({
                   : selection.filter((id) => id !== item.id)
               );
             }}
-            onClick={(e) => e.stopPropagation()} // Impede que o clique no checkbox dispare o evento de clique da linha
+            onClick={(e) => e.stopPropagation()}
           />
         </Table.Cell>
         <Table.Cell borderColor="neutral.40" p="20px">

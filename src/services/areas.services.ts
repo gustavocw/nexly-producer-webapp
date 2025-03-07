@@ -42,7 +42,7 @@ export async function updateArea(params: Partial<Area>, areaId: any) {
   if (params.icon) formData.append("icon", params.icon);
   if (params.logo) formData.append("logo", params.logo);
 
-  const { data } = await http.put(`/member/member-area/${areaId}`, formData, {
+  const { data } = await http.patch(`/member/member-area/${areaId}`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

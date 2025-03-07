@@ -142,7 +142,6 @@ export const useCreateAreaController = (
       setValue("title", selectedArea.title);
       setValue("description", selectedArea.description);
       setValue("background", selectedArea.background || "");
-
       setBackgroundFile(selectedArea.background);
       setIconFile(selectedArea.icon);
       setLogoFile(selectedArea.logo);
