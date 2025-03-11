@@ -13,6 +13,7 @@ import {
 } from "components/ui/hover-card";
 import ModalHotmart from "../modal/hotmart";
 import { usePlanFeatures } from "hooks/userRoles";
+import ModalKiwify from "../modal/kiwify";
 
 export interface CardIntegrationProps {
   data: IntegrationData;
@@ -22,6 +23,7 @@ export interface CardIntegrationProps {
 const CardIntegration: FC<CardIntegrationProps> = ({ data }) => {
   const { title, platformType, imageSrc, isIntegrated } = data;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [openKiwify, setOpenKifiwy] = useState<boolean>(false);
   const { hotmartIntegration } = usePlanFeatures();
 
   return (
@@ -40,6 +42,9 @@ const CardIntegration: FC<CardIntegrationProps> = ({ data }) => {
           onClose={() => setIsModalOpen(false)}
           isOpen={isModalOpen}
         />
+      )}
+      {title === "Kiwify" && (
+        <ModalKiwify onClose={() => setOpenKifiwy(false)} isOpen={openKiwify} />
       )}
       <Flex gap="16px">
         <Image src={imageSrc} w="50px" h="50px" borderRadius="8px" />
@@ -102,13 +107,23 @@ const CardIntegration: FC<CardIntegrationProps> = ({ data }) => {
           colorPalette="green"
           variant="solid"
           checked={isIntegrated}
-          disabled={title === "Youtube" || title === "Vimeo" || !hotmartIntegration}
+          disabled={
+            title === "Youtube" || title === "Vimeo" || !hotmartIntegration
+          }
           onClick={() => {
-            isIntegrated ? setIsModalOpen(true) : null;
+            if (isIntegrated) {
+              if (title === "Hotmart") {
+                setIsModalOpen(true);
+              } else if (title === "Kiwify") {
+                setOpenKifiwy(true);
+              }
+            }
           }}
           onChange={() => {
             if (title === "Hotmart") {
               setIsModalOpen(true);
+            } else if (title === "Kiwify") {
+              setOpenKifiwy(true);
             }
           }}
         />

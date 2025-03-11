@@ -5,7 +5,6 @@ import {
   Table,
   VStack,
   Skeleton,
-  useBreakpointValue
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
@@ -72,7 +71,6 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
     }
   };
   const navigate = useNavigate();
-  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const renderMenuItems = (item: Product, state: string, deldate?: any) => {
     if (deldate) return null;
@@ -160,7 +158,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
   return (
     <Table.ScrollArea
       w="100%"
-      overflowX={isMobile ? "auto" : "scroll"}
+      overflowX="auto"
       borderWidth="1px"
       borderColor="neutral.40"
       rounded="md"
@@ -197,7 +195,7 @@ const TableProducts: React.FC<TableProducts> = ({ data }) => {
           {data?.length ? (
             data.map((item: Product) => (
               <React.Fragment key={item._id}>
-                <Table.Row borderTopWidth="1px" borderColor="neutral.40">
+                <Table.Row >
                   <Table.Cell
                     p="20px"
                     h="60px"

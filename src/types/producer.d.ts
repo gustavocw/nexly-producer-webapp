@@ -44,7 +44,7 @@ interface IntegrationData {
   title: string;
   platformType: string;
   imageSrc: string;
-  isIntegrated: boolean;
+  isIntegrated?: boolean;
 }
 
 interface Notification {
