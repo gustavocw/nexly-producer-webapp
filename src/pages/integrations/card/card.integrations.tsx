@@ -100,7 +100,7 @@ const CardIntegration: FC<CardIntegrationProps> = ({ data }) => {
             color={isIntegrated ? "success.90" : "neutral.20"}
             fontSize="12px"
           >
-            Instalada
+            {isIntegrated ? "Instalada" : "Não instalada"}
           </Text.Medium>
         </Flex>
         <Switch
