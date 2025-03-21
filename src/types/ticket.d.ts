@@ -1,4 +1,3 @@
-
 interface Ticket {
   _id?: string;
   identity: string;
@@ -14,10 +13,13 @@ interface Ticket {
 }
 
 interface Message {
-  id: number;
-  author: string;
-  content: string;
-  timestamp: Date;
+  _id: string;
+  userMessage: string;
+  contentMessage: string;
+  createdAt: string;
+  roomId: string;
+  updatedAt: string;
+  __v: number;
 }
 
 interface Room {

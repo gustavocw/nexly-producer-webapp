@@ -47,9 +47,9 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
     if (moduleLessons[moduleId]) return;
     const lessons = await getLessons(moduleId);
     setModuleLessons((prev) => ({ ...prev, [moduleId]: lessons }));
+    console.log(lessons);
   };
 
-  
   return (
     <AccordionRoot
       variant="subtle"
@@ -180,7 +180,10 @@ const Accordeon: React.FC<AccordeonProps> = ({ modules }) => {
                               value="rename"
                               _hover={{ bg: "neutral.30" }}
                               onClick={() => {
-                                navigate(`/infoproducts/create/video/${module._id}`, { state: { lesson } });
+                                navigate(
+                                  `/infoproducts/create/video/${module._id}`,
+                                  { state: { lesson } }
+                                );
                               }}
                             >
                               Editar

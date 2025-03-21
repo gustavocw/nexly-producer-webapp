@@ -11,6 +11,7 @@ const useMultipleVideoController = () => {
   const [pageRef, setPageRef] = useState(1);
   const { videos, setVideoUrl, setVideos } = useVideosStore();
   const [file, setFile] = useState<File | null>(null);
+  const [editedVideos, setEditedVideos] = useState<LessonYoutube[]>([]);
   const { productId } = useProductStore();
 
   const navigate = useNavigate();
@@ -38,6 +39,8 @@ const useMultipleVideoController = () => {
 
   useEffect(() => {
     if (videos && videos.length > 0) {
+      // Initialize editedVideos with the original videos
+      setEditedVideos(videos);
       const firstVideo = videos[0];
       reset({
         lessonLengh: firstVideo.lessonLengh || "",
@@ -56,12 +59,30 @@ const useMultipleVideoController = () => {
       }
     }
   }, [videos, reset, setVideoUrl]);
-  
+
+  const updateCurrentVideo = () => {
+    const formData = getValues();
+    const currentIndex = pageRef - 1;
+
+    setEditedVideos((prev) => {
+      const updated = [...prev];
+      updated[currentIndex] = {
+        ...updated[currentIndex],
+        lessonLengh: formData.lessonLengh || updated[currentIndex].lessonLengh,
+        description: formData.description || updated[currentIndex].description,
+        nameLesson: formData.nameLesson || updated[currentIndex].nameLesson,
+        duration: String(formData.duration || updated[currentIndex].duration),
+        idLessonYt: formData.idLessonYt || updated[currentIndex].idLessonYt,
+        urlVideo: formData.urlVideo || updated[currentIndex].urlVideo,
+        thumbnail: file || updated[currentIndex].thumbnail,
+      };
+      return updated;
+    });
+  };
 
   const { mutate: mutateSendVideos } = useMutation({
     mutationFn: (params: LessonYoutube[]) => sendVideos(idModule, params),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       toaster.create({
         title: "Aulas sendo enviadas!",
         type: "success",
@@ -75,31 +96,18 @@ const useMultipleVideoController = () => {
     },
     onError: (error) => {
       console.log(error);
-      
-    }
+    },
   });
 
   const onSubmit = async () => {
-    const editedVideos = videos.map((video) => {
-      const formData = getValues();
-      return {
-        ...video,
-        lessonLengh: formData.lessonLengh || video.lessonLengh,
-        description: formData.description || video.description,
-        nameLesson: formData.nameLesson || video.nameLesson,
-        duration: String(formData.duration || video.duration),
-        idLessonYt: formData.idLessonYt || video.idLessonYt,
-        urlVideo: formData.urlVideo || video.urlVideo,
-        thumbnail: file || video.thumbnail,
-      };
-    });
+    updateCurrentVideo();
     mutateSendVideos(editedVideos);
   };
-  
 
   const goToVideo = (index: number) => {
     if (index >= 0 && index < videos.length) {
-      const selectedVideo = videos[index];
+      updateCurrentVideo();
+      const selectedVideo = editedVideos[index];
       setVideoUrl(selectedVideo.urlVideo);
       setPageRef(index + 1);
       reset({
@@ -109,6 +117,7 @@ const useMultipleVideoController = () => {
         duration: selectedVideo.duration || "",
         idLessonYt: selectedVideo.idLessonYt || "",
         urlVideo: selectedVideo.urlVideo || "",
+        thumbnail: selectedVideo.thumbnail || "",
       });
     } else {
       console.warn("Invalid video index.");

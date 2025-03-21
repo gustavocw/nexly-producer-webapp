@@ -17,12 +17,19 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
   nome,
   curso,
 }) => {
+  const getImageUrl = (image: any) => {
+    if (image instanceof File) {
+      return URL.createObjectURL(image);
+    }
+    return image;
+  };
+
   return (
     <Box
       w="700px"
       h="400px"
       position="relative"
-      bgImage={`url(${fundo})`}
+      bgImage={`url(${getImageUrl(fundo)})`}
       bgSize="cover"
       bgRepeat="no-repeat"
       bgPos="center"
@@ -32,7 +39,7 @@ const CertificateImage: React.FC<CertificateImageProps> = ({
     >
       {logo && (
         <Image
-          src={logo}
+          src={getImageUrl(logo)}
           w="80px"
           position="absolute"
           top="16px"

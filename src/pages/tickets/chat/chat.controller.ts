@@ -15,13 +15,10 @@ export const useChatController = (selectedRoom: Room) => {
     queryFn: () => getTicketMessages(selectedRoom?._id),
   });
 
-  console.log(selectedRoom);
-  
-
   useEffect(() => {
     const uniqueMessages = [...messages];
     apiMessages?.forEach((apiMessage: Message) => {
-      if (!uniqueMessages.find((m) => m.id === apiMessage.id)) {
+      if (!uniqueMessages.find((m) => m._id === apiMessage._id)) {
         uniqueMessages.push(apiMessage);
       }
     });
@@ -36,7 +33,6 @@ export const useChatController = (selectedRoom: Room) => {
       const socket = new WebSocket('ws://nexly-producer.com/chat');
       socketRef.current = socket;
       socket.onopen = () => {
-        console.log("WebSocket conectado, enviando handshake");
         const handshake = {
           auth: {
             studentId: selectedRoom.studentId,
@@ -56,17 +52,19 @@ export const useChatController = (selectedRoom: Room) => {
           const data = JSON.parse(event.data);
           
           if (data.event === 'joinedRoom') {
-            console.log(`Notificação: ${data.message}`);
           } else if (data.event === 'newMessage') {
             const newMessage: Message = {
-              id: typeof data.id !== 'undefined' ? data.id : Date.now(),
-              author: data.author || 'Anônimo',
-              content: data.message,
-              timestamp: new Date()
+              _id: data.id || Date.now().toString(),
+              userMessage: data.userMessage || producer?._id || '',
+              contentMessage: data.contentMessage,
+              createdAt: new Date().toISOString(),
+              roomId: selectedRoom._id,
+              updatedAt: new Date().toISOString(),
+              __v: 0
             };
             
             setMessages((prev) => {
-              if (!prev.find((m) => m.id === newMessage.id)) {
+              if (!prev.find((m) => m._id === newMessage._id)) {
                 return [...prev, newMessage];
               }
               return prev;
@@ -75,14 +73,6 @@ export const useChatController = (selectedRoom: Room) => {
         } catch (error) {
           console.error("Erro ao processar mensagem recebida:", error);
         }
-      };
-
-      socket.onerror = (error) => {
-        console.error("Erro na conexão do WebSocket:", error);
-      };
-
-      socket.onclose = () => {
-        console.log("Conexão WebSocket fechada");
       };
 
       return () => {
@@ -94,9 +84,9 @@ export const useChatController = (selectedRoom: Room) => {
   }, [selectedRoom, producer]);
 
   const mutateSendMessage = useMutation({
-    mutationFn: (message: { content: string }) =>
+    mutationFn: (message: { contentMessage: string }) =>
       http.post(`/tickets/message/${selectedRoom?._id}`, {
-        contentMessage: message.content,
+        contentMessage: message.contentMessage,
       }),
   });
 
@@ -104,10 +94,13 @@ export const useChatController = (selectedRoom: Room) => {
     if (!content.trim() || !selectedRoom) return;
 
     const newMessage: Message = {
-      id: Date.now(),
-      author: "Eu",
-      content,
-      timestamp: new Date(),
+      _id: Date.now().toString(),
+      userMessage: producer?._id || '',
+      contentMessage: content,
+      createdAt: new Date().toISOString(),
+      roomId: selectedRoom._id,
+      updatedAt: new Date().toISOString(),
+      __v: 0
     };
 
     setMessages((prev) => [...prev, newMessage]);
@@ -117,7 +110,7 @@ export const useChatController = (selectedRoom: Room) => {
       const messageData = {
         event: 'message',
         message: {
-          message: content,
+          contentMessage: content,
           nameRoom: selectedRoom.nameRoom
         }
       };
@@ -125,7 +118,7 @@ export const useChatController = (selectedRoom: Room) => {
     }
 
     try {
-      await mutateSendMessage.mutateAsync({ content });
+      await mutateSendMessage.mutateAsync({ contentMessage: content });
     } catch (error) {
       console.error("Erro ao salvar mensagem:", error);
     }
@@ -137,14 +130,11 @@ export const useChatController = (selectedRoom: Room) => {
 
   const groupMessagesByDate = () => {
     const grouped: Record<string, Message[]> = {};
-    messages
-      .slice()
-      .reverse()
-      .forEach((message) => {
-        const date = new Date(message.timestamp).toDateString();
-        if (!grouped[date]) grouped[date] = [];
-        grouped[date].push(message);
-      });
+    messages.forEach((message) => {
+      const date = new Date(message.createdAt).toDateString();
+      if (!grouped[date]) grouped[date] = [];
+      grouped[date].push(message);
+    });
     return grouped;
   };
 
@@ -157,10 +147,6 @@ export const useChatController = (selectedRoom: Room) => {
     if (dateObj.toDateString() === today.toDateString()) return "Hoje";
     if (dateObj.toDateString() === yesterday.toDateString()) return "Ontem";
     return dateObj.toLocaleDateString("pt-BR");
-  };
-
-  const getMessagesInReverseOrder = () => {
-    return [...messages].reverse();
   };
 
   const disconnect = () => {
@@ -177,7 +163,6 @@ export const useChatController = (selectedRoom: Room) => {
     formatDividerDate,
     sendMessage,
     handleInputChange,
-    getMessagesInReverseOrder,
     disconnect,
   };
 };

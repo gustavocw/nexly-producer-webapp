@@ -25,6 +25,9 @@ const MultipleVideos = () => {
   } = useMultipleVideoController();
   const { videos } = useVideosStore();
 
+  console.log(videos);
+  
+
   return (
     <VStack
       bg="neutral.60"

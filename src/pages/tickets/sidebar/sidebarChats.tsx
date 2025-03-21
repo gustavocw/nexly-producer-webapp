@@ -11,6 +11,9 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
     onChatClick(room);
   };
 
+  console.log(rooms);
+  
+
   return (
     <VStack
       bg="neutral.60"
@@ -58,7 +61,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
               w="100%"
               onClick={() => handleChatClick(room)}
             >
-              <Avatar src={room.photoStudent} />
+              <Avatar src={room.user.photo} />
               <VStack align="flex-start" w="100%">
                 <Flex w="100%" alignItems="center" justify="space-between">
                   <Text.Medium color="neutral.10">
@@ -70,7 +73,7 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
                 </Flex>
                 <Flex alignItems="center" justify="space-between" w="100%">
                   <Text.Medium color="neutral.10">
-                    {room.nameStudent} {room.lastnameStudent}
+                    {room.user.name} {room.lastnameStudent}
                   </Text.Medium>
                   <Flex
                     justify="center"

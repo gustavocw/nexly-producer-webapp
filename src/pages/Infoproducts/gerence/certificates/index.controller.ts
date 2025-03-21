@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createCertificate,
   getCertificate,
+  updateCertificate,
 } from "services/certificates.services";
 import { useParams } from "react-router-dom";
 import { toaster } from "components/ui/toaster";
@@ -24,8 +25,8 @@ export const useCertificateController = () => {
   const { refetchCourse } = useGenrenceInfoproduct();
   const { id: productId } = useParams<{ id: string }>();
   const [files, setFiles] = useState<{
-    backgroundUrl: File | null;
-    logoUrl: File | null;
+    backgroundUrl: File | string | null;
+    logoUrl: File | string | null;
   }>({
     backgroundUrl: null,
     logoUrl: null,
@@ -71,7 +72,7 @@ export const useCertificateController = () => {
   const { mutate: mutateCertificate, isPending } = useMutation({
     mutationFn: (
       params: CertificateFormData & {
-        files: { logoUrl: File | null; file: File | null };
+        files: { logoUrl: File | null; backgroundUrl: File | null };
       }
     ) => createCertificate(params, productId),
     onSuccess: () => {
@@ -91,8 +92,35 @@ export const useCertificateController = () => {
     },
   });
 
+  const { mutate: mutateUpdateCertificate, isPending: updating } = useMutation({
+    mutationFn: (
+      params: CertificateFormData & {
+        files: { logoUrl: File | null; backgroundUrl: File | null };
+      }
+    ) => updateCertificate(params, productId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: "certificates" });
+      toaster.create({
+        title: "Certificado atualizado com sucesso!",
+        type: "success",
+      });
+      refetchCourse();
+      refetch();
+    },
+    onError: () => {
+      toaster.create({
+        title: "Erro ao atualizar o certificado!",
+        type: "error",
+      });
+    },
+  });
+
   useEffect(() => {
     if (certificate) {
+      setFiles({
+        backgroundUrl: certificate.backgroundUrl || null,
+        logoUrl: certificate.logoUrl || null,
+      });
       reset({
         signatureUrl: certificate?.signatureUrl || "",
         description: certificate?.description || "",
@@ -103,6 +131,8 @@ export const useCertificateController = () => {
   }, [certificate, reset]);
 
   const onSubmit: SubmitHandler<CertificateFormData> = (data) => {
+    console.log(certificate?.id);
+
     if (!data.signatureUrl) {
       toaster.create({
         title: "A assinatura é obrigatória.",
@@ -115,12 +145,18 @@ export const useCertificateController = () => {
       ...data,
       percent: data.percent[0],
       files: {
-        file: files.backgroundUrl,
-        logoUrl: files.logoUrl,
+        backgroundUrl: files.backgroundUrl instanceof File ? files.backgroundUrl : null,
+        logoUrl: files.logoUrl instanceof File ? files.logoUrl : null,
       },
     };
-    mutateCertificate(processedData);
-    reset();
+
+    
+    
+    if (certificate?.id) {
+      mutateUpdateCertificate(processedData);
+    } else {
+      mutateCertificate(processedData);
+    }
   };
 
   return {
@@ -130,6 +166,7 @@ export const useCertificateController = () => {
     errors,
     watch,
     isPending,
+    updating,
     setValue,
     files,
     updateFiles,

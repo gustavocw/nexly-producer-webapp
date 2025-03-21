@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValueText,
   Textarea,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import Text from "components/text/text";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -18,8 +18,10 @@ import Divider from "components/divider/divider";
 import SendIcon from "@mui/icons-material/Send";
 import { useChatController } from "./chat.controller";
 import React, { useEffect, useRef } from "react";
+import useProducerStore from "stores/producer.store";
 
 const Chat: React.FC<any> = ({ room, setStep }) => {
+  const { producer } = useProducerStore();
   const collection = createListCollection({
     items: statusOptions,
   });
@@ -30,7 +32,6 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
     sendMessage,
     input,
     handleInputChange,
-    getMessagesInReverseOrder,
     disconnect,
   } = useChatController(room);
 
@@ -45,9 +46,25 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
 
   useEffect(() => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
     }
-  }, [getMessagesInReverseOrder()]);
+  }, []);
+
+  function getPriorityColor(priority: string): string {
+    switch (priority) {
+      case "ALTA":
+        return "error.90";
+      case "URGENTE":
+        return "error.90";
+      case "MEDIA":
+        return "info.90";
+      case "BAIXA":
+        return "success.90";
+      default:
+        return "neutral.90";
+    }
+  }
 
   return (
     <VStack position="relative" w="100%" h="100%" flex={1} align="flex-start">
@@ -60,15 +77,24 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
         justify="space-between"
         flexShrink={0}
       >
-        <Flex alignItems="center" gap="10px" onClick={handleDisconnect} cursor="pointer">
+        <Flex
+          alignItems="center"
+          gap="10px"
+          onClick={handleDisconnect}
+          cursor="pointer"
+        >
           <Icon color="neutral">
             <KeyboardArrowLeftIcon />
           </Icon>
-          <Flex onClick={() => handleDisconnect()} alignItems="center" gap="10px">
-            <Text.Medium fontSize="22px">Nome do ticket</Text.Medium>
-            <Text.Medium fontSize="22px">|</Text.Medium>
-            <Text.Medium color="neutral.10" fontSize="22px">
-              #2123
+          <Flex
+            onClick={() => handleDisconnect()}
+            alignItems="center"
+            gap="10px"
+          >
+            <Text.Medium fontSize="18px">{room.ticket.name}</Text.Medium>
+            <Text.Medium fontSize="18px">|</Text.Medium>
+            <Text.Medium color="neutral.10" fontSize="18px">
+              #{room.ticket.number}
             </Text.Medium>
           </Flex>
         </Flex>
@@ -78,10 +104,10 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
             justify="center"
             w="85px"
             borderRadius="8px"
-            bg="success.90"
+            bg={getPriorityColor(room.ticket.priority)}
           >
             <Text.Medium color="primary.95" fontSize="14px">
-              Baixa
+              {room.ticket.priority}
             </Text.Medium>
           </Flex>
           <SelectRoot
@@ -140,7 +166,7 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
         overflowY="auto"
         maxH="calc(100vh - 100px)"
       >
-        {Object.keys(groupedMessages).reverse().map((date) => (
+        {Object.keys(groupedMessages).map((date) => (
           <React.Fragment key={date}>
             <HStack h="36px" w="100%" justify="space-around">
               <Divider w="100%" />
@@ -154,41 +180,59 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
               </Flex>
               <Divider w="100%" />
             </HStack>
-            {groupedMessages[date].reverse().map((message) => (
+            {groupedMessages[date].map((message) => (
               <VStack
-                key={message.id}
-                alignSelf={message.author === "Eu" ? "flex-end" : "flex-start"}
-                align={message.author === "Eu" ? "flex-end" : "flex-start"}
+                key={message._id}
+                alignSelf={
+                  message.userMessage === producer?._id
+                    ? "flex-end"
+                    : "flex-start"
+                }
+                align={
+                  message.userMessage === producer?._id
+                    ? "flex-end"
+                    : "flex-start"
+                }
                 maxW="466px"
               >
                 <Flex
-                  justify={message.author === "Eu" ? "flex-end" : "flex-start"}
+                  justify={
+                    message.userMessage === producer?._id
+                      ? "flex-end"
+                      : "flex-start"
+                  }
                   alignItems="center"
                   gap={2}
                 >
-                  <Text.Medium fontSize="16px">{message.author}</Text.Medium>
+                  <Text.Medium fontSize="16px">
+                    {message.userMessage}
+                  </Text.Medium>
                   <Avatar src="/images/bg.png" />
                 </Flex>
                 <Flex
                   borderBottomRadius="12px"
                   borderTopLeftRadius={
-                    message.author === "Eu" ? "12px" : "0"
+                    message.userMessage === producer?._id ? "12px" : "0"
                   }
                   borderTopRightRadius={
-                    message.author === "Eu" ? "0" : "12px"
+                    message.userMessage === producer?._id ? "0" : "12px"
                   }
-                  bg={message.author === "Eu" ? "neutral.60" : "neutral.70"}
+                  bg={
+                    message.userMessage === producer?._id
+                      ? "neutral.60"
+                      : "neutral.70"
+                  }
                   p="20px"
                   gap="10px"
                   boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
                 >
                   <Text.Medium fontSize="16px" color="primary">
-                    {message.content}
+                    {message.contentMessage}
                   </Text.Medium>
                 </Flex>
                 <Flex>
                   <Text.Medium fontSize="12px" color="primary">
-                    {new Date(message.timestamp).toLocaleTimeString("pt-BR", {
+                    {new Date(message.createdAt).toLocaleTimeString("pt-BR", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
@@ -234,7 +278,6 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
           <SendIcon />
         </Icon>
       </Flex>
-
     </VStack>
   );
 };

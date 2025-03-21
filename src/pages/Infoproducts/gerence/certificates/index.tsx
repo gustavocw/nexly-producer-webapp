@@ -20,6 +20,7 @@ const Certificates = () => {
     setValue,
     handleSubmit,
     onSubmit,
+    updating,
     files,
     certificate,
     isPending,
@@ -36,6 +37,8 @@ const Certificates = () => {
   const description = watch("description") || certificate?.description;
   const logoUrl = files.logoUrl || certificate?.logoUrl;
   const backgroundUrl = files.backgroundUrl || certificate?.backgroundUrl;
+  
+  
   
   return (
     <VStack pb={10} flexDir="column" w="100%" align="flex-start" gap="32px">
@@ -144,12 +147,16 @@ const Certificates = () => {
               <DragFile
                 label="Logotipo"
                 onFileSelect={(file) => updateFiles("logoUrl", file)}
-                value={files.logoUrl || logoUrl}
+                value={typeof files.logoUrl === 'string' ? files.logoUrl : 
+                  files.logoUrl ? URL.createObjectURL(files.logoUrl) : 
+                  certificate?.logoUrl || ''}
               />
               <DragFile
                 label="Capa"
                 onFileSelect={(file) => updateFiles("backgroundUrl", file)}
-                value={files.backgroundUrl || backgroundUrl}
+                value={typeof files.backgroundUrl === 'string' ? files.backgroundUrl : 
+                  files.backgroundUrl ? URL.createObjectURL(files.backgroundUrl) : 
+                  certificate?.backgroundUrl || ''}
               />
             </HStack>
           </VStack>
@@ -157,7 +164,7 @@ const Certificates = () => {
             <Btn
               onClick={handleSubmit(onSubmit)}
               type="submit"
-              isLoading={isPending}
+              isLoading={isPending || updating}
               w="200px"
               label="Salvar"
             />
