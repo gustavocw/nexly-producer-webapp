@@ -9,6 +9,7 @@ interface ProducerData {
   isAccountActive: boolean;
   photo: string;
   plan: string;
+  nextPayment: string;
 }
 
 interface ProducerDetails {

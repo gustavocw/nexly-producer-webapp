@@ -17,6 +17,29 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
 
   const planPropeties = getPlanStyles(producer?.plan);
 
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "Data inválida";
+
+    const dateObj = new Date(dateString);
+    const day = dateObj.getDate().toString().padStart(2, "0");
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+    const year = dateObj.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const getTextColor = (dateString?: string) => {
+    if (!dateString) return "gray.500";
+    const today = new Date();
+    const paymentDate = new Date(dateString);
+    const differenceInTime = paymentDate.getTime() - today.getTime();
+    const differenceInDays = Math.ceil(
+      differenceInTime / (1000 * 60 * 60 * 24)
+    );
+
+    return differenceInDays <= 5 ? "red.500" : "black";
+  };
+
   return (
     <VStack gap="32px" w="100%" h="100%" p="24px" align="flex-start">
       <Text.Medium fontSize="16px" color="neutral">
@@ -35,6 +58,7 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
             px="16px"
             w="100%"
             justify="space-between"
+            alignItems="center"
           >
             <Flex gap="10px" alignItems="center">
               <Text.Medium fontSize="16px" color="neutral">
@@ -54,16 +78,21 @@ const Plans: React.FC<PlansProps> = ({ onClose }) => {
                 {planPropeties.text}
               </Flex>
             </Flex>
-            {producer?.plan !== "bigger" && (
-              <Btn
-                label="Atualizar plano"
-                onClick={() => {
-                  navigate("/plans", { state: { plan: producer?.plan } }),
+            <VStack>
+              {producer?.plan !== "bigger" && (
+                <Btn
+                  label="Atualizar plano"
+                  onClick={() => {
+                    navigate("/plans", { state: { plan: producer?.plan } });
                     onClose();
-                }}
-                w="200px"
-              />
-            )}
+                  }}
+                  w="200px"
+                />
+              )}
+              <Text.Medium fontSize="14px" color={getTextColor(producer?.nextPayment)}>
+                Próximo pagamento: {formatDate(producer?.nextPayment)}
+              </Text.Medium>
+            </VStack>
           </HStack>
         </VStack>
         <Divider width="100%" />

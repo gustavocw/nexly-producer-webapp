@@ -27,7 +27,7 @@ export async function createTicketMessage(roomId: string, contentMessage: string
   return data;
 }
 
-export async function getTicketMessages(roomId: string) {
+export async function getTicketMessages(roomId?: string) {
   const { data } = await http.get<any>(`/tickets/message/${roomId}`);
   return data;
 }

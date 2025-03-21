@@ -16,6 +16,7 @@ export const Root = ({ children }: { children: React.ReactNode }) => {
         position="fixed"
         left="0"
         top="0"
+        zIndex={20}
       >
         <Sidebar />
       </Box>

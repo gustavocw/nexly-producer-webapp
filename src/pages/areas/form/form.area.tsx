@@ -45,6 +45,7 @@ const FormArea: React.FC<{
   } = useCreateAreaController(selectedArea, goBack);
 
   const background = watch("background");
+  
   const color = watch("color") || "#ffffff";
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -165,7 +166,7 @@ const FormArea: React.FC<{
         <DragFile
           label="Background da área"
           onFileSelect={(file) => updateFile("background", file)}
-          value={backgroundFile}
+          value={backgroundFile || background}
         />
       )}
 

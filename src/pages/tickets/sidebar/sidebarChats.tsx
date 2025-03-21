@@ -5,14 +5,10 @@ import { Avatar } from "components/ui/avatar";
 import { LuMessageCircle } from "react-icons/lu";
 import { formatDateToString } from "utils/formatDateToString";
 import { truncateText } from "utils/truncateText";
-import { useChatController } from "../chat/chat.controller";
-
 const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
-  const { selectRoom } = useChatController();
 
   const handleChatClick = (room: any) => {
-    selectRoom(room);
-    onChatClick(room.id);
+    onChatClick(room);
   };
 
   return (

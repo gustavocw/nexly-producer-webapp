@@ -24,8 +24,8 @@ export const useCreateAreaController = (
   goBack: () => void
 ) => {
   const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
-  const [iconFile, setIconFile] = useState<File | null>(null);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [iconFile, setIconFile] = useState<any>(null);
+  const [logoFile, setLogoFile] = useState<any>(null);
   const queryClient = useQueryClient()
 
   const { mutate: mutateArea, isPending: creatingArea } = useMutation({
@@ -96,6 +96,7 @@ export const useCreateAreaController = (
   };
 
   const onSubmit: SubmitHandler<CreateAreaFormData> = async (data) => {
+    console.log(data);
     try {
       const payload = {
         _id: selectedArea?._id,
@@ -106,23 +107,29 @@ export const useCreateAreaController = (
           logo: logoFile,
         },
       };
-
+  
+      const iconPayload = iconFile && !iconFile.startsWith("https://") ? iconFile : null;
+      const logoPayload = logoFile && !logoFile.startsWith("https://") ? logoFile : null;
+  
       const payloadEdit = {
         _id: selectedArea?._id,
         area: {
           title: data.title,
           color: data.color,
           domain: data.domain !== selectedArea?.domain ? data.domain : null,
-          background: backgroundFile || data.background,
-          icon: iconFile,
-          logo: logoFile,
+          description: data.description,
+          background: backgroundFile,
+          icon: iconPayload,
+          logo: logoPayload,
         },
       };
-
+  
       if (selectedArea) {
         try {
           mutateUpdateArea({ _id: selectedArea._id, area: payloadEdit.area });
-        } catch {}
+        } catch (error) {
+          console.error("Erro ao atualizar:", error);
+        }
       } else {
         mutateArea(payload.area);
       }
@@ -134,6 +141,7 @@ export const useCreateAreaController = (
       });
     }
   };
+  
 
   useEffect(() => {
     if (selectedArea) {
@@ -142,6 +150,7 @@ export const useCreateAreaController = (
       setValue("title", selectedArea.title);
       setValue("description", selectedArea.description);
       setValue("background", selectedArea.background || "");
+
       setBackgroundFile(selectedArea.background);
       setIconFile(selectedArea.icon);
       setLogoFile(selectedArea.logo);

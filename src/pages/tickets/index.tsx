@@ -24,14 +24,12 @@ const Tickets = () => {
   } = useTicketsController();
   
   const [step, setStep] = useState("tickets");
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [selectedRoom, setSelectedRoom] = useState<Room>();
 
-  const handleChatClick = (roomId: any) => {
-    setSelectedRoom(roomId);
+  const handleChatClick = (room: Room) => {
+    setSelectedRoom(room);
     setStep("chat");
   };
-
-  console.log(selectedRoom)
 
   return (
     <Flex overflow="hidden" w="100%" align="flex-start" h="100%">
@@ -85,8 +83,8 @@ const Tickets = () => {
         </VStack>
       )}
       {step === "chat" && (
-        <VStack w="100%">
-          <Chat roomId={selectedRoom} setStep={setStep} />
+        <VStack h="100%" w="100%">
+          <Chat room={selectedRoom} setStep={setStep} />
         </VStack>
       )}
       <SidebarChats rooms={rooms} onChatClick={handleChatClick} />

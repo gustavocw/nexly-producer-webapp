@@ -19,9 +19,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { useChatController } from "./chat.controller";
 import React, { useEffect, useRef } from "react";
 
-const Chat: React.FC<any> = ({ roomId, setStep }) => {
-  console.log(roomId);
-  
+const Chat: React.FC<any> = ({ room, setStep }) => {
   const collection = createListCollection({
     items: statusOptions,
   });
@@ -33,7 +31,13 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
     input,
     handleInputChange,
     getMessagesInReverseOrder,
-  } = useChatController();
+    disconnect,
+  } = useChatController(room);
+
+  const handleDisconnect = () => {
+    disconnect();
+    setStep("tickets");
+  };
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
@@ -56,11 +60,11 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
         justify="space-between"
         flexShrink={0}
       >
-        <Flex alignItems="center" gap="10px" onClick={() => setStep("tickets")} cursor="pointer">
+        <Flex alignItems="center" gap="10px" onClick={handleDisconnect} cursor="pointer">
           <Icon color="neutral">
             <KeyboardArrowLeftIcon />
           </Icon>
-          <Flex alignItems="center" gap="10px">
+          <Flex onClick={() => handleDisconnect()} alignItems="center" gap="10px">
             <Text.Medium fontSize="22px">Nome do ticket</Text.Medium>
             <Text.Medium fontSize="22px">|</Text.Medium>
             <Text.Medium color="neutral.10" fontSize="22px">
@@ -126,7 +130,6 @@ const Chat: React.FC<any> = ({ roomId, setStep }) => {
         </Flex>
       </HStack>
 
-      {/* Área de mensagens com scroll */}
       <VStack
         px={10}
         w="calc(100vw - 650px)"

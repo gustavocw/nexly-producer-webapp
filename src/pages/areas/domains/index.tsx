@@ -13,7 +13,6 @@ import {
   listDomains,
   deleteDomain,
   checkDomainStatus,
-  addCustomDomain,
   editDomain,
   verifyDNSRecords,
 } from "utils/domainVercel";
@@ -25,20 +24,11 @@ const validDomainRegex =
 
 const DomainManagement: React.FC = () => {
   const queryClient = useQueryClient();
-  const [newDomain, setNewDomain] = useState("");
-
   const { data: domains, isLoading: isLoadingDomains } = useQuery({
     queryKey: ["domains"],
     queryFn: listDomains,
   });
 
-  const addDomainMutation = useMutation({
-    mutationFn: (domain: string) => addCustomDomain(domain),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["domains"] });
-      setNewDomain("");
-    },
-  });
 
   const deleteDomainMutation = useMutation({
     mutationFn: (domain: string) => deleteDomain(domain),
@@ -60,48 +50,11 @@ const DomainManagement: React.FC = () => {
     },
   });
 
-  const isValidDomain = validDomainRegex.test(newDomain.trim());
-
   return (
     <VStack w="100%" align="stretch">
       <Text.Medium color="neutral" fontSize="18px" fontWeight="500" mb={4}>
         Gerenciamento de Domínios
       </Text.Medium>
-
-      <VStack w="100%" mb={4}>
-        <Flex alignItems="flex-end" w="100%" gap={2}>
-          <Box>
-            <Text.Medium color="neutral" fontSize="14px" fontWeight="500">
-              Novo domínio
-            </Text.Medium>
-            <Input
-              color="neutral"
-              w="400px"
-              px={2}
-              placeholder="www.example.com"
-              value={newDomain}
-              onChange={(e) => setNewDomain(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && isValidDomain) {
-                  addDomainMutation.mutate(newDomain);
-                }
-              }}
-            />
-          </Box>
-          <Btn
-            label="Adicionar"
-            w="200px"
-            h="40px"
-            disabled={!isValidDomain}
-            isLoading={addDomainMutation.isPending}
-            onClick={() => {
-              if (isValidDomain) {
-                addDomainMutation.mutate(newDomain);
-              }
-            }}
-          />
-        </Flex>
-      </VStack>
 
       {isLoadingDomains ? (
         <Spinner size="lg" />
