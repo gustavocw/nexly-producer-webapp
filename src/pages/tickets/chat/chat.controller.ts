@@ -15,6 +15,9 @@ export const useChatController = (selectedRoom: Room) => {
     queryFn: () => getTicketMessages(selectedRoom?._id),
   });
 
+  console.log(apiMessages);
+  
+
   useEffect(() => {
     const uniqueMessages = [...messages];
     apiMessages?.forEach((apiMessage: Message) => {

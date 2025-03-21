@@ -12,6 +12,12 @@ interface Ticket {
   photo: string;
 }
 
+interface MessageUser {
+  _id: string;
+  name: string;
+  photo: string;
+}
+
 interface Message {
   _id: string;
   userMessage: string;
@@ -20,6 +26,8 @@ interface Message {
   roomId: string;
   updatedAt: string;
   __v: number;
+  isMyMessage?: boolean;
+  user?: MessageUser;
 }
 
 interface Room {

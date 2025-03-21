@@ -11,9 +11,6 @@ const SidebarChats: React.FC<any> = ({ rooms, onChatClick }) => {
     onChatClick(room);
   };
 
-  console.log(rooms);
-  
-
   return (
     <VStack
       bg="neutral.60"

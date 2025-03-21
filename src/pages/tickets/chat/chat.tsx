@@ -18,10 +18,8 @@ import Divider from "components/divider/divider";
 import SendIcon from "@mui/icons-material/Send";
 import { useChatController } from "./chat.controller";
 import React, { useEffect, useRef } from "react";
-import useProducerStore from "stores/producer.store";
 
 const Chat: React.FC<any> = ({ room, setStep }) => {
-  const { producer } = useProducerStore();
   const collection = createListCollection({
     items: statusOptions,
   });
@@ -183,45 +181,25 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
             {groupedMessages[date].map((message) => (
               <VStack
                 key={message._id}
-                alignSelf={
-                  message.userMessage === producer?._id
-                    ? "flex-end"
-                    : "flex-start"
-                }
-                align={
-                  message.userMessage === producer?._id
-                    ? "flex-end"
-                    : "flex-start"
-                }
+                alignSelf={message.isMyMessage ? "flex-end" : "flex-start"}
+                align={message.isMyMessage ? "flex-end" : "flex-start"}
                 maxW="466px"
               >
                 <Flex
-                  justify={
-                    message.userMessage === producer?._id
-                      ? "flex-end"
-                      : "flex-start"
-                  }
+                  justify={message.isMyMessage ? "flex-end" : "flex-start"}
                   alignItems="center"
                   gap={2}
                 >
                   <Text.Medium fontSize="16px">
-                    {message.userMessage}
+                    {message?.user?.name}
                   </Text.Medium>
-                  <Avatar src="/images/bg.png" />
+                  <Avatar src={message?.user?.photo} />
                 </Flex>
                 <Flex
                   borderBottomRadius="12px"
-                  borderTopLeftRadius={
-                    message.userMessage === producer?._id ? "12px" : "0"
-                  }
-                  borderTopRightRadius={
-                    message.userMessage === producer?._id ? "0" : "12px"
-                  }
-                  bg={
-                    message.userMessage === producer?._id
-                      ? "neutral.60"
-                      : "neutral.70"
-                  }
+                  borderTopLeftRadius={message.isMyMessage ? "12px" : "0"}
+                  borderTopRightRadius={message.isMyMessage ? "0" : "12px"}
+                  bg={message.isMyMessage ? "neutral.60" : "neutral.70"}
                   p="20px"
                   gap="10px"
                   boxShadow="0px 1px 3px 0px #0000004D, 0px 4px 8px 3px #00000026"
