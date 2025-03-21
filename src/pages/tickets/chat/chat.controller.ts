@@ -15,9 +15,6 @@ export const useChatController = (selectedRoom: Room) => {
     queryFn: () => getTicketMessages(selectedRoom?._id),
   });
 
-  console.log(apiMessages);
-  
-
   useEffect(() => {
     const uniqueMessages = [...messages];
     apiMessages?.forEach((apiMessage: Message) => {
@@ -63,7 +60,13 @@ export const useChatController = (selectedRoom: Room) => {
               createdAt: new Date().toISOString(),
               roomId: selectedRoom._id,
               updatedAt: new Date().toISOString(),
-              __v: 0
+              __v: 0,
+              isMyMessage: true,
+              user: {
+                name: producer?.name || '',
+                photo: producer?.photo || '',
+                _id: producer?._id || ''
+              }
             };
             
             setMessages((prev) => {
@@ -103,7 +106,13 @@ export const useChatController = (selectedRoom: Room) => {
       createdAt: new Date().toISOString(),
       roomId: selectedRoom._id,
       updatedAt: new Date().toISOString(),
-      __v: 0
+      __v: 0,
+      isMyMessage: true,
+      user: {
+        _id: producer?._id || '',
+        name: producer?.name || '',
+        photo: producer?.photo || ''
+      }
     };
 
     setMessages((prev) => [...prev, newMessage]);

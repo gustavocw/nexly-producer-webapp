@@ -42,12 +42,16 @@ const Chat: React.FC<any> = ({ room, setStep }) => {
 
   const groupedMessages = groupMessagesByDate();
 
-  useEffect(() => {
+  const scrollToBottom = () => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
+      setTimeout(() => {
+        messagesContainerRef.current!.scrollTop = messagesContainerRef.current!.scrollHeight;
+      }, 100);
     }
-  }, []);
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [groupedMessages]);
 
   function getPriorityColor(priority: string): string {
     switch (priority) {
