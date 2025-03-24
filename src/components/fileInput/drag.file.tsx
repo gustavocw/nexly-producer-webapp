@@ -10,7 +10,7 @@ interface DragFileProps {
   maxFiles?: number;
   label?: string;
   hint?: string;
-  width?: string;
+  width?: any;
   onFileSelect: (file: File) => void;
   value?: any;
 }

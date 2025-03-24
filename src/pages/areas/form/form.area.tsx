@@ -1,7 +1,6 @@
-import { Flex, HStack, VStack, parseColor } from "@chakra-ui/react";
+import { Box, Flex, HStack, VStack, parseColor } from "@chakra-ui/react";
 import Input from "components/input/input";
 import { useCreateAreaController } from "./form.controller";
-import Text from "components/text/text";
 import {
   ColorPickerArea,
   ColorPickerContent,
@@ -18,12 +17,12 @@ import {
 import { swatches } from "./swatches";
 import { DragFile } from "components/fileInput/drag.file";
 import React, { useState, useEffect } from "react";
-import SelectOption from "components/selectOption/select";
 import { Controller } from "react-hook-form";
 import Btn from "components/button/button";
 import ModalGpt from "components/GptModal";
 import help from "./help";
 import ConfirmDialog from "components/confirmDialog";
+import { Switch } from "components/ui/switch";
 
 const FormArea: React.FC<{
   selectedArea: Area | null;
@@ -45,12 +44,15 @@ const FormArea: React.FC<{
   } = useCreateAreaController(selectedArea, goBack);
 
   const background = watch("background");
-  
+
   const color = watch("color") || "#ffffff";
   const [isDialogOpen, setDialogOpen] = useState(false);
 
-  const isYouTubeOrVimeo = background?.includes("youtube.com") || background?.includes("vimeo.com");
-  const isOptimumCDN = background?.startsWith("https://opt-nexly-members-courses.s3.us-east-1.amazonaws.com");
+  const isYouTubeOrVimeo =
+    background?.includes("youtube.com") || background?.includes("vimeo.com");
+  const isOptimumCDN = background?.startsWith(
+    "https://opt-nexly-members-courses.s3.us-east-1.amazonaws.com"
+  );
 
   const [useUrl, setUseUrl] = useState(!isOptimumCDN);
 
@@ -68,7 +70,13 @@ const FormArea: React.FC<{
       justify="space-between"
       w="100%"
     >
-      <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
+      <Flex
+        my={5}
+        w="80%"
+        gap={2}
+        justify="space-between"
+        alignItems="flex-end"
+      >
         <ModalGpt
           titleModal="Conte pra nós sobre o que será sua área de membro."
           help={help}
@@ -76,7 +84,7 @@ const FormArea: React.FC<{
         />
       </Flex>
 
-      <Flex w="80%" gap={2} justify="space-between" alignItems="flex-end">
+      <Flex w="90%" gap={2} justify="space-between" alignItems="flex-end">
         <Input.Base
           control={control}
           label="Nome da área"
@@ -131,59 +139,72 @@ const FormArea: React.FC<{
         name="domain"
         placeholder="Domínio personalizado"
         isRequired
-        width="80%"
+        width="90%"
       />
       <Input.Text
         control={control}
         label="Descrição da área"
         name="description"
         placeholder="Descrição da área de membros"
-        width="80%"
+        width="90%"
       />
-      <HStack w="80%" justify="space-between" alignItems="center">
-        <Text.Medium fontSize="14px" color="neutral">
-          Escolha o tipo de background:
-        </Text.Medium>
-        <SelectOption
-          placeholder="Selecione o tipo de background"
-          onSelectChange={(value) => setUseUrl(value === "url")}
-          options={[
-            { label: "URL", value: "url" },
-            { label: "Arquivo", value: "image" },
-          ]}
-        />
-      </HStack>
-
-      {useUrl ? (
-        <Input.Base
-          control={control}
-          label="URL Background"
-          name="background"
-          placeholder="URL da imagem ou vídeo (YouTube/Vimeo)"
-          width="80%"
-        />
-      ) : (
+      <Flex 
+        flexWrap="wrap" 
+        gap={4} 
+        alignItems={useUrl ? "flex-start" : "flex-end"} 
+        w="90%"
+      >
+        <VStack alignItems="flex-start" minW="300px" flex={1}>
+          <Switch
+            checked={useUrl}
+            onCheckedChange={(checked) => {
+              if (checked.checked === true) {
+                setUseUrl(true);
+              } else {
+                setUseUrl(false);
+              }
+            }}
+            color="neutral"
+          >
+            Tipo de background: {useUrl ? "URL" : "Arquivo"}
+          </Switch>
+          {useUrl ? (
+            <Box w="100%" my={5}>
+              <Input.Base
+                control={control}
+                label="URL Background"
+                name="background"
+                placeholder="URL da imagem ou vídeo (YouTube/Vimeo)"
+                width="100%"
+              />
+            </Box>
+          ) : (
+            <DragFile
+              width="100%"
+              label="Background da área"
+              onFileSelect={(file) => updateFile("background", file)}
+              value={backgroundFile || background}
+            />
+          )}
+        </VStack>
         <DragFile
-          label="Background da área"
-          onFileSelect={(file) => updateFile("background", file)}
-          value={backgroundFile || background}
-        />
-      )}
-
-      <Flex gap="2" w="80%" justify="space-between">
-        <DragFile
+          width={["100%", "100%", "30%"]}
           label="Ícone da página"
           onFileSelect={(file) => updateFile("icon", file)}
           value={iconFile}
+          hint="Ícone que aparecerá na aba do navegador (favicon). Use uma imagem quadrada de no mínimo 32x32 pixels."
         />
         <DragFile
+          width={["100%", "100%", "30%"]}
           label="Logo da área"
           value={logoFile}
           onFileSelect={(file) => updateFile("logo", file)}
+          hint="Logo que aparecerá no topo da página. Recomendado usar formato PNG com fundo transparente."
         />
       </Flex>
+
       <Flex
-        w="80%"
+        w="90%"
         py={10}
         justify={selectedArea ? "space-between" : "flex-end"}
       >

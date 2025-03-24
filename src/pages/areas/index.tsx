@@ -1,4 +1,4 @@
-import { VStack, Flex, HStack, Icon, Box, Grid } from "@chakra-ui/react";
+import { VStack, Flex, HStack, Icon, Box, Grid, Tabs } from "@chakra-ui/react";
 import Text from "components/text/text";
 import AreaCard from "./card/card.areas";
 import { useAreasController } from "./index.controller";
@@ -10,6 +10,8 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import DomainList from "./domains";
 import NavOptions from "components/navoptions/navoptions";
 import { usePlanFeatures } from "hooks/userRoles";
+import { LuFolder, LuUser } from "react-icons/lu";
+import FormLogin from "./form/form.login";
 
 const Areas = () => {
   const {
@@ -116,7 +118,42 @@ const Areas = () => {
                   </Text.Medium>
                 </Flex>
               </Flex>
-              <FormArea selectedArea={selectedArea} goBack={goBack} />
+              <Tabs.Root
+                lazyMount
+                unmountOnExit
+                w="100%"
+                defaultValue="formlogin"
+                colorPalette="purple"
+              >
+                <Flex gap={5} alignItems="center">
+                  <Tabs.Trigger
+                    _selected={{ borderColor: "neutral" }}
+                    borderColor="neutral"
+                    color="neutral"
+                    w="auto"
+                    value="formlogin"
+                  >
+                    <LuUser />
+                    Login
+                  </Tabs.Trigger>
+                  <Tabs.Trigger
+                    _selected={{ borderColor: "neutral" }}
+                    borderColor="neutral"
+                    color="neutral"
+                    w="auto"
+                    value="area"
+                  >
+                    <LuFolder />
+                    Área
+                  </Tabs.Trigger>
+                </Flex>
+                <Tabs.Content value="formlogin">
+                  <FormLogin />
+                </Tabs.Content>
+                <Tabs.Content value="area">
+                  <FormArea selectedArea={selectedArea} goBack={goBack} />
+                </Tabs.Content>
+              </Tabs.Root>
             </VStack>
           )}
         </>

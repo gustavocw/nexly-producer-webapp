@@ -24,8 +24,6 @@ const CardTickets: React.FC<TicketsProps> = ({ data, mutateCreateRoom }) => {
     items: statusOptions,
   });
 
-  console.log(data);
-  
 
   return (
     <VStack align="flex-start" spaceY="20px" w="100%">
