@@ -148,7 +148,7 @@ const Areas = () => {
                   </Tabs.Trigger>
                 </Flex>
                 <Tabs.Content value="formlogin">
-                  <FormLogin />
+                  <FormLogin selectedArea={selectedArea} />
                 </Tabs.Content>
                 <Tabs.Content value="area">
                   <FormArea selectedArea={selectedArea} goBack={goBack} />

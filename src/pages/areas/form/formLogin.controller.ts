@@ -3,65 +3,51 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toaster } from "components/ui/toaster";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createArea, deleteAreaById, updateArea } from "services/areas.services";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createAreaLogin, getAreaLogin, updateAreaLogin } from "services/areas.services";
 
-export const createAreaSchema = z.object({
-  domain: z
+export const loginCustomizationSchema = z.object({
+  title: z.string().nonempty({ message: "O título é obrigatório" }),
+  primary_color: z
     .string()
-    .nonempty({ message: "O campo 'domain' é obrigatório" })
-    .min(3, { message: "O 'domain' deve ter pelo menos 3 caracteres" }),
-  color: z.string().nonempty({ message: "O campo 'color' é obrigatório" }),
-  title: z.string().nonempty({ message: "O campo 'title' é obrigatório" }),
-  description: z.string().optional(),
-  background: z.any(),
+    .nonempty({ message: "A cor primária é obrigatória" }),
+  backgroundColor: z
+    .string()
+    .nonempty({ message: "A cor de fundo é obrigatória" }),
+  backgroundImage: z.string().optional(),
+  logo: z.any(),
+  icon: z.any(),
 });
 
-type CreateAreaFormData = z.infer<typeof createAreaSchema>;
+type LoginCustomizationFormData = z.infer<typeof loginCustomizationSchema>;
 
-export const useCreateAreaController = (
-  selectedArea: Area | null,
-  goBack: () => void
-) => {
-  const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+export const useLoginCustomizationController = (selectedArea: any | null) => {
+  const [backgroundImageFile, setBackgroundImageFile] = useState<File | null>(
+    null
+  );
   const [iconFile, setIconFile] = useState<any>(null);
   const [logoFile, setLogoFile] = useState<any>(null);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const { mutate: mutateArea, isPending: creatingArea } = useMutation({
-    mutationFn: (payload: any) => createArea(payload),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["areas"] })
-      reset();
-      setIconFile(null);
-      setLogoFile(null);
-      toaster.create({
-        title: "Área criada com sucesso",
-        type: "success",
-      });
-      goBack();
-    },
-    onError: (error) => {
-      toaster.create({
-        title: `Erro ao criar área: ${error}`,
-        type: "error",
-      });
-    },
+  const { data: areaLogin } = useQuery({
+    queryKey: ["areaLogin", selectedArea?._id],
+    queryFn: () => getAreaLogin(selectedArea?._id),
+    enabled: !!selectedArea?._id
   });
 
-  const { mutate: mutateUpdateArea, isPending: updatingArea } = useMutation({
-    mutationFn: (payload: any) => updateArea(payload.area, payload._id),
+  const { mutate: mutateLogin, isPending: creatingLogin } = useMutation({
+    mutationFn: (payload: any) => createAreaLogin(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["areas"] })
+      queryClient.invalidateQueries({ queryKey: ["areas"] });
+      reset();
       toaster.create({
-        title: "Área atualizada com sucesso",
+        title: "Página de login personalizada com sucesso",
         type: "success",
       });
-      goBack();
     },
     onError: (error) => {
       toaster.create({
-        title: `Erro ao atualizar área: ${error}`,
+        title: `Erro ao personalizar login: ${error}`,
         type: "error",
       });
     },
@@ -74,127 +60,83 @@ export const useCreateAreaController = (
     formState: { errors },
     reset,
     watch,
-  } = useForm<CreateAreaFormData>({
-    resolver: zodResolver(createAreaSchema),
+  } = useForm<LoginCustomizationFormData>({
+    resolver: zodResolver(loginCustomizationSchema),
     mode: "onBlur",
     defaultValues: {
-      domain: selectedArea?.domain || "",
-      color: selectedArea?.color || "",
-      title: selectedArea?.title || "",
-      description: selectedArea?.description || "",
-      background: selectedArea?.background || "",
+      title: "",
+      primary_color: "",
+      backgroundColor: "",
+      backgroundImage: "",
+      logo: "",
+      icon: "",
     },
   });
 
-  const updateFile = (
-    name: "background" | "icon" | "logo",
-    file: File | null
-  ) => {
-    if (name === "background") setBackgroundFile(file);
-    if (name === "icon") setIconFile(file);
-    if (name === "logo") setLogoFile(file);
-  };
-
-  const onSubmit: SubmitHandler<CreateAreaFormData> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<LoginCustomizationFormData> = async (data) => {
     try {
       const payload = {
-        _id: selectedArea?._id,
-        area: {
-          ...data,
-          background: backgroundFile || data.background,
-          icon: iconFile,
-          logo: logoFile,
-        },
+        title: data.title,
+        primary_color: data.primary_color,
+        backgroundColor: data.backgroundColor,
+        backgroundImage: backgroundImageFile,
+        icon: iconFile,
+        logo: logoFile,
       };
-  
-      const iconPayload = iconFile && !iconFile.startsWith("https://") ? iconFile : null;
-      const logoPayload = logoFile && !logoFile.startsWith("https://") ? logoFile : null;
-  
-      const payloadEdit = {
-        _id: selectedArea?._id,
-        area: {
-          title: data.title,
-          color: data.color,
-          domain: data.domain !== selectedArea?.domain ? data.domain : null,
-          description: data.description,
-          background: backgroundFile,
-          icon: iconPayload,
-          logo: logoPayload,
-        },
-      };
-  
-      if (selectedArea) {
-        try {
-          mutateUpdateArea({ _id: selectedArea._id, area: payloadEdit.area });
-        } catch (error) {
-          console.error("Erro ao atualizar:", error);
-        }
+
+      if (areaLogin) {
+        await updateAreaLogin(
+          {
+            ...payload,
+            backgroundImage: backgroundImageFile
+              ? backgroundImageFile.name
+              : undefined,
+          },
+          selectedArea._id
+        );
       } else {
-        mutateArea(payload.area);
+        mutateLogin(payload);
       }
-      setBackgroundFile(null);
     } catch (error) {
       toaster.create({
-        title: `Erro ao ${selectedArea ? "atualizar" : "criar"} área: ${error}`,
+        title: `Erro ao personalizar login: ${error}`,
         type: "error",
       });
     }
   };
-  
 
   useEffect(() => {
-    if (selectedArea) {
-      setValue("domain", selectedArea.domain);
-      setValue("color", selectedArea.color);
-      setValue("title", selectedArea.title);
-      setValue("description", selectedArea.description);
-      setValue("background", selectedArea.background || "");
+    if (areaLogin) {
+      setValue("title", areaLogin.title);
+      setValue("primary_color", areaLogin.primary_color);
+      setValue("backgroundColor", areaLogin.backgroundColor);
+      setValue("backgroundImage", areaLogin.backgroundImage || "");
+      setValue("logo", areaLogin.logo);
+      setValue("icon", areaLogin.icon);
 
-      setBackgroundFile(selectedArea.background);
-      setIconFile(selectedArea.icon);
-      setLogoFile(selectedArea.logo);
+      setBackgroundImageFile(areaLogin.backgroundImage);
+      setIconFile(areaLogin.icon);
+      setLogoFile(areaLogin.logo);
     }
-  }, [selectedArea, setValue]);
-
-  const handleComplete = (response: { title: string; description: string }) => {
-    if (!response || typeof response !== "object") {
-      console.error("Resposta inválida da IA:", response);
-      return;
-    }
-    if (!response.title || !response.description) {
-      console.error("Dados incompletos recebidos:", response);
-      return;
-    }
-    setValue("title", response.title.trim());
-    setValue("description", response.description.trim());
-  };
-  
-  const mutateDelete = useMutation({
-    mutationKey: ["deleteArea"],
-    mutationFn: (areaId?: string) => deleteAreaById(areaId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["areas"] })
-      window.location.reload(); 
-    }
-  })
-  
+  }, [areaLogin, setValue]);
 
   return {
     control,
     handleSubmit,
-    handleComplete,
-    mutateDelete,
-    setValue,
     errors,
     onSubmit,
-    reset,
-    updatingArea,
-    creatingArea,
-    backgroundFile,
+    backgroundImageFile,
     iconFile,
     logoFile,
+    creatingLogin,
+    updateFile: (
+      name: "backgroundImage" | "icon" | "logo",
+      file: File | null
+    ) => {
+      if (name === "backgroundImage") setBackgroundImageFile(file);
+      if (name === "icon") setIconFile(file);
+      if (name === "logo") setLogoFile(file);
+    },
     watch,
-    updateFile,
   };
 };
