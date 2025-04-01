@@ -30,7 +30,7 @@ export const useChatController = (selectedRoom: Room) => {
       if (socketRef.current) {
         socketRef.current.close();
       }
-      const socket = new WebSocket('ws://nexly-producer.com/chat');
+      const socket = new WebSocket('wss://nexly-producer.com/chat');
       socketRef.current = socket;
       socket.onopen = () => {
         const handshake = {

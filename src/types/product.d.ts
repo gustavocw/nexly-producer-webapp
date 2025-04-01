@@ -3,6 +3,7 @@ interface NewProduct {
   name: string;
   description: string;
   category: string;
+  type: string;
   duration?: string;
 }
 

@@ -25,6 +25,8 @@ export const useIntegrationsController = () => {
     queryKey: ["integrations"],
     queryFn: () =>
       getIntegrations().then((res) => {
+        console.log(res);
+        
         setIntegrations((prev) =>
           prev.map((integration) => ({
             ...integration,

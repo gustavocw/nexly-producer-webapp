@@ -16,9 +16,9 @@ import { toaster } from "components/ui/toaster";
 import { queryClient } from "config/queryClient";
 
 interface IntegrationFormData {
-  CLIENT_ID_KIWIFY: string;
-  CLIENT_SECRET_KIWIFY: string;
-  ACCOUNT_ID_KIWIFY: string;
+  client_id: string;
+  client_secret: string;
+  account_id: string;
 }
 
 interface ModalKiwifyProps {
@@ -29,21 +29,22 @@ interface ModalKiwifyProps {
 const ModalKiwify: React.FC<ModalKiwifyProps> = ({ isOpen, onClose }) => {
   const { control, handleSubmit } = useForm<IntegrationFormData>({
     defaultValues: {
-      CLIENT_ID_KIWIFY: "3e32f566-b186-4a50-abcd-04b911640029",
-      CLIENT_SECRET_KIWIFY: "3bc421cd9664dd69fcdca3f9e163848ecccaca981921b07b57a1974174e15704",
-      ACCOUNT_ID_KIWIFY: "xP70HKKwCuRTDmq",
+      client_id: "3e32f566-b186-4a50-abcd-04b911640029",
+      client_secret: "3bc421cd9664dd69fcdca3f9e163848ecccaca981921b07b57a1974174e15704",
+      account_id: "xP70HKKwCuRTDmq",
     },
   });
 
   const formValues = useWatch({ control });
   const isFormFilled =
-    formValues.CLIENT_ID_KIWIFY &&
-    formValues.CLIENT_SECRET_KIWIFY &&
-    formValues.ACCOUNT_ID_KIWIFY;
+    formValues.client_id &&
+    formValues.client_secret &&
+    formValues.account_id;
 
   const { mutate: mutateKiwify, isPending } = useMutation({
     mutationFn: (params: IntegrationFormData) => integrateKiwify(params),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
       toaster.create({
         title: "Integração realizada com sucesso!",
         type: "success",
@@ -60,11 +61,7 @@ const ModalKiwify: React.FC<ModalKiwifyProps> = ({ isOpen, onClose }) => {
   });
 
   const onSubmit = (data: IntegrationFormData) => {
-    const payload = {
-      ...data,
-      provider: "kiwify",
-    };
-    mutateKiwify(payload);
+    mutateKiwify(data);
   };
 
   return (
@@ -87,19 +84,19 @@ const ModalKiwify: React.FC<ModalKiwifyProps> = ({ isOpen, onClose }) => {
               Como integrar com a Kiwify?
             </Link>
             <Input.Base
-              name="CLIENT_ID_KIWIFY"
+              name="client_id"
               control={control as unknown as Control<any>}
               label="Client ID"
               placeholder=""
             />
             <Input.Base
-              name="CLIENT_SECRET_KIWIFY"
+              name="client_secret"
               control={control as unknown as Control<any>}
               label="Client Secret"
               placeholder=""
             />
             <Input.Base
-              name="ACCOUNT_ID_KIWIFY"
+              name="account_id"
               control={control as unknown as Control<any>}
               label="Account ID"
               placeholder=""

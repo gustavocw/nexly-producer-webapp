@@ -18,49 +18,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useProducts } from "hooks/useProducts";
 
-const CardRadio = () => {
-  const [typeProduct, setTypeProduct] = useState("");
-  console.log(typeProduct);
-  
-  return (
-    <RadioCardRoot defaultValue="curso-em-video">
-      <VStack gap="20px" align="stretch">
-        {products.map((item) => (
-          <RadioCardItem
-            colorPalette="purple"
-            bg="neutral.60"
-            color="neutral"
-            p="10px"
-            gap="10px"
-            borderRadius="8px"
-            cursor="pointer"
-            divideColor="neutral.40"
-            border="1px solid"
-            disabled={item.value !== "curso-em-video"}
-            _disabled={{ color: "neutral.10" }}
-            borderColor="neutral.40"
-            label={item.title}
-            key={item.value}
-            value={item.value}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              setTypeProduct(e.target.value);
-            }}
-            addon={
-              <HStack my="10px">
-                <Icon fontSize="34px">
-                  <item.icon />
-                </Icon>
-                {item.description}
-              </HStack>
-            }
-          />
-        ))}
-      </VStack>
-    </RadioCardRoot>
-  );
-};
-
-export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({ isDisabled }) => {
+export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({
+  isDisabled,
+}) => {
+  const [typeProduct, setTypeProduct] = useState("curso-em-video");
   const navigate = useNavigate();
   const { areas } = useProducts();
 
@@ -72,7 +33,9 @@ export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({ isDisa
           h="40px"
           label="Novo infoproduto"
           iconLeft={<LuPlus />}
-          disabled={areas?.length === 0 || areas?.length === undefined || isDisabled}
+          disabled={
+            areas?.length === 0 || areas?.length === undefined || isDisabled
+          }
         />
       </DialogTrigger>
       <DialogContent p="32px" bg="neutral.60" borderRadius="8px" gap="32px">
@@ -82,7 +45,40 @@ export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({ isDisa
           </DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <CardRadio />
+          <RadioCardRoot defaultValue="curso-em-video">
+            <VStack gap="20px" align="stretch">
+              {products.map((item) => (
+                <RadioCardItem
+                  colorPalette="purple"
+                  bg="neutral.60"
+                  color="neutral"
+                  p="10px"
+                  gap="10px"
+                  borderRadius="8px"
+                  cursor="pointer"
+                  divideColor="neutral.40"
+                  border="1px solid"
+                  disabled={item.value !== "curso-em-video"}
+                  _disabled={{ color: "neutral.10" }}
+                  borderColor="neutral.40"
+                  label={item.title}
+                  key={item.value}
+                  value={item.value}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setTypeProduct(e.target.value);
+                  }}
+                  addon={
+                    <HStack my="10px">
+                      <Icon fontSize="34px">
+                        <item.icon />
+                      </Icon>
+                      {item.description}
+                    </HStack>
+                  }
+                />
+              ))}
+            </VStack>
+          </RadioCardRoot>
         </DialogBody>
         <DialogFooter w="100%">
           <DialogActionTrigger asChild>
@@ -91,7 +87,11 @@ export const ModalCategoryProduct: React.FC<{ isDisabled: boolean }> = ({ isDisa
           <Btn
             w="50%"
             label="Continuar"
-            onClick={() => navigate("/infoproducts/create")}
+            onClick={() =>
+              navigate("/infoproducts/create", {
+                state: { type: typeProduct },
+              })
+            }
           />
         </DialogFooter>
         <DialogCloseTrigger />

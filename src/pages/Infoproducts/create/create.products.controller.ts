@@ -21,6 +21,7 @@ export const useCreateProductController = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { product } = location.state || {};
+  const { type } = location.state || {};
   const { refetchProducts } = useProducts();
 
   const {
@@ -131,6 +132,7 @@ export const useCreateProductController = () => {
       category: extractedCategory,
       areaId: extractedAreaId,
       file,
+      type,
     };
   
     if (product) {
